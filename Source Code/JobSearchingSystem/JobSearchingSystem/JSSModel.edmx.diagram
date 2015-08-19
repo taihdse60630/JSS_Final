@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="66db5acaad3246f9b5c664a47d3b1184" Name="Diagram1" ZoomLevel="94">
+        <EntityTypeShape EntityType="JSSModel.C__MigrationHistory" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="JSSModel.Administrator" Width="1.5" PointX="5.25" PointY="30" />
+        <EntityTypeShape EntityType="JSSModel.Advertise" Width="1.5" PointX="5.25" PointY="47" />
+        <EntityTypeShape EntityType="JSSModel.AppliedJob" Width="1.5" PointX="7.5" PointY="55.25" />
+        <EntityTypeShape EntityType="JSSModel.AspNetRole" Width="1.5" PointX="0.75" PointY="42.375" />
+        <EntityTypeShape EntityType="JSSModel.AspNetUserClaim" Width="1.5" PointX="5.25" PointY="37.625" />
+        <EntityTypeShape EntityType="JSSModel.AspNetUserLogin" Width="1.5" PointX="5.25" PointY="35" />
+        <EntityTypeShape EntityType="JSSModel.AspNetUser" Width="1.5" PointX="3" PointY="40.75" />
+        <EntityTypeShape EntityType="JSSModel.Benefit" Width="1.5" PointX="8.25" PointY="59.75" />
+        <EntityTypeShape EntityType="JSSModel.Category" Width="1.5" PointX="16.5" PointY="45.75" />
+        <EntityTypeShape EntityType="JSSModel.City" Width="1.5" PointX="6" PointY="62" />
+        <EntityTypeShape EntityType="JSSModel.CompanyInfo" Width="1.5" PointX="7.5" PointY="68.5" />
+        <EntityTypeShape EntityType="JSSModel.CompanyInfoCity" Width="1.5" PointX="9.75" PointY="69" />
+        <EntityTypeShape EntityType="JSSModel.Contact" Width="1.5" PointX="8.25" PointY="45.375" />
+        <EntityTypeShape EntityType="JSSModel.DesiredBenefit" Width="1.5" PointX="10.5" PointY="51.75" />
+        <EntityTypeShape EntityType="JSSModel.EducationHistory" Width="1.5" PointX="15.75" PointY="57.375" />
+        <EntityTypeShape EntityType="JSSModel.EmploymentHistory" Width="1.5" PointX="15.75" PointY="68" />
+        <EntityTypeShape EntityType="JSSModel.ExpectedCategory" Width="1.5" PointX="18.75" PointY="54.75" />
+        <EntityTypeShape EntityType="JSSModel.ExpectedCity" Width="1.5" PointX="18.75" PointY="51.75" />
+        <EntityTypeShape EntityType="JSSModel.Job" Width="1.5" PointX="15.75" PointY="50" />
+        <EntityTypeShape EntityType="JSSModel.JobBenefit" Width="1.5" PointX="21" PointY="51.75" />
+        <EntityTypeShape EntityType="JSSModel.JobCategory" Width="1.5" PointX="21" PointY="48.875" />
+        <EntityTypeShape EntityType="JSSModel.JobCity" Width="1.5" PointX="21" PointY="54.875" />
+        <EntityTypeShape EntityType="JSSModel.JobLanguage" Width="1.5" PointX="24" PointY="51.625" />
+        <EntityTypeShape EntityType="JSSModel.JobLevel" Width="1.5" PointX="11.25" PointY="61.375" />
+        <EntityTypeShape EntityType="JSSModel.JobPackage" Width="1.5" PointX="8.25" PointY="32.875" />
+        <EntityTypeShape EntityType="JSSModel.Jobseeker" Width="1.5" PointX="5.25" PointY="54.25" />
+        <EntityTypeShape EntityType="JSSModel.JobSkill" Width="1.5" PointX="18" PointY="48.75" />
+        <EntityTypeShape EntityType="JSSModel.Language" Width="1.5" PointX="11.25" PointY="64.5" />
+        <EntityTypeShape EntityType="JSSModel.Level" Width="1.5" PointX="11.25" PointY="72.125" />
+        <EntityTypeShape EntityType="JSSModel.Manager" Width="1.5" PointX="5.25" PointY="43.625" />
+        <EntityTypeShape EntityType="JSSModel.Message" Width="1.5" PointX="5.25" PointY="40.25" />
+        <EntityTypeShape EntityType="JSSModel.MessageReceiver" Width="1.5" PointX="7.5" PointY="41.875" />
+        <EntityTypeShape EntityType="JSSModel.OwnSkill" Width="1.5" PointX="10.5" PointY="54.75" />
+        <EntityTypeShape EntityType="JSSModel.Profile" Width="1.5" PointX="13.5" PointY="52.25" />
+        <EntityTypeShape EntityType="JSSModel.PurchaseAdvertise" Width="1.5" PointX="7.5" PointY="50.375" />
+        <EntityTypeShape EntityType="JSSModel.PurchaseJobPackage" Width="1.5" PointX="10.5" PointY="44.875" />
+        <EntityTypeShape EntityType="JSSModel.Recruiter" Width="1.5" PointX="5.25" PointY="58.125" />
+        <EntityTypeShape EntityType="JSSModel.ReferencePerson" Width="1.5" PointX="15.75" PointY="64.5" />
+        <EntityTypeShape EntityType="JSSModel.Report" Width="1.5" PointX="5.25" PointY="50.625" />
+        <EntityTypeShape EntityType="JSSModel.SchoolLevel" Width="1.5" PointX="11.25" PointY="58.25" />
+        <EntityTypeShape EntityType="JSSModel.Skill" Width="1.5" PointX="8.25" PointY="62.75" />
+        <EntityTypeShape EntityType="JSSModel.Staff" Width="1.5" PointX="5.25" PointY="32.25" />
+        <EntityTypeShape EntityType="JSSModel.sysdiagram" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="JSSModel.Topic" Width="1.5" PointX="7.5" PointY="37.375" />
+        <EntityTypeShape EntityType="JSSModel.ViewProfile" Width="1.5" PointX="18.75" PointY="57.5" />
+        <AssociationConnector Association="JSSModel.FK_Administrator_AspNetUsers" />
+        <AssociationConnector Association="JSSModel.FK_PurchaseAdvertise_Advertise" />
+        <AssociationConnector Association="JSSModel.FK_AppliedJob_Job" />
+        <AssociationConnector Association="JSSModel.FK_AppliedJob_Jobseeker" />
+        <AssociationConnector Association="JSSModel.FK_AppliedJob_Profile" />
+        <AssociationConnector Association="JSSModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_User_Id" />
+        <AssociationConnector Association="JSSModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="JSSModel.FK_Contact_AspNetUsers" />
+        <AssociationConnector Association="JSSModel.FK_Jobseeker_AspNetUsers" />
+        <AssociationConnector Association="JSSModel.FK_Manager_AspNetUsers" />
+        <AssociationConnector Association="JSSModel.FK_Message_AspNetUsers" />
+        <AssociationConnector Association="JSSModel.FK_MessageReceiver_AspNetUsers" />
+        <AssociationConnector Association="JSSModel.FK_Recruiter_AspNetUsers" />
+        <AssociationConnector Association="JSSModel.FK_Report_AspNetUsers" />
+        <AssociationConnector Association="JSSModel.FK_Report_AspNetUsers1" />
+        <AssociationConnector Association="JSSModel.FK_Staff_AspNetUsers" />
+        <AssociationConnector Association="JSSModel.FK_Topic_AspNetUsers" />
+        <AssociationConnector Association="JSSModel.FK_DesiredBenefit_Benefit" />
+        <AssociationConnector Association="JSSModel.FK_JobBenefit_Benefit" />
+        <AssociationConnector Association="JSSModel.FK_ExpectedCategory_Category" />
+        <AssociationConnector Association="JSSModel.FK_JobCategory_Category" />
+        <AssociationConnector Association="JSSModel.FK_CompanyInfoCity_City" />
+        <AssociationConnector Association="JSSModel.FK_Contact_City" />
+        <AssociationConnector Association="JSSModel.FK_ExpectedCity_City" />
+        <AssociationConnector Association="JSSModel.FK_JobCity_City" />
+        <AssociationConnector Association="JSSModel.FK_CompanyInfo_Recruiter" />
+        <AssociationConnector Association="JSSModel.FK_CompanyInfoCity_CompanyInfo" />
+        <AssociationConnector Association="JSSModel.FK_DesiredBenefit_Jobseeker" />
+        <AssociationConnector Association="JSSModel.FK_EducationHistory_Profile" />
+        <AssociationConnector Association="JSSModel.FK_EducationHistory_SchoolLevel" />
+        <AssociationConnector Association="JSSModel.FK_EmploymentHistory_Profile" />
+        <AssociationConnector Association="JSSModel.FK_ExpectedCategory_Profile" />
+        <AssociationConnector Association="JSSModel.FK_ExpectedCity_Profile" />
+        <AssociationConnector Association="JSSModel.FK_Job_JobLevel" />
+        <AssociationConnector Association="JSSModel.FK_Job_PurchaseJobPackage" />
+        <AssociationConnector Association="JSSModel.FK_Job_Recruiter" />
+        <AssociationConnector Association="JSSModel.FK_Job_SchoolLevel" />
+        <AssociationConnector Association="JSSModel.FK_JobBenefit_Job" />
+        <AssociationConnector Association="JSSModel.FK_JobCategory_Job" />
+        <AssociationConnector Association="JSSModel.FK_JobCity_Job" />
+        <AssociationConnector Association="JSSModel.FK_JobLanguage_Job1" />
+        <AssociationConnector Association="JSSModel.FK_JobSkill_Job1" />
+        <AssociationConnector Association="JSSModel.FK_JobLanguage_Language" />
+        <AssociationConnector Association="JSSModel.FK_JobLanguage_Level" />
+        <AssociationConnector Association="JSSModel.FK_Profile_JobLevel" />
+        <AssociationConnector Association="JSSModel.FK_Profile_JobLevel1" />
+        <AssociationConnector Association="JSSModel.FK_PurchaseJobPackage_JobPackage" />
+        <AssociationConnector Association="JSSModel.FK_OwnSkill_Jobseeker" />
+        <AssociationConnector Association="JSSModel.FK_Profile_Jobseeker" />
+        <AssociationConnector Association="JSSModel.FK_JobSkill_Skill" />
+        <AssociationConnector Association="JSSModel.FK_Profile_Language" />
+        <AssociationConnector Association="JSSModel.FK_Profile_Level" />
+        <AssociationConnector Association="JSSModel.FK_PurchaseAdvertise_Manager" />
+        <AssociationConnector Association="JSSModel.FK_MessageReceiver_Message" />
+        <AssociationConnector Association="JSSModel.FK_OwnSkill_Skill" />
+        <AssociationConnector Association="JSSModel.FK_Profile_SchoolLevel" />
+        <AssociationConnector Association="JSSModel.FK_ReferencePerson_Profile" />
+        <AssociationConnector Association="JSSModel.FK_ViewProfile_Profile" />
+        <AssociationConnector Association="JSSModel.FK_PurchaseAdvertise_Recruiter" />
+        <AssociationConnector Association="JSSModel.FK_PurchaseJobPackage_Recruiter" />
+        <AssociationConnector Association="JSSModel.FK_PurchaseJobPackage_Staff" />
+        <AssociationConnector Association="JSSModel.FK_ViewProfile_Recruiter" />
+        <AssociationConnector Association="JSSModel.FK_Topic_Staff" />
+        <AssociationConnector Association="JSSModel.AspNetUserRoles" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

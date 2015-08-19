@@ -1,0 +1,385 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+    Layout = "~/Views/Shared/_LayoutFinal.cshtml";
+}
+
+@model JobSearchingSystem.Models.JJobDetailViewModel
+<style>
+    /* unvisited link */
+    a:link {
+        color: #428bca;
+    }
+
+    /* visited link */
+    a:visited {
+        color: #428bca;
+    }
+
+    /* mouse over link */
+    a:hover {
+        color: #b21342;
+    }
+    .expand {
+        height: 1em;
+      
+        padding: 3px;
+    }
+    .expand:focus {
+        height: 4em;
+      
+    }
+    /* selected link */
+</style>
+<script src="~/Content/js//sweetalert.min.js"></script>
+ <link rel="stylesheet" type="text/css" href="~/Content/css/sweetalert.css">
+
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>
+
+    $('textarea.expand').focus(function () {
+        $(this).animate({ height: "4em" }, 500);
+    });
+</script>
+
+<script src="~/Content/vendors/bootstrap/js/bootstrap.min.js"></script>
+<script>
+    function AlertNoProfile() {
+        swal("Bạn không thể nộp đơn", "Hiện tại bạn không có bất kì hồ sơ nào để nộp cho công việc này","warning")
+       
+    }
+
+    function AlertAppled() {
+        swal("Bạn đã nộp đơn cho công việc này", "Bạn không thể nộp đơn 2 lần cho cùng 1 công việc", "error")
+        
+    }
+
+    function ShowLoginModal() {        
+        $('#modal-default-login').modal('show');
+    }
+
+    function SendReport() {
+        var userList;
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "/Report/SendReport",
+            data: "{'reportContent':'" + document.getElementById('reportContent').value + "','refrenceLink' :'" + document.getElementById('refrenceLink').value + "'}",
+            dataType: "json",
+            success: function (data) {
+                if (data) {
+                    swal("Đã gửi report thành công","", "success")
+                  
+                    $("#modal-report").modal("hide");
+                    $(".modal-backdrop").remove();
+                } else {
+                    sweetAlert("Oops...", "Gửi report thất bại", "error");
+                   
+                }
+            },
+            error: function (xhr, status, error) {
+                alert(error);
+            }
+        });
+    }
+</script>
+
+
+@if (Model.Job.CompanyDescription != null)
+{
+    <script>
+    $(document).ready(function () {
+        document.getElementById("company_description").innerHTML = window.unescape("@Model.Job.CompanyDescription")
+    });
+    </script>
+}
+
+<div id="modal-report" tabindex="-1" role="dialog" aria-labelledby="modal-header-primary-label" aria-hidden="true" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header modal-header-primary">
+                <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
+                <h4 id="modal-header-primary-label" class="modal-title">Report</h4>
+            </div>
+            <div class="modal-body"><textarea id="reportContent" name="reportContent" rows="4" cols="76"></textarea></div>
+            <input id="refrenceLink" type="hidden" name="returnUrl" value="Home/Index" />
+             @*<input id="refrenceLink" type="hidden" value="/Job/Detail/?jobID = @Model.Job.JobID" />*@
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-default">Đóng</button>
+                <button type="button" onclick="SendReport()" class="btn btn-primary">Gửi report </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (Model.jobSeeker != null){
+
+using (Html.BeginForm("AppliedJob", "Job", FormMethod.Post))
+ {
+     <input type="hidden" name="jobID" value=@Model.Job.JobID />
+     <div id="modal-custom-dialog" tabindex="-1" role="dialog" aria-hidden="true" class="modal fade" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" data-dismiss="modal" aria-hidden="true" class="close">×</button>
+                    <h4 class="modal-title" id="myModalLabel" >Bạn đang ứng tuyển cho vị trí <strong>@Model.Job.JobTitle</strong><br></h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <a href="#" class="thumbnail"><img alt="hello" src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcS8sGvToN7LeZB7WZH-PYQ6OqKB94ZLE9DD4WS96dhzudIZqaC_" style="width: 300px; height: 130px;"></a>
+                        </div>
+                        <div class="col-md-8">
+                            <h3 class="text-orange">
+                                <span id="app-fullName">@Model.jobSeeker.FullName</span><br>
+                            </h3>
+                            @*Vị trí: <small><a href="#" class="editable editable-click" tabindex="1" id="app-title">Developer</a></small>*@
+                            <input type="hidden" name="appJobTitle" id="appJobTitle" value="Developer"><br>
+                            @*Công ty gần đây nhất: <small><a href="#" class="editable editable-click" tabindex="1" id="app-title">FPT Software Hochiminh Ltd</a></small><br>
+                            Địa điểm làm việc mong muốn: <small><a href="#" class="editable editable-click" tabindex="1" id="app-title">Ho Chi Minh</a></small><br>*@
+                            Địa chỉ email: <small><label style="color:#2B8AE2;" class="editable editable-click" tabindex="1" id="app-title">@Model.jobSeeker.Email</label></small><br>
+                            Điện thoại: <small><label  style="color:#2B8AE2;" class="editable editable-click" tabindex="1" id="app-title">@Model.jobSeeker.PhoneNumber</label></small><br>
+                            Hồ sơ của bạn: <br>
+                            @if (Model.profileList.ToArray().Length == 0)
+                            {
+                                <div style="color:red"> Bạn chưa tạo bất kì hồ sơ nào</div>
+                            }
+                            else
+                            {
+                               foreach (var item in Model.profileList)
+                                {
+                                    <input type="radio" name="profileID" value="@item.ProfileID" checked><a id="app-resume" href="#" tabindex="6" data-type="select" data-pk="1" class="editable editable-click">@item.UpdatedTime @item.Name</a><br>
+                                }
+                            }
+                               
+                        </div>
+                    </div>                  
+                    </div>
+
+                    <div class="modal-footer">
+                        <input type="hidden" name="appliedType" id="appliedType">
+                        <div class="pull-right">
+                          
+                            <button type="submit" id="applySendingProcessBtn" style="display: none;" class="btn btn-default" tabindex="10" disabled=""><img src="http://images.vietnamworks.com/loading.gif" alt=""> Đang Nộp Đơn</button>
+                        </div>
+                        <div class="pull-right padding-15" id="noRankingJobDiv" style="">
+                            <div class="pull-left">
+                                <span><em>Bạn đứng thứ <strong class="score">#<span id="noRankingJob">10</span> trên tổng số 10</strong> người ứng tuyển</em></span>
+                                <span class="matching-score block text-right small"><em>dựa vào MATCHING<strong>SCORE</strong></em></span>
+                            </div>
+                        </div>
+                        <br />
+                        @if (Model.profileList.ToArray().Length != 0 && Model.isApplied)
+                        {
+                              <button type="submit" @*data-dismiss="modal"*@ class="btn btn-danger">Nộp đơn</button>
+                        }
+                        else if (Model.isApplied)
+                        {
+                              
+                            <button type="button" onclick="AlertNoProfile()" @*data-dismiss="modal"*@ class="btn btn-danger">Nộp đơn</button>
+                        }else
+                        {
+                              <button type="button" onclick="AlertAppled()" @*data-dismiss="modal"*@ class="btn btn-danger">Nộp đơn</button>
+                        }
+                       
+                      
+                    </div>
+                </div>
+            </div>
+</div>
+
+ }
+}   
+<div class="page-content" style="padding: 20px 0px 100px 130px">
+
+
+
+    <div class="col-lg-9 panel panel-default" style="margin-right: 10%;">
+        <br>
+
+        <div class="media">
+            <a href="#" class="pull-left"><img alt="avatar" class="media-object" src="http://images.vietnamworks.com/pictureofcompany/49/10197315.jpg" style="width: 100px; height: 64px;"></a>
+
+            <div class="media-body col-md-8" style="padding-right:0px">
+                <h3 class="media-heading text-blue" style="font-weight:700">@Model.Job.JobTitle</h3>
+                <h4><strong>@Model.Job.Company</strong></h4>
+                <div>@Model.Job.Address</div>
+                <div style="float:left"><i class="fa fa-building-o"></i> Nơi làm việc:  <div class="text-yellow" style="float:right"> @foreach (var item in Model.Job.JobCities)
+                { <span>@item.Name,</span> }</div></div>
+                <br>
+                @if ((Model.Job.MinSalary == null) && (Model.Job.MaxSalary == null))
+                {
+                     <div style="float:left"><i class="fa fa-usd"></i> Mức lương: <span class="badge badge-orange">Thỏa thuận</span></div>
+                }
+                else
+                {
+                     <div style="float:left"><i class="fa fa-usd"></i> Mức lương: <span class="badge badge-orange">$@Model.Job.MinSalary.ToString().TrimEnd('0').TrimEnd(',') - $@Model.Job.MaxSalary.ToString().TrimEnd('0').TrimEnd(',')</span></div>
+                }
+               
+                <div class="pull-right">
+                    <div class="pull-left small padding-15" style="padding-right:15px">@Model.Job.ApplicantNumber người ứng tuyển</div>
+                    <div class="pull-left small padding-15" style="padding-right:15px">@Model.Job.JobView lượt xem</div>
+                 
+                    
+                </div>
+                <br><br>
+            </div>
+            <div class="col-md-2" style="padding-left:0px">
+                <div class="push-top-sm"></div>
+                <div class="action-apply center-block">
+                    @if (Model.jobSeeker != null)
+                    {
+                        <button type="button" data-target="#modal-custom-dialog" data-toggle="modal" class="btn btn-success">Nộp đơn</button>
+                    }
+                    else if (Model.isLogined)
+                    {
+                        <button type="button" disabled class="btn btn-success">Nộp đơn</button>
+                    }
+                    else
+                    {
+                        <button type="button" onclick="ShowLoginModal()" class="btn btn-success">Nộp đơn</button>
+                    }
+
+                </div>
+                @{
+                    TimeSpan difference = DateTime.Now - Model.Job.PostedDate.GetValueOrDefault();
+                    if (difference.Days == 0)
+                    {
+                        <div class="pull-left small padding-15" style="margin-top:61%">Đăng hôm nay</div>
+                    }
+                    else
+                    {
+                        <div class="pull-left small padding-15" style="margin-top:61%">Đăng @difference.Days ngày trước</div>
+                    }
+                }
+            </div>
+            <br>
+        </div>
+
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-6" style="width:60%">
+
+            <div class="panel panel-default">
+                <br />
+                <h4 style="margin-left: 10px;font-weight: 600;"><i class="fa fa-pagelines" style="font-size: 25px;color: green;"></i> Các Phúc Lợi Dành Cho Bạn</h4>
+                <div class="note note-warning" style="margin-left: 10px;">
+
+                    <p><i class="fa fa-twitter" style="margin-right: 5px"></i>Working in international environment with people from around the world</p>
+                    <p><i class="fa fa-twitter" style="margin-right: 5px"></i>FPT Care</p>
+                    <p><i class="fa fa-twitter" style="margin-right: 5px"></i>Competitive Salary</p>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <br />
+                <h4 style="margin-left: 10px;font-weight: 600;"><i class="fa fa-book" style="font-size: 25px;color: rgb(29, 119, 109);"></i> Những kĩ năng cần có</h4>
+                <div class="note note-success" style="margin-left: 10px;">
+                    @if (Model.Job.JobSkills != null)
+                    {
+                        foreach (var item in Model.Job.JobSkills)
+                        {
+                            <button type="button" class="btn btn-green btn-outlined btn-square">@item.SkillTag<i class="fa fa-tags" style="margin-left:5px"></i></button>
+                        }
+                    }                   
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <br />
+                    <h4 style="margin-left: 10px;font-weight: 600;"><i class="fa fa-briefcase" style="font-size: 25px;color: rgb(161, 43, 0);"></i> Mô tả công việc</h4>
+                    <p id="jobDescription22" style="margin-left: 10px;">
+                        @if (Model.Job.JobDescription != null)
+                        {
+                            @Html.Raw(System.Web.HttpUtility.HtmlDecode(@Model.Job.JobDescription));
+                        }
+                        else
+                        {
+                            <div style="margin-left: 40px; font-style: italic;">Chưa cập nhật</div>
+                        }
+
+                    </p>
+                </div>
+                <div class="panel panel-default">
+                    <br />
+                    <h4 style="margin-left: 10px;font-weight: 600;"><i class="fa fa-rocket" style="font-size: 25px; color: rgb(244, 153, 97); margin-right: 10px; "></i>Chuyên môn của bạn</h4>
+                    <p style="margin-left: 10px;">
+                        @if (Model.Job.JobRequirement != null)
+                        {
+                            @Html.Raw(System.Web.HttpUtility.HtmlDecode(HttpUtility.UrlDecode(@Model.Job.JobRequirement)));
+                        }
+                        else
+                        {
+                            <div style="margin-left: 40px; font-style: italic;">Chưa cập nhật</div>
+                        }
+                    </p>
+                </div>
+            <div class="panel panel-default" style="width: 154%;">
+                <br />
+                <h4 style="margin-left: 10px;font-weight: 600;"><i class="fa fa-group" style="font-size: 25px; color: rgb(199, 157, 48); margin-right: 10px; "></i>Về Công Ty Chúng Tôi</h4>
+                <div id="companyDescription22" style="margin-left: 10px;">
+                    @if (Model.Job.CompanyDescription != null)
+                    {
+                        <div id="company_description"></div>
+
+                    }
+                    else
+                    {
+                        <div style="margin-left: 40px; font-style: italic;">Chưa cập nhật</div>
+                    }
+
+                </div>
+            </div>
+
+            </div>
+      
+        <div class="col-md-3" style="width:30%">
+            <div class="panel panel-default">
+                <br />
+                <h4 style="margin-left: 10px;font-weight: 600;">Bạn có thể</h4>
+                <ul class="list-group">
+                    <li class="list-group-item"><i class="fa fa-star"></i><a href="#" style="color: #428bca;">Lưu việc làm này</a></li>
+                    <li class="list-group-item"><i class="fa fa-envelope"></i><a href="#" style="color: #428bca;">Gửi email việc làm tương tự</a></li>
+                    <li class="list-group-item"><i class="fa fa-mail-forward"></i><a href="#" style="color: #428bca;">Giới thiệu bạn bè</a></li>
+                    <li class="list-group-item"><button type="button" data-target="#modal-report" data-toggle="modal" class="btn btn-green">Report</button></li>
+                    <li class="list-group-item">
+                        <i class="glyphicon glyphicon-bullhorn" style="margin-right: 2px;"></i>Chia sẻ
+                        <a title="Share on Facebook" href="#"><i class="fa fa-lg fa-facebook-square"></i></a>
+                        <a title="Share on LinkedIn" href="#"><i class="fa fa-lg fa-linkedin-square"></i></a>
+                        <a title="Share on Twitter" href="#"><i class="fa fa-lg fa-twitter-square"></i></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="panel panel-default">
+                <br />
+                <h4 style="margin-left: 10px;font-weight: 600;">Tổng quan công việc</h4>
+                <div style="margin-left: 10px;">
+
+
+                    <div class="push-top-xs"></div>
+                    <div class="list-group">
+                        <h5 style="font-weight: 600">Cấp Bậc</h5>
+                        @*<a href="#" title="@Model.Job.JobLevelName">@Model.Job.JobLevelName</a>*@
+                        <label style="color: #428BCA">@Model.Job.JobLevelName</label><br>
+                    </div>
+
+                    <div class="list-group push-top-xs">
+                        <h5 style="font-weight: 600">Ngành Nghề</h5>
+                        @foreach (var item in Model.Job.JobCategory)
+                        {
+                            @*<a href="#" title="@item.Name">@item.Name</a>*@
+                        <label style="color: #428BCA">@item.Name</label><br>
+                        }
+
+                    </div>
+                    @*<div class="list-group push-top-xs">
+                        <h5 style="font-weight: 600">Ngôn Ngữ Trình Bày Hồ Sơ</h5>
+                        Tiếng Anh
+                    </div>*@
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+ 

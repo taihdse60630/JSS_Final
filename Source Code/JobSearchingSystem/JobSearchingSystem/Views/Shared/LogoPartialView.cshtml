@@ -1,0 +1,32 @@
+﻿
+@model JobSearchingSystem.Models.ImageModel
+
+
+@if(!String.IsNullOrEmpty(Model.imageUrl) && !"/Content/img/yourlogo.jpeg".Equals(Model.imageUrl)){
+    
+    <input class="companyLogoUploaded" type="hidden" value="@Model.imageUrl " />
+}
+
+@if (String.IsNullOrEmpty(Model.imageUrl))
+{
+    <div class="row">
+        <div class="col-md-4">
+            <img style="height:223px ;width:223px" src="/img/nophoto.jpg" alt="" class="img-responsive" />
+        </div>
+        <div class="col-md-4">
+            Vui lòng chọn logo của quý công ty để hiển thị trên trang web của chúng tôi
+        </div>
+    </div>
+}
+else{
+<div class="row">
+    <div class="col-md-6">
+        <img id="" style="height:223px ;width:223px" src="@Model.imageUrl" alt="" class="img-responsive" />
+       
+  
+    </div>
+    <div class="col-md-6">
+        <h4 style="font-weight:600">Quý công ty vui lòng chọn Logo để hiển thị trên trang web của chúng tôi</h4>
+    </div>
+    </div>
+}

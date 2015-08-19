@@ -1,0 +1,129 @@
+﻿@model JobSearchingSystem.Models.ComCityListViewModel
+
+@{
+    ViewBag.Title = "Danh sách thành phố";
+    Layout = "~/Views/Shared/_LayoutFinal.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+        $("#CreateBtn").click(function () {
+            $("#CreateForm").modal("show");
+        });
+    });
+
+</script>
+
+@if (Model.cities != null)
+{
+    foreach (var item in Model.cities)
+    {
+        <div id="@item.CityID" tabindex="-1" role="dialog" aria-labelledby="modal-stackable-label" aria-hidden="true" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
+                        <h4 id="modal-stackable-label" class="modal-title">Cập nhật thành phố</h4>
+                    </div>
+                    @using (Html.BeginForm("UpdateCity", "CommonList", FormMethod.Post))
+                    {
+                        <div class="modal-body">
+                            <input type="hidden" name="id" id="id" value="@item.CityID" />
+                            <p>Tên thành phố<span class="require">*</span></p>
+                            @Html.TextBoxFor(m => m.name, new { @class = "form-control mbm", Value = item.Name})
+                            @Html.ValidationMessageFor(m => m.name, "", new { @class = "ErrorMessage" })
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" data-dismiss="modal" class="btn btn-default">Trở lại</button>
+                            <button type="submit" class="btn btn-primary">Cập nhật</button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+}
+
+
+<div id="CreateForm" tabindex="-1" role="dialog" aria-labelledby="modal-stackable-label" aria-hidden="true" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
+                <h4 id="modal-stackable-label" class="modal-title">Tạo thành phố mới</h4>
+            </div>
+                @using (Html.BeginForm("CreateCity", "CommonList", FormMethod.Post))
+                {
+                    <div class="modal-body">
+                        <p>Tên thành phố<span class="require">*</span></p>
+                        @Html.TextBoxFor(m => m.name, new { @class = "form-control"})
+                        @Html.ValidationMessageFor(m => m.name, "", new { @class = "ErrorMessage" })
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" data-dismiss="modal" class="btn btn-default">Trở lại</button>
+                        <button type="submit" class="btn btn-success">
+                            Tạo mới
+                            &nbsp;<i class="fa fa-chevron-circle-right"></i>
+                        </button>
+                    </div>
+                }
+        </div>
+    </div>
+</div>
+
+
+
+<div class="page-content" style="padding: 20px 0px 20px 250px">
+    <div class="col-lg-9 panel panel-default">
+        <h3 style="font-weight:600;text-align:center">Danh sách thành phố</h3>
+        <button id="CreateBtn" type="button" class="btn btn-grey btn-sm">
+            <i class="fa fa-plus"></i>&nbsp;
+            Tạo mới
+        </button>&nbsp;
+        <br />
+        <br />
+
+        <div class="table-container">
+            <table class="table table-hover table-striped table-bordered table-advanced tablesorter">
+                <thead>
+                    <tr>
+                        <th width="1%">No</th>
+                        <th width="10%">Tên thành phố </th>
+                        <th width="5%">Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{int i = 1;}
+                    @if (Model.cities != null)
+                    {
+                        foreach (var item in Model.cities)
+                        {
+                            <tr>
+                                <td>@(i++)</td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    <button type="button" data-target="#@item.CityID" style="display:inline" data-toggle="modal" class="btn btn-blue btn-xs">
+                                        <i class="fa fa-edit"></i>&nbsp;
+                                        Cập Nhật
+                                    </button>
+                                    &nbsp;
+
+                                    @using (Html.BeginForm("DeleteCity", "CommonList", FormMethod.Post, new { style = "display:inline" }))
+                                    {
+                                        <input type="hidden" name="id" value="@item.CityID" />
+                                        <button type="submit" class="btn btn-danger btn-xs">
+                                            <i class="fa fa-trash-o"></i>&nbsp;
+                                            Xóa
+                                        </button>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

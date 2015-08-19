@@ -1,0 +1,114 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_LayoutFinal.cshtml";
+}
+
+
+@model JobSearchingSystem.Models.JJobsOfRecruiter
+
+
+<script>
+    $(document).ready(function () {
+        document.getElementById("company_description").innerHTML = window.unescape("@Model.recruiter.CompanyDescription")
+    });
+</script>
+<div class="page-content" style="padding: 20px 0px 100px 130px">
+
+
+
+    <div class="col-lg-9 panel panel-default" style="padding-bottom: 20px; margin-right: 10%;">
+        <br>
+
+        <div class="media">
+            <a href="#" class="pull-left"><img alt="avatar" class="media-object" src="http://images.vietnamworks.com/pictureofcompany/49/10197315.jpg" style="width: 100px; height: 64px;"></a>
+
+            <div class="media-body col-md-9" style="padding-right:0px">
+                <h3 class="media-heading text-blue" style="font-weight:700">@Model.recruiter.Company</h3>
+                <div style="float:left">
+                    <i class="fa fa-building-o"></i> Địa chỉ:  <div class="text-yellow" style="margin-left:5px;float:right">
+                        <span>@Model.recruiter.Address</span>
+                    </div>
+                </div>
+                <div style="float:left">
+                    <i class="fa fa-phone-square"></i> Số điện thoại:  <div class="text-yellow" style="margin-left: 5px; float: right; ">
+                        <span>@Model.recruiter.Phone</span>
+                    </div>
+                </div>
+                <br>
+            </div>
+            <br>
+        </div>
+
+
+    </div>
+
+    <div class="col-lg-9 panel panel-default" style="padding-bottom: 20px; margin-right: 10%;">
+        <br>
+        <h4 style="margin-left: 10px;font-weight: 600;"><i class="fa fa-group" style="font-size: 25px; color: rgb(12, 140, 156); margin-right: 10px; "></i> Vị trí tuyển dụng </h4>
+
+        <div class="table-container">
+
+            <table id="myTable" class="table table-hover table-striped table-bordered table-advanced tablesorter">
+                <tbody>
+                    @foreach (var item in Model.jobsOfRecruiter)
+                    {
+                        for (int a = 0; a < 10; a++)
+                        {
+                            <tr>
+                                <td><a href="/Job/Detail?jobID=@item.JobID">@item.JobTitle</a></td>
+                                <td><a style="color: #428bca;">@item.PostedDate.GetValueOrDefault().ToShortDateString()</a></td>
+                                <td>
+                                    @{
+                            int i = 0;
+                            foreach (var item2 in item.JobCities)
+                            {
+
+                                if (i == 0)
+                                {
+                                    <span>@item2.Name </span>
+                                }
+                                else
+                                {
+                                    <span>,@item2.Name </span>
+                                }
+                                i++;
+                            }
+                                    }
+
+
+                                </td>
+                                <td>@item.JobView lượt xem</td>
+                            </tr>
+                        }
+
+                    }
+
+
+
+                </tbody>
+            </table>
+
+        </div>
+
+
+    </div>
+
+    <div class="col-lg-9 panel panel-default" style="padding-bottom: 20px; margin-right: 10%;">
+        <br>
+        <h4 style="margin-left: 10px;font-weight: 600;"><i class="fa fa-building-o" style="font-size: 25px; color: rgb(12, 140, 156); margin-right: 10px; "></i> Giới thiệu về công ty </h4>
+
+        @if (Model.recruiter.CompanyDescription != null)
+        {
+            <div style="margin-left: 50px;" id="company_description"></div>
+        }
+        else
+        {
+            <div style="margin-left: 40px; font-style: italic;">Chưa cập nhật</div>
+        }
+
+  </div>
+
+        <br>
+
+
+    </div>

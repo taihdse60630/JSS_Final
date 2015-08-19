@@ -1,0 +1,917 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutFinal.cshtml";
+}
+
+@model JobSearchingSystem.Models.HIndexViewModel
+
+
+<style>
+    .track .inner {
+        background: #FFFFFF !important;
+        width: 96% !important;
+        margin-bottom:0px !important;
+    }
+</style>
+
+<link type="text/css" rel="stylesheet" href="~/Content/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.1.1.min.css">
+<link rel="stylesheet" href="~/Content/css/jquery.multiselect.css" />
+<style>
+    .transparent {
+        background: #7f7f7f;
+        background: rgba(0,0,0,0.5);
+    }
+</style>
+<link rel="stylesheet" href="~/Content/css/prism.css" type="text/css" media="screen" charset="utf-8">
+<link rel="stylesheet" href="~/Content/css/gh-buttons.css" type="text/css" media="screen" charset="utf-8">
+<link rel="stylesheet" href="~/Content/css/style.css" type="text/css" media="screen" charset="utf-8">
+<link rel="stylesheet" href="~/Content/css/responsive.css" type="text/css" media="screen" charset="utf-8">
+
+
+<script type="text/javascript" src="~/Content/js/jquery-easing-1.3.0.js"></script>
+<script type="text/javascript" src="~/Content/js/modernizr.mediaqueries.transforms3d.js"></script>
+<script type="text/javascript" src="~/Content/js/responsive-hub.js"></script>
+<script type="text/javascript" src="~/Content/js/jquery.silver_track.js" charset="utf-8"></script>
+<script type="text/javascript" src="~/Content/js/jquery.silver_track.circular_navigator.js" charset="utf-8"></script>
+
+<script type="text/javascript" src="~/Content/js/jquery.silver_track_recipes.js" charset="utf-8"></script>
+<script type="text/javascript" src="~/Content/js/jquery.silver_track.navigator.js" charset="utf-8"></script>
+<script type="text/javascript" src="~/Content/js/jquery.silver_track.bullet_navigator.js" charset="utf-8"></script>
+<script type="text/javascript" src="~/Content/js/jquery.silver_track.responsive_hub_connector.js" charset="utf-8"></script>
+<script type="text/javascript" src="~/Content/js/script.js" charset="utf-8"></script>
+<script type="text/javascript" src="~/Content/js/recipe_example1.js" charset="utf-8"></script>
+<script type="text/javascript" src="~/Content/js/recipe_example1_usage.js" charset="utf-8"></script>
+<script type="text/javascript" src="~/Content/js/example2_and_3.js" charset="utf-8"></script>
+
+<script src="~/Content/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+<script src="~/Content/js/ui-progressbars.js"></script>
+
+@*<script type="text/javascript" src="~/Content/js/jquery.js"></script>*@
+<script type="text/javascript" src="~/Content/js/jquery-ui.min.js"></script>
+<script src="~/Content/js/jquery.multiselect.js"></script>
+<script>
+    $(document).ready(function () {
+
+
+        $("#jobCities").multiselect({
+            header: "Bạn chỉ có thể chọn tối đa 3 địa điểm",
+
+            selectedList: 3,
+            noneSelectedText: "Địa điểm"
+        });
+        $('#jobCities').change(function () {
+
+            if ($("#jobCities").multiselect("getChecked").length > 2) {
+                $("#jobCities").multiselect("widget").find(":checkbox:not(:checked)").attr('disabled', 'disabled');
+            }
+            else {
+                $("#jobCities").multiselect("widget").find(":checkbox:not(:checked)").attr('disabled', false);
+            }
+        })
+
+        $("#jobCategories").multiselect({
+            header: "Bạn chỉ có thể chọn tối đa 3 nghành nghề",
+
+            selectedList: 3,
+            noneSelectedText: "Nghành nghề"
+        });
+        $('#jobCategories').change(function () {
+
+            if ($("#jobCategories").multiselect("getChecked").length > 2) {
+                $("#jobCategories").multiselect("widget").find(":checkbox:not(:checked)").attr('disabled', 'disabled');
+            }
+            else {
+                $("#jobCategories").multiselect("widget").find(":checkbox:not(:checked)").attr('disabled', false);
+            }
+        })
+    });
+
+</script>
+
+
+
+@*<script src="~/Content/js/jquery.min.js"></script>
+    <script src="~/Content/js/jquery.multiple.select.js"></script>
+    <script>
+        var $j = jQuery.noConflict();
+        $j(function () {
+            //var last_valid_selection = null;
+            $j('#demo3').change(function () {
+
+                if ($j(this).val().length > 2) {
+                    //alert('You can only choose 3!');
+                    //$('demo3').multiselect("widget").find(':checkbox').attr('disabled'‌​‌​,true);
+                    //$j("#demo3").multipleSelect("widget").find(":checkbox:not(:checked)").attr("‌​checked", "checked");
+                    //$(this).val(last_valid_selection);
+                    //$("input[type=checkbox]:not(:checked)").attr("disabled", "disabled")
+                    //$('input.multiLocation:not(:checked)').attr('disabled', 'disabled');
+                    $j("#demo3").multipleSelect("disable");
+                } else {
+                    $("input[type=checkbox]:not(:checked)").attr("disabled", false)
+                    //last_valid_selection = $(this).val();
+                }
+                console.log($(this).val());
+            }).multipleSelect({
+                placeholder: "Địa điểm...",
+                width: '100%'
+            });
+            $j('#demo4').change(function () {
+                console.log($(this).val());
+            }).multipleSelect({
+                placeholder: "Vui lòng chọn ...",
+                width: '100%'
+            });
+            $j('#demo5').change(function () {
+                console.log($(this).val());
+            }).multipleSelect({
+                placeholder: "Vui lòng chọn ...",
+                width: '100%'
+            });
+        });
+    </script>*@
+<script>
+    $(document).ready(function () {
+        var numitems = $("#myList li").length;
+
+
+        $("ul#myList2").css("column-count", 2);
+
+    });
+</script>
+<script type="text/javascript" src="~/Content/js/jssor.js"></script>
+<script type="text/javascript" src="~/Content/js/jssor.slider.js"></script>
+<script>
+    jQuery(document).ready(function ($) {
+
+        var _CaptionTransitions = [];
+        _CaptionTransitions["L"] = { $Duration: 900, x: 0.6, $Easing: { $Left: $JssorEasing$.$EaseInOutSine }, $Opacity: 2 };
+        _CaptionTransitions["R"] = { $Duration: 900, x: -0.6, $Easing: { $Left: $JssorEasing$.$EaseInOutSine }, $Opacity: 2 };
+        _CaptionTransitions["T"] = { $Duration: 900, y: 0.6, $Easing: { $Top: $JssorEasing$.$EaseInOutSine }, $Opacity: 2 };
+        _CaptionTransitions["B"] = { $Duration: 900, y: -0.6, $Easing: { $Top: $JssorEasing$.$EaseInOutSine }, $Opacity: 2 };
+        _CaptionTransitions["ZMF|10"] = { $Duration: 900, $Zoom: 11, $Easing: { $Zoom: $JssorEasing$.$EaseOutQuad, $Opacity: $JssorEasing$.$EaseLinear }, $Opacity: 2 };
+        _CaptionTransitions["RTT|10"] = { $Duration: 900, $Zoom: 11, $Rotate: 1, $Easing: { $Zoom: $JssorEasing$.$EaseOutQuad, $Opacity: $JssorEasing$.$EaseLinear, $Rotate: $JssorEasing$.$EaseInExpo }, $Opacity: 2, $Round: { $Rotate: 0.8 } };
+        _CaptionTransitions["RTT|2"] = { $Duration: 900, $Zoom: 3, $Rotate: 1, $Easing: { $Zoom: $JssorEasing$.$EaseInQuad, $Opacity: $JssorEasing$.$EaseLinear, $Rotate: $JssorEasing$.$EaseInQuad }, $Opacity: 2, $Round: { $Rotate: 0.5 } };
+        _CaptionTransitions["RTTL|BR"] = { $Duration: 900, x: -0.6, y: -0.6, $Zoom: 11, $Rotate: 1, $Easing: { $Left: $JssorEasing$.$EaseInCubic, $Top: $JssorEasing$.$EaseInCubic, $Zoom: $JssorEasing$.$EaseInCubic, $Opacity: $JssorEasing$.$EaseLinear, $Rotate: $JssorEasing$.$EaseInCubic }, $Opacity: 2, $Round: { $Rotate: 0.8 } };
+        _CaptionTransitions["CLIP|LR"] = { $Duration: 900, $Clip: 15, $Easing: { $Clip: $JssorEasing$.$EaseInOutCubic }, $Opacity: 2 };
+        _CaptionTransitions["MCLIP|L"] = { $Duration: 900, $Clip: 1, $Move: true, $Easing: { $Clip: $JssorEasing$.$EaseInOutCubic } };
+        _CaptionTransitions["MCLIP|R"] = { $Duration: 900, $Clip: 2, $Move: true, $Easing: { $Clip: $JssorEasing$.$EaseInOutCubic } };
+
+        var options = {
+            $FillMode: 2,                                       //[Optional] The way to fill image in slide, 0 stretch, 1 contain (keep aspect ratio and put all inside slide), 2 cover (keep aspect ratio and cover whole slide), 4 actual size, 5 contain for large image, actual size for small image, default value is 0
+            $AutoPlay: true,                                    //[Optional] Whether to auto play, to enable slideshow, this option must be set to true, default value is false
+            $AutoPlayInterval: 4000,                            //[Optional] Interval (in milliseconds) to go for next slide since the previous stopped if the slider is auto playing, default value is 3000
+            $PauseOnHover: 1,                                   //[Optional] Whether to pause when mouse over if a slider is auto playing, 0 no pause, 1 pause for desktop, 2 pause for touch device, 3 pause for desktop and touch device, 4 freeze for desktop, 8 freeze for touch device, 12 freeze for desktop and touch device, default value is 1
+
+            $ArrowKeyNavigation: true,   			            //[Optional] Allows keyboard (arrow key) navigation or not, default value is false
+            $SlideEasing: $JssorEasing$.$EaseOutQuint,          //[Optional] Specifies easing for right to left animation, default value is $JssorEasing$.$EaseOutQuad
+            $SlideDuration: 800,                               //[Optional] Specifies default duration (swipe) for slide in milliseconds, default value is 500
+            $MinDragOffsetToSlide: 20,                          //[Optional] Minimum drag offset to trigger slide , default value is 20
+            //$SlideWidth: 600,                                 //[Optional] Width of every slide in pixels, default value is width of 'slides' container
+            //$SlideHeight: 300,                                //[Optional] Height of every slide in pixels, default value is height of 'slides' container
+            $SlideSpacing: 0, 					                //[Optional] Space between each slide in pixels, default value is 0
+            $DisplayPieces: 3,                                  //[Optional] Number of pieces to display (the slideshow would be disabled if the value is set to greater than 1), the default value is 1
+            $ParkingPosition: 0,                                //[Optional] The offset position to park slide (this options applys only when slideshow disabled), default value is 0.
+            $UISearchMode: 1,                                   //[Optional] The way (0 parellel, 1 recursive, default value is 1) to search UI components (slides container, loading screen, navigator container, arrow navigator container, thumbnail navigator container etc).
+            $PlayOrientation: 1,                                //[Optional] Orientation to play slide (for auto play, navigation), 1 horizental, 2 vertical, 5 horizental reverse, 6 vertical reverse, default value is 1
+            $DragOrientation: 1,                                //[Optional] Orientation to drag slide, 0 no drag, 1 horizental, 2 vertical, 3 either, default value is 1 (Note that the $DragOrientation should be the same as $PlayOrientation when $DisplayPieces is greater than 1, or parking position is not 0)
+
+            $CaptionSliderOptions: {                            //[Optional] Options which specifies how to animate caption
+                $Class: $JssorCaptionSlider$,                   //[Required] Class to create instance to animate caption
+                $CaptionTransitions: _CaptionTransitions,       //[Required] An array of caption transitions to play caption, see caption transition section at jssor slideshow transition builder
+                $PlayInMode: 1,                                 //[Optional] 0 None (no play), 1 Chain (goes after main slide), 3 Chain Flatten (goes after main slide and flatten all caption animations), default value is 1
+                $PlayOutMode: 3                                 //[Optional] 0 None (no play), 1 Chain (goes before main slide), 3 Chain Flatten (goes before main slide and flatten all caption animations), default value is 1
+            },
+
+            $BulletNavigatorOptions: {                          //[Optional] Options to specify and enable navigator or not
+                $Class: $JssorBulletNavigator$,                 //[Required] Class to create navigator instance
+                $ChanceToShow: 2,                               //[Required] 0 Never, 1 Mouse Over, 2 Always
+                $AutoCenter: 1,                                 //[Optional] Auto center navigator in parent container, 0 None, 1 Horizontal, 2 Vertical, 3 Both, default value is 0
+                $Steps: 1,                                      //[Optional] Steps to go for each navigation request, default value is 1
+                $Lanes: 1,                                      //[Optional] Specify lanes to arrange items, default value is 1
+                $SpacingX: 8,                                   //[Optional] Horizontal space between each item in pixel, default value is 0
+                $SpacingY: 8,                                   //[Optional] Vertical space between each item in pixel, default value is 0
+                $Orientation: 1                                 //[Optional] The orientation of the navigator, 1 horizontal, 2 vertical, default value is 1
+            },
+
+            $ArrowNavigatorOptions: {                           //[Optional] Options to specify and enable arrow navigator or not
+                $Class: $JssorArrowNavigator$,                  //[Requried] Class to create arrow navigator instance
+                $ChanceToShow: 1,                               //[Required] 0 Never, 1 Mouse Over, 2 Always
+                $AutoCenter: 2,                                 //[Optional] Auto center arrows in parent container, 0 No, 1 Horizontal, 2 Vertical, 3 Both, default value is 0
+                $Steps: 1                                       //[Optional] Steps to go for each navigation request, default value is 1
+            }
+        };
+
+        var jssor_slider1 = new $JssorSlider$("slider1_container", options);
+
+        //responsive code begin
+        //you can remove responsive code if you don't want the slider scales while window resizes
+        function ScaleSlider() {
+            var bodyWidth = document.body.clientWidth;
+            if (bodyWidth)
+                jssor_slider1.$ScaleWidth(Math.min(bodyWidth, 1920));
+            else
+                window.setTimeout(ScaleSlider, 30);
+        }
+        ScaleSlider();
+
+        $(window).bind("load", ScaleSlider);
+        $(window).bind("resize", ScaleSlider);
+        $(window).bind("orientationchange", ScaleSlider);
+        //responsive code end
+    });
+</script>
+
+<script>
+
+    jQuery(document).ready(function ($) {
+        var options = {
+            $AutoPlay: true,                                    //[Optional] Whether to auto play, to enable slideshow, this option must be set to true, default value is false
+            $AutoPlaySteps: 1,                                  //[Optional] Steps to go for each navigation request (this options applys only when slideshow disabled), the default value is 1
+            $AutoPlayInterval: 0,                            //[Optional] Interval (in milliseconds) to go for next slide since the previous stopped if the slider is auto playing, default value is 3000
+            $PauseOnHover: 4,                               //[Optional] Whether to pause when mouse over if a slider is auto playing, 0 no pause, 1 pause for desktop, 2 pause for touch device, 3 pause for desktop and touch device, 4 freeze for desktop, 8 freeze for touch device, 12 freeze for desktop and touch device, default value is 1
+
+            $ArrowKeyNavigation: true,   			            //[Optional] Allows keyboard (arrow key) navigation or not, default value is false
+            $SlideEasing: $JssorEasing$.$EaseLinear,          //[Optional] Specifies easing for right to left animation, default value is $JssorEasing$.$EaseOutQuad
+            $SlideDuration: 1600,                                //[Optional] Specifies default duration (swipe) for slide in milliseconds, default value is 500
+            $MinDragOffsetToSlide: 20,                          //[Optional] Minimum drag offset to trigger slide , default value is 20
+            $SlideWidth: 140,                                   //[Optional] Width of every slide in pixels, default value is width of 'slides' container
+            //$SlideHeight: 100,                                //[Optional] Height of every slide in pixels, default value is height of 'slides' container
+            $SlideSpacing: 20, 					                //[Optional] Space between each slide in pixels, default value is 0
+            $DisplayPieces: 6,                                  //[Optional] Number of pieces to display (the slideshow would be disabled if the value is set to greater than 1), the default value is 1
+            $ParkingPosition: 0,                              //[Optional] The offset position to park slide (this options applys only when slideshow disabled), default value is 0.
+            $UISearchMode: 1,                                   //[Optional] The way (0 parellel, 1 recursive, default value is 1) to search UI components (slides container, loading screen, navigator container, arrow navigator container, thumbnail navigator container etc).
+            $PlayOrientation: 1,                                //[Optional] Orientation to play slide (for auto play, navigation), 1 horizental, 2 vertical, 5 horizental reverse, 6 vertical reverse, default value is 1
+            $DragOrientation: 1                                //[Optional] Orientation to drag slide, 0 no drag, 1 horizental, 2 vertical, 3 either, default value is 1 (Note that the $DragOrientation should be the same as $PlayOrientation when $DisplayPieces is greater than 1, or parking position is not 0)
+        };
+
+        var jssor_slider1 = new $JssorSlider$("slider2_container", options);
+
+        var jssor_slider2 = new $JssorSlider$("slider3_container", options);
+        //responsive code begin
+        //you can remove responsive code if you don't want the slider scales while window resizes
+        function ScaleSlider() {
+            var bodyWidth = document.body.clientWidth;
+            if (bodyWidth){
+                jssor_slider1.$ScaleWidth(Math.min(bodyWidth, 1100));
+                jssor_slider2.$ScaleWidth(Math.min(bodyWidth, 1100));
+            }
+            else
+                window.setTimeout(ScaleSlider, 30);
+        }
+        ScaleSlider();
+
+        $(window).bind("load", ScaleSlider);
+        $(window).bind("resize", ScaleSlider);
+        $(window).bind("orientationchange", ScaleSlider);
+        //responsive code end
+    });
+
+</script>
+
+
+<!-- Jssor Slider Begin -->
+<!-- To move inline styles to css file/block, please specify a class name for each element. -->
+<div id="slider1_container" style="position: relative; margin: 0 auto;margin-top:20px;
+        top: 0px; left: 0px; width: 1300px; height: 500px; overflow: hidden;">
+    <!-- Loading Screen -->
+    <div u="loading" style="position: absolute; top: 0px; left: 0px;">
+        <div style="filter: alpha(opacity=70); opacity: 0.7; position: absolute; display: block;
+                top: 0px; left: 0px; width: 100%; height: 100%;">
+        </div>
+        <div style="position: absolute; display: block; background: url(/Content/img/loading.gif) no-repeat center center; top: 0px; left: 0px; width: 100%; height: 100%;">
+        </div>
+    </div>
+    <!-- Slides Container -->
+    <div u="slides" style="cursor: move; position: absolute; left: 0px; top: 0px; width: 1300px;
+            height: 500px; overflow: hidden;">
+    
+        <div>
+            <img u="image" src="~/Content/img/all-job.png" />
+            <div style="position: absolute; width: 1000px; height: 200px; top: 250px; left: 200px; padding: 5px;">
+                <div class="col-lg-9">
+
+                    @using (Html.BeginForm("Find", "Home"))
+                    {
+                        <div class="col-lg-12">
+                            <div class="panel panel-grey">
+                                <div class="panel-heading">Tìm việc làm</div>
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <input id="searchString" name="searchString" value="@Model.searchString" type="text" placeholder="Nhập Chức Danh, Vị Trí Công Việc, Kỹ Năng Liên Quan..." class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <select id="jobCities" name="searchJobCities" multiple="multiple">
+                                                    @if (Model.jobCities != null)
+                                                    {
+                                                        foreach (var item in Model.jobCities)
+                                                        {
+                                                            <option value="@item.CityID">@item.Name</option>
+                                                        }
+                                                    }
+                                                </select>
+                                                @*<input id="inputName" type="text" placeholder="Địa điểm" class="form-control">*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <input id="minSalary" name="minSalary" type="text" placeholder="Mức lương tối thiểu" class="form-control" style="width:115%;">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <select id="schoolLevel" name="schoolLevel" class="form-control" name="currentJobLevel" data-placeholder="Ví dụ: Nhân viên" tabindex="-1" title="Cấp bậc hiện tại">
+                                                    @if (Model.schoolLevelList != null)
+                                                    {
+                                                        foreach (var item in Model.schoolLevelList)
+                                                        {
+                                                            if (item.LevelNum == Model.schoolLevel)
+                                                            {
+                                                                <option selected value="@item.LevelNum">@item.Name</option>
+                                                            }
+                                                            else
+                                                            {
+                                                                <option value="@item.LevelNum">@item.Name</option>
+                                                            }
+                                                        }
+                                                    }
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+
+                                                <select id="jobCategories" name="searchJobCategories" multiple="multiple">
+                                                    @if (Model.jobCategories != null)
+                                                    {
+                                                        foreach (var item in Model.jobCategories)
+                                                        {
+                                                            <option value="@item.CategoryID">@item.Name</option>
+                                                        }
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="margin-left: 87%;">
+                                        <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    }
+                </div>
+
+
+
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+
+    <!--#region Bullet Navigator Skin Begin -->
+    <!-- Help: http://www.jssor.com/development/slider-with-bullet-navigator-jquery.html -->
+    <style>
+        /* jssor slider bullet navigator skin 21 css */
+        /*
+            .jssorb21 div           (normal)
+            .jssorb21 div:hover     (normal mouseover)
+            .jssorb21 .av           (active)
+            .jssorb21 .av:hover     (active mouseover)
+            .jssorb21 .dn           (mousedown)
+            */
+        .jssorb21 {
+            position: absolute;
+        }
+
+            .jssorb21 div, .jssorb21 div:hover, .jssorb21 .av {
+                position: absolute;
+                /* size of bullet elment */
+                width: 19px;
+                height: 19px;
+                text-align: center;
+                line-height: 19px;
+                color: white;
+                font-size: 12px;
+                background: url(/Content/img/b21.png) no-repeat;
+                overflow: hidden;
+                cursor: pointer;
+            }
+
+            .jssorb21 div {
+                background-position: -5px -5px;
+            }
+
+                .jssorb21 div:hover, .jssorb21 .av:hover {
+                    background-position: -35px -5px;
+                }
+
+            .jssorb21 .av {
+                background-position: -65px -5px;
+            }
+
+            .jssorb21 .dn, .jssorb21 .dn:hover {
+                background-position: -95px -5px;
+            }
+    </style>
+    <!-- bullet navigator container -->
+    <div u="navigator" class="jssorb21" style="bottom: 26px; right: 6px;">
+        <!-- bullet navigator item prototype -->
+        <div u="prototype"></div>
+    </div>
+    <!--#endregion Bullet Navigator Skin End -->
+    <!--#region Arrow Navigator Skin Begin -->
+    <!-- Help: http://www.jssor.com/development/slider-with-arrow-navigator-jquery.html -->
+    <style>
+        /* jssor slider arrow navigator skin 21 css */
+        /*
+            .jssora21l                  (normal)
+            .jssora21r                  (normal)
+            .jssora21l:hover            (normal mouseover)
+            .jssora21r:hover            (normal mouseover)
+            .jssora21l.jssora21ldn      (mousedown)
+            .jssora21r.jssora21rdn      (mousedown)
+            */
+        .jssora21l, .jssora21r {
+            display: block;
+            position: absolute;
+            /* size of arrow element */
+            width: 55px;
+            height: 55px;
+            cursor: pointer;
+            background: url(/Content/img/a21.png) center center no-repeat;
+            overflow: hidden;
+        }
+
+        .jssora21l {
+            background-position: -3px -33px;
+        }
+
+        .jssora21r {
+            background-position: -63px -33px;
+        }
+
+        .jssora21l:hover {
+            background-position: -123px -33px;
+        }
+
+        .jssora21r:hover {
+            background-position: -183px -33px;
+        }
+
+        .jssora21l.jssora21ldn {
+            background-position: -243px -33px;
+        }
+
+        .jssora21r.jssora21rdn {
+            background-position: -303px -33px;
+        }
+    </style>
+    <!-- Arrow Left -->
+    <span u="arrowleft" class="jssora21l" style="top: 123px; left: 8px;">
+    </span>
+    <!-- Arrow Right -->
+    <span u="arrowright" class="jssora21r" style="top: 123px; right: 8px;">
+    </span>
+    <!--#endregion Arrow Navigator Skin End -->
+    <a style="display: none" href="http://www.jssor.com">Bootstrap Slider</a>
+</div>
+
+<div style="margin-bottom:30px"></div>
+<div id="slider2_container" style="position: relative; top: 0px; left: 0px; width: 1000px; height: 100px; overflow: hidden; ">
+
+    <!-- Loading Screen -->
+    <div u="loading" style="position: absolute; top: 0px; left: 0px;">
+        <div style="filter: alpha(opacity=70); opacity:0.7; position: absolute; display: block;
+                background-color: #000; top: 0px; left: 0px;width: 100%;height:100%;">
+        </div>
+        <div style="position: absolute; display: block; background: url(/Content/img/loading.gif) no-repeat center center;
+                top: 0px; left: 0px;width: 100%;height:100%;">
+        </div>
+    </div>
+
+    <!-- Slides Container -->
+    <div u="slides" style="cursor: move; position: absolute; left: 0px; top: 0px; width: 2000px; height: 100px; overflow: hidden;">
+        @if (Model.purchaseAdvertiseTypeA != null)
+        {
+            foreach (var item in Model.purchaseAdvertiseTypeA)
+            {
+                <div style="border: 1px solid #ccc; padding-right:10px"><a href="/Job/JobsOfRecruiter?recruiterID=@item.RecuiterID"><img u="image" src="@item.LogoUrl" /></a></div>
+
+
+            }
+
+        }
+    </div>
+    <a style="display: none" href="http://www.jssor.com">Bootstrap Slider</a>
+</div>
+
+
+
+<div class="page-content" style="padding: 50px 0px 3px 80px">
+    <div class="row" style="margin-right: 8%;">
+
+      
+
+       
+    
+
+
+
+
+        @*<div id="slider3_container" style="position: relative; top: 0px; left: 0px; width: 1000px; height: 100px; overflow: hidden; ">
+
+            <!-- Loading Screen -->
+            <div u="loading" style="position: absolute; top: 0px; left: 0px;">
+                <div style="filter: alpha(opacity=70); opacity:0.7; position: absolute; display: block;
+                background-color: #000; top: 0px; left: 0px;width: 100%;height:100%;">
+                </div>
+                <div style="position: absolute; display: block; background: url(/Content/img/loading.gif) no-repeat center center;
+                top: 0px; left: 0px;width: 100%;height:100%;">
+                </div>
+            </div>
+
+
+
+
+            <!-- Slides Container -->
+            <div u="slides" style="cursor: move; position: absolute; left: 0px; top: 0px; width: 2000px; height: 100px; overflow: hidden;">
+                @if (Model.purchaseAdvertiseTypeA != null)
+                {
+                    foreach (var item in Model.purchaseAdvertiseTypeC)
+                    {
+                        <div><a href="@item.LinkUrl"><img u="image" src="@item.LogoUrl" /></a></div>
+
+
+                    }
+
+                }
+            </div>
+            <a style="display: none" href="http://www.jssor.com">Bootstrap Slider</a>
+        </div>*@
+
+
+
+        <!-- Jssor Slider End -->
+
+        <div class="col-md-8" >
+
+            <div class="panel panel-red">
+
+                <div class="panel-heading">Việc làm</div>
+                <div class="panel-body">
+
+                    <div id="container" style="overflow-y:scroll;height:500px">
+                        <ul class="list-group" id="myList" style="margin-left: 2%;">
+
+                            @if (Model.jobList != null)
+                            {
+                                foreach (var item in Model.jobList)
+                                {
+
+                                    <li class="list-group-item">
+                                        <a target="_blank" href="/Job/Detail/?jobID=@item.JobID" title="Job - Tuyển Gấp Lập Trình Viên .NET - CTC Communications">
+                                            <div class="row">
+                                                <div class="col-md-9">                                                  
+                                                    @if (item.isHightLight)
+                                                    {
+                                                          <strong style="color:red">@item.JobTitle</strong><br />
+                                                    }else
+                                                    {
+                                                          <strong>@item.JobTitle</strong><br />
+                                                    }
+                                                  
+                                                    <em>
+                                                        <span>
+                                                            <span>
+                                                                @if (item.JobCities != null)
+                                                                {
+                                                                    foreach (var item2 in item.JobCities)
+                                                                    { @item2.Name <span>,</span>}
+                                                                }
+                                                            </span>|<span>@item.JobLevelName</span>
+                                                        </span>
+                                                    </em><br />
+                                                    <span style="margin-right: 10px;">
+                                                        <i class="fa fa-fw fa-calendar"></i>Posted: @String.Format("{0:d}", item.PostedDate)
+                                                    </span>
+                                                    <span><i class="fa fa-fw fa-eye"></i>Views: @item.JobView</span><br />
+                                                    @{
+                                                                int i = 1;
+                                                                foreach (var item3 in item.JobSkills)
+                                                                {
+                                                                    if (i == 1)
+                                                                    {
+                                                                        <div class="progress" style="width: 10%;height: 5px;margin-top: 1.5%;float: left;margin-right: 2%;">
+                                                                            <div role="progressbar" aria-valuetransitiongoal="100" class="progress-bar progress-bar-success" aria-valuenow="100" style="width: 100%;"></div>
+                                                                        </div><em style="font-size: x-small;">@item3.SkillTag</em> <br />
+                                                                    }
+                                                                    if (i == 2)
+                                                                    {
+                                                                        <div class="progress" style="width: 9.4%;height: 5px;margin-top: 1.5%;float: left;margin-right: 2%;position:absolute">
+                                                                            <div role="progressbar" aria-valuetransitiongoal="100" class="progress-bar progress-bar-warning" aria-valuenow="100" style="width: 100%;"></div>
+                                                                        </div><em style="font-size: x-small;">@item3.SkillTag</em><br />
+                                                                    }
+                                                                    if (i == 3)
+                                                                    {
+                                                                        <div class="progress" style="width: 10%; height: 5px; margin-top: 1.5%; float: left; margin-right: 2%;">
+                                                                            <div role="progressbar" aria-valuetransitiongoal="100" class="progress-bar progress-bar-danger" aria-valuenow="100" style="width: 100%;"></div>
+                                                                        </div><em style="font-size: x-small;">@item3.SkillTag</em>
+                                                                    }
+                                                                    i++;
+                                                                }
+                                                    }
+                                                    @*<div class="progress" style="width: 10%;height: 5px;margin-top: 1.5%;float: left;margin-right: 2%;">
+                                                        <div role="progressbar" aria-valuetransitiongoal="100" class="progress-bar progress-bar-success" aria-valuenow="100" style="width: 75%;"></div>
+                                                    </div><em style="font-size: x-small;">It- Phần Cứng - Mạng</em>
+                                                    <br />
+
+                                                    <div class="progress" style="width: 9.4%;height: 5px;margin-top: 1.5%;float: left;margin-right: 2%;position:absolute">
+                                                        <div role="progressbar" aria-valuetransitiongoal="100" class="progress-bar progress-bar-warning" aria-valuenow="100" style="width: 75%;"></div>
+                                                    </div><em style="font-size: x-small;">SQL Server</em><br />
+
+                                                    <div class="progress" style="width: 10%; height: 5px; margin-top: 1.5%; float: left; margin-right: 2%;">
+                                                        <div role="progressbar" aria-valuetransitiongoal="100" class="progress-bar progress-bar-danger" aria-valuenow="100" style="width: 75%;"></div>
+                                                    </div><em style="font-size: x-small;">English; Japanese</em>*@
+                                                </div>
+                                                <div class="col-md-3">
+                                                    @if (item.MinSalary == null && item.MaxSalary == null)
+                                                    {
+                                                         <strong>Thỏa thuận</strong><br />
+                                                    }
+                                                    else
+                                                    {
+                                                         <strong>$@item.MinSalary.ToString().TrimEnd('0').TrimEnd(',')- $@item.MaxSalary.ToString().TrimEnd('0').TrimEnd(',')</strong><br />
+                                                    }
+                                                   
+                                                    <a href="#"> <img class="salesLogoImage img-responsive" src="@item.LogoURL" width="88" height="43" alt="Việc làm, tuyển dụng, tìm việc làm, viec lam - Viethung" title="Việc làm tại Viethung" border="0"></a>
+                                                </div>
+                                            </div>
+
+                                        </a>
+                                    </li>
+                                    <br />
+                                }
+                            }
+
+
+                            @*@for (int i = 0; i < 100; i++)
+                            {
+                                <li class="list-group-item">
+                                    <a target="_blank" href="http://www.vietnamworks.com/tuyen-gap-lap-trinh-vien-net-569885-jd" title="Job - Tuyển Gấp Lập Trình Viên .NET - CTC Communications">
+                                        <div class="row">
+                                            <div class="col-md-9">
+                                                <strong>Tuyển Gấp Lập Trình Viên .NET</strong><br />
+                                                <em><span><span>Da Nang, Ha Noi, Ho Chi Minh</span>|<span>Experienced (Non-Manager)</span></span></em><br />
+                                                <span style="margin-right: 10px;"><i class="fa fa-fw fa-calendar"></i>Posted: 22/06/2015</span>
+                                                <span><i class="fa fa-fw fa-eye"></i>Views: 2300</span><br />
+                                                <div class="progress" style="width: 10%;height: 5px;margin-top: 1.5%;float: left;margin-right: 2%;">
+                                                    <div role="progressbar" aria-valuetransitiongoal="100" class="progress-bar progress-bar-success" aria-valuenow="100" style="width: 75%;"></div>
+                                                </div><em style="font-size: x-small;">It- Phần Cứng - Mạng</em>
+                                                <br />
+
+                                                <div class="progress" style="width: 9.4%;height: 5px;margin-top: 1.5%;float: left;margin-right: 2%;position:absolute">
+                                                    <div role="progressbar" aria-valuetransitiongoal="100" class="progress-bar progress-bar-warning" aria-valuenow="100" style="width: 75%;"></div>
+                                                </div><em style="font-size: x-small;">SQL Server</em><br />
+
+                                                <div class="progress" style="width: 10%; height: 5px; margin-top: 1.5%; float: left; margin-right: 2%;">
+                                                    <div role="progressbar" aria-valuetransitiongoal="100" class="progress-bar progress-bar-danger" aria-valuenow="100" style="width: 75%;"></div>
+                                                </div><em style="font-size: x-small;">English; Japanese</em>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <strong>$300 - $500</strong><br />
+                                                <a href="#"> <img class="salesLogoImage img-responsive" src="~/Content/img/logo_21.jpg" width="88" height="43" alt="Việc làm, tuyển dụng, tìm việc làm, viec lam - Viethung" title="Việc làm tại Viethung" border="0"></a>
+                                            </div>
+                                        </div>
+
+                                    </a>
+                                </li>
+                                <br />
+                            }*@
+
+
+
+                        </ul>
+
+                    </div>
+                </div>
+
+                @*<h2 style="margin-left: 2%;">Việc làm</h2>*@
+
+            </div>
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="panel panel-blue">
+                <div class="panel-heading" style="font-size:small">Nhà tuyển dụng hàng đầu</div>
+                <div class="panel-body">
+                    <div id="container" style="overflow-y:scroll;height:500px">
+                        <ul class="list-group" id="myList2" style="margin-left: 2%;">
+                            @if (Model.purchaseAdvertiseTypeB != null)
+                            {
+                                foreach (var item in Model.purchaseAdvertiseTypeB)
+                                {
+                                    <li class="">
+                                        <a href="/Job/JobsOfRecruiter?recruiterID=@item.RecuiterID"> <img class="salesLogoImage img-responsive" src="@item.LogoUrl" width="70" height="43" border="0"></a>
+                                    </li>
+                                }
+                            }
+                          </ul>
+                        </div>
+                    </div>
+            </div>
+        </div>
+
+      
+    </div>
+
+</div>
+<!-- Jssor Slider End -->
+<div class="track example-1">
+    <div class="inner">
+
+        <div class="view-port">
+            <div class="slider-container" style="height:130px">
+                @if (Model.purchaseAdvertiseTypeC != null)
+                {
+                    foreach (var item in Model.purchaseAdvertiseTypeC)
+                    {
+                        <div class="item">
+                            <a href="/Job/JobsOfRecruiter?recruiterID=@item.RecuiterID">
+                                <img src="@item.LogoUrl" width="224" height="128" />
+                            </a>
+                        </div>
+
+                    }
+                }
+                @*<div class="item">
+                        <img src="http://lorempixel.com/220/124/animals/1/">
+                        <p>Trailer 1</p>
+                    </div>
+                    <div class="item">
+                        <img src="http://lorempixel.com/220/124/animals/2/">
+                        <p>Trailer 2</p>
+                    </div>
+                    <div class="item">
+                        <img src="http://lorempixel.com/220/124/animals/3/">
+                        <p>Trailer 3</p>
+                    </div>
+                    <div class="item">
+                        <img src="http://lorempixel.com/220/124/animals/4/">
+                        <p>Trailer 4</p>
+                    </div>
+                    <div class="item">
+                        <img src="http://lorempixel.com/220/124/animals/5/">
+                        <p>Trailer 5</p>
+                    </div>
+                    <div class="item">
+                        <img src="http://lorempixel.com/220/124/animals/6/">
+                        <p>Trailer 6</p>
+                    </div>
+                    <div class="item">
+                        <img src="http://lorempixel.com/220/124/animals/7/">
+                        <p>Trailer 7</p>
+                    </div>
+                    <div class="item">
+                        <img src="http://lorempixel.com/220/124/animals/8/">
+                        <p>Trailer 8</p>
+                    </div>
+                    <div class="item">
+                        <img src="http://lorempixel.com/220/124/animals/9/">
+                        <p>Trailer 9</p>
+                    </div>*@
+            </div>
+        </div>
+
+        <div class="bullet-pagination"></div>
+    </div>
+
+    <div class="pagination">
+        <a href="#" class="prev disabled"></a>
+        <a href="#" class="next disabled"></a>
+    </div>
+</div>
+
+
+<div class="track example-3">
+    <div class="inner">
+
+        <div class="view-port">
+            <div id="example-3" class="slider-container huge">
+                <div class="item cover cover-2">
+                    <div class="side-a">
+                        <img src="http://ib3.huluim.com/show/70?size=476x268">
+                        <div class="img-area">
+                            <div class="img-block">
+                                <img src="http://ib1.huluim.com/show/1968?size=220x124">
+                            </div>
+                            <div class="img-block">
+                                <img src="http://ib1.huluim.com/show/2252?size=220x124">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="side-b">
+                        <img src="http://ib4.huluim.com/show/2103?size=476x268">
+                        <div class="img-area">
+                            <div class="img-block">
+                                <img src="http://ib3.huluim.com/show/902?size=220x124">
+                            </div>
+                            <div class="img-block">
+                                <img src="http://ib3.huluim.com/show/54?size=220x124">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="img-block">
+                        <img src="http://ib2.huluim.com/show/9673?size=220x124">
+                    </div>
+                    <div class="img-block">
+                        <img src="http://ib3.huluim.com/show/8290?size=220x124">
+                    </div>
+                    <div class="img-block">
+                        <img src="http://ib4.huluim.com/show/903?size=220x124">
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="img-block">
+                        <img src="http://ib2.huluim.com/show/7529?size=220x124">
+                    </div>
+                    <div class="img-block">
+                        <img src="http://ib1.huluim.com/show/44?size=220x124">
+                    </div>
+                    <div class="img-block">
+                        <img src="http://ib1.huluim.com/show/7528?size=220x124">
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="img-block">
+                        <img src="http://ib2.huluim.com/show/389?size=220x124">
+                    </div>
+                    <div class="img-block">
+                        <img src="http://ib3.huluim.com/show/11226?size=220x124">
+                    </div>
+                    <div class="img-block">
+                        <img src="http://ib3.huluim.com/show/11430?size=220x124">
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="img-block">
+                        <img src="http://ib4.huluim.com/show/1603?size=220x124">
+                    </div>
+                    <div class="img-block">
+                        <img src="http://ib2.huluim.com/show/53?size=220x124">
+                    </div>
+                    <div class="img-block">
+                        <img src="http://ib1.huluim.com/show/11248?size=220x124">
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="img-block">
+                        <img src="http://ib2.huluim.com/show/2553?size=220x124">
+                    </div>
+                    <div class="img-block">
+                        <img src="http://ib4.huluim.com/show/7555?size=220x124">
+                    </div>
+                    <div class="img-block">
+                        <img src="http://ib4.huluim.com/show/11431?size=220x124">
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="img-block">
+                        <img src="http://ib2.huluim.com/show/11253?size=220x124">
+                    </div>
+                    <div class="img-block">
+                        <img src="http://ib4.huluim.com/show/6979?size=220x124">
+                    </div>
+                    <div class="img-block">
+                        <img src="http://ib3.huluim.com/show/10?size=220x124">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bullet-pagination"></div>
+        <div class="actions button-group">
+            <a href="#" class="button primary icon reload">Restart</a>
+        </div>
+    </div>
+
+    <div class="pagination">
+        <a href="#" class="prev disabled"></a>
+        <a href="#" class="next disabled"></a>
+    </div>
+</div>

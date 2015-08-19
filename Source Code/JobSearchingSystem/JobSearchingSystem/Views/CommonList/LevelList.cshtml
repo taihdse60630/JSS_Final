@@ -1,0 +1,144 @@
+﻿@model JobSearchingSystem.Models.ComLevelViewModel
+
+@{
+    ViewBag.Title = "Danh sách trình độ ngôn ngữ";
+    Layout = "~/Views/Shared/_LayoutFinal.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+        $("#CreateBtn").click(function () {
+            $("#CreateForm").modal("show");
+        });
+    });
+
+</script>
+
+@if (Model.levels != null)
+{
+    foreach (var item in Model.levels)
+    {
+        <div id="@item.Level_ID" tabindex="-1" role="dialog" aria-labelledby="modal-stackable-label" aria-hidden="true" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
+                        <h4 id="modal-stackable-label" class="modal-title">Cập nhật trình độ ngôn ngữ</h4>
+                    </div>
+                    @using (Html.BeginForm("UpdateLevel", "CommonList", FormMethod.Post))
+                    {
+                        <div class="modal-body">
+                            <input type="hidden" name="id" value="@item.Level_ID" />
+                            <p>Tên trình độ ngôn ngữ<span class="require">*</span></p>
+                            @Html.TextBoxFor(m => m.name, new { @class = "form-control mbm", Value = item.Name })
+                            @Html.ValidationMessageFor(m => m.name, "", new { @class = "ErrorMessage" })
+                            <p>Hệ số cấp bậc<span class="require">*</span></p>
+                            @Html.TextBoxFor(m => m.levelNum, new { @class = "form-control mbm", Value = item.LevelNum, data_val_number = "Nội dung nhập vào phải là số nguyên" })
+                            @Html.ValidationMessageFor(m => m.levelNum, "", new { @class = "ErrorMessage" })
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" data-dismiss="modal" class="btn btn-default">Trở lại</button>
+                            <button type="submit" class="btn btn-primary">Cập nhật</button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+}
+
+
+<div id="CreateForm" tabindex="-1" role="dialog" aria-labelledby="modal-stackable-label" aria-hidden="true" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
+                <h4 id="modal-stackable-label" class="modal-title">Tạo cấp bậc</h4>
+            </div>
+            @using (Html.BeginForm("CreateLevel", "CommonList", FormMethod.Post))
+            {
+                <div class="modal-body">
+                    <div class="input-icon right">
+                        Tên trình độ ngôn ngữ<span class="require">*</span>
+                        @Html.TextBoxFor(m => m.name, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.name, "", new { @class = "ErrorMessage" })
+                    </div>
+                    <div class="input-icon right">
+                        Hệ số cấp bậc<span class="require">*</span>
+                        @Html.TextBoxFor(m => m.levelNum, new { @class = "form-control", Value = "", data_val_number = "Nội dung nhập vào phải là số nguyên" })
+                        @Html.ValidationMessageFor(m => m.levelNum, "", new { @class = "ErrorMessage" })
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-default">Trở lại</button>
+                    <button type="submit" class="btn btn-success">
+                        Tạo mới
+                        &nbsp;<i class="fa fa-chevron-circle-right"></i>
+                    </button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+
+<div class="page-content" style="padding: 20px 0px 20px 250px">
+    <div class="col-lg-9 panel panel-default">
+        <h3 style="font-weight:600;text-align:center">Danh sách trình độ ngôn ngữ</h3>
+        <button id="CreateBtn" type="button" class="btn btn-grey btn-sm">
+            <i class="fa fa-plus"></i>&nbsp;
+            Tạo mới
+        </button>&nbsp;
+        <br />
+        <br />
+
+        <div class="table-container">
+            <table class="table table-hover table-striped table-bordered table-advanced tablesorter">
+                <thead>
+                    <tr>
+                        <th width="1%">No</th>
+                        <th width="10%">Tên trình độ ngôn ngữ</th>
+                        <th width="10%">Hệ số cấp bậc</th>
+                        <th width="5%">Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{int i = 1;}
+                    @if (Model.levels != null)
+                    {
+                        foreach (var item in Model.levels)
+                        {
+                            <tr>
+                                <td>@(i++)</td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.LevelNum)
+                                </td>
+                                <td>
+                                    <button type="button" data-target="#@item.Level_ID" style="display:inline" data-toggle="modal" class="btn btn-blue btn-xs">
+                                        <i class="fa fa-edit"></i>&nbsp;
+                                        Cập Nhật
+                                    </button>
+                                    &nbsp;
+
+                                    @using (Html.BeginForm("DeleteLevel", "CommonList", FormMethod.Post, new { style = "display:inline" }))
+                                    {
+                                        <input type="hidden" name="id" value="@item.Level_ID" />
+                                        <button type="submit" class="btn btn-danger btn-xs">
+                                            <i class="fa fa-trash-o"></i>&nbsp;
+                                            Xóa
+                                        </button>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

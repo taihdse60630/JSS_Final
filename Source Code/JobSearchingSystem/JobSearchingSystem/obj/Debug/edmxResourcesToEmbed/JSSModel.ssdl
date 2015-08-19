@@ -1,0 +1,1605 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="JSSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="__MigrationHistory">
+    <Key>
+      <PropertyRef Name="MigrationId" />
+      <PropertyRef Name="ContextKey" />
+    </Key>
+    <Property Name="MigrationId" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="ContextKey" Type="nvarchar" MaxLength="300" Nullable="false" />
+    <Property Name="Model" Type="varbinary(max)" Nullable="false" />
+    <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Administrator">
+    <Key>
+      <PropertyRef Name="AdministratorID" />
+    </Key>
+    <Property Name="AdministratorID" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Advertise">
+    <Key>
+      <PropertyRef Name="AdvertiseID" />
+    </Key>
+    <Property Name="AdvertiseID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="Position" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Cost" Type="money" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AppliedJob">
+    <Key>
+      <PropertyRef Name="JobSeekerID" />
+      <PropertyRef Name="JobID" />
+    </Key>
+    <Property Name="JobSeekerID" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="JobID" Type="int" Nullable="false" />
+    <Property Name="ProfileID" Type="int" Nullable="false" />
+    <Property Name="ApplyDate" Type="date" Nullable="false" />
+    <Property Name="MatchingPercent" Type="int" Nullable="false" />
+    <Property Name="Status" Type="int" Nullable="false" />
+    <Property Name="AcceptDate" Type="date" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AspNetRoles">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AspNetUserClaims">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ClaimType" Type="nvarchar(max)" />
+    <Property Name="ClaimValue" Type="nvarchar(max)" />
+    <Property Name="User_Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AspNetUserLogins">
+    <Key>
+      <PropertyRef Name="UserId" />
+      <PropertyRef Name="LoginProvider" />
+      <PropertyRef Name="ProviderKey" />
+    </Key>
+    <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="LoginProvider" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="ProviderKey" Type="nvarchar" MaxLength="128" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AspNetUserRoles">
+    <Key>
+      <PropertyRef Name="UserId" />
+      <PropertyRef Name="RoleId" />
+    </Key>
+    <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="RoleId" Type="nvarchar" MaxLength="128" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AspNetUsers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar(max)" />
+    <Property Name="PasswordHash" Type="nvarchar(max)" />
+    <Property Name="SecurityStamp" Type="nvarchar(max)" />
+    <Property Name="Discriminator" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Benefit">
+    <Key>
+      <PropertyRef Name="BenefitID" />
+    </Key>
+    <Property Name="BenefitID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" MaxLength="100" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="CategoryID" />
+    </Key>
+    <Property Name="CategoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" MaxLength="100" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="City">
+    <Key>
+      <PropertyRef Name="CityID" />
+    </Key>
+    <Property Name="CityID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CompanyInfo">
+    <Key>
+      <PropertyRef Name="RecruiterID" />
+    </Key>
+    <Property Name="RecruiterID" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="LogoURL" Type="nvarchar" MaxLength="150" />
+    <Property Name="Company" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Address" Type="nvarchar" MaxLength="100" />
+    <Property Name="District" Type="nvarchar" MaxLength="30" />
+    <Property Name="PhoneNumber" Type="nvarchar" MaxLength="20" />
+    <Property Name="Description" Type="ntext" />
+    <Property Name="IsVisible" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CompanyInfoCity">
+    <Key>
+      <PropertyRef Name="RecuiterID" />
+      <PropertyRef Name="CityID" />
+    </Key>
+    <Property Name="RecuiterID" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="CityID" Type="int" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Contact">
+    <Key>
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UserID" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="FullName" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="Gender" Type="bit" Nullable="false" />
+    <Property Name="MaritalStatus" Type="bit" Nullable="false" />
+    <Property Name="Nationality" Type="bit" Nullable="false" />
+    <Property Name="Address" Type="nvarchar" MaxLength="150" />
+    <Property Name="DateofBirth" Type="date" Nullable="false" />
+    <Property Name="PhoneNumber" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="AvatarUrl" Type="nvarchar" MaxLength="250" />
+    <Property Name="CityID" Type="int" Nullable="false" />
+    <Property Name="District" Type="nvarchar" MaxLength="20" />
+    <Property Name="IsVisible" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DesiredBenefit">
+    <Key>
+      <PropertyRef Name="BenefitID" />
+      <PropertyRef Name="JobSeekerID" />
+    </Key>
+    <Property Name="BenefitID" Type="int" Nullable="false" />
+    <Property Name="JobSeekerID" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="EducationHistory">
+    <Key>
+      <PropertyRef Name="EducationHistoryID" />
+    </Key>
+    <Property Name="EducationHistoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Subject" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="School" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="SchoolLevel_ID" Type="int" Nullable="false" />
+    <Property Name="Achievement" Type="ntext" />
+    <Property Name="ProfileID" Type="int" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="EmploymentHistory">
+    <Key>
+      <PropertyRef Name="EmploymentHistoryID" />
+    </Key>
+    <Property Name="EmploymentHistoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Position" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Company" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="WorkingTime" Type="int" Nullable="false" />
+    <Property Name="Description" Type="ntext" />
+    <Property Name="ProfileID" Type="int" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ExpectedCategory">
+    <Key>
+      <PropertyRef Name="ProfileID" />
+      <PropertyRef Name="CategoryID" />
+    </Key>
+    <Property Name="ProfileID" Type="int" Nullable="false" />
+    <Property Name="CategoryID" Type="int" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ExpectedCity">
+    <Key>
+      <PropertyRef Name="ProfileID" />
+      <PropertyRef Name="CityID" />
+    </Key>
+    <Property Name="ProfileID" Type="int" Nullable="false" />
+    <Property Name="CityID" Type="int" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Job">
+    <Key>
+      <PropertyRef Name="JobID" />
+    </Key>
+    <Property Name="JobID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RecruiterID" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="JobTitle" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="MinSalary" Type="money" />
+    <Property Name="MaxSalary" Type="money" />
+    <Property Name="JobDescription" Type="ntext" Nullable="false" />
+    <Property Name="JobRequirement" Type="ntext" />
+    <Property Name="JobLevel_ID" Type="int" Nullable="false" />
+    <Property Name="MinSchoolLevel_ID" Type="int" Nullable="false" />
+    <Property Name="JobView" Type="bigint" Nullable="false" />
+    <Property Name="StartedDate" Type="date" />
+    <Property Name="EndedDate" Type="date" />
+    <Property Name="PurchaseJobPackageId" Type="int" />
+    <Property Name="IsPublic" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="JobBenefit">
+    <Key>
+      <PropertyRef Name="BenefitID" />
+      <PropertyRef Name="JobID" />
+    </Key>
+    <Property Name="BenefitID" Type="int" Nullable="false" />
+    <Property Name="JobID" Type="int" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" MaxLength="100" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="JobCategory">
+    <Key>
+      <PropertyRef Name="CategoryID" />
+      <PropertyRef Name="JobID" />
+    </Key>
+    <Property Name="CategoryID" Type="int" Nullable="false" />
+    <Property Name="JobID" Type="int" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="JobCity">
+    <Key>
+      <PropertyRef Name="JobID" />
+      <PropertyRef Name="CityID" />
+    </Key>
+    <Property Name="JobID" Type="int" Nullable="false" />
+    <Property Name="CityID" Type="int" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="JobLanguage">
+    <Key>
+      <PropertyRef Name="LanguageID" />
+      <PropertyRef Name="JobID" />
+    </Key>
+    <Property Name="LanguageID" Type="int" Nullable="false" />
+    <Property Name="JobID" Type="int" Nullable="false" />
+    <Property Name="Description" Type="ntext" />
+    <Property Name="MinLevel_ID" Type="int" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="JobLevel">
+    <Key>
+      <PropertyRef Name="JobLevel_ID" />
+    </Key>
+    <Property Name="JobLevel_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="LevelNum" Type="int" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="JobPackage">
+    <Key>
+      <PropertyRef Name="JobPackageID" />
+    </Key>
+    <Property Name="JobPackageID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="JobNumber" Type="int" Nullable="false" />
+    <Property Name="PostDuration" Type="int" Nullable="false" />
+    <Property Name="IsHighlight" Type="bit" Nullable="false" />
+    <Property Name="IsCategoryPriority" Type="bit" Nullable="false" />
+    <Property Name="IsHomepagePosting" Type="bit" Nullable="false" />
+    <Property Name="ViewMultiNumber" Type="int" />
+    <Property Name="MoreDescription" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Cost" Type="money" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Jobseeker">
+    <Key>
+      <PropertyRef Name="JobSeekerID" />
+    </Key>
+    <Property Name="JobSeekerID" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="FullName" Type="nvarchar" MaxLength="150" />
+    <Property Name="Email" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="PhoneNumber" Type="nvarchar" MaxLength="20" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="JobSkill">
+    <Key>
+      <PropertyRef Name="Skill_ID" />
+      <PropertyRef Name="JobID" />
+    </Key>
+    <Property Name="Skill_ID" Type="int" Nullable="false" />
+    <Property Name="JobID" Type="int" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" MaxLength="100" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Language">
+    <Key>
+      <PropertyRef Name="LanguageID" />
+    </Key>
+    <Property Name="LanguageID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Level">
+    <Key>
+      <PropertyRef Name="Level_ID" />
+    </Key>
+    <Property Name="Level_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="LevelNum" Type="int" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Manager">
+    <Key>
+      <PropertyRef Name="ManagerID" />
+    </Key>
+    <Property Name="ManagerID" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Message">
+    <Key>
+      <PropertyRef Name="MessageID" />
+    </Key>
+    <Property Name="MessageID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SenderID" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="Message_content" Type="ntext" Nullable="false" />
+    <Property Name="SendTime" Type="datetime" Nullable="false" />
+    <Property Name="IsDeletedBySender" Type="bit" Nullable="false" />
+    <Property Name="IsCanceled" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MessageReceiver">
+    <Key>
+      <PropertyRef Name="MessageID" />
+      <PropertyRef Name="ReceiverID" />
+    </Key>
+    <Property Name="MessageID" Type="int" Nullable="false" />
+    <Property Name="ReceiverID" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="ReadTime" Type="datetime" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="OwnSkill">
+    <Key>
+      <PropertyRef Name="Skill_ID" />
+      <PropertyRef Name="JobSeekerID" />
+    </Key>
+    <Property Name="Skill_ID" Type="int" Nullable="false" />
+    <Property Name="JobSeekerID" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Profile">
+    <Key>
+      <PropertyRef Name="ProfileID" />
+    </Key>
+    <Property Name="ProfileID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="YearOfExperience" Type="int" Nullable="false" />
+    <Property Name="HighestSchoolLevel_ID" Type="int" Nullable="false" />
+    <Property Name="LanguageID" Type="int" />
+    <Property Name="Level_ID" Type="int" />
+    <Property Name="MostRecentCompany" Type="nvarchar" MaxLength="50" />
+    <Property Name="MostRecentPosition" Type="nvarchar" MaxLength="50" />
+    <Property Name="CurrentJobLevel_ID" Type="int" />
+    <Property Name="ExpectedPosition" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="ExpectedJobLevel_ID" Type="int" Nullable="false" />
+    <Property Name="ExpectedSalary" Type="money" Nullable="false" />
+    <Property Name="CreatedTime" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedTime" Type="datetime" Nullable="false" />
+    <Property Name="Objectives" Type="ntext" Nullable="false" />
+    <Property Name="PercentStatus" Type="int" Nullable="false" />
+    <Property Name="JobSeekerID" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PurchaseAdvertise">
+    <Key>
+      <PropertyRef Name="PurchaseAdsID" />
+    </Key>
+    <Property Name="PurchaseAdsID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AdvertiseID" Type="int" Nullable="false" />
+    <Property Name="RecuiterID" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="LogoUrl" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="LinkUrl" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="PurchasedDate" Type="datetime" Nullable="false" />
+    <Property Name="EndDate" Type="datetime" Nullable="false" />
+    <Property Name="IsVisible" Type="bit" Nullable="false" />
+    <Property Name="IsApproved" Type="bit" />
+    <Property Name="ManagerID" Type="nvarchar" MaxLength="128" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PurchaseJobPackage">
+    <Key>
+      <PropertyRef Name="PurchaseJobPackageID" />
+    </Key>
+    <Property Name="PurchaseJobPackageID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RecruiterID" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="JobPackageID" Type="int" Nullable="false" />
+    <Property Name="PurchasedDate" Type="datetime" Nullable="false" />
+    <Property Name="EndDate" Type="datetime" Nullable="false" />
+    <Property Name="IsApproved" Type="bit" />
+    <Property Name="StaffID" Type="nvarchar" MaxLength="128" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Recruiter">
+    <Key>
+      <PropertyRef Name="RecruiterID" />
+    </Key>
+    <Property Name="RecruiterID" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ReferencePerson">
+    <Key>
+      <PropertyRef Name="ReferencePersonID" />
+    </Key>
+    <Property Name="ReferencePersonID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ReferencePersonName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="ReferencePersonPosition" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="ReferencePersonCompany" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="EmailAddress" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="ReferencePersonPhoneNumber" Type="nvarchar" MaxLength="20" />
+    <Property Name="ProfileID" Type="int" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Report">
+    <Key>
+      <PropertyRef Name="ReportID" />
+    </Key>
+    <Property Name="ReportID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Report_content" Type="ntext" Nullable="false" />
+    <Property Name="ReferenceLink" Type="nvarchar" MaxLength="200" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="SenderID" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="IsSolved" Type="bit" Nullable="false" />
+    <Property Name="SolvedUserID" Type="nvarchar" MaxLength="128" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SchoolLevel">
+    <Key>
+      <PropertyRef Name="SchoolLevel_ID" />
+    </Key>
+    <Property Name="SchoolLevel_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="LevelNum" Type="int" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Skill">
+    <Key>
+      <PropertyRef Name="Skill_ID" />
+    </Key>
+    <Property Name="Skill_ID" Type="int" Nullable="false" />
+    <Property Name="SkillTag" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Staff">
+    <Key>
+      <PropertyRef Name="StaffID" />
+    </Key>
+    <Property Name="StaffID" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="Topic">
+    <Key>
+      <PropertyRef Name="TopicID" />
+    </Key>
+    <Property Name="TopicID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="nvarchar" MaxLength="250" Nullable="false" />
+    <Property Name="WriterID" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="ImageUrl" Type="varchar" MaxLength="250" />
+    <Property Name="Topic_content" Type="ntext" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdatedDate" Type="datetime" />
+    <Property Name="UpdatedStaffID" Type="nvarchar" MaxLength="128" />
+    <Property Name="IsApproved" Type="bit" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ViewProfile">
+    <Key>
+      <PropertyRef Name="RecruiterID" />
+      <PropertyRef Name="ProfileID" />
+    </Key>
+    <Property Name="RecruiterID" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="ProfileID" Type="int" Nullable="false" />
+    <Property Name="ViewedDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Administrator_AspNetUsers">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+    <End Role="Administrator" Type="Self.Administrator" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Administrator">
+        <PropertyRef Name="AdministratorID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AppliedJob_Job">
+    <End Role="Job" Type="Self.Job" Multiplicity="1" />
+    <End Role="AppliedJob" Type="Self.AppliedJob" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Job">
+        <PropertyRef Name="JobID" />
+      </Principal>
+      <Dependent Role="AppliedJob">
+        <PropertyRef Name="JobID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AppliedJob_Jobseeker">
+    <End Role="Jobseeker" Type="Self.Jobseeker" Multiplicity="1" />
+    <End Role="AppliedJob" Type="Self.AppliedJob" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Jobseeker">
+        <PropertyRef Name="JobSeekerID" />
+      </Principal>
+      <Dependent Role="AppliedJob">
+        <PropertyRef Name="JobSeekerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AppliedJob_Profile">
+    <End Role="Profile" Type="Self.Profile" Multiplicity="1" />
+    <End Role="AppliedJob" Type="Self.AppliedJob" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Profile">
+        <PropertyRef Name="ProfileID" />
+      </Principal>
+      <Dependent Role="AppliedJob">
+        <PropertyRef Name="ProfileID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CompanyInfo_Recruiter">
+    <End Role="Recruiter" Type="Self.Recruiter" Multiplicity="1" />
+    <End Role="CompanyInfo" Type="Self.CompanyInfo" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Recruiter">
+        <PropertyRef Name="RecruiterID" />
+      </Principal>
+      <Dependent Role="CompanyInfo">
+        <PropertyRef Name="RecruiterID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CompanyInfoCity_City">
+    <End Role="City" Type="Self.City" Multiplicity="1" />
+    <End Role="CompanyInfoCity" Type="Self.CompanyInfoCity" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="City">
+        <PropertyRef Name="CityID" />
+      </Principal>
+      <Dependent Role="CompanyInfoCity">
+        <PropertyRef Name="CityID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CompanyInfoCity_CompanyInfo">
+    <End Role="CompanyInfo" Type="Self.CompanyInfo" Multiplicity="1" />
+    <End Role="CompanyInfoCity" Type="Self.CompanyInfoCity" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CompanyInfo">
+        <PropertyRef Name="RecruiterID" />
+      </Principal>
+      <Dependent Role="CompanyInfoCity">
+        <PropertyRef Name="RecuiterID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Contact_AspNetUsers">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+    <End Role="Contact" Type="Self.Contact" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Contact">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Contact_City">
+    <End Role="City" Type="Self.City" Multiplicity="1" />
+    <End Role="Contact" Type="Self.Contact" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="City">
+        <PropertyRef Name="CityID" />
+      </Principal>
+      <Dependent Role="Contact">
+        <PropertyRef Name="CityID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_User_Id">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserClaims">
+        <PropertyRef Name="User_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserLogins">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+    <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetRoles">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserRoles">
+        <PropertyRef Name="RoleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserRoles">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DesiredBenefit_Benefit">
+    <End Role="Benefit" Type="Self.Benefit" Multiplicity="1" />
+    <End Role="DesiredBenefit" Type="Self.DesiredBenefit" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Benefit">
+        <PropertyRef Name="BenefitID" />
+      </Principal>
+      <Dependent Role="DesiredBenefit">
+        <PropertyRef Name="BenefitID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DesiredBenefit_Jobseeker">
+    <End Role="Jobseeker" Type="Self.Jobseeker" Multiplicity="1" />
+    <End Role="DesiredBenefit" Type="Self.DesiredBenefit" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Jobseeker">
+        <PropertyRef Name="JobSeekerID" />
+      </Principal>
+      <Dependent Role="DesiredBenefit">
+        <PropertyRef Name="JobSeekerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EducationHistory_Profile">
+    <End Role="Profile" Type="Self.Profile" Multiplicity="1" />
+    <End Role="EducationHistory" Type="Self.EducationHistory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Profile">
+        <PropertyRef Name="ProfileID" />
+      </Principal>
+      <Dependent Role="EducationHistory">
+        <PropertyRef Name="ProfileID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EducationHistory_SchoolLevel">
+    <End Role="SchoolLevel" Type="Self.SchoolLevel" Multiplicity="1" />
+    <End Role="EducationHistory" Type="Self.EducationHistory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SchoolLevel">
+        <PropertyRef Name="SchoolLevel_ID" />
+      </Principal>
+      <Dependent Role="EducationHistory">
+        <PropertyRef Name="SchoolLevel_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EmploymentHistory_Profile">
+    <End Role="Profile" Type="Self.Profile" Multiplicity="1" />
+    <End Role="EmploymentHistory" Type="Self.EmploymentHistory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Profile">
+        <PropertyRef Name="ProfileID" />
+      </Principal>
+      <Dependent Role="EmploymentHistory">
+        <PropertyRef Name="ProfileID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ExpectedCategory_Category">
+    <End Role="Category" Type="Self.Category" Multiplicity="1" />
+    <End Role="ExpectedCategory" Type="Self.ExpectedCategory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="CategoryID" />
+      </Principal>
+      <Dependent Role="ExpectedCategory">
+        <PropertyRef Name="CategoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ExpectedCategory_Profile">
+    <End Role="Profile" Type="Self.Profile" Multiplicity="1" />
+    <End Role="ExpectedCategory" Type="Self.ExpectedCategory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Profile">
+        <PropertyRef Name="ProfileID" />
+      </Principal>
+      <Dependent Role="ExpectedCategory">
+        <PropertyRef Name="ProfileID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ExpectedCity_City">
+    <End Role="City" Type="Self.City" Multiplicity="1" />
+    <End Role="ExpectedCity" Type="Self.ExpectedCity" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="City">
+        <PropertyRef Name="CityID" />
+      </Principal>
+      <Dependent Role="ExpectedCity">
+        <PropertyRef Name="CityID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ExpectedCity_Profile">
+    <End Role="Profile" Type="Self.Profile" Multiplicity="1" />
+    <End Role="ExpectedCity" Type="Self.ExpectedCity" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Profile">
+        <PropertyRef Name="ProfileID" />
+      </Principal>
+      <Dependent Role="ExpectedCity">
+        <PropertyRef Name="ProfileID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Job_JobLevel">
+    <End Role="JobLevel" Type="Self.JobLevel" Multiplicity="1" />
+    <End Role="Job" Type="Self.Job" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="JobLevel">
+        <PropertyRef Name="JobLevel_ID" />
+      </Principal>
+      <Dependent Role="Job">
+        <PropertyRef Name="JobLevel_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Job_PurchaseJobPackage">
+    <End Role="PurchaseJobPackage" Type="Self.PurchaseJobPackage" Multiplicity="0..1" />
+    <End Role="Job" Type="Self.Job" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PurchaseJobPackage">
+        <PropertyRef Name="PurchaseJobPackageID" />
+      </Principal>
+      <Dependent Role="Job">
+        <PropertyRef Name="PurchaseJobPackageId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Job_Recruiter">
+    <End Role="Recruiter" Type="Self.Recruiter" Multiplicity="1" />
+    <End Role="Job" Type="Self.Job" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Recruiter">
+        <PropertyRef Name="RecruiterID" />
+      </Principal>
+      <Dependent Role="Job">
+        <PropertyRef Name="RecruiterID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Job_SchoolLevel">
+    <End Role="SchoolLevel" Type="Self.SchoolLevel" Multiplicity="1" />
+    <End Role="Job" Type="Self.Job" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SchoolLevel">
+        <PropertyRef Name="SchoolLevel_ID" />
+      </Principal>
+      <Dependent Role="Job">
+        <PropertyRef Name="MinSchoolLevel_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_JobBenefit_Benefit">
+    <End Role="Benefit" Type="Self.Benefit" Multiplicity="1" />
+    <End Role="JobBenefit" Type="Self.JobBenefit" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Benefit">
+        <PropertyRef Name="BenefitID" />
+      </Principal>
+      <Dependent Role="JobBenefit">
+        <PropertyRef Name="BenefitID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_JobBenefit_Job">
+    <End Role="Job" Type="Self.Job" Multiplicity="1" />
+    <End Role="JobBenefit" Type="Self.JobBenefit" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Job">
+        <PropertyRef Name="JobID" />
+      </Principal>
+      <Dependent Role="JobBenefit">
+        <PropertyRef Name="JobID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_JobCategory_Category">
+    <End Role="Category" Type="Self.Category" Multiplicity="1" />
+    <End Role="JobCategory" Type="Self.JobCategory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="CategoryID" />
+      </Principal>
+      <Dependent Role="JobCategory">
+        <PropertyRef Name="CategoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_JobCategory_Job">
+    <End Role="Job" Type="Self.Job" Multiplicity="1" />
+    <End Role="JobCategory" Type="Self.JobCategory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Job">
+        <PropertyRef Name="JobID" />
+      </Principal>
+      <Dependent Role="JobCategory">
+        <PropertyRef Name="JobID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_JobCity_City">
+    <End Role="City" Type="Self.City" Multiplicity="1" />
+    <End Role="JobCity" Type="Self.JobCity" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="City">
+        <PropertyRef Name="CityID" />
+      </Principal>
+      <Dependent Role="JobCity">
+        <PropertyRef Name="CityID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_JobCity_Job">
+    <End Role="Job" Type="Self.Job" Multiplicity="1" />
+    <End Role="JobCity" Type="Self.JobCity" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Job">
+        <PropertyRef Name="JobID" />
+      </Principal>
+      <Dependent Role="JobCity">
+        <PropertyRef Name="JobID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_JobLanguage_Job1">
+    <End Role="Job" Type="Self.Job" Multiplicity="1" />
+    <End Role="JobLanguage" Type="Self.JobLanguage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Job">
+        <PropertyRef Name="JobID" />
+      </Principal>
+      <Dependent Role="JobLanguage">
+        <PropertyRef Name="JobID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_JobLanguage_Language">
+    <End Role="Language" Type="Self.Language" Multiplicity="1" />
+    <End Role="JobLanguage" Type="Self.JobLanguage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Language">
+        <PropertyRef Name="LanguageID" />
+      </Principal>
+      <Dependent Role="JobLanguage">
+        <PropertyRef Name="LanguageID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_JobLanguage_Level">
+    <End Role="Level" Type="Self.Level" Multiplicity="1" />
+    <End Role="JobLanguage" Type="Self.JobLanguage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Level">
+        <PropertyRef Name="Level_ID" />
+      </Principal>
+      <Dependent Role="JobLanguage">
+        <PropertyRef Name="MinLevel_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Jobseeker_AspNetUsers">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+    <End Role="Jobseeker" Type="Self.Jobseeker" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Jobseeker">
+        <PropertyRef Name="JobSeekerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_JobSkill_Job1">
+    <End Role="Job" Type="Self.Job" Multiplicity="1" />
+    <End Role="JobSkill" Type="Self.JobSkill" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Job">
+        <PropertyRef Name="JobID" />
+      </Principal>
+      <Dependent Role="JobSkill">
+        <PropertyRef Name="JobID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_JobSkill_Skill">
+    <End Role="Skill" Type="Self.Skill" Multiplicity="1" />
+    <End Role="JobSkill" Type="Self.JobSkill" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Skill">
+        <PropertyRef Name="Skill_ID" />
+      </Principal>
+      <Dependent Role="JobSkill">
+        <PropertyRef Name="Skill_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Manager_AspNetUsers">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+    <End Role="Manager" Type="Self.Manager" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Manager">
+        <PropertyRef Name="ManagerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Message_AspNetUsers">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+    <End Role="Message" Type="Self.Message" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Message">
+        <PropertyRef Name="SenderID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MessageReceiver_AspNetUsers">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+    <End Role="MessageReceiver" Type="Self.MessageReceiver" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MessageReceiver">
+        <PropertyRef Name="ReceiverID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MessageReceiver_Message">
+    <End Role="Message" Type="Self.Message" Multiplicity="1" />
+    <End Role="MessageReceiver" Type="Self.MessageReceiver" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Message">
+        <PropertyRef Name="MessageID" />
+      </Principal>
+      <Dependent Role="MessageReceiver">
+        <PropertyRef Name="MessageID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OwnSkill_Jobseeker">
+    <End Role="Jobseeker" Type="Self.Jobseeker" Multiplicity="1" />
+    <End Role="OwnSkill" Type="Self.OwnSkill" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Jobseeker">
+        <PropertyRef Name="JobSeekerID" />
+      </Principal>
+      <Dependent Role="OwnSkill">
+        <PropertyRef Name="JobSeekerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OwnSkill_Skill">
+    <End Role="Skill" Type="Self.Skill" Multiplicity="1" />
+    <End Role="OwnSkill" Type="Self.OwnSkill" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Skill">
+        <PropertyRef Name="Skill_ID" />
+      </Principal>
+      <Dependent Role="OwnSkill">
+        <PropertyRef Name="Skill_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Profile_JobLevel">
+    <End Role="JobLevel" Type="Self.JobLevel" Multiplicity="0..1" />
+    <End Role="Profile" Type="Self.Profile" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="JobLevel">
+        <PropertyRef Name="JobLevel_ID" />
+      </Principal>
+      <Dependent Role="Profile">
+        <PropertyRef Name="CurrentJobLevel_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Profile_JobLevel1">
+    <End Role="JobLevel" Type="Self.JobLevel" Multiplicity="1" />
+    <End Role="Profile" Type="Self.Profile" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="JobLevel">
+        <PropertyRef Name="JobLevel_ID" />
+      </Principal>
+      <Dependent Role="Profile">
+        <PropertyRef Name="ExpectedJobLevel_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Profile_Jobseeker">
+    <End Role="Jobseeker" Type="Self.Jobseeker" Multiplicity="1" />
+    <End Role="Profile" Type="Self.Profile" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Jobseeker">
+        <PropertyRef Name="JobSeekerID" />
+      </Principal>
+      <Dependent Role="Profile">
+        <PropertyRef Name="JobSeekerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Profile_Language">
+    <End Role="Language" Type="Self.Language" Multiplicity="0..1" />
+    <End Role="Profile" Type="Self.Profile" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Language">
+        <PropertyRef Name="LanguageID" />
+      </Principal>
+      <Dependent Role="Profile">
+        <PropertyRef Name="LanguageID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Profile_Level">
+    <End Role="Level" Type="Self.Level" Multiplicity="0..1" />
+    <End Role="Profile" Type="Self.Profile" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Level">
+        <PropertyRef Name="Level_ID" />
+      </Principal>
+      <Dependent Role="Profile">
+        <PropertyRef Name="Level_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Profile_SchoolLevel">
+    <End Role="SchoolLevel" Type="Self.SchoolLevel" Multiplicity="1" />
+    <End Role="Profile" Type="Self.Profile" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SchoolLevel">
+        <PropertyRef Name="SchoolLevel_ID" />
+      </Principal>
+      <Dependent Role="Profile">
+        <PropertyRef Name="HighestSchoolLevel_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PurchaseAdvertise_Advertise">
+    <End Role="Advertise" Type="Self.Advertise" Multiplicity="1" />
+    <End Role="PurchaseAdvertise" Type="Self.PurchaseAdvertise" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Advertise">
+        <PropertyRef Name="AdvertiseID" />
+      </Principal>
+      <Dependent Role="PurchaseAdvertise">
+        <PropertyRef Name="AdvertiseID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PurchaseAdvertise_Manager">
+    <End Role="Manager" Type="Self.Manager" Multiplicity="0..1" />
+    <End Role="PurchaseAdvertise" Type="Self.PurchaseAdvertise" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Manager">
+        <PropertyRef Name="ManagerID" />
+      </Principal>
+      <Dependent Role="PurchaseAdvertise">
+        <PropertyRef Name="ManagerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PurchaseAdvertise_Recruiter">
+    <End Role="Recruiter" Type="Self.Recruiter" Multiplicity="1" />
+    <End Role="PurchaseAdvertise" Type="Self.PurchaseAdvertise" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Recruiter">
+        <PropertyRef Name="RecruiterID" />
+      </Principal>
+      <Dependent Role="PurchaseAdvertise">
+        <PropertyRef Name="RecuiterID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PurchaseJobPackage_JobPackage">
+    <End Role="JobPackage" Type="Self.JobPackage" Multiplicity="1" />
+    <End Role="PurchaseJobPackage" Type="Self.PurchaseJobPackage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="JobPackage">
+        <PropertyRef Name="JobPackageID" />
+      </Principal>
+      <Dependent Role="PurchaseJobPackage">
+        <PropertyRef Name="JobPackageID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PurchaseJobPackage_Recruiter">
+    <End Role="Recruiter" Type="Self.Recruiter" Multiplicity="1" />
+    <End Role="PurchaseJobPackage" Type="Self.PurchaseJobPackage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Recruiter">
+        <PropertyRef Name="RecruiterID" />
+      </Principal>
+      <Dependent Role="PurchaseJobPackage">
+        <PropertyRef Name="RecruiterID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PurchaseJobPackage_Staff">
+    <End Role="Staff" Type="Self.Staff" Multiplicity="0..1" />
+    <End Role="PurchaseJobPackage" Type="Self.PurchaseJobPackage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Staff">
+        <PropertyRef Name="StaffID" />
+      </Principal>
+      <Dependent Role="PurchaseJobPackage">
+        <PropertyRef Name="StaffID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Recruiter_AspNetUsers">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+    <End Role="Recruiter" Type="Self.Recruiter" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Recruiter">
+        <PropertyRef Name="RecruiterID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ReferencePerson_Profile">
+    <End Role="Profile" Type="Self.Profile" Multiplicity="1" />
+    <End Role="ReferencePerson" Type="Self.ReferencePerson" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Profile">
+        <PropertyRef Name="ProfileID" />
+      </Principal>
+      <Dependent Role="ReferencePerson">
+        <PropertyRef Name="ProfileID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Report_AspNetUsers">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+    <End Role="Report" Type="Self.Report" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Report">
+        <PropertyRef Name="SenderID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Report_AspNetUsers1">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+    <End Role="Report" Type="Self.Report" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Report">
+        <PropertyRef Name="SolvedUserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Staff_AspNetUsers">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+    <End Role="Staff" Type="Self.Staff" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Staff">
+        <PropertyRef Name="StaffID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Topic_AspNetUsers">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+    <End Role="Topic" Type="Self.Topic" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Topic">
+        <PropertyRef Name="WriterID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Topic_Staff">
+    <End Role="Staff" Type="Self.Staff" Multiplicity="0..1" />
+    <End Role="Topic" Type="Self.Topic" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Staff">
+        <PropertyRef Name="StaffID" />
+      </Principal>
+      <Dependent Role="Topic">
+        <PropertyRef Name="UpdatedStaffID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ViewProfile_Profile">
+    <End Role="Profile" Type="Self.Profile" Multiplicity="1" />
+    <End Role="ViewProfile" Type="Self.ViewProfile" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Profile">
+        <PropertyRef Name="ProfileID" />
+      </Principal>
+      <Dependent Role="ViewProfile">
+        <PropertyRef Name="ProfileID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ViewProfile_Recruiter">
+    <End Role="Recruiter" Type="Self.Recruiter" Multiplicity="1" />
+    <End Role="ViewProfile" Type="Self.ViewProfile" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Recruiter">
+        <PropertyRef Name="RecruiterID" />
+      </Principal>
+      <Dependent Role="ViewProfile">
+        <PropertyRef Name="RecruiterID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="JSSModelStoreContainer">
+    <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Administrator" EntityType="Self.Administrator" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Advertise" EntityType="Self.Advertise" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AppliedJob" EntityType="Self.AppliedJob" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Benefit" EntityType="Self.Benefit" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="City" EntityType="Self.City" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CompanyInfo" EntityType="Self.CompanyInfo" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CompanyInfoCity" EntityType="Self.CompanyInfoCity" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Contact" EntityType="Self.Contact" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DesiredBenefit" EntityType="Self.DesiredBenefit" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="EducationHistory" EntityType="Self.EducationHistory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="EmploymentHistory" EntityType="Self.EmploymentHistory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ExpectedCategory" EntityType="Self.ExpectedCategory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ExpectedCity" EntityType="Self.ExpectedCity" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Job" EntityType="Self.Job" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="JobBenefit" EntityType="Self.JobBenefit" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="JobCategory" EntityType="Self.JobCategory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="JobCity" EntityType="Self.JobCity" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="JobLanguage" EntityType="Self.JobLanguage" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="JobLevel" EntityType="Self.JobLevel" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="JobPackage" EntityType="Self.JobPackage" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Jobseeker" EntityType="Self.Jobseeker" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="JobSkill" EntityType="Self.JobSkill" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Language" EntityType="Self.Language" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Level" EntityType="Self.Level" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Manager" EntityType="Self.Manager" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Message" EntityType="Self.Message" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MessageReceiver" EntityType="Self.MessageReceiver" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="OwnSkill" EntityType="Self.OwnSkill" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Profile" EntityType="Self.Profile" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PurchaseAdvertise" EntityType="Self.PurchaseAdvertise" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PurchaseJobPackage" EntityType="Self.PurchaseJobPackage" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Recruiter" EntityType="Self.Recruiter" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ReferencePerson" EntityType="Self.ReferencePerson" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Report" EntityType="Self.Report" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SchoolLevel" EntityType="Self.SchoolLevel" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Skill" EntityType="Self.Skill" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Staff" EntityType="Self.Staff" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Topic" EntityType="Self.Topic" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ViewProfile" EntityType="Self.ViewProfile" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Administrator_AspNetUsers" Association="Self.FK_Administrator_AspNetUsers">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="Administrator" EntitySet="Administrator" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AppliedJob_Job" Association="Self.FK_AppliedJob_Job">
+      <End Role="Job" EntitySet="Job" />
+      <End Role="AppliedJob" EntitySet="AppliedJob" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AppliedJob_Jobseeker" Association="Self.FK_AppliedJob_Jobseeker">
+      <End Role="Jobseeker" EntitySet="Jobseeker" />
+      <End Role="AppliedJob" EntitySet="AppliedJob" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AppliedJob_Profile" Association="Self.FK_AppliedJob_Profile">
+      <End Role="Profile" EntitySet="Profile" />
+      <End Role="AppliedJob" EntitySet="AppliedJob" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CompanyInfo_Recruiter" Association="Self.FK_CompanyInfo_Recruiter">
+      <End Role="Recruiter" EntitySet="Recruiter" />
+      <End Role="CompanyInfo" EntitySet="CompanyInfo" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CompanyInfoCity_City" Association="Self.FK_CompanyInfoCity_City">
+      <End Role="City" EntitySet="City" />
+      <End Role="CompanyInfoCity" EntitySet="CompanyInfoCity" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CompanyInfoCity_CompanyInfo" Association="Self.FK_CompanyInfoCity_CompanyInfo">
+      <End Role="CompanyInfo" EntitySet="CompanyInfo" />
+      <End Role="CompanyInfoCity" EntitySet="CompanyInfoCity" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Contact_AspNetUsers" Association="Self.FK_Contact_AspNetUsers">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="Contact" EntitySet="Contact" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Contact_City" Association="Self.FK_Contact_City">
+      <End Role="City" EntitySet="City" />
+      <End Role="Contact" EntitySet="Contact" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_User_Id" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_User_Id">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+      <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+      <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DesiredBenefit_Benefit" Association="Self.FK_DesiredBenefit_Benefit">
+      <End Role="Benefit" EntitySet="Benefit" />
+      <End Role="DesiredBenefit" EntitySet="DesiredBenefit" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DesiredBenefit_Jobseeker" Association="Self.FK_DesiredBenefit_Jobseeker">
+      <End Role="Jobseeker" EntitySet="Jobseeker" />
+      <End Role="DesiredBenefit" EntitySet="DesiredBenefit" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EducationHistory_Profile" Association="Self.FK_EducationHistory_Profile">
+      <End Role="Profile" EntitySet="Profile" />
+      <End Role="EducationHistory" EntitySet="EducationHistory" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EducationHistory_SchoolLevel" Association="Self.FK_EducationHistory_SchoolLevel">
+      <End Role="SchoolLevel" EntitySet="SchoolLevel" />
+      <End Role="EducationHistory" EntitySet="EducationHistory" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EmploymentHistory_Profile" Association="Self.FK_EmploymentHistory_Profile">
+      <End Role="Profile" EntitySet="Profile" />
+      <End Role="EmploymentHistory" EntitySet="EmploymentHistory" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ExpectedCategory_Category" Association="Self.FK_ExpectedCategory_Category">
+      <End Role="Category" EntitySet="Category" />
+      <End Role="ExpectedCategory" EntitySet="ExpectedCategory" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ExpectedCategory_Profile" Association="Self.FK_ExpectedCategory_Profile">
+      <End Role="Profile" EntitySet="Profile" />
+      <End Role="ExpectedCategory" EntitySet="ExpectedCategory" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ExpectedCity_City" Association="Self.FK_ExpectedCity_City">
+      <End Role="City" EntitySet="City" />
+      <End Role="ExpectedCity" EntitySet="ExpectedCity" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ExpectedCity_Profile" Association="Self.FK_ExpectedCity_Profile">
+      <End Role="Profile" EntitySet="Profile" />
+      <End Role="ExpectedCity" EntitySet="ExpectedCity" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Job_JobLevel" Association="Self.FK_Job_JobLevel">
+      <End Role="JobLevel" EntitySet="JobLevel" />
+      <End Role="Job" EntitySet="Job" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Job_PurchaseJobPackage" Association="Self.FK_Job_PurchaseJobPackage">
+      <End Role="PurchaseJobPackage" EntitySet="PurchaseJobPackage" />
+      <End Role="Job" EntitySet="Job" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Job_Recruiter" Association="Self.FK_Job_Recruiter">
+      <End Role="Recruiter" EntitySet="Recruiter" />
+      <End Role="Job" EntitySet="Job" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Job_SchoolLevel" Association="Self.FK_Job_SchoolLevel">
+      <End Role="SchoolLevel" EntitySet="SchoolLevel" />
+      <End Role="Job" EntitySet="Job" />
+    </AssociationSet>
+    <AssociationSet Name="FK_JobBenefit_Benefit" Association="Self.FK_JobBenefit_Benefit">
+      <End Role="Benefit" EntitySet="Benefit" />
+      <End Role="JobBenefit" EntitySet="JobBenefit" />
+    </AssociationSet>
+    <AssociationSet Name="FK_JobBenefit_Job" Association="Self.FK_JobBenefit_Job">
+      <End Role="Job" EntitySet="Job" />
+      <End Role="JobBenefit" EntitySet="JobBenefit" />
+    </AssociationSet>
+    <AssociationSet Name="FK_JobCategory_Category" Association="Self.FK_JobCategory_Category">
+      <End Role="Category" EntitySet="Category" />
+      <End Role="JobCategory" EntitySet="JobCategory" />
+    </AssociationSet>
+    <AssociationSet Name="FK_JobCategory_Job" Association="Self.FK_JobCategory_Job">
+      <End Role="Job" EntitySet="Job" />
+      <End Role="JobCategory" EntitySet="JobCategory" />
+    </AssociationSet>
+    <AssociationSet Name="FK_JobCity_City" Association="Self.FK_JobCity_City">
+      <End Role="City" EntitySet="City" />
+      <End Role="JobCity" EntitySet="JobCity" />
+    </AssociationSet>
+    <AssociationSet Name="FK_JobCity_Job" Association="Self.FK_JobCity_Job">
+      <End Role="Job" EntitySet="Job" />
+      <End Role="JobCity" EntitySet="JobCity" />
+    </AssociationSet>
+    <AssociationSet Name="FK_JobLanguage_Job1" Association="Self.FK_JobLanguage_Job1">
+      <End Role="Job" EntitySet="Job" />
+      <End Role="JobLanguage" EntitySet="JobLanguage" />
+    </AssociationSet>
+    <AssociationSet Name="FK_JobLanguage_Language" Association="Self.FK_JobLanguage_Language">
+      <End Role="Language" EntitySet="Language" />
+      <End Role="JobLanguage" EntitySet="JobLanguage" />
+    </AssociationSet>
+    <AssociationSet Name="FK_JobLanguage_Level" Association="Self.FK_JobLanguage_Level">
+      <End Role="Level" EntitySet="Level" />
+      <End Role="JobLanguage" EntitySet="JobLanguage" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Jobseeker_AspNetUsers" Association="Self.FK_Jobseeker_AspNetUsers">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="Jobseeker" EntitySet="Jobseeker" />
+    </AssociationSet>
+    <AssociationSet Name="FK_JobSkill_Job1" Association="Self.FK_JobSkill_Job1">
+      <End Role="Job" EntitySet="Job" />
+      <End Role="JobSkill" EntitySet="JobSkill" />
+    </AssociationSet>
+    <AssociationSet Name="FK_JobSkill_Skill" Association="Self.FK_JobSkill_Skill">
+      <End Role="Skill" EntitySet="Skill" />
+      <End Role="JobSkill" EntitySet="JobSkill" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Manager_AspNetUsers" Association="Self.FK_Manager_AspNetUsers">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="Manager" EntitySet="Manager" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Message_AspNetUsers" Association="Self.FK_Message_AspNetUsers">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="Message" EntitySet="Message" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MessageReceiver_AspNetUsers" Association="Self.FK_MessageReceiver_AspNetUsers">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="MessageReceiver" EntitySet="MessageReceiver" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MessageReceiver_Message" Association="Self.FK_MessageReceiver_Message">
+      <End Role="Message" EntitySet="Message" />
+      <End Role="MessageReceiver" EntitySet="MessageReceiver" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OwnSkill_Jobseeker" Association="Self.FK_OwnSkill_Jobseeker">
+      <End Role="Jobseeker" EntitySet="Jobseeker" />
+      <End Role="OwnSkill" EntitySet="OwnSkill" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OwnSkill_Skill" Association="Self.FK_OwnSkill_Skill">
+      <End Role="Skill" EntitySet="Skill" />
+      <End Role="OwnSkill" EntitySet="OwnSkill" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Profile_JobLevel" Association="Self.FK_Profile_JobLevel">
+      <End Role="JobLevel" EntitySet="JobLevel" />
+      <End Role="Profile" EntitySet="Profile" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Profile_JobLevel1" Association="Self.FK_Profile_JobLevel1">
+      <End Role="JobLevel" EntitySet="JobLevel" />
+      <End Role="Profile" EntitySet="Profile" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Profile_Jobseeker" Association="Self.FK_Profile_Jobseeker">
+      <End Role="Jobseeker" EntitySet="Jobseeker" />
+      <End Role="Profile" EntitySet="Profile" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Profile_Language" Association="Self.FK_Profile_Language">
+      <End Role="Language" EntitySet="Language" />
+      <End Role="Profile" EntitySet="Profile" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Profile_Level" Association="Self.FK_Profile_Level">
+      <End Role="Level" EntitySet="Level" />
+      <End Role="Profile" EntitySet="Profile" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Profile_SchoolLevel" Association="Self.FK_Profile_SchoolLevel">
+      <End Role="SchoolLevel" EntitySet="SchoolLevel" />
+      <End Role="Profile" EntitySet="Profile" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PurchaseAdvertise_Advertise" Association="Self.FK_PurchaseAdvertise_Advertise">
+      <End Role="Advertise" EntitySet="Advertise" />
+      <End Role="PurchaseAdvertise" EntitySet="PurchaseAdvertise" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PurchaseAdvertise_Manager" Association="Self.FK_PurchaseAdvertise_Manager">
+      <End Role="Manager" EntitySet="Manager" />
+      <End Role="PurchaseAdvertise" EntitySet="PurchaseAdvertise" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PurchaseAdvertise_Recruiter" Association="Self.FK_PurchaseAdvertise_Recruiter">
+      <End Role="Recruiter" EntitySet="Recruiter" />
+      <End Role="PurchaseAdvertise" EntitySet="PurchaseAdvertise" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PurchaseJobPackage_JobPackage" Association="Self.FK_PurchaseJobPackage_JobPackage">
+      <End Role="JobPackage" EntitySet="JobPackage" />
+      <End Role="PurchaseJobPackage" EntitySet="PurchaseJobPackage" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PurchaseJobPackage_Recruiter" Association="Self.FK_PurchaseJobPackage_Recruiter">
+      <End Role="Recruiter" EntitySet="Recruiter" />
+      <End Role="PurchaseJobPackage" EntitySet="PurchaseJobPackage" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PurchaseJobPackage_Staff" Association="Self.FK_PurchaseJobPackage_Staff">
+      <End Role="Staff" EntitySet="Staff" />
+      <End Role="PurchaseJobPackage" EntitySet="PurchaseJobPackage" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Recruiter_AspNetUsers" Association="Self.FK_Recruiter_AspNetUsers">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="Recruiter" EntitySet="Recruiter" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ReferencePerson_Profile" Association="Self.FK_ReferencePerson_Profile">
+      <End Role="Profile" EntitySet="Profile" />
+      <End Role="ReferencePerson" EntitySet="ReferencePerson" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Report_AspNetUsers" Association="Self.FK_Report_AspNetUsers">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="Report" EntitySet="Report" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Report_AspNetUsers1" Association="Self.FK_Report_AspNetUsers1">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="Report" EntitySet="Report" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Staff_AspNetUsers" Association="Self.FK_Staff_AspNetUsers">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="Staff" EntitySet="Staff" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Topic_AspNetUsers" Association="Self.FK_Topic_AspNetUsers">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="Topic" EntitySet="Topic" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Topic_Staff" Association="Self.FK_Topic_Staff">
+      <End Role="Staff" EntitySet="Staff" />
+      <End Role="Topic" EntitySet="Topic" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ViewProfile_Profile" Association="Self.FK_ViewProfile_Profile">
+      <End Role="Profile" EntitySet="Profile" />
+      <End Role="ViewProfile" EntitySet="ViewProfile" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ViewProfile_Recruiter" Association="Self.FK_ViewProfile_Recruiter">
+      <End Role="Recruiter" EntitySet="Recruiter" />
+      <End Role="ViewProfile" EntitySet="ViewProfile" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

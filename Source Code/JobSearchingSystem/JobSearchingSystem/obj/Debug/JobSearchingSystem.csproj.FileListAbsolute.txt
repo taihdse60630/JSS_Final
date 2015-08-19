@@ -1,0 +1,165 @@
+E:\JSSFinal\JobSearchingSystem\JobSearchingSystem\bin\JobSearchingSystem.dll.config
+E:\JSSFinal\JobSearchingSystem\JobSearchingSystem\bin\JobSearchingSystem.dll
+E:\JSSFinal\JobSearchingSystem\JobSearchingSystem\bin\JobSearchingSystem.pdb
+E:\JSSFinal\JobSearchingSystem\JobSearchingSystem\bin\Antlr3.Runtime.dll
+E:\JSSFinal\JobSearchingSystem\JobSearchingSystem\bin\EntityFramework.dll
+E:\JSSFinal\JobSearchingSystem\JobSearchingSystem\bin\EntityFramework.SqlServer.dll
+E:\JSSFinal\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.AspNet.Identity.Core.dll
+E:\JSSFinal\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+E:\JSSFinal\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.AspNet.Identity.Owin.dll
+E:\JSSFinal\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Owin.dll
+E:\JSSFinal\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Owin.Host.SystemWeb.dll
+E:\JSSFinal\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Owin.Security.Cookies.dll
+E:\JSSFinal\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Owin.Security.dll
+E:\JSSFinal\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Owin.Security.Facebook.dll
+E:\JSSFinal\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Owin.Security.Google.dll
+E:\JSSFinal\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+E:\JSSFinal\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Owin.Security.OAuth.dll
+E:\JSSFinal\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Owin.Security.Twitter.dll
+E:\JSSFinal\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Web.Infrastructure.dll
+E:\JSSFinal\JobSearchingSystem\JobSearchingSystem\bin\Newtonsoft.Json.dll
+E:\JSSFinal\JobSearchingSystem\JobSearchingSystem\bin\Owin.dll
+E:\JSSFinal\JobSearchingSystem\JobSearchingSystem\bin\System.Web.Helpers.dll
+E:\JSSFinal\JobSearchingSystem\JobSearchingSystem\bin\System.Web.Mvc.dll
+E:\JSSFinal\JobSearchingSystem\JobSearchingSystem\bin\System.Web.Optimization.dll
+E:\JSSFinal\JobSearchingSystem\JobSearchingSystem\bin\System.Web.Razor.dll
+E:\JSSFinal\JobSearchingSystem\JobSearchingSystem\bin\System.Web.WebPages.Deployment.dll
+E:\JSSFinal\JobSearchingSystem\JobSearchingSystem\bin\System.Web.WebPages.dll
+E:\JSSFinal\JobSearchingSystem\JobSearchingSystem\bin\System.Web.WebPages.Razor.dll
+E:\JSSFinal\JobSearchingSystem\JobSearchingSystem\bin\WebGrease.dll
+E:\JSSFinal\JobSearchingSystem\JobSearchingSystem\bin\System.Web.Helpers.xml
+E:\JSSFinal\JobSearchingSystem\JobSearchingSystem\bin\System.Web.Mvc.xml
+E:\JSSFinal\JobSearchingSystem\JobSearchingSystem\bin\System.Web.Optimization.xml
+E:\JSSFinal\JobSearchingSystem\JobSearchingSystem\bin\System.Web.Razor.xml
+E:\JSSFinal\JobSearchingSystem\JobSearchingSystem\bin\System.Web.WebPages.xml
+E:\JSSFinal\JobSearchingSystem\JobSearchingSystem\bin\System.Web.WebPages.Deployment.xml
+E:\JSSFinal\JobSearchingSystem\JobSearchingSystem\bin\System.Web.WebPages.Razor.xml
+E:\JSSFinal\JobSearchingSystem\JobSearchingSystem\bin\Newtonsoft.Json.xml
+E:\JSSFinal\JobSearchingSystem\JobSearchingSystem\bin\Antlr3.Runtime.pdb
+E:\JSSFinal\JobSearchingSystem\JobSearchingSystem\bin\EntityFramework.xml
+E:\JSSFinal\JobSearchingSystem\JobSearchingSystem\bin\EntityFramework.SqlServer.xml
+E:\JSSFinal\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.AspNet.Identity.Core.xml
+E:\JSSFinal\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.AspNet.Identity.Owin.xml
+E:\JSSFinal\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+E:\JSSFinal\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Owin.xml
+E:\JSSFinal\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Owin.Host.SystemWeb.xml
+E:\JSSFinal\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Owin.Security.xml
+E:\JSSFinal\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Owin.Security.Facebook.xml
+E:\JSSFinal\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Owin.Security.Cookies.xml
+E:\JSSFinal\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Owin.Security.OAuth.xml
+E:\JSSFinal\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Owin.Security.Google.xml
+E:\JSSFinal\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Owin.Security.Twitter.xml
+E:\JSSFinal\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+E:\JSSFinal\JobSearchingSystem\JobSearchingSystem\obj\Debug\JobSearchingSystem.csprojResolveAssemblyReference.cache
+E:\JSSFinal\JobSearchingSystem\JobSearchingSystem\obj\Debug\JobSearchingSystem.dll
+E:\JSSFinal\JobSearchingSystem\JobSearchingSystem\obj\Debug\JobSearchingSystem.pdb
+E:\JSS CP\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\JobSearchingSystem.dll.config
+E:\JSS CP\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\JobSearchingSystem.dll
+E:\JSS CP\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\JobSearchingSystem.pdb
+E:\JSS CP\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Antlr3.Runtime.dll
+E:\JSS CP\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\EntityFramework.dll
+E:\JSS CP\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\EntityFramework.SqlServer.dll
+E:\JSS CP\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.AspNet.Identity.Core.dll
+E:\JSS CP\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+E:\JSS CP\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.AspNet.Identity.Owin.dll
+E:\JSS CP\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Owin.dll
+E:\JSS CP\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Owin.Host.SystemWeb.dll
+E:\JSS CP\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Owin.Security.Cookies.dll
+E:\JSS CP\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Owin.Security.dll
+E:\JSS CP\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Owin.Security.Facebook.dll
+E:\JSS CP\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Owin.Security.Google.dll
+E:\JSS CP\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+E:\JSS CP\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Owin.Security.OAuth.dll
+E:\JSS CP\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Owin.Security.Twitter.dll
+E:\JSS CP\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Web.Infrastructure.dll
+E:\JSS CP\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Newtonsoft.Json.dll
+E:\JSS CP\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Owin.dll
+E:\JSS CP\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\System.Web.Helpers.dll
+E:\JSS CP\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\System.Web.Mvc.dll
+E:\JSS CP\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\System.Web.Optimization.dll
+E:\JSS CP\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\System.Web.Razor.dll
+E:\JSS CP\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\System.Web.WebPages.Deployment.dll
+E:\JSS CP\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\System.Web.WebPages.dll
+E:\JSS CP\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\System.Web.WebPages.Razor.dll
+E:\JSS CP\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\WebGrease.dll
+E:\JSS CP\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\System.Web.Helpers.xml
+E:\JSS CP\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\System.Web.Mvc.xml
+E:\JSS CP\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\System.Web.Optimization.xml
+E:\JSS CP\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\System.Web.Razor.xml
+E:\JSS CP\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\System.Web.WebPages.xml
+E:\JSS CP\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\System.Web.WebPages.Deployment.xml
+E:\JSS CP\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\System.Web.WebPages.Razor.xml
+E:\JSS CP\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Newtonsoft.Json.xml
+E:\JSS CP\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Antlr3.Runtime.pdb
+E:\JSS CP\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\EntityFramework.xml
+E:\JSS CP\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\EntityFramework.SqlServer.xml
+E:\JSS CP\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.AspNet.Identity.Core.xml
+E:\JSS CP\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.AspNet.Identity.Owin.xml
+E:\JSS CP\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+E:\JSS CP\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Owin.xml
+E:\JSS CP\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Owin.Host.SystemWeb.xml
+E:\JSS CP\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Owin.Security.xml
+E:\JSS CP\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Owin.Security.Facebook.xml
+E:\JSS CP\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Owin.Security.Cookies.xml
+E:\JSS CP\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Owin.Security.OAuth.xml
+E:\JSS CP\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Owin.Security.Google.xml
+E:\JSS CP\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Owin.Security.Twitter.xml
+E:\JSS CP\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+E:\JSS CP\trunk\source\JobSearchingSystem\JobSearchingSystem\obj\Debug\JobSearchingSystem.csprojResolveAssemblyReference.cache
+E:\JSS CP\trunk\source\JobSearchingSystem\JobSearchingSystem\obj\Debug\JobSearchingSystem.dll
+E:\JSS CP\trunk\source\JobSearchingSystem\JobSearchingSystem\obj\Debug\JobSearchingSystem.pdb
+E:\SVN-JSS\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\JobSearchingSystem.dll.config
+E:\SVN-JSS\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\JobSearchingSystem.dll
+E:\SVN-JSS\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\JobSearchingSystem.pdb
+E:\SVN-JSS\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Antlr3.Runtime.dll
+E:\SVN-JSS\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\EntityFramework.dll
+E:\SVN-JSS\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\EntityFramework.SqlServer.dll
+E:\SVN-JSS\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.AspNet.Identity.Core.dll
+E:\SVN-JSS\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+E:\SVN-JSS\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.AspNet.Identity.Owin.dll
+E:\SVN-JSS\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Owin.dll
+E:\SVN-JSS\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Owin.Host.SystemWeb.dll
+E:\SVN-JSS\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Owin.Security.Cookies.dll
+E:\SVN-JSS\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Owin.Security.dll
+E:\SVN-JSS\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Owin.Security.Facebook.dll
+E:\SVN-JSS\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Owin.Security.Google.dll
+E:\SVN-JSS\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+E:\SVN-JSS\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Owin.Security.OAuth.dll
+E:\SVN-JSS\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Owin.Security.Twitter.dll
+E:\SVN-JSS\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Web.Infrastructure.dll
+E:\SVN-JSS\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Newtonsoft.Json.dll
+E:\SVN-JSS\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Owin.dll
+E:\SVN-JSS\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\System.Web.Helpers.dll
+E:\SVN-JSS\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\System.Web.Mvc.dll
+E:\SVN-JSS\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\System.Web.Optimization.dll
+E:\SVN-JSS\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\System.Web.Razor.dll
+E:\SVN-JSS\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\System.Web.WebPages.Deployment.dll
+E:\SVN-JSS\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\System.Web.WebPages.dll
+E:\SVN-JSS\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\System.Web.WebPages.Razor.dll
+E:\SVN-JSS\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\WebGrease.dll
+E:\SVN-JSS\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\System.Web.Helpers.xml
+E:\SVN-JSS\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\System.Web.Mvc.xml
+E:\SVN-JSS\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\System.Web.Optimization.xml
+E:\SVN-JSS\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\System.Web.Razor.xml
+E:\SVN-JSS\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\System.Web.WebPages.xml
+E:\SVN-JSS\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\System.Web.WebPages.Deployment.xml
+E:\SVN-JSS\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\System.Web.WebPages.Razor.xml
+E:\SVN-JSS\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Newtonsoft.Json.xml
+E:\SVN-JSS\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Antlr3.Runtime.pdb
+E:\SVN-JSS\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\EntityFramework.xml
+E:\SVN-JSS\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\EntityFramework.SqlServer.xml
+E:\SVN-JSS\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.AspNet.Identity.Core.xml
+E:\SVN-JSS\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.AspNet.Identity.Owin.xml
+E:\SVN-JSS\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+E:\SVN-JSS\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Owin.xml
+E:\SVN-JSS\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Owin.Host.SystemWeb.xml
+E:\SVN-JSS\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Owin.Security.xml
+E:\SVN-JSS\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Owin.Security.Facebook.xml
+E:\SVN-JSS\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Owin.Security.Cookies.xml
+E:\SVN-JSS\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Owin.Security.OAuth.xml
+E:\SVN-JSS\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Owin.Security.Google.xml
+E:\SVN-JSS\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Owin.Security.Twitter.xml
+E:\SVN-JSS\trunk\source\JobSearchingSystem\JobSearchingSystem\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+E:\SVN-JSS\trunk\source\JobSearchingSystem\JobSearchingSystem\obj\Debug\JobSearchingSystem.dll
+E:\SVN-JSS\trunk\source\JobSearchingSystem\JobSearchingSystem\obj\Debug\JobSearchingSystem.pdb
+E:\SVN-JSS\trunk\source\JobSearchingSystem\JobSearchingSystem\obj\Debug\JobSearchingSystem.csprojResolveAssemblyReference.cache

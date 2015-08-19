@@ -1,0 +1,102 @@
+﻿
+@{
+    ViewBag.Title = "MyJob";
+    Layout = "~/Views/Shared/_LayoutFinal.cshtml";
+}
+
+@model JobSearchingSystem.Models.AppliedJobViewModel
+
+
+
+<div class="page-content" style="padding: 20px 100px 20px 220px">
+    <div class="col-lg-9 panel panel-default">
+        <h3 style="font-weight:600;text-align:center">Tình trạng ứng tuyển</h3>
+        <br />
+        <br />
+        <br />
+        <div class="table-container">
+
+            <table class="table table-hover table-striped table-bordered table-advanced tablesorter">
+                <thead>
+                    <tr>
+                        @*<th width="3%">
+                            <input id="square-checkbox-1" tabindex="9" type="checkbox" />        
+                        </th>*@
+                        <th width="3%">No</th>
+                        <th width="14%">Công việc </th>
+                        <th width="12%">Công ty</th>
+                        <th width="7%">Ngày ứng tuyển</th>
+                        <th width="7%">Nhà tuyển dụng phản hồi</th>
+                        <th width="7%">Tình trạng</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if(Model.AppliedJobList != null ){
+                        foreach (var item in Model.AppliedJobList) {
+                            <tr>
+                        @*<td><input id="square-checkbox-1" tabindex="9" type="checkbox" /></td>*@
+                        <td>1</td>
+                        <td><a href="/Job/Detail/?jobID=@item.JobID">@item.JobName</a></td>
+                        <td><a href="#" style="color: #428bca;">@item.CompanyName</a></td>
+                        <td>
+                            @String.Format("{0:d}", item.AppliedDate)
+                        </td>
+                        <td>
+                                @if (item.Status == 0)
+                                {
+                                      <span class="label label-sm label-blue">Đang chờ duyệt</span>
+                                }
+                                else if(item.Status == 1)
+                                {
+                                    <span class="label label-sm label-success">Chấp nhận</span>
+                                }
+                                else
+                                {
+                                    <span class="label label-sm label-danger">Từ chối</span>
+                                }
+                                </td>
+                              
+                        <td>
+                            <a id="/Job/DeleteAppliedRequest?JobID=@item.JobID&&JobSeekerID=@item.JobSeekerID" href="#" class="label label-sm label-danger confirmation">
+                                <i class="fa fa-times"></i>&nbsp;
+                                Xóa
+                            </a></td>
+                    </tr>
+                        }
+                    }           
+                </tbody>
+            </table>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="pagination-panel">
+                        Page
+                        &nbsp;<a href="#" class="btn btn-sm btn-default btn-prev"><i class="fa fa-angle-left"></i></a>&nbsp;<input type="text" maxlenght="5" value="1" class="pagination-panel-input form-control input-mini input-inline input-sm text-center">&nbsp;<a href="#" class="btn btn-sm btn-default btn-prev"><i class="fa fa-angle-right"></i></a>&nbsp;
+                        of 6 | View
+                        &nbsp;<select class="form-control input-xsmall input-sm input-inline">
+                            <option value="20" selected="selected">20</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                            <option value="150">150</option>
+                            <option value="-1">All</option>
+                        </select>&nbsp;
+                        records | Found total 58 records
+                    </div>
+                </div>
+                <div class="col-lg-6 text-right">
+                    <div class="pagination-panel">
+                        <ul class="pagination pagination-sm man">
+                            <li><a href="#">«</a></li>
+                            <li><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">4</a></li>
+                            <li><a href="#">5</a></li>
+                            <li><a href="#">»</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

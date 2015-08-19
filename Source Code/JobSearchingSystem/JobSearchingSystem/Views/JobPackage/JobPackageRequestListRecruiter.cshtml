@@ -1,0 +1,105 @@
+﻿@{
+    ViewBag.Title = "AdvertiseRequestList";
+    Layout = "~/Views/Shared/_LayoutFinal.cshtml";
+}
+
+
+
+@model JobSearchingSystem.Models.JobPackageRequestViewModels
+
+@*<link type="text/css" rel="stylesheet" href="~/Content/css/jquery.dataTables.min.css">
+    <script src="~/Content/js/jquery.dataTables.min.js"></script>*@
+@*<style type="text/css">
+        .dataTables_filter {
+            display: none;
+        }
+    </style>*@
+<script>
+    $(document).ready(function () {   
+     
+
+        $.extend($.fn.dataTable.defaults, {
+            searching: true
+        });
+        var table = $('#myTable').DataTable({
+            lengthChange: false,
+            "language": {
+                "lengthMenu": "Hiển thị _MENU_ yêu cầu mỗi trang",
+                "zeroRecords": "Không tìm thấy dữ liệu phù hợp",
+                "info": "Hiển thị trang _PAGE_ trên tổng số _PAGES_ trang",
+                "infoEmpty": "Không tìm thấy dữ liệu phù hợp",
+                "infoFiltered": "(tìm kiếm từ _MAX_ yêu cầu)",
+                "oPaginate": {
+                    "sNext": "Trang sau",
+                    "sPrevious": "Trang trước"
+                }
+            }
+
+        });
+
+
+       
+
+    });
+</script>
+
+
+
+<div class="page-content" style="padding: 20px 100px 20px 100px;background-color: #dedede">
+    <div class="col-lg-9 panel panel-default">
+        <h3 style="font-weight:600;text-align:center">Danh sách gói quảng cáo đã mua </h3>
+        <br />
+
+
+
+        <button type="button" class="btn btn-blue btn-square" onclick="window.location.href='/JobPackage/Choose'">Mua gói công việc</button>
+
+        <div class="table-container">
+
+            <table id="myTable" class="table table-hover table-striped table-bordered table-advanced tablesorter">
+                <thead>
+                    <tr>
+                        <th width="3%">STT</th>
+                        <th width="12%">Gói công việc</th>
+                        <th width="14%">Ngày mua </th>
+                        <th width="7%">Tình trạng</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.purchaseJobPackageList != null)
+                    {
+                        int i = 0;
+                        foreach (var item in Model.purchaseJobPackageList)
+                        {
+                            i++;
+                            <tr>
+
+                                <td>@i</td>
+
+                                <td><a style="color: #428bca;">@item.JobPackageName</a></td>
+                                <td>@item.PurchaseDate.ToShortDateString()</td>
+                                <td>
+                                    @if (item.IsApproved == null)
+                                    {
+                                        <span class="label label-sm label-blue">Chưa xử lý</span>
+
+                                    }
+                                    else if (item.IsApproved == false)
+                                    {
+                                        <span class="label label-sm label-danger">Đã bị từ chối</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="label label-sm label-success">Đã được chấp nhận</span>
+                                    }
+
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>

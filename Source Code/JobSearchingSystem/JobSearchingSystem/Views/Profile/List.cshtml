@@ -1,0 +1,154 @@
+﻿@{
+    ViewBag.Title = "Manage Profile";
+    Layout = "~/Views/Shared/_LayoutFinal.cshtml";
+}
+
+@model JobSearchingSystem.Models.ProListViewModel
+
+<script>
+    $(document).ready(function () {
+        $('.deletebutton').click(function (id) {
+            $('#deleteprofileID').val($(this).data('id'));
+        });
+
+        $('input[type="checkbox"][name="activeStatusChx"]').on('ifChecked', function (event) {
+            this.form.submit();
+            //$('input[type="hidden"][name="activeStatus"]').val("true");
+        });
+        $('input[type="checkbox"][name="activeStatusChx"]').on('ifUnchecked', function (event) {
+            this.form.submit();
+            //$('input[type="hidden"][name="activeStatus"]').val("false");
+        });
+    });
+</script>
+
+<div id="ModalDeleteConfirm" tabindex="-1" role="dialog" aria-labelledby="modal-default-label" aria-hidden="false" class="modal fade in" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" data-dismiss="modal" aria-hidden="true" class="close">×</button>
+                <h4 id="modal-default-label" class="modal-title">Xóa hồ sơ</h4>
+            </div>
+            @using (Html.BeginForm("Delete", "Profile", FormMethod.Post))
+            {
+                <div class="modal-body">
+                    <p>
+                        Bạn có chắc chắn sẽ xóa hồ sơ này?
+                    </p>
+                    <input type="hidden" name="profileID" id="deleteprofileID" value="" />
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger">Đồng ý</button>
+                    <button type="button" data-dismiss="modal" class="btn btn-default">Hủy bỏ</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="page-content" style="padding: 20px 0px 20px 250px">
+    <div class="col-lg-9 panel panel-default">
+        <h3 style="font-weight:600;text-align:center">Quản lý hồ sơ</h3>
+        <br />
+        <a href="@Url.Action("Update")" class="btn btn-grey btn-sm">
+            <i class="fa fa-plus"></i>&nbsp;
+            Tạo hồ sơ
+        </a>
+        <br />
+        <br />
+        <div class="table-container">
+
+            <table class="table table-hover table-striped table-bordered table-advanced tablesorter">
+                <thead>
+                    <tr>
+                        <th width="7%">No</th>
+                        <th width="7%">Tiêu đề </th>
+                        <th width="10%">Cho phép tìm kiếm</th>
+                        <th width="10%">Lần xem</th>
+                        <th width="15%">Ngày cập nhật</th>
+                        <th width="7%">Trạng thái</th>
+                        <th width="30%">Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.proList != null)
+                    {
+                        foreach (var item in Model.proList)
+                        {
+                            <tr>
+                                <td>@item.No</td>
+                                <td>@item.ProfileName</td>
+                                <td>
+                                    @using (Html.BeginForm("ActiveProfile", "Profile", new { activeProfileId = item.ProfileID }, FormMethod.Post))
+                                    {
+                                        if (item.IsActive == true)
+                                        {
+                                            <input type="hidden" name="activeStatus" id="activeStatus" value="false" />
+                                            <input id="activeStatusChx" name="activeStatusChx" tabindex="9" type="checkbox" checked="checked" />
+                                        }
+                                        else
+                                        {
+                                            <input type="hidden" name="activeStatus" id="activeStatus" value="true" />
+                                            <input id="activeStatusChx" name="activeStatusChx" tabindex="9" type="checkbox" />
+                                        }
+                                    }
+                                </td>
+                                <td>@item.ViewedCount</td>
+                                <td>@item.UpdatedTime</td>
+                                @if (item.PerccentStatus == 100)
+                                {
+                                    <td><span class="label label-sm label-success">Đã hoàn thành</span></td>
+                                }
+                                @if (item.PerccentStatus < 100)
+                                {
+                                    <td><span class="label label-sm label-info">@item.PerccentStatus%</span></td>
+                                }
+
+                                <td>
+                                    <a href="@Url.Action("Update", new { profileID = item.ProfileID })" class="open-ModalDisapproveConfirm btn btn-blue" style="display:inline">
+                                        &nbsp;<i class="fa fa-edit" data-toggle="tooltip" title="Xem và Cập nhật"></i>
+                                    </a>
+                                    &nbsp;
+                                    <button type="button" data-target="#ModalDeleteConfirm" data-id="@item.ProfileID" data-toggle="modal" class="open-ModalDisapproveConfirm btn btn-danger" style="display:inline">
+                                        &nbsp;<i class="fa fa-trash-o" data-toggle="tooltip" title="Xóa"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+            <!--<div class="row">
+                <div class="col-lg-6">
+                    <div class="pagination-panel">
+                        Page
+                        &nbsp;<a href="#" class="btn btn-sm btn-default btn-prev"><i class="fa fa-angle-left"></i></a>&nbsp;<input type="text" maxlenght="5" value="1" class="pagination-panel-input form-control input-mini input-inline input-sm text-center">&nbsp;<a href="#" class="btn btn-sm btn-default btn-prev"><i class="fa fa-angle-right"></i></a>&nbsp;
+                        of 6 | View
+                        &nbsp;<select class="form-control input-xsmall input-sm input-inline">
+                            <option value="20" selected="selected">20</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                            <option value="150">150</option>
+                            <option value="-1">All</option>
+                        </select>&nbsp;
+                        records | Found total 58 records
+                    </div>
+                </div>
+                <div class="col-lg-6 text-right">
+                    <div class="pagination-panel">
+                        <ul class="pagination pagination-sm man">
+                            <li><a href="#">«</a></li>
+                            <li><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">4</a></li>
+                            <li><a href="#">5</a></li>
+                            <li><a href="#">»</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>-->
+        </div>
+
+    </div>
+</div>

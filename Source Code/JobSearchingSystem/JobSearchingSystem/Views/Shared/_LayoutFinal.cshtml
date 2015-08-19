@@ -1,0 +1,739 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>@ViewBag.title - JSS</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--Loading bootstrap css-->
+    <link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,700">
+    <link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Oswald:400,700,300">
+    <link type="text/css" rel="stylesheet" href="~/Content/vendors/jquery-ui-1.10.4.custom/css/ui-lightness/jquery-ui-1.10.4.custom.min.css">
+    <link type="text/css" rel="stylesheet" href="~/Content/vendors/font-awesome/css/font-awesome.min.css">
+    <link type="text/css" rel="stylesheet" href="~/Content/vendors/bootstrap/css/bootstrap.min.css">
+    <!--LOADING SCRIPTS FOR PAGE-->
+    <link type="text/css" rel="stylesheet" href="~/Content/vendors/jquery-news-ticker/jquery.news-ticker.css">
+    <link type="text/css" rel="stylesheet" href="~/Content/vendors/calendar/zabuto_calendar.min.css">
+    <!--Loading style vendors-->
+    <link type="text/css" rel="stylesheet" href="~/Content/vendors/animate.css/animate.css">
+    <link type="text/css" rel="stylesheet" href="~/Content/vendors/jquery-pace/pace.css">
+    <link type="text/css" rel="stylesheet" href="~/Content/vendors/iCheck/skins/all.css">
+    <link type="text/css" rel="stylesheet" href="~/Content/vendors/jquery-news-ticker/jquery.news-ticker.css">
+    <!--Loading style-->
+    <link type="text/css" rel="stylesheet" href="~/Content/css/themes/style1/green-grey.css" id="theme-change" class="style-change color-change">
+    <link type="text/css" rel="stylesheet" href="~/Content/css/style-responsive.css">
+
+    <script src="~/Content/js/jquery-1.10.2.min.js"></script>
+    <script src="~/Content/js/jquery-migrate-1.2.1.min.js"></script>
+    <script src="~/Content/js/jquery-ui.js"></script>
+    <!--loading bootstrap js-->
+    <script src="~/Content/vendors/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/Content/vendors/bootstrap-hover-dropdown/bootstrap-hover-dropdown.js"></script>
+    <script src="~/Content/js/html5shiv.js"></script>
+    <script src="~/Content/js/respond.min.js"></script>
+    <script src="~/Content/vendors/metisMenu/jquery.metisMenu.js"></script>
+    <script src="~/Content/vendors/slimScroll/jquery.slimscroll.js"></script>
+    <script src="~/Content/vendors/jquery-cookie/jquery.cookie.js"></script>
+    <script src="~/Content/vendors/iCheck/icheck.min.js"></script>
+    <script src="~/Content/vendors/iCheck/custom.min.js"></script>
+    <script src="~/Content/vendors/jquery-news-ticker/jquery.news-ticker.js"></script>
+    <script src="~/Content/js/jquery.menu.js"></script>
+    <script src="~/Content/vendors/jquery-pace/pace.min.js"></script>
+    <script src="~/Content/vendors/holder/holder.js"></script>
+
+
+    <script src="~/Content/js//sweetalert.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="~/Content/css/sweetalert.css">
+    <script>
+        $(document).ready(function () {
+            $('.confirmButton').on('click', function () {
+                var FormId = $(this).data('id');
+                var Message = $(this).data('message');
+                swal({
+                    title: Message,
+                    text: "",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Có",
+                    cancelButtonText: "Không",
+                    closeOnConfirm: false
+                },
+                function () {
+                    $("#" + FormId).submit();
+                    //this.form.submit();
+                    //alert(id);
+                });
+            });
+        });
+
+
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('.confirmationOK').on('click', function () {
+                var id = this.id;
+                swal({
+                    title: "Bạn có muốn chấp nhận ?",
+                    text: "",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Có",
+                    cancelButtonText: "Không",
+                    closeOnConfirm: false
+                },
+                function () {
+                    window.location.href = id;
+                    //alert(id);
+                });
+            });
+        });
+
+
+    </script>
+    <!--loading validation-->
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <style>
+        .ErrorMessage {
+            color: red;
+        }
+    </style>
+
+    <!--LOADING SCRIPTS FOR PAGE-->
+    <script>
+        $(document).ready(function () {
+            if ($("#message").val().length >= 1) {
+                $("#modal-message").modal("show");
+            }
+
+            $('input[type="checkbox"][id="RememberMeCheckBox"]').on('ifChecked', function (event) {
+                $('input[type="hidden"][name="RememberMe"]').val("true");
+            });
+            $('input[type="checkbox"][id="RememberMeCheckBox"]').on('ifUnchecked', function (event) {
+                $('input[type="hidden"][name="RememberMe"]').val("false");
+            });
+
+            $('#selRoleName').change(function () {
+                if ($('#selRoleName').val() == "Recruiter") {
+                    $('input[name="FullName"]').attr("disabled", "disabled");
+                    $('input[name="PhoneNumber"]').attr("disabled", "disabled");
+                    $('input[name="FullName"]').attr("data_val", "false");
+                    $('input[name="PhoneNumber"]').attr("data_val", "false");
+                }
+                else {
+                    $('input[name="FullName"]').removeAttr("disabled");
+                    $('input[name="PhoneNumber"]').removeAttr("disabled");
+                    $('input[name="FullName"]').attr("data_val", "true");
+                    $('input[name="PhoneNumber"]').attr("data_val", "true");
+                }
+            });
+
+            var href = window.location.href.split('/');
+            if (href.length == 5) {
+                $('input[name="returnUrl"]').val(href[3] + '/' + href[4]);
+            }
+            else if (href.length == 6) {
+                $('input[name="returnUrl"]').val(href[3] + '/' + href[4] + '/' + href[5]);
+            }
+            else {
+                $('input[name="returnUrl"]').val("Home/Index");
+            }
+        });
+    </script>
+
+    <!--DataTable-->
+    <link type="text/css" rel="stylesheet" href="~/Content/css/jquery.dataTables.min.css">
+    <script src="~/Content/js/jquery.dataTables.min.js"></script>
+    <style type="text/css">
+        .dataTables_filter {
+            display: none;
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+            var table = $('#JSSTable').on('draw.dt', function () {
+
+                var checkedBox = $(".icheckbox_minimal-grey").filter(".checked").length;
+                if (checkedBox == 1) {
+
+                    $('input[name="checkAll"]').iCheck('uncheck');
+                }
+                if (checkedBox == 10) {
+                    $('input[name="checkAll"]').iCheck('check');
+                }
+
+
+            }).DataTable({
+                lengthChange: false,
+                "language": {
+                    "lengthMenu": "Hiển thị _MENU_ yêu cầu mỗi trang",
+                    "zeroRecords": "Không tìm thấy dữ liệu phù hợp",
+                    "info": "Hiển thị trang _PAGE_ trên tổng số _PAGES_ trang",
+                    "infoEmpty": "Không tìm thấy dữ liệu phù hợp",
+                    "infoFiltered": "(tìm kiếm từ _MAX_ yêu cầu)",
+                    "oPaginate": {
+                        "sNext": "Trang sau",
+                        "sPrevious": "Trang trước"
+                    }
+                }
+
+            });
+           
+        });
+
+    </script>
+
+
+    <!--CORE JAVASCRIPT-->
+    <script src="~/Content/js/main.js"></script>
+
+</head>
+
+<body class="horizontal-menu-page fixed-topbar">
+
+    <input id="message" type="hidden" value="@ViewBag.message" />
+
+    <!--MESSAGE MODAL-->
+    <div id="modal-message" tabindex="-1" role="dialog" aria-labelledby="modal-default-label" aria-hidden="true" class="modal fade">
+        <div class="page-form">
+            <div class="header-content"><h1 style=" font-family: sans-serif;">Thông báo</h1></div>
+            <div class="body-content">
+                <p>@ViewBag.message</p>
+            </div>
+        </div>
+    </div>
+
+    @using (Html.BeginForm("Login", "Account", FormMethod.Post))
+    {
+        <!--LOGIN MODAL-->
+        <div id="modal-default-login" tabindex="-1" role="dialog" aria-labelledby="modal-default-label" aria-hidden="true" class="modal fade">
+            <div class="page-form">
+                <form action="~/Account/Login" method="post" class="form" role="form">
+                    <input type="hidden" name="returnUrl" value="Home/Index" />
+                    <div class="header-content"><h1 style=" font-family: sans-serif;">Đăng nhập</h1></div>
+                    <div class="body-content">
+                        <!--
+                        <p>Đăng nhập với tài khoản:</p>
+
+                        <div class="row mbm text-center">
+                            <div class="col-md-4"><a href="#" class="btn btn-sm btn-twitter btn-block"><i class="fa fa-twitter fa-fw"></i>Twitter</a></div>
+                            <div class="col-md-4"><a href="#" class="btn btn-sm btn-facebook btn-block"><i class="fa fa-facebook fa-fw"></i>Facebook</a></div>
+                            <div class="col-md-4"><a href="#" class="btn btn-sm btn-google-plus btn-block"><i class="fa fa-google-plus fa-fw"></i>Google Plus</a></div>
+                        </div>
+                        -->
+                        <div class="form-group">
+                            <div class="input-icon right"><i class="fa fa-user"></i><input type="text" data-val="true" data-val-required="Ô Username trống." placeholder="Username" name="UserName" class="form-control" value=""></div>
+                            <span class="field-validation-valid ErrorMessage" data-valmsg-for="UserName" data-valmsg-replace="true"></span>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-icon right"><i class="fa fa-key"></i><input type="password" data-val="true" data-val-required="Ô Password trống." placeholder="Mật khẩu" name="Password" class="form-control" value=""></div>
+                            <span class="field-validation-valid ErrorMessage" data-valmsg-for="Password" data-valmsg-replace="true"></span>
+                        </div>
+                        <div class="form-group pull-left">
+                            <div class="checkbox-list">
+                                <label id="remembermelabel">
+                                    <input type="hidden" id="inputRememberMe" name="RememberMe" />
+                                    <input type="checkbox" id="RememberMeCheckBox" />&nbsp;
+                                    Ghi nhớ tôi
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group pull-right">
+                            <button type="submit" value="Log in" class="btn btn-success">
+                                Đăng nhập
+                                &nbsp;<i class="fa fa-chevron-circle-right"></i>
+                            </button>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="forget-password">
+                            <h4>Quên mật khẩu?</h4>
+
+                            <p>Nhấn <a data-target="#modal-default-resetpassword" data-dismiss="modal" data-toggle="modal">vào đây</a> để lấy lại password.</p>
+                        </div>
+                        <hr>
+                        <p>Chưa có tài khoản? <a data-target="#modal-default-register" data-dismiss="modal" data-toggle="modal">Đăng ký ngay</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    }
+
+    @using (Html.BeginForm("ResetPassword", "Account", FormMethod.Post))
+    {
+        <!--RESET PASSWORD MODAL-->
+    <div id="modal-default-resetpassword" tabindex="-1" role="dialog" aria-labelledby="modal-default-label" aria-hidden="true" class="modal fade">
+        <div class="page-form">
+            <form action="~/Account/ResetPassword" method="post" class="form" role="form">
+                <input type="hidden" name="returnUrl" value="Home/Index" />
+                <div class="header-content"><h1 style=" font-family: sans-serif;">Lấy lại mật khẩu</h1></div>
+                <div class="body-content">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <div class="input-icon right"><i class="fa fa-envelope"></i><input type="text" data-val="true" data-val-email="Email không đúng định dạng." data-val-length="Độ dài Email không được vượt quá 150." data-val-length-max="150" data-val-required="Email không được trống." placeholder="vd: abc@gmail.com" name="emailAdress" class="form-control" value=""></div>
+                        <span class="field-validation-valid ErrorMessage" data-valmsg-for="emailAdress" data-valmsg-replace="true"></span>
+                    </div>
+                    <div class="form-group pull-right">
+                        <button type="submit" value="ResetPassword" class="btn btn-success">
+                            Gửi Email
+                            &nbsp;<i class="fa fa-chevron-circle-right"></i>
+                        </button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </form>
+        </div>
+    </div>
+    }
+
+    @using (Html.BeginForm("Register", "Account", FormMethod.Post))
+    {
+        <!--REGISTER MODAL-->
+        <div id="modal-default-register" tabindex="-1" role="dialog" aria-labelledby="modal-default-label" aria-hidden="true" class="modal fade">
+            <div class="page-form">
+                <form action="~/Account/Register" method="post" class="form" role="form">
+                    <input type="hidden" name="returnUrl" value="Home/Index" />
+                    <div class="header-content"><h1 style=" font-family: sans-serif;">Đăng ký</h1></div>
+                    <div class="body-content">
+                        <!--
+                        <p>Đăng nhập với tài khoản:</p>
+
+                        <div class="row mbm text-center">
+                            <div class="col-md-4"><a href="#" class="btn btn-sm btn-twitter btn-block"><i class="fa fa-twitter fa-fw"></i>Twitter</a></div>
+                            <div class="col-md-4"><a href="#" class="btn btn-sm btn-facebook btn-block"><i class="fa fa-facebook fa-fw"></i>Facebook</a></div>
+                            <div class="col-md-4"><a href="#" class="btn btn-sm btn-google-plus btn-block"><i class="fa fa-google-plus fa-fw"></i>Google Plus</a></div>
+                        </div>
+                        -->
+                        <div class="form-group">
+                            <label>Username</label>
+                            <div class="input-icon right"><i class="fa fa-user"></i><input type="text" data-val="true" data-val-required="Ô Username trống." placeholder="Username" name="UserName" class="form-control" value=""></div>
+                            <span class="field-validation-valid ErrorMessage" data-valmsg-for="UserName" data-valmsg-replace="true"></span>
+                        </div>
+                        <div class="form-group">
+                            <label>Mật khẩu</label>
+                            <div class="input-icon right"><i class="fa fa-key"></i><input type="password" data-val="true" data-val-length="Mật khẩu phải có ít nhất 6 kí tự." data-val-length-max="100" data-val-length-min="6" data-val-required="Mật khẩu không được trống." placeholder="Mật khẩu" name="Password" class="form-control" value=""></div>
+                            <span class="field-validation-valid ErrorMessage" data-valmsg-for="Password" data-valmsg-replace="true"></span>
+                        </div>
+                        <div class="form-group">
+                            <label>Mật khẩu xác nhận</label>
+                            <div class="input-icon right"><i class="fa fa-key"></i><input type="password" data-val="true" data-val-equalto="'Mật khẩu xác nhận' và 'Mật khẩu' không trùng khớp." data-val-equalto-other="*.Password" placeholder="Mật khẩu xác nhận" name="ConfirmPassword" class="form-control" value=""></div>
+                            <span class="field-validation-valid ErrorMessage" data-valmsg-for="ConfirmPassword" data-valmsg-replace="true"></span>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <div class="input-icon right"><i class="fa fa-envelope"></i><input type="text" data-val="true" data-val-email="Email không đúng định dạng." data-val-length="Độ dài Email không được vượt quá 150." data-val-length-max="150" data-val-required="Email không được trống." placeholder="vd: abc@gmail.com" name="Email" class="form-control" value=""></div>
+                            <span class="field-validation-valid ErrorMessage" data-valmsg-for="Email" data-valmsg-replace="true"></span>
+                        </div>
+                        <div class="form-group">
+                            <label>Bạn là:</label>
+                            <select id="selRoleName" class="form-control" name="RoleName">
+                                <option value="Jobseeker">Người tìm việc</option>
+                                <option value="Recruiter">Nhà tuyển dụng</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Họ và tên:</label>
+                            <div class="input-icon right"><i class="fa fa-user"></i><input type="text" data-val="true" data-val-length="Họ và tên không được vượt quá 50 kí tự." data-val-length-max="50" data-val-required="Họ và tên không được trống." placeholder="" name="FullName" class="form-control" value=""></div>
+                            <span class="field-validation-valid ErrorMessage" data-valmsg-for="FullName" data-valmsg-replace="true"></span>
+                        </div>
+                        <div class="form-group">
+                            <label>Điện thoại:</label>
+                            <div class="input-icon right"><i class="fa fa-phone"></i><input type="text" data-val="true" data-val-length="Số điện thoại không được vượt quá 20 kí tự." data-val-length-max="20" data-val-regex="Hãy nhập đúng định dạng số điện thoại." data-val-regex-pattern="^\d+$" data-val-required="Số điện thoại không được trống." placeholder="" name="PhoneNumber" class="form-control" value=""></div>
+                            <span class="field-validation-valid ErrorMessage" data-valmsg-for="PhoneNumber" data-valmsg-replace="true"></span>
+                        </div>
+                        <div class="form-group pull-right">
+                            <button type="submit" value="Register" class="btn btn-success">
+                                Đăng ký
+                                &nbsp;<i class="fa fa-chevron-circle-right"></i>
+                            </button>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    }
+    @using (Html.BeginForm("ChangePassword", "Account", FormMethod.Post))
+    {
+        <!--CHANGE PASSWORD MODAL-->
+        <div id="modal-default-changepassword" tabindex="-1" role="dialog" aria-labelledby="modal-default-label" aria-hidden="true" class="modal fade">
+            <div class="page-form">
+                <form action="~/Account/ChangePassword" method="post" class="form" role="form">
+                    <input type="hidden" name="returnUrl" value="Home/Index" />
+                    <div class="header-content"><h1 style=" font-family: sans-serif;">Đổi mật khẩu</h1></div>
+                    <div class="body-content">
+                        <!--
+                        <p>Đăng nhập với tài khoản:</p>
+
+                        <div class="row mbm text-center">
+                            <div class="col-md-4"><a href="#" class="btn btn-sm btn-twitter btn-block"><i class="fa fa-twitter fa-fw"></i>Twitter</a></div>
+                            <div class="col-md-4"><a href="#" class="btn btn-sm btn-facebook btn-block"><i class="fa fa-facebook fa-fw"></i>Facebook</a></div>
+                            <div class="col-md-4"><a href="#" class="btn btn-sm btn-google-plus btn-block"><i class="fa fa-google-plus fa-fw"></i>Google Plus</a></div>
+                        </div>
+                        -->
+                        <div class="form-group">
+                            <div class="input-icon right"><i class="fa fa-key"></i><input type="password" data-val="true" data-val-required="Mật khẩu cũ trống." placeholder="Mật khẩu cũ" name="OldPassword" class="form-control" value=""></div>
+                            <span class="field-validation-valid ErrorMessage" data-valmsg-for="OldPassword" data-valmsg-replace="true"></span>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-icon right"><i class="fa fa-key"></i><input type="password" data-val="true" data-val-length="Mật khẩu phải có ít nhất 6 kí tự." data-val-length-max="100" data-val-length-min="6" data-val-required="Mật khẩu không được trống." placeholder="Mật khẩu" name="NewPassword" class="form-control" value=""></div>
+                            <span class="field-validation-valid ErrorMessage" data-valmsg-for="NewPassword" data-valmsg-replace="true"></span>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-icon right"><i class="fa fa-key"></i><input type="password" data-val="true" data-val-equalto="'Mật khẩu xác nhận' và 'Mật khẩu' không trùng khớp." data-val-equalto-other="*.NewPassword" placeholder="Mật khẩu xác nhận" name="ConfirmPassword" class="form-control" value=""></div>
+                            <span class="field-validation-valid ErrorMessage" data-valmsg-for="ConfirmPassword" data-valmsg-replace="true"></span>
+                        </div>
+                        <div class="form-group pull-right">
+                            <button type="submit" value="Change Password" class="btn btn-success">
+                                Thay đổi
+                                &nbsp;<i class="fa fa-chevron-circle-right"></i>
+                            </button>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    }
+
+        <!--BEGIN TOPBAR-->
+        <div id="header-topbar-option-demo" class="page-header-topbar">
+            <nav id="topbar" role="navigation" style="margin-bottom: 0;" class="navbar navbar-default navbar-static-top">
+                <div class="navbar-header">
+                    <button type="button" data-toggle="collapse" data-target=".sidebar-collapse" class="navbar-toggle"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+                    <a id="logo" href="@Url.Action("Index", "Home")" class="navbar-brand"><span class="fa fa-rocket"></span><span class="logo-text" style="font-size:large">Hệ thống tìm việc</span></a>
+                </div>
+                <div class="topbar-main">
+                    <!--<a id="menu-toggle" href="#" class="hidden-xs"><i class="fa fa-bars"></i></a>
+                    <ul class="nav navbar-nav horizontal-menu  ">
+                        <li class="active"><a href="index.html">Dashboard</a></li>
+                        <li>
+                            <a href="javascript:;" data-toggle="dropdown" class="dropdown-toggle">
+                                Layouts
+                                &nbsp;<i class="fa fa-angle-down"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="layout-left-sidebar.html">Left Sidebar</a></li>
+                                <li><a href="layout-right-sidebar.html">Right Sidebar</a></li>
+                                <li><a href="layout-left-sidebar-collasped.html">Left Sidebar Collasped</a></li>
+                                <li><a href="layout-right-sidebar-collasped.html">Right Sidebar Collasped</a></li>
+                                <li class="dropdown-submenu">
+                                    <a href="javascript:;" data-toggle="dropdown" class="dropdown-toggle">More Options</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#">Second level link</a></li>
+                                        <li class="dropdown-submenu">
+                                            <a href="javascript:;" data-toggle="dropdown" class="dropdown-toggle">More Options</a>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="#">Third level link</a></li>
+                                                <li><a href="#">Third level link</a></li>
+                                                <li><a href="#">Third level link</a></li>
+                                                <li><a href="#">Third level link</a></li>
+                                                <li><a href="#">Third level link</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="#">Second level link</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="mega-menu-dropdown">
+                            <a href="javascript:;" data-toggle="dropdown" class="dropdown-toggle">
+                                UI Elements
+                                &nbsp;<i class="fa fa-angle-down"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <div class="mega-menu-content">
+                                        <div class="row">
+                                            <ul class="col-md-4 mega-menu-submenu">
+                                                <li><h3>Neque porro quisquam</h3></li>
+                                                <li><a href="#"><i class="fa fa-angle-right"></i>Lorem ipsum dolor sit amet</a></li>
+                                                <li><a href="#"><i class="fa fa-angle-right"></i>Consectetur adipisicing elit</a></li>
+                                                <li><a href="#"><i class="fa fa-angle-right"></i>Sed ut perspiciatis unde omnis</a></li>
+                                                <li><a href="#"><i class="fa fa-angle-right"></i>At vero eos et accusamus et iusto</a></li>
+                                                <li><a href="#"><i class="fa fa-angle-right"></i>Nam libero tempore cum soluta</a></li>
+                                                <li><a href="#"><i class="fa fa-angle-right"></i>Et harum quidem rerum facilis est</a></li>
+                                            </ul>
+                                            <ul class="col-md-4 mega-menu-submenu">
+                                                <li><h3>Neque porro quisquam</h3></li>
+                                                <li><a href="#"><i class="fa fa-angle-right"></i>Lorem ipsum dolor sit amet</a></li>
+                                                <li><a href="#"><i class="fa fa-angle-right"></i>Consectetur adipisicing elit</a></li>
+                                                <li><a href="#"><i class="fa fa-angle-right"></i>Sed ut perspiciatis unde omnis</a></li>
+                                                <li><a href="#"><i class="fa fa-angle-right"></i>At vero eos et accusamus et iusto</a></li>
+                                                <li><a href="#"><i class="fa fa-angle-right"></i>Nam libero tempore cum soluta</a></li>
+                                                <li><a href="#"><i class="fa fa-angle-right"></i>Et harum quidem rerum facilis est</a></li>
+                                            </ul>
+                                            <ul class="col-md-4 mega-menu-submenu">
+                                                <li><h3>Neque porro quisquam</h3></li>
+                                                <li><a href="#"><i class="fa fa-angle-right"></i>Lorem ipsum dolor sit amet</a></li>
+                                                <li><a href="#"><i class="fa fa-angle-right"></i>Consectetur adipisicing elit</a></li>
+                                                <li><a href="#"><i class="fa fa-angle-right"></i>Sed ut perspiciatis unde omnis</a></li>
+                                                <li><a href="#"><i class="fa fa-angle-right"></i>At vero eos et accusamus et iusto</a></li>
+                                                <li><a href="#"><i class="fa fa-angle-right"></i>Nam libero tempore cum soluta</a></li>
+                                                <li><a href="#"><i class="fa fa-angle-right"></i>Et harum quidem rerum facilis est</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="mega-menu-dropdown mega-menu-full">
+                            <a href="javascript:;" data-toggle="dropdown" class="dropdown-toggle">
+                                Extras
+                                &nbsp;<i class="fa fa-angle-down"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <div class="mega-menu-content">
+                                        <div class="row">
+                                            <div class="col-md-7">
+                                                <ul class="col-md-4 mega-menu-submenu">
+                                                    <li><h3>Neque porro quisquam</h3></li>
+                                                    <li><a href="#"><i class="fa fa-angle-right"></i>Lorem ipsum dolor sit amet</a></li>
+                                                    <li><a href="#"><i class="fa fa-angle-right"></i>Consectetur adipisicing elit</a></li>
+                                                    <li><a href="#"><i class="fa fa-angle-right"></i>Sed ut perspiciatis unde omnis</a></li>
+                                                    <li><a href="#"><i class="fa fa-angle-right"></i>At vero eos et accusamus et iusto</a></li>
+                                                    <li><a href="#"><i class="fa fa-angle-right"></i>Nam libero tempore cum soluta</a></li>
+                                                    <li><a href="#"><i class="fa fa-angle-right"></i>Et harum quidem rerum facilis est</a></li>
+                                                </ul>
+                                                <ul class="col-md-4 mega-menu-submenu">
+                                                    <li><h3>Neque porro quisquam</h3></li>
+                                                    <li><a href="#"><i class="fa fa-angle-right"></i>Lorem ipsum dolor sit amet</a></li>
+                                                    <li><a href="#"><i class="fa fa-angle-right"></i>Consectetur adipisicing elit</a></li>
+                                                    <li><a href="#"><i class="fa fa-angle-right"></i>Sed ut perspiciatis unde omnis</a></li>
+                                                    <li><a href="#"><i class="fa fa-angle-right"></i>At vero eos et accusamus et iusto</a></li>
+                                                    <li><a href="#"><i class="fa fa-angle-right"></i>Nam libero tempore cum soluta</a></li>
+                                                    <li><a href="#"><i class="fa fa-angle-right"></i>Et harum quidem rerum facilis est</a></li>
+                                                </ul>
+                                                <ul class="col-md-4 mega-menu-submenu">
+                                                    <li><h3>Neque porro quisquam</h3></li>
+                                                    <li><a href="#"><i class="fa fa-angle-right"></i>Lorem ipsum dolor sit amet</a></li>
+                                                    <li><a href="#"><i class="fa fa-angle-right"></i>Consectetur adipisicing elit</a></li>
+                                                    <li><a href="#"><i class="fa fa-angle-right"></i>Sed ut perspiciatis unde omnis</a></li>
+                                                    <li><a href="#"><i class="fa fa-angle-right"></i>At vero eos et accusamus et iusto</a></li>
+                                                    <li><a href="#"><i class="fa fa-angle-right"></i>Nam libero tempore cum soluta</a></li>
+                                                    <li><a href="#"><i class="fa fa-angle-right"></i>Et harum quidem rerum facilis est</a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="col-md-5 document-demo">
+                                                <ul class="col-md-4 mega-menu-submenu">
+                                                    <li><a href="#"><i class="fa fa-info-circle"></i><span>Introduction</span></a></li>
+                                                    <li><a href="#"><i class="fa fa-download"></i><span>Installation</span></a></li>
+                                                </ul>
+                                                <ul class="col-md-4 mega-menu-submenu">
+                                                    <li><a href="#"><i class="fa fa-cog"></i><span>T3 Settings</span></a></li>
+                                                    <li><a href="#"><i class="fa fa-desktop"></i><span>Layout System</span></a></li>
+                                                </ul>
+                                                <ul class="col-md-4 mega-menu-submenu">
+                                                    <li><a href="#"><i class="fa fa-magic"></i><span>Customization</span></a></li>
+                                                    <li><a href="#"><i class="fa fa-question-circle"></i><span>FAQs</span></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    -->
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <ul class="nav navbar-top-links navbar-right">
+                        <!--
+                        <li class="dropdown">
+                            <a data-hover="dropdown" href="#" class="dropdown-toggle"><i class="fa fa-bell fa-fw"></i><span class="badge badge-green">3</span></a>
+                            <ul class="dropdown-menu dropdown-alerts">
+                                <li><p>You have 14 new notifications</p></li>
+                                <li>
+                                    <div class="dropdown-slimscroll">
+                                        <ul>
+                                            <li><a href="#"><span class="label label-blue"><i class="fa fa-comment"></i></span>New Comment<span class="pull-right text-muted small">4 mins ago</span></a></li>
+                                            <li><a href="#"><span class="label label-violet"><i class="fa fa-twitter"></i></span>3 New Followers<span class="pull-right text-muted small">12 mins ago</span></a></li>
+                                            <li><a href="#"><span class="label label-pink"><i class="fa fa-envelope"></i></span>Message Sent<span class="pull-right text-muted small">15 mins ago</span></a></li>
+                                            <li><a href="#"><span class="label label-green"><i class="fa fa-tasks"></i></span>New Task<span class="pull-right text-muted small">18 mins ago</span></a></li>
+                                            <li><a href="#"><span class="label label-yellow"><i class="fa fa-upload"></i></span>Server Rebooted<span class="pull-right text-muted small">19 mins ago</span></a></li>
+                                            <li><a href="#"><span class="label label-green"><i class="fa fa-tasks"></i></span>New Task<span class="pull-right text-muted small">2 days ago</span></a></li>
+                                            <li><a href="#"><span class="label label-pink"><i class="fa fa-envelope"></i></span>Message Sent<span class="pull-right text-muted small">5 days ago</span></a></li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="last"><a href="#" class="text-right">See all alerts</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a data-hover="dropdown" href="#" class="dropdown-toggle"><i class="fa fa-envelope fa-fw"></i><span class="badge badge-orange">7</span></a>
+                            <ul class="dropdown-menu dropdown-messages">
+                                <li><p>You have 14 new messages</p></li>
+                                <li>
+                                    <div class="dropdown-slimscroll">
+                                        <ul>
+                                            <li><a href="#"><span class="avatar"><img src="https://s3.amazonaws.com/uifaces/faces/twitter/kolage/48.jpg" alt="" class="img-responsive img-circle" /></span><span class="info"><span class="name">Jessica Spencer</span><span class="desc">Lorem ipsum dolor sit amet...</span></span></a></li>
+                                            <li><a href="#"><span class="avatar"><img src="https://s3.amazonaws.com/uifaces/faces/twitter/kolage/48.jpg" alt="" class="img-responsive img-circle" /></span><span class="info"><span class="name">John Smith<span class="label label-blue pull-right">New</span></span><span class="desc">Lorem ipsum dolor sit amet...</span></span></a></li>
+                                            <li><a href="#"><span class="avatar"><img src="https://s3.amazonaws.com/uifaces/faces/twitter/kolage/48.jpg" alt="" class="img-responsive img-circle" /></span><span class="info"><span class="name">John Doe<span class="label label-orange pull-right">10 min</span></span><span class="desc">Lorem ipsum dolor sit amet...</span></span></a></li>
+                                            <li><a href="#"><span class="avatar"><img src="https://s3.amazonaws.com/uifaces/faces/twitter/kolage/48.jpg" alt="" class="img-responsive img-circle" /></span><span class="info"><span class="name">John Smith</span><span class="desc">Lorem ipsum dolor sit amet...</span></span></a></li>
+                                            <li><a href="#"><span class="avatar"><img src="https://s3.amazonaws.com/uifaces/faces/twitter/kolage/48.jpg" alt="" class="img-responsive img-circle" /></span><span class="info"><span class="name">John Smith</span><span class="desc">Lorem ipsum dolor sit amet...</span></span></a></li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="last"><a href="#">Read all messages</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a data-hover="dropdown" href="#" class="dropdown-toggle"><i class="fa fa-tasks fa-fw"></i><span class="badge badge-yellow">8</span></a>
+                            <ul class="dropdown-menu dropdown-tasks">
+                                <li><p>You have 14 pending tasks</p></li>
+                                <li>
+                                    <div class="dropdown-slimscroll">
+                                        <ul>
+                                            <li>
+                                                <a href="#">
+                                                    <span class="task-item">Fix the HTML code<small class="pull-right text-muted">40%</small></span>
+                                                    <div class="progress progress-sm">
+                                                        <div role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%;" class="progress-bar progress-bar-orange"><span class="sr-only">40% Complete (success)</span></div>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <span class="task-item">Make a wordpress theme<small class="pull-right text-muted">60%</small></span>
+                                                    <div class="progress progress-sm">
+                                                        <div role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;" class="progress-bar progress-bar-blue"><span class="sr-only">60% Complete (success)</span></div>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <span class="task-item">Convert PSD to HTML<small class="pull-right text-muted">55%</small></span>
+                                                    <div class="progress progress-sm">
+                                                        <div role="progressbar" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100" style="width: 55%;" class="progress-bar progress-bar-green"><span class="sr-only">55% Complete (success)</span></div>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <span class="task-item">Convert HTML to Wordpress<small class="pull-right text-muted">78%</small></span>
+                                                    <div class="progress progress-sm">
+                                                        <div role="progressbar" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100" style="width: 78%;" class="progress-bar progress-bar-yellow"><span class="sr-only">78% Complete (success)</span></div>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="last"><a href="#">See all tasks</a></li>
+                            </ul>
+                        </li>
+                        -->
+                        <li class="dropdown topbar-user">
+                            <a data-hover="dropdown" href="#" class="dropdown-toggle"><i class="fa fa-user"></i>&nbsp;<span class="hidden-xs">@User.Identity.Name</span>&nbsp;<span class="caret"></span></a>
+                            <ul class="dropdown-menu dropdown-user pull-right">
+                                @if (User.IsInRole("Jobseeker"))
+                                {
+                                    <li><a href="@Url.Action("List", "Profile")"><i class="fa fa-file"></i>Hồ sơ của tôi</a></li>
+                                    <li><a href="@Url.Action("AppliedJobList", "Job")"><i class="fa fa-star"></i>Quản lý tình trạng ứng tuyển</a></li>
+                                }
+                                else if (User.IsInRole("Recruiter"))
+                                {
+                                    <li><a href="@Url.Action("JobPackageRequestListRecruiter", "JobPackage")"><i class="fa fa-book"></i>Gói công việc của tôi </a></li>
+                                    <li><a href="@Url.Action("AdvertiseRequestListRecruiter", "Advertise")"><i class="fa fa-rocket"></i>Quảng cáo của tôi </a></li>
+                                    <li><a href="@Url.Action("OwnList", "Job")"><i class="fa fa-list"></i>Danh sách công việc</a></li>
+                                    <li><a href="@Url.Action("Update", "CompanyInfo")"><i class="fa fa-pencil"></i>Sửa thông tin công ty</a></li>
+                                }
+                                else if (User.IsInRole("Staff"))
+                                {
+                                    <li><a href="@Url.Action("JobPackageRequestList", "JobPackage")"><i class="fa fa-book"></i>Quản lý gói công việc</a></li>
+                                    <li><a href="@Url.Action("Index", "CommonList")"><i class="fa fa-book"></i>Quản lý các danh sách</a></li>
+                                    <li><a href="@Url.Action("Index", "Report")"><i class="fa fa-warning"></i>Quản lý báo cáo lỗi</a></li>
+                                }
+                                else if (User.IsInRole("Manager"))
+                                {
+                                    <li><a href="@Url.Action("AdvertiseRequestList", "Advertise")"><i class="fa fa-book"></i>Quản lý quảng cáo</a></li>
+                                    <li><a href="@Url.Action("Index", "Report")"><i class="fa fa-warning"></i>Quản lý báo cáo lỗi</a></li>
+                                }
+                                else if (User.IsInRole("Admin"))
+                                {
+                                    <li><a href="@Url.Action("List", "Account")"><i class="fa fa-user"></i>Quản lý tài khoản</a></li>
+                                    <li><a href="@Url.Action("Index", "Report")"><i class="fa fa-warning"></i>Quản lý báo cáo lỗi</a></li>
+                                }
+                                <li class="divider"></li>
+                                <li><a href="@Url.Action("List", "Message")"><i class="fa fa-envelope"></i>Hòm thư<!--<span class="badge badge-danger">3</span>--></a></li>
+                                <li class="divider"></li>
+                                <li><a href="@Url.Action("Create", "Topic")"><i class="fa fa-pencil"></i>Tạo bài viết</a></li>
+                                <li><a href="@Url.Action("List", "Topic")"><i class="fa fa-list"></i>Xem các bài viết</a></li>
+                                <li><a href="@Url.Action("OwnList", "Topic")"><i class="fa fa-list"></i>Bài viết của tôi</a></li>
+                                @if (User.IsInRole("Staff"))
+                                {
+                                    <li><a href="@Url.Action("PendingList", "Topic")"><i class="fa fa-list"></i>Quản lý bài viết</a></li>
+                                }
+                                <li class="divider"></li>
+                                <li><a data-target="#modal-default-changepassword" data-toggle="modal"><i class="fa fa-pencil"></i>Đổi mật khẩu</a></li>
+                                @using (Html.BeginForm("Logout", "Account", FormMethod.Post, new { id = "LogoutForm" })) { }
+                                <li><a onclick="document.getElementById('LogoutForm').submit();"><i class="fa fa-key"></i>Log Out</a></li>
+                            </ul>
+                        </li>
+                        <!--
+                        <li id="topbar-chat" class="hidden-xs"><a href="javascript:void(0)" class="btn-chat"><i class="fa fa-comments"></i><span class="badge badge-info">3</span></a></li>
+                        -->
+                    </ul>
+                    }
+                    else
+                    {
+                        <ul class="nav navbar-top-links navbar-right">
+                            <li class="dropdown" style="margin-top: 8px;">
+                                <div class="col-md-4">
+                                    <button type="button" data-target="#modal-default-login" data-toggle="modal" class="btn btn-red">Đăng nhập</button>
+                                </div>
+                            </li>
+                            <li class="dropdown">
+                                <div class="col-md-4">
+                                    <button type="button" data-target="#modal-default-register" data-toggle="modal" class="btn btn-blue">Đăng ký</button>
+                                </div>
+                            </li>
+                        </ul>
+                    }
+                    
+                </div>
+            </nav>
+            <!--BEGIN MODAL CONFIG PORTLET-->
+            <div id="modal-config" class="modal fade">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
+                            <h4 class="modal-title">Modal title</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eleifend et nisl eget porta. Curabitur elementum sem molestie nisl varius, eget tempus odio molestie. Nunc vehicula sem arcu, eu pulvinar neque cursus ac. Aliquam ultricies lobortis magna et aliquam. Vestibulum egestas eu urna sed ultricies. Nullam pulvinar dolor vitae quam dictum
+                                condimentum. Integer a sodales elit, eu pulvinar leo. Nunc nec aliquam nisi, a mollis neque. Ut vel felis quis tellus hendrerit placerat. Vivamus vel nisl non magna feugiat dignissim sed ut nibh. Nulla elementum, est a pretium hendrerit, arcu risus luctus augue, mattis aliquet orci ligula eget massa. Sed ut ultricies felis.
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--END MODAL CONFIG PORTLET-->
+        </div>
+        <!--END TOPBAR-->
+        <div id="wrapper">
+            <!--BEGIN PAGE WRAPPER-->
+            <div id="page-wrapper" style="background-color: #D5D9DE!important">
+                <!--BEGIN CONTENT-->
+                @RenderBody()
+
+                <!--END CONTENT--><!--BEGIN FOOTER-->
+                <div id="footer">
+                    <div class="copyright"></div>
+                </div>
+                <!--END FOOTER-->
+            </div>
+            <!--END PAGE WRAPPER-->
+        </div>
+
+</body>
+</html>

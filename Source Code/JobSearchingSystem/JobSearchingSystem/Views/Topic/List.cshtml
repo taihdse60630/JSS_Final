@@ -1,0 +1,68 @@
+﻿@model JobSearchingSystem.Models.TopListViewModel
+
+@{
+    ViewBag.Title = "Topic";
+    Layout = "~/Views/Shared/_LayoutFinal.cshtml";
+}
+
+<div class="page-content" style="padding: 20px 100px 20px 200px">
+
+    <div class="row">
+        <div class="col-lg-12 blog-page">
+            @using (Html.BeginForm("Create", "Topic", FormMethod.Post))
+            {
+                <div class="panel">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-9 col-sm-8 blog-articles">
+                                <h1 style="text-align:center">Topic</h1>
+
+                                @foreach (var item in Model.ListTopic)
+                                {
+                                    if (item.IsApprove == true && item.IsDelete == false)
+                                    {
+                                        <div class="row">
+                                            <div class="col-md-4 blog-img">
+                                                <img src="~/Content/img/blog.jpg" alt="" class="img-responsive" style="width: 80%;" />
+                                                <ul class="list-inline blog-date">
+                                                    <li><i class="fa fa-calendar fa-fw"></i>@item.CreatedDate</li>
+                                                    @if (item.UpdatedDate != null)
+                                                    {
+                                                        <li>
+                                                            <i class="fa fa-edit"></i>@item.UpdatedDate
+                                                        </li>
+                                                    }
+                                                </ul>
+                                            </div>
+                                            <div class="col-md-8 blog-article">
+                                                <h3><a href="@Url.Action("Detail", new { id = item.TopicID })">@item.Title</a></h3>
+                                                <p>
+                                                    @item.Topic_content
+                                                </p>
+                                                <a href="@Url.Action("TopicItem")" class="btn btn-primary">
+                                                    Read more
+                                                    &nbsp;<i class="fa fa-arrow-circle-right"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <hr />
+                                    }
+                                }
+                            </div>
+
+                        </div>
+                        <ul class="pagination pull-right">
+                            <li><a href="#"><i class="fa fa-angle-left"></i></a></li>
+                            <li><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">4</a></li>
+                            <li><a href="#">5</a></li>
+                            <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,125 @@
+﻿
+@{
+    ViewBag.Title = "MyJob";
+    Layout = "~/Views/Shared/_LayoutFinal.cshtml";
+}
+
+
+<div class="page-content" style="padding: 20px 0px 20px 250px">
+    <div class="col-lg-9 panel panel-default">
+        <h3 style="font-weight:600;text-align:center">Công việc của tôi</h3>
+        <br />
+
+
+
+
+        <a href="#" class="btn btn-red btn-sm">
+            <i class="fa fa-times"></i>&nbsp;
+            Xóa yêu cầu ứng tuyển
+        </a>
+        <br />
+        <br />
+        <div class="table-container">
+
+            <table class="table table-hover table-striped table-bordered table-advanced tablesorter">
+                <thead>
+                    <tr>
+                        <th width="3%">
+                            <input id="square-checkbox-1" tabindex="9" type="checkbox" />        
+                        </th>
+                        <th width="3%">No</th>
+                        <th width="14%">Công việc </th>
+                        <th width="12%">Công ty</th>
+                        <th width="7%">Ngày ứng tuyển</th>
+                        <th width="7%">Nhà tuyển dụng phản hồi</th>
+                        <th width="7%">Tình trạng</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input id="square-checkbox-1" tabindex="9" type="checkbox" /></td>
+                        <td>1</td>
+                        <td><a href="#">Android Dev - Làm Dự Án Automative & Smart Tv !</a></td>
+                        <td><a href="#" style="color: #428bca;">Công Ty TNHH Phần Mềm FPT</a></td>
+                        <td>
+                            18-05-2015
+                        </td>
+                        <td><span class="label label-sm label-success">Chấp nhận</span></td>
+                        <td><span class="label label-sm label-dark">Đã ứng tuyển</span></td>
+                    </tr>
+                    <tr>
+                        <td><input id="square-checkbox-1" tabindex="9" type="checkbox" /></td>
+                        <td>2</td>
+                        <td><a href="#">Android Dev - Làm Dự Án Automative & Smart Tv !</a></td>
+                        <td><a href="#" style="color: #428bca;">Công Ty TNHH Phần Mềm FPT</a></td>
+                        <td>
+                            18-05-2015
+                        </td>
+
+                        <td><span class="label label-sm label-success">Đang chờ</span></td>
+                        <td><span class="label label-sm label-dark">Đã ứng tuyển</span></td>
+                    </tr>
+                    <tr>
+                        <td><input id="square-checkbox-1" tabindex="9" type="checkbox" /></td>
+                        <td>3</td>
+                        <td><a href="#">Android Dev - Làm Dự Án Automative & Smart Tv !</a></td>
+                        <td><a href="#" style="color: #428bca;">Công Ty TNHH Phần Mềm FPT</a></td>
+                        <td>
+                            18-05-2015
+                        </td>
+
+                        <td><span class="label label-sm label-danger">Từ chối</span></td>
+                        <td><span class="label label-sm label-dark">Đã ứng tuyển</span></td>
+                    </tr>
+                    <tr>
+                        <td><input id="square-checkbox-1" tabindex="9" type="checkbox" /></td>
+                        <td>4</td>
+                        <td><a href="#">Android Dev - Làm Dự Án Automative & Smart Tv !</a></td>
+                        <td><a href="#" style="color: #428bca;">Công Ty TNHH Phần Mềm FPT</a></td>
+                        <td></td>
+
+                        <td></td>
+                        <td>
+                            <button type="button" class="btn btn-orange btn-xs" onclick="window.location='JobInformation'">
+                                <i class=" fa fa-plane">
+                                </i>&nbsp;
+                                Ứng tuyển
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="pagination-panel">
+                        Page
+                        &nbsp;<a href="#" class="btn btn-sm btn-default btn-prev"><i class="fa fa-angle-left"></i></a>&nbsp;<input type="text" maxlenght="5" value="1" class="pagination-panel-input form-control input-mini input-inline input-sm text-center">&nbsp;<a href="#" class="btn btn-sm btn-default btn-prev"><i class="fa fa-angle-right"></i></a>&nbsp;
+                        of 6 | View
+                        &nbsp;<select class="form-control input-xsmall input-sm input-inline">
+                            <option value="20" selected="selected">20</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                            <option value="150">150</option>
+                            <option value="-1">All</option>
+                        </select>&nbsp;
+                        records | Found total 58 records
+                    </div>
+                </div>
+                <div class="col-lg-6 text-right">
+                    <div class="pagination-panel">
+                        <ul class="pagination pagination-sm man">
+                            <li><a href="#">«</a></li>
+                            <li><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">4</a></li>
+                            <li><a href="#">5</a></li>
+                            <li><a href="#">»</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

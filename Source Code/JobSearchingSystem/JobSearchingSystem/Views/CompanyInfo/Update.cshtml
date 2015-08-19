@@ -1,0 +1,234 @@
+﻿@model JobSearchingSystem.Models.CoInUpdateViewModel
+
+@{
+    ViewBag.Title = "Thông tin chi tiết công ty";
+    Layout = "~/Views/Shared/_LayoutFinal.cshtml";
+}
+
+<style>
+    .ErrorMessage {
+        color: red;
+    }
+    .title {
+        font-size: large;
+        font-weight: 700;
+    }
+</style>
+<link type="text/css" rel="stylesheet" href="~/Content/vendors/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+
+<script src="~/Content/js/email-compose-mail.js"></script>
+<script src="~/Content/vendors/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+<script>
+    function makeSafe() {
+        document.getElementById('messsage_content2').value = window.escape(editor.getValue());
+    };
+
+    function makeDangerous() {
+        document.getElementById('Topic_content').value = window.unescape(document.getElementById('Topic_content').value);
+    }
+    function UpdateCompanyInfo() {
+        document.getElementById('messsage_content2').value = window.escape(editor.getValue());
+        $('form#updateForm').submit();
+    }
+     $(document).ready(function () {
+        document.getElementById("message_content").innerHTML = window.unescape("@Model.description")
+    });
+</script>
+
+
+<script type="text/javascript">
+
+    // jqXHRData needed for grabbing by data object of fileupload scope
+    var jqXHRData;
+
+    $(document).ready(function () {
+        //Initialization of fileupload
+
+
+        //Handler for "Start upload" button
+        $("#hl-start-upload").on('click', function () {
+            var fd = new FormData();
+
+            fd.append("fileInput", $("#fileInput")[0].files[0]);
+            //fd.append("supplierId", $("#supplierId").val());
+            $.ajax({
+                url: '/Advertise/UploadFile',
+                type: 'POST',
+                cache: false,
+                data: fd,
+                processData: false,
+                contentType: false,
+                beforeSend: function () {
+                    $("#output").html("Uploading, please wait....");
+                },
+                success: function (data) {
+                    $("#defaultAvatar").hide();
+                    $("#avatar").empty().append(data);
+
+                    //$("#logoAdvertise").val($('#companyLogoUploaded').val());
+                    $("input[name='logoURL']").val($(".companyLogoUploaded").last().val());
+                    //$(".userImage").prop('src', "/img/ImgUpload/" + document.getElementById("fileInput").files[0].name);
+
+                    //$("#output").html("Upload success.");
+                },
+                complete: function () {
+
+                    $("#output").html("");
+                },
+                error: function () {
+                    alert("ERROR in upload");
+                }
+            });
+
+        });
+
+    });
+</script>
+
+
+
+
+
+
+
+
+<div class="page-content" style="padding: 20px 60px 50px 150px">
+    <br />
+    <div class="col-lg-12 panel panel-default">
+        <br />
+        <div id="tab-two-columns-horizontal" class="tab-pane fade active in">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-grey">
+                        <div class="panel-heading">Thông tin chi tiết công ty</div>
+                        <div class="panel-body pan">
+                            <div class="form-body pal">
+                                @using (Html.BeginForm("Update", "CompanyInfo", FormMethod.Post, new { id = "updateForm" }))
+                                {
+                                <div class="form-body pal">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="company" class="control-label title">Tên công ty<span class="require">*</span></label>
+                                                @Html.TextBoxFor(m => m.company, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(m => m.company, "", new { @class = "ErrorMessage" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="address" class="control-label title">Địa chỉ</label>
+                                                @Html.TextBoxFor(m => m.address, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(m => m.address, "", new { @class = "ErrorMessage" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="district" class="control-label title">Quận</label>
+                                                @Html.TextBoxFor(m => m.district, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(m => m.district, "", new { @class = "ErrorMessage" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="cityId" class="control-label title">Thành phố<span class="require">*</span></label>
+                                                <select id="cityId" name="cityId" class="form-control" data-val-required="Thông tin này bắt buộc">
+                                                    <option value=""></option>
+                                                    @if (Model.cities != null)
+                                                    {
+                                                        foreach (var item in Model.cities)
+                                                        {
+                                                            if (Model.city == item.Name)
+                                                            {
+                                                                <option value="@item.CityID" selected>@item.Name</option>
+                                                            }
+                                                            else
+                                                            {
+                                                                <option value="@item.CityID">@item.Name</option>
+                                                            }
+                                                        }
+                                                    }
+                                                </select>
+                                                @Html.ValidationMessageFor(m => m.cityId, "", new { @class = "ErrorMessage" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="phoneNumber" class="control-label title">Số điện thoại</label>
+                                                @Html.TextBoxFor(m => m.phoneNumber, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(m => m.phoneNumber, "", new { @class = "ErrorMessage" })
+                                            </div>
+                                        </div>
+                                     
+                                    </div>
+
+
+                                    
+                                   <div class="row">
+                                       <div class="col-md-12">
+                                           <div class="form-group">
+                                               <label for="description" class="control-label title">Giới thiệu công ty</label>
+                                               <div class="compose-editor mbl"><textarea id="message_content" rows="50" class="wysihtml5 form-control"></textarea></div>
+                                               @*<input type="hidden" id="messsage_content2" name="messageContent" />*@
+                                               @Html.HiddenFor(m => m.description, new { @class = "form-control", row = 5, Id = "messsage_content2" })
+                                               @Html.ValidationMessageFor(m => m.description, "", new { @class = "ErrorMessage" })
+                                           </div>
+                                       </div>
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="logoURL" class="control-label title">Logo</label>
+                                                <div id="defaultAvatar">
+                                                    @{
+                                                    JobSearchingSystem.Models.ImageModel imageModel = null;
+                                                    if (String.IsNullOrEmpty(Model.logoURL))
+                                                    {
+                                                        imageModel = new JobSearchingSystem.Models.ImageModel("/Content/img/yourlogo.jpeg");
+                                                    }
+                                                    else
+                                                    {
+                                                        imageModel = new JobSearchingSystem.Models.ImageModel(Model.logoURL);
+                                                    }
+                                                    }
+
+                                                    @Html.Partial("LogoPartialView", imageModel)
+                                                    
+                                                </div>
+                                                <div id="avatar">
+
+                                                </div>
+                                                <div class="text-center mbl">
+                                                    @*@Html.TextBoxFor(m => m.MyFile, new { id = "fu-my-simple-upload", type = "file" })*@
+                                                    <input type="file" id="fileInput" name="MyFile">
+                                                    <a href="#" id="hl-start-upload" class="btn btn-green" style="margin-right: 90%;margin-top: 2%;">
+                                                        <i class="fa fa-upload"></i>&nbsp;
+                                                        Tải lên
+                                                    </a>
+                                                    <div id="output"></div>
+                                                </div>
+                                                @Html.HiddenFor(m => m.logoURL, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(m => m.logoURL, "", new { @class = "ErrorMessage", row = "6" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-actions text-right pal">
+                                    <input id="recuiterId" name="recuiterId" type="hidden" value="@Model.recuiterId" class="form-control" />
+                                    <button type="button" onclick="UpdateCompanyInfo()" class="btn btn-primary">Cập nhật</button>
+                                </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@Scripts.Render("~/bundles/jqueryval")

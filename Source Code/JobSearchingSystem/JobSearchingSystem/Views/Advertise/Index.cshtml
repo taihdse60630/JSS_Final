@@ -1,0 +1,127 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutFinal.cshtml";
+}
+@model JobSearchingSystem.Models.AdvertiseViewModels
+
+
+<script>
+    function commafy(num) {
+        var str = num.toString().split('.');
+        if (str[0].length >= 5) {
+            str[0] = str[0].replace(/(\d)(?=(\d{3})+$)/g, '$1,');
+        }
+        if (str[1] && str[1].length >= 5) {
+            str[1] = str[1].replace(/(\d{3})/g, '$1 ');
+        }
+        return str.join('.');
+    }
+
+</script>
+
+<div class="row mtl" style="margin-left: 25%;">
+    @foreach (var item in Model.advertiseList)
+    {
+
+        if ("Silver".Equals(item.Name))
+        {
+           
+        <div class="col-xs-12 col-sm-4 col-md-3">
+        <div class="panel panel-violet">
+            @*<div class="ribbon-wrapper">
+                <div class="ribbon-inner">Hot</div>
+            </div>*@
+            <div class="panel-heading"><h3 class="panel-title text-center">@item.Name</h3></div>
+            <div class="panel-body pan text-center">
+                <div class="the-price">
+                    <h1>$@item.Cost.ToString().TrimEnd('0').TrimEnd(',')<span class="subscript">/tháng</span></h1>
+                    @*<small>1 month FREE trial</small>*@
+                </div>
+                <table class="table mbn">
+                    <tbody>
+                        <tr>
+                            <td>@item.Description</td>
+                        </tr>                     
+                    </tbody>
+                </table>
+            </div>
+            <div class="panel-footer pan"><a href="/Advertise/Invoice/?advertiseID=@item.AdvertiseID" role="button" class="btn btn-violet btn-block">Mua ngay</a></div>
+        </div>
+    </div>
+        }else if ("Gold".Equals(item.Name))
+        {
+              <div class="col-xs-12 col-sm-4 col-md-3">
+        <div class="panel panel-yellow">
+            <div class="panel-heading"><h3 class="panel-title text-center">@item.Name</h3></div>
+            <div class="panel-body pan text-center">
+                <div class="the-price">
+                    <h1>$@item.Cost.ToString().TrimEnd('0').TrimEnd(',')<span class="subscript">/tháng</span></h1>
+                    @*<small>1 month FREE trial</small>*@
+                </div>
+                <table class="table mbn">
+                    <tbody>
+                        <tr>
+                            <td>@item.Description</td>
+                        </tr>                       
+                    </tbody>
+                </table>
+            </div>
+            <div class="panel-footer pan"><a href="/Advertise/Invoice/?advertiseID=@item.AdvertiseID" role="button" class="btn btn-yellow btn-block">Mua ngay</a></div>
+        </div>
+    </div>
+        }else if ("Diamond".Equals(item.Name))
+        {
+              <div class="col-xs-12 col-sm-4 col-md-3">
+        <div class="panel panel-blue">
+            <div class="panel-heading"><h3 class="panel-title text-center">@item.Name</h3></div>
+            <div class="panel-body pan text-center">
+                <div class="the-price">
+                    <h1>@item.Cost.ToString().TrimEnd('0').TrimEnd(',')
+                    <br /><span class="subscript">/tháng</span></h1>
+                    @*<small>1 month FREE trial</small>*@
+                </div>
+                <table class="table mbn">
+                    <tbody>
+                        <tr>
+                            <td>@item.Description</td>
+                        </tr>                      
+                    </tbody>
+                </table>
+            </div>
+            <div class="panel-footer pan"><a href="/Advertise/Invoice/?advertiseID=@item.AdvertiseID" class="btn btn-blue btn-block">Mua ngay</a></div>
+        </div>
+    </div>
+        }
+        else
+        {
+             <div class="col-xs-12 col-sm-4 col-md-3">
+                 <div class="panel panel-green">
+                     <div class="panel-heading"><h3 class="panel-title text-center">@item.Name</h3></div>
+                     <div class="panel-body pan text-center">
+                         <div class="the-price">
+                             <h1>@item.Cost.ToString().TrimEnd('0').TrimEnd(',')<span class="subscript">/tháng</span></h1>
+                             @*<small>1 month FREE trial</small>*@
+                         </div>
+                         <table class="table mbn">
+                             <tbody>
+                                 <tr>
+                                     <td>@item.Description</td>
+                                 </tr>                                
+                             </tbody>
+                         </table>
+                     </div>
+                     <div class="panel-footer pan"><a href="/Advertise/Invoice/?advertiseID=@item.AdvertiseID" role="button" class="btn btn-green btn-block">Mua ngay</a></div>
+                 </div>
+    </div>
+        }
+        
+        
+  
+  
+    }
+  
+
+
+</div>
+                    

@@ -1,0 +1,147 @@
+﻿@{
+    ViewBag.Title = "BuyJobPackage";
+    Layout = "~/Views/Shared/_LayoutFinal.cshtml";
+}
+@model JobSearchingSystem.Models.JobPackageViewModels
+<style>
+    .package {
+        margin-left: 15%;
+        text-align: left;
+    }
+
+    .enable {
+        color: green;
+        font-size: x-large;
+    }
+
+    .disable {
+        color: red;
+        font-size: x-large;
+    }
+    .redPackage {
+        background: #58110E !important;
+    }
+    .redHeadPackage {
+        background: #801612 !important;
+    }
+    .greenPackage {
+        background: #034E14 !important;
+    }
+    .greenHeadPackage {
+        background: #206F09 !important;
+    }
+    .bluePackage {
+        background: #A2350F !important;
+    }
+    .blueHeadPackage {
+        background: #BD5C0D !important;
+    }
+    .yellowHeadPackage {
+        background: #1C6360 !important;
+    }
+    .yellowPackage {
+        background: #015044 !important;
+    }
+</style>
+<script src="~/Content/js/jquery-1.10.2.min.js"></script>
+<script>
+    function commafy(num) {
+        var str = num.toString().split('.');
+        if (str[0].length >= 5) {
+            str[0] = str[0].replace(/(\d)(?=(\d{3})+$)/g, '$1,');
+        }
+        if (str[1] && str[1].length >= 5) {
+            str[1] = str[1].replace(/(\d{3})/g, '$1 ');
+        }
+        return str.join('.');
+        
+    }
+    $(document).ready(function () {
+        $("#packageHead1").addClass("greenHeadPackage");
+        $("#packageCost1").addClass("greenPackage");
+
+        $("#packageHead2").addClass("blueHeadPackage");
+        $("#packageCost2").addClass("bluePackage");
+
+        $("#packageHead3").addClass("yellowHeadPackage");
+        $("#packageCost3").addClass("yellowPackage");
+
+        $("#packageHead4").addClass("redHeadPackage");
+        $("#packageCost4").addClass("redPackage");
+
+        $(".pricePackage").each(function () {
+            var num = $(this).text();
+            var num2 = commafy(num);
+            $(this).text(num2);
+        });
+
+        $('.formbuilder div').on('click', function () {
+            $('.formbuilder div').removeClass('active');
+            $(this).children("div:first").addClass('active');
+        });
+    });
+</script>
+
+<div id="page-pricing" class="row">
+    <div class="col-md-12">
+      
+        <div class="container">
+            <div class="row row-merge formbuilder">
+                @{
+                    int i=0;
+                foreach (var item in Model.jobPackageList)
+                {
+                    i+=1;
+                    string packageHead = "packageHead" + i.ToString();
+                    string packageCost = "packageCost" + i.ToString();
+                    <div class="col-md-3 col-sm-6">
+                        <div class="pricing-widget">
+                            <div id="@packageHead" class="pricing-head">@item.Name</div>
+                            <div class="pricing-body">
+                                <div id="@packageCost" class="pricing-cost">
+                                    <strong class="pricePackage" style="display: block">@item.Cost.ToString().TrimEnd('0').TrimEnd(',')</strong>
+                                    <small>@item.JobNumber lần đăng tuyển</small>
+                                </div>
+                                <ul class="pricing-list text-center">
+
+                                    <li></li>
+                                    <br />
+                                    <br />
+                                    <li class="package"><i class="fa fa-check enable"></i><strong>30</strong> ngày đăng tuyển dụng </li>
+                                    <li class="package"><i class="fa fa-check enable"></i><strong> x @item.ViewMultiNumber </strong> số lượt xem</li>
+                                    @if (item.IsHighlight)
+                                    {
+                                        <li class="package"><i class="fa fa-check enable"></i>Gia Tăng Tô Đậm & Đỏ </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="package"><i class="fa fa-times disable"></i>Gia Tăng Tô Đậm & Đỏ </li>
+                                    }
+
+
+
+
+                                    @if (item.IsHomepagePosting)
+                                    {
+                                        <li class="package"><i class="fa fa-check enable"></i>Việc Làm Trên Trang Chủ</li>
+
+                                    }
+                                    else
+                                    {
+                                        <li class="package"><i class="fa fa-times disable"></i>Việc Làm Trên Trang Chủ</li>
+                                    }
+
+
+
+                                    <li class="text-center"><a href="/JobPackage/Invoice/?jobPackageID=@item.JobPackageID" class="btn btn-default btn-success">Mua</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                </div>
+                }          
+                }
+            </div>
+        </div>
+</div>
+</div>

@@ -1,0 +1,286 @@
+﻿@model JobSearchingSystem.Models.ComIndexViewModel
+
+@{
+    ViewBag.Title = "Quản lý thông tin chung";
+    Layout = "~/Views/Shared/_LayoutFinal.cshtml";
+}
+
+<div class="page-content" style="padding: 20px 0px 20px 250px">
+    <div class="row">
+        <div class="col-lg-9 panel panel-default">
+            <h3 style="font-weight:600;text-align:center">Danh sách thành phố</h3>
+            <a href="@Url.Action("CityList")" class="btn btn-grey btn-sm">
+                Quản lý chi tiết
+            </a>&nbsp;
+            <br />
+            <br />
+
+            <div class="table-container">
+                <table class="table table-hover table-striped table-bordered table-advanced tablesorter">
+                    <thead>
+                        <tr>
+                            <th width="10%">No</th>
+                            <th width="90%">Tên thành phố </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.cities != null)
+                        {
+                            for (int i = 0; i < Math.Min(5, Model.cities.Count()); i++)
+                            {
+                                <tr>
+                                    <td>@(i + 1)</td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => Model.cities.ElementAt(i).Name)
+                                    </td>
+                                </tr>
+                            }
+                            if (Model.cities.Count() > 5)
+                            {
+                                <tr>
+                                    <td>...</td>
+                                    <td>...</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-9 panel panel-default">
+            <h3 style="font-weight:600;text-align:center">Danh sách nhóm ngành nghề</h3>
+            <a href="@Url.Action("CategoryList")" class="btn btn-grey btn-sm">
+                Quản lý chi tiết
+            </a>&nbsp;
+            <br />
+            <br />
+
+            <div class="table-container">
+                <table class="table table-hover table-striped table-bordered table-advanced tablesorter">
+                    <thead>
+                        <tr>
+                            <th width="10%">No</th>
+                            <th width="35%">Tên nhóm ngành nghề </th>
+                            <th width="55%">Mô tả </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.categories != null)
+                        {
+                            for (int i = 0; i < Math.Min(5, Model.categories.Count()); i++)
+                            {
+                                <tr>
+                                    <td>@(i + 1)</td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => Model.categories.ElementAt(i).Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => Model.categories.ElementAt(i).Description)
+                                    </td>
+                                </tr>
+                            }
+                            if (Model.categories.Count() > 5)
+                            {
+                                <tr>
+                                    <td>...</td>
+                                    <td>...</td>
+                                    <td>...</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-9 panel panel-default">
+            <h3 style="font-weight:600;text-align:center">Danh sách ngôn ngữ</h3>
+            <a href="@Url.Action("LanguageList")" class="btn btn-grey btn-sm">
+                Quản lý chi tiết
+            </a>&nbsp;
+            <br />
+            <br />
+
+            <div class="table-container">
+                <table class="table table-hover table-striped table-bordered table-advanced tablesorter">
+                    <thead>
+                        <tr>
+                            <th width="10%">No</th>
+                            <th width="90%">Tên ngôn ngữ </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.languages != null)
+                        {
+                            for (int i = 0; i < Math.Min(5, Model.languages.Count()); i++)
+                            {
+                                <tr>
+                                    <td>@(i + 1)</td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => Model.languages.ElementAt(i).Name)
+                                    </td>
+                                </tr>
+                            }
+                            if (Model.languages.Count() > 5)
+                            {
+                                <tr>
+                                    <td>...</td>
+                                    <td>...</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-9 panel panel-default">
+            <h3 style="font-weight:600;text-align:center">Danh sách cấp bậc</h3>
+            <a href="@Url.Action("JobLevelList")" class="btn btn-grey btn-sm">
+                Quản lý chi tiết
+            </a>&nbsp;
+            <br />
+            <br />
+
+            <div class="table-container">
+                <table class="table table-hover table-striped table-bordered table-advanced tablesorter">
+                    <thead>
+                        <tr>
+                            <th width="10%">No</th>
+                            <th width="35%">Tên cấp bậc </th>
+                            <th width="55%">Hệ số cấp bậc </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.jobLevels != null)
+                        {
+                            for (int i = 0; i < Math.Min(5, Model.jobLevels.Count()); i++)
+                            {
+                                <tr>
+                                    <td>@(i + 1)</td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => Model.jobLevels.ElementAt(i).Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => Model.jobLevels.ElementAt(i).LevelNum)
+                                    </td>
+                                </tr>
+                            }
+                            if (Model.jobLevels.Count() > 5)
+                            {
+                                <tr>
+                                    <td>...</td>
+                                    <td>...</td>
+                                    <td>...</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-9 panel panel-default">
+            <h3 style="font-weight:600;text-align:center">Danh sách bằng cấp</h3>
+            <a href="@Url.Action("SchoolLevelList")" class="btn btn-grey btn-sm">
+                Quản lý chi tiết
+            </a>&nbsp;
+            <br />
+            <br />
+
+            <div class="table-container">
+                <table class="table table-hover table-striped table-bordered table-advanced tablesorter">
+                    <thead>
+                        <tr>
+                            <th width="10%">No</th>
+                            <th width="35%">Tên bằng cấp </th>
+                            <th width="55%">Hệ số cấp bậc </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.schoolLevels != null)
+                        {
+                            for (int i = 0; i < Math.Min(5, Model.schoolLevels.Count()); i++)
+                            {
+                                <tr>
+                                    <td>@(i + 1)</td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => Model.schoolLevels.ElementAt(i).Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => Model.schoolLevels.ElementAt(i).LevelNum)
+                                    </td>
+                                </tr>
+                            }
+                            if (Model.schoolLevels.Count() > 5)
+                            {
+                                <tr>
+                                    <td>...</td>
+                                    <td>...</td>
+                                    <td>...</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-9 panel panel-default">
+            <h3 style="font-weight:600;text-align:center">Danh sách trình độ ngôn ngữ</h3>
+            <a href="@Url.Action("LevelList")" class="btn btn-grey btn-sm">
+                Quản lý chi tiết
+            </a>&nbsp;
+            <br />
+            <br />
+
+            <div class="table-container">
+                <table class="table table-hover table-striped table-bordered table-advanced tablesorter">
+                    <thead>
+                        <tr>
+                            <th width="10%">No</th>
+                            <th width="35%">Tên trình độ ngôn ngữ </th>
+                            <th width="55%">Hệ số cấp bậc </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.levels != null)
+                        {
+                            for (int i = 0; i < Math.Min(5, Model.levels.Count()); i++)
+                            {
+                                <tr>
+                                    <td>@(i + 1)</td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => Model.levels.ElementAt(i).Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => Model.levels.ElementAt(i).LevelNum)
+                                    </td>
+                                </tr>
+                            }
+                            if (Model.levels.Count() > 5)
+                            {
+                                <tr>
+                                    <td>...</td>
+                                    <td>...</td>
+                                    <td>...</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

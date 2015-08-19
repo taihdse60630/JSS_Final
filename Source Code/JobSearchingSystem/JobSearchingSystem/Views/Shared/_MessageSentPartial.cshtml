@@ -1,0 +1,57 @@
+﻿@{
+    Layout = null;
+}
+@using System.Text.RegularExpressions
+
+
+
+@using (Html.BeginForm("DeleteMessage", "Message", FormMethod.Post, new { id = "deleteForm" }))
+{
+    <input type="hidden" name="messageRole" id="messageRole" />
+    <div class="tab-content">
+        <div id="home" class="tab-pane fade active in">
+            <div class="list-group">
+                @if (Model.messageList != null)
+                {
+                    foreach (var item in Model.messageList)
+                    {
+
+                        string content = HttpUtility.UrlDecode(item.Content);
+                        string noHTML = Regex.Replace(content, @"<[^>]+>|&nbsp;", "").Trim();
+                        string noHTMLNormalised = Regex.Replace(noHTML, @"\s{2,}", " ");
+                        if (noHTMLNormalised.Length > 50)
+                        {
+                            noHTMLNormalised = noHTMLNormalised.Substring(0, 49) + " ....";
+                        }
+
+                        string receiverList="";
+                        int i = 0;
+                        foreach (var item2 in item.ReceiverList){
+                            if (i == 0)
+                            {
+                                receiverList += item2;
+                            }
+                            if(i == 1)
+                            {
+                                receiverList += ", " + item2;
+                            }
+                            if (i == 2)
+                            {
+                                receiverList += ",...";
+                            }
+                            i++;
+                        }
+                        <a href="/Message/Detail?id=@item.MessageID" class="list-group-item"><input type="checkbox" id="@item.MessageID" name="mark" value="@item.MessageID" /><span class="fa fa-star-o mrm mlm"></span><span style="min-width: 200px; display: inline-block;" class="name">Tới: @receiverList</span>@*<span>Sed ut perspiciatis unde</span>*@&nbsp;  &nbsp;<span style="font-size: 11px;" class="text-muted">@noHTMLNormalised</span><span class="badge">@item.SendTime</span><span class="pull-right mrl"><span class="glyphicon glyphicon-paperclip"></span></span></a>
+                    }
+                }
+                @*@using (Html.BeginForm("DeleteMessage", "Message", FormMethod.Post, new { id = "deleteForm" }))
+                    {
+                        <input type="hidden" id="listMessageDelete" name="listMessageDelete" />
+                    }*@
+            </div>
+        </div>
+    </div>
+
+}
+
+
