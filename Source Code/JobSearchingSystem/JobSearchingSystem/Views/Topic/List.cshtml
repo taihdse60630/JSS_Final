@@ -5,7 +5,19 @@
     Layout = "~/Views/Shared/_LayoutFinal.cshtml";
 }
 
-<div class="page-content" style="padding: 20px 100px 20px 200px">
+@foreach (var item in @Model.ListTopic)
+{
+    if (item.Topic_content != null)
+    {
+        <script>
+            $(document).ready(function () {
+                document.getElementById("text_@item.TopicID").innerHTML = window.unescape("@item.Topic_content")
+            });
+        </script>
+    }
+}
+
+<div class="page-content" style="padding: 20px 100px 20px 100px">
 
     <div class="row">
         <div class="col-lg-12 blog-page">
@@ -15,51 +27,97 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-lg-12 col-md-9 col-sm-8 blog-articles">
-                                <h1 style="text-align:center">Topic</h1>
-
-                                @foreach (var item in Model.ListTopic)
+                                <h1 style="text-align:center">DANH SÁCH BÀI VIẾT</h1>
+                                @if (Model.ListTopic.Count() > 0)
                                 {
-                                    if (item.IsApprove == true && item.IsDelete == false)
+                                    foreach (var item in Model.ListTopic)
                                     {
-                                        <div class="row">
-                                            <div class="col-md-4 blog-img">
-                                                <img src="~/Content/img/blog.jpg" alt="" class="img-responsive" style="width: 80%;" />
-                                                <ul class="list-inline blog-date">
-                                                    <li><i class="fa fa-calendar fa-fw"></i>@item.CreatedDate</li>
-                                                    @if (item.UpdatedDate != null)
-                                                    {
+                                        if (item.IsApprove == true && item.IsDelete == false)
+                                        {
+                                            <div class="row">
+                                                <div class="col-md-4 blog-img">
+                                                    <img src="@item.ImageUrl" style="width:150px; height:150px" class="img-responsive" />
+                                                    <ul class="list-inline blog-date">
                                                         <li>
-                                                            <i class="fa fa-edit"></i>@item.UpdatedDate
+                                                            <i class="fa fa-calendar fa-fw"></i>
+                                                            &nbsp;
+                                                            Ngày đăng: @item.CreatedDate.ToString("dd/MM/yy")
                                                         </li>
-                                                    }
-                                                </ul>
+                                                    </ul>
+                                                    <ul class="list-inline blog-date">
+                                                        @if (item.UpdatedDate != null)
+                                                        {
+                                                            <li>
+                                                                <i class="fa fa-edit"></i>
+                                                                Lần chỉnh sửa cuối: @item.UpdatedDate.Value.ToString("dd/MM/yy")
+                                                            </li>
+                                                        }
+                                                    </ul>
+                                                </div>
+                                                <div class="col-md-8 blog-article">
+                                                    <h3><a href="@Url.Action("Detail", new { id = item.TopicID })">@item.Title</a></h3>
+                                                    <div id="text_@item.TopicID">
+                                                        @item.Topic_content
+                                                    </div>
+                                                    <a href="@Url.Action("Detail", new { id = item.TopicID })" class="btn btn-primary">
+                                                        Đọc thêm
+                                                        &nbsp;<i class="fa fa-arrow-circle-right"></i>
+                                                    </a>
+                                                </div>
                                             </div>
-                                            <div class="col-md-8 blog-article">
-                                                <h3><a href="@Url.Action("Detail", new { id = item.TopicID })">@item.Title</a></h3>
-                                                <p>
-                                                    @item.Topic_content
-                                                </p>
-                                                <a href="@Url.Action("TopicItem")" class="btn btn-primary">
-                                                    Read more
-                                                    &nbsp;<i class="fa fa-arrow-circle-right"></i>
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <hr />
+                                            <hr />
+                                        }
                                     }
                                 }
+                                else
+                                {
+                                    <h3> Hiện chưa có bài viết nào được đăng </h3>
+                                }
                             </div>
-
+                            <div class="col-lg-3 col-md-3 col-sm-4 blog-sidebar">
+                                <h3>Tìm kiếm</h3>
+                                <div class="blog-search">
+                                    <div class="input-group">
+                                        <input type="text" placeholder="Nhập từ khóa..." class="form-control" />
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <br />
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <div class="btn-group">
+                                        <a href="@Url.Action("Create", "Topic")" class="btn btn-info" style="width:168px; height:34px">
+                                            Tạo bài viết mới
+                                            &nbsp;<i class="fa fa-pencil pull-right"></i>
+                                        </a>
+                                    </div>
+                                    <br />
+                                    <br />
+                                    <div class="btn-group">
+                                        <a href="@Url.Action("OwnList", "Topic")" class="btn btn-warning" style="width:168px; height:34px">
+                                            Bài viết của tôi
+                                            &nbsp;<i class="fa fa-book pull-right"></i>
+                                        </a>
+                                    </div>
+                                }
+                            </div>
                         </div>
-                        <ul class="pagination pull-right">
-                            <li><a href="#"><i class="fa fa-angle-left"></i></a></li>
-                            <li><a href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">5</a></li>
-                            <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
-                        </ul>
+                        @if (Model.ListTopic.Count() > 5)
+                        {
+                            <ul class="pagination pull-right">
+                                <li><a href="#"><i class="fa fa-angle-left"></i></a></li>
+                                <li><a href="#">1</a></li>
+                                <li><a href="#">2</a></li>
+                                <li><a href="#">3</a></li>
+                                <li><a href="#">4</a></li>
+                                <li><a href="#">5</a></li>
+                                <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
+                            </ul>
+                        }
                     </div>
                 </div>
             }

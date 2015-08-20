@@ -1,7 +1,7 @@
 ﻿@model JobSearchingSystem.Models.TopCreateViewModel
 
 @{
-    ViewBag.Title = "CreateTopic";
+    ViewBag.Title = "UpdateTopic";
     Layout = "~/Views/Shared/_LayoutFinal.cshtml";
 }
 
@@ -24,10 +24,10 @@
     function makeSafe() {
         document.getElementById('Topic_content2').value = window.escape(CKEDITOR.instances.Topic_content.getData());
     };
-
-    function makeDangerous() {
-        document.getElementById('Topic_content').value = window.unescape(document.getElementById('Topic_content').value);
-    }
+    
+    $(document).ready(function () {
+        document.getElementById("Topic_content").innerHTML = window.unescape("@Model.Topic_content")
+    });
 
     function readURL(input) {
         if (input.files && input.files[0]) {
@@ -43,27 +43,34 @@
     }
 </script>
 
+
 <div class="page-content" style="padding: 20px 100px 20px 100px">
-    @using (Html.BeginForm("Create", "Topic", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    @using (Html.BeginForm("Update", "Topic", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         <div class="row">
             <div class="col-lg-12">
                 <div class="panel panel-dark">
-                    <div class="panel-heading">Tạo Topic</div>
+                    <div class="panel-heading">Chỉnh sửa bài viết</div>
+                    <input type="hidden" name="TopicID" value="@Model.TopicID"/>
+                    <input type="hidden" name="WriterID" value="@Model.WriterID" />
+                    <input type="hidden" name="CreatedDate" value="@Model.CreatedDate" />
+                    @Html.HiddenFor(model => model.IsApprove)
+                    @Html.HiddenFor(model => model.IsDelete)
                     <div class="panel-body pan">
                         <div class="form-horizontal form-bordered">
                             <div class="form-body">
                                 <div class="form-group">
                                     <label class="col-md-2 control-label">Chủ đề</label>
-                                    <div class="col-md-9"><input id="subject" type="text" name="Title" placeholder="" class="form-control" /></div>
+                                    <div class="col-md-9"><input id="subject" type="text" name="Title" placeholder="" class="form-control" value="@Model.Title" /></div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-2 control-label">Ảnh đề tài</label>
-                                    <div class="col-md-9"><input type="file" name="file" onchange="readURL(this);" accept="image/*" /></div>
+                                    <div class="col-md-9"><input type="file" name="file" onchange="readURL(this)"/></div>
+                                    <input type="hidden" name="ImageUrl" value="@Model.ImageUrl" />
                                 </div>
                                 <div class="form-group">
                                     <div class="col-md-2"></div>
-                                    <div class="col-md-9"><img id="blah" src="~/Content/img/TopicImg/blankImage.png" alt="your image" style="width:150px; height:150px;" class="img-responsive" /></div>
+                                    <div class="col-md-9"><img id="blah" src="@Model.ImageUrl" alt="your image" style="width:150px; height:150px;" class="img-responsive" /></div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-2 control-label">Nội dung</label>

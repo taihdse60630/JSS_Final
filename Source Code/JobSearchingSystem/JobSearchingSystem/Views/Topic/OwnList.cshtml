@@ -15,6 +15,18 @@
     });
 </script>
 
+@foreach (var item in @Model.ListTopic)
+{
+    if (item.Topic_content != null)
+    {
+        <script>
+            $(document).ready(function () {
+            document.getElementById("text_@item.TopicID").innerHTML = window.unescape("@item.Topic_content")
+            });
+        </script>
+    }
+}
+
 <div id="ModalDeleteConfirm" tabindex="-1" role="dialog" aria-labelledby="modal-default-label" aria-hidden="false" class="modal fade in" style="display: none;">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -39,24 +51,24 @@
     </div>
 </div>
 
-<div class="page-content" style="padding: 20px 100px 20px 200px">
+<div class="page-content" style="padding: 20px 100px 20px 100px">
     <div class="row">
         <div class="col-lg-12 blog-page">
             <div class="panel">
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-9 col-md-9 col-sm-8 blog-articles">
-                            <h1>Bài viết đã đăng</h1>
+                            <h1 style="text-align:center">Bài viết đã đăng</h1>
                             @foreach (var item in @Model.ListTopic)
                             {
                                 <div class="row">
                                     <div class="col-md-4 blog-img">
-                                        <img src="~/Content/img/TopicImage/frog.png" style="width:150px; height:150px" class="img-responsive">
+                                        <img src="@item.ImageUrl" style="width:150px; height:150px" class="img-responsive">
                                         <ul class="list-inline blog-date">
                                             <li>
                                                 <i class="fa fa-calendar fa-fw"></i>
                                                 &nbsp;
-                                                Ngày đăng: @item.CreatedDate.ToShortDateString()
+                                                Ngày đăng: @item.CreatedDate.ToString("dd/MM/yy")
                                             </li>
                                         </ul>
                                         <ul class="list-inline blog-date">
@@ -64,12 +76,12 @@
                                             {
                                                 <li>
                                                     <i class="fa fa-edit"></i>
-                                                    Lần chỉnh sửa cuối: @item.UpdatedDate.Value.ToShortDateString()
+                                                    Lần chỉnh sửa cuối: @item.UpdatedDate.Value.ToString("dd/MM/yy")
                                                 </li>
                                             }
                                         </ul>
                                         <ul class="list-inline blog-tags">
-                                            <li>
+                                            <li> 
                                                 <i class="fa fa-tags fa-fw"></i>
                                                 @if (item.IsApprove == true)
                                                 {
@@ -88,17 +100,17 @@
                                     </div>
                                     <div class="col-md-8 blog-article">
                                         <h3><a href="@Url.Action("Detail", new { id = item.TopicID })">@item.Title</a></h3>
-                                        <p>
+                                        <div id="text_@item.TopicID">
                                             @item.Topic_content
-                                        </p>
-                                        <a href="@Url.Action("TopicItem")" class="btn btn-primary">
+                                        </div>
+                                        <a href="@Url.Action("Detail", new { id = item.TopicID })" class="btn btn-primary">
                                             Đọc thêm
                                             &nbsp;<i class="fa fa-arrow-circle-right"></i>
                                         </a>
-                                        <button type="button" class="btn btn-info">
+                                        <a href="@Url.Action("Update", new { topicID =item.TopicID})" type="button" class="btn btn-info">
                                             Chỉnh sửa
                                             &nbsp;<i class="fa fa-edit"></i>
-                                        </button>
+                                        </a>
                                         <button type="button" data-target="#ModalDeleteConfirm" data-id="@item.TopicID" data-toggle="modal" class="open-ModalDeleteConfirm btn btn-danger">
                                             Xóa
                                             &nbsp;<i class="fa fa-trash-o"></i>
@@ -119,35 +131,31 @@
                                     </span>
                                 </div>
                             </div>
+                            <br/>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <div class="btn-group">
+                                    <a href="@Url.Action("Create", "Topic")" class="btn btn-info" style="width:168px; height:34px">
+                                        Tạo bài viết mới
+                                        &nbsp;<i class="fa fa-pencil pull-right"></i>
+                                    </a>
+                                </div>
+                            }
+
                         </div>
                     </div>
-                    <ul class="pagination pull-right">
-                        <li>
-                            <a href="#">
-                                <i class="fa fa-angle-left"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">1</a>
-                        </li>
-                        <li>
-                            <a href="#">2</a>
-                        </li>
-                        <li>
-                            <a href="#">3</a>
-                        </li>
-                        <li>
-                            <a href="#">4</a>
-                        </li>
-                        <li>
-                            <a href="#">5</a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="fa fa-angle-right"></i>
-                            </a>
-                        </li>
-                    </ul>
+                    @if (Model.ListTopic.Count() > 5)
+                    {
+                        <ul class="pagination pull-right">
+                            <li><a href="#"><i class="fa fa-angle-left"></i></a></li>
+                            <li><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">4</a></li>
+                            <li><a href="#">5</a></li>
+                            <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
+                        </ul>
+                    }
                 </div>
             </div>
         </div>

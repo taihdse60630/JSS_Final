@@ -5,89 +5,48 @@
     Layout = "~/Views/Shared/_LayoutFinal.cshtml";
 }
 
-<div class="page-content" style="padding: 20px 100px 20px 200px">
+<script>
+    $(document).ready(function () {
+        document.getElementById("Topic_content").innerHTML = window.unescape("@Model.Topic_content")
+    });
+</script>
+<div class="page-content" style="padding: 20px 100px 20px 100px">
     <div class="row">
         <div class="col-lg-12 blog-page">
-            @using (Html.BeginForm("Create", "Topic", FormMethod.Post))
-            {
-                <div class="panel">
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-lg-12 col-md-9 col-sm-8 blog-articles">
-                                <h3 style="font-weight:600;font-size:xx-large;text-align:center">@Model.Title</h3>
-                                <br />
-
-                                <div class="blog-img"><img src="~/Content/img/blog.jpg" alt="" class="img-responsive" style="width: 60%;margin-left: 19%;" /></div>
-                                <div class="row mbm">
-                                    <div class="col-md-6 text-right">
-                                        <ul class="list-inline blog-date">
-                                            <li><i class="fa fa-calendar fa-fw"></i><a href="#">@Model.CreatedDate</a></li>
-                                        </ul>
-                                    </div>
+            <div class="panel">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 blog-articles">
+                            <h1 style="text-align:center">@Model.Title</h1>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-4 blog-img">
+                                    <img src="@Model.ImageUrl" style="width:150px; height:150px" class="img-responsive" />
+                                    <ul class="list-inline blog-date">
+                                        <li>
+                                            <i class="fa fa-calendar fa-fw"></i>
+                                            Ngày đăng: @Model.CreatedDate.ToString("dd/MM/yy")
+                                        </li>
+                                    </ul>
+                                    <ul class="list-inline blog-date">
+                                        @if (Model.UpdatedDate != null)
+                                        {
+                                            <li>
+                                                <i class="fa fa-edit"></i>
+                                                Lần chỉnh sửa cuối: @Model.UpdatedDate.Value.ToString("dd/MM/yy")
+                                            </li>
+                                        }
+                                    </ul>
                                 </div>
-                                <div>
-                                    <p>
-                                        @Model.Topic_content
-                                    </p>
+                                <div id="Topic_content">
+                                    @Model.Topic_content
                                 </div>
-                                <hr class="mtxl mbl" />
-                                <h3>Comments</h3>
-                                <ul class="media-list">
-                                    <li class="media">
-                                        <a href="#" class="pull-left"><img src="~/Content/img/TGB.jpg" style="width: 64px; height: 64px;" class="media-object" /></a>
-
-                                        <div class="media-body">
-                                            <h4 class="media-heading">Media heading<span class="pull-right">5 hours ago / <a href='#'>Reply</a></span></h4>
-
-                                            <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.</p>
-                                            <hr />
-                                            <div class="media">
-                                                <a href="#" class="pull-left"><img src="~/Content/img/ichinose.jpg" style="width: 64px; height: 64px;" class="media-object" /></a>
-
-                                                <div class="media-body">
-                                                    <h4 class="media-heading">Nested media heading<span class="pull-right">8 hours ago / <a href='#'>Reply</a></span></h4>
-
-                                                    <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.</p>
-                                                    <hr />
-                                                    <div class="media">
-                                                        <a href="#" class="pull-left"><img src="~/Content/img/TGB.jpg" style="width: 64px; height: 64px;" class="media-object" /></a>
-
-                                                        <div class="media-body">
-                                                            <h4 class="media-heading">Nested media heading<span class="pull-right">2 days ago / <a href='#'>Reply</a></span></h4>
-
-                                                            <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <hr />
-                                            <div class="media">
-                                                <a href="#" class="pull-left"><img src="~/Content/img/ichinose.jpg" style="width: 64px; height: 64px;" class="media-object" /></a>
-
-                                                <div class="media-body">
-                                                    <h4 class="media-heading">Nested media heading<span class="pull-right">May 14,2013 / <a href='#'>Reply</a></span></h4>
-
-                                                    <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                                <hr class="mtxl mbl" />
-                                <h3>Leave a Comment</h3>
-
-                                <form action="">
-                                    <div class="form-group"><label class="control-label">Name <span class='text-red'>*</span></label><input type="text" placeholder="Name" class="form-control" /></div>
-                                    <div class="form-group"><label class="control-label">Email <span class='text-red'>*</span></label><input type="email" placeholder="Email address" class="form-control" /></div>
-                                    <div class="form-group"><label class="control-label">Message <span class='text-red'>*</span></label><textarea placeholder="Enter message..." rows="5" class="form-control"></textarea></div>
-                                    <button type="submit" class="btn btn-success">Post a comment</button>
-                                </form>
                             </div>
-
                         </div>
                     </div>
                 </div>
-            }
+                }
+            </div>
         </div>
     </div>
 </div>

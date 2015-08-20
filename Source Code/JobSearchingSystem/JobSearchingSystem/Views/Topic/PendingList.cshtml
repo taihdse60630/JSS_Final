@@ -21,8 +21,19 @@
         // it is superfluous to have to manually call the modal.
         // $('#addBookDialog').modal('show');
     });
-
 </script>
+
+@foreach (var item in @Model.ListTopic)
+{
+    if (item.Topic_content != null)
+    {
+        <script>
+            $(document).ready(function () {
+                document.getElementById("text_@item.TopicID").innerHTML = window.unescape("@item.Topic_content")
+            });
+        </script>
+    }
+}
 
 <div id="ModalApproveConfirm" tabindex="-1" role="dialog" aria-labelledby="modal-default-label" aria-hidden="false" class="modal fade in" style="display: none;">
     <div class="modal-dialog">
@@ -84,12 +95,12 @@
                             {
                                 <div class="row">
                                     <div class="col-md-4 blog-img">
-                                        <img src="~/Content/img/TopicImage/frog.png" style="width:150px; height:150px" class="img-responsive">
+                                        <img src="@item.ImageUrl" style="width:150px; height:150px" class="img-responsive">
                                         <ul class="list-inline blog-date">
                                             <li>
                                                 <i class="fa fa-calendar fa-fw"></i>
                                                 &nbsp;
-                                                Ngày đăng: @item.CreatedDate.ToShortDateString()
+                                                Ngày đăng: @item.CreatedDate.ToString("dd/MM/yy")
                                             </li>
                                         </ul>
                                         <ul class="list-inline blog-date">
@@ -97,7 +108,7 @@
                                             {
                                                 <li>
                                                     <i class="fa fa-edit"></i>
-                                                    Lần chỉnh sửa cuối: @item.UpdatedDate.Value.ToShortDateString()
+                                                    Lần chỉnh sửa cuối: @item.UpdatedDate.Value.ToString("dd/MM/yy")
                                                 </li>
                                             }
                                         </ul>
@@ -121,9 +132,9 @@
                                     </div>
                                     <div class="col-md-8 blog-article">
                                         <h3><a href="@Url.Action("Detail", new { id = item.TopicID })">@item.Title</a></h3>
-                                        <p>
+                                        <div id="text_@item.TopicID">
                                             @item.Topic_content
-                                        </p>
+                                        </div>
                                         <a href="@Url.Action("Detail", new { id = item.TopicID })" class="btn btn-primary">
                                             Đọc thêm
                                             &nbsp;<i class="fa fa-arrow-circle-right"></i>
