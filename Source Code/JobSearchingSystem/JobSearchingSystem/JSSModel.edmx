@@ -465,7 +465,7 @@
           <Key>
             <PropertyRef Name="Skill_ID" />
           </Key>
-          <Property Name="Skill_ID" Type="int" Nullable="false" />
+          <Property Name="Skill_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SkillTag" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
         </EntityType>
@@ -2488,7 +2488,7 @@
           <Key>
             <PropertyRef Name="Skill_ID" />
           </Key>
-          <Property Name="Skill_ID" Type="Int32" Nullable="false" />
+          <Property Name="Skill_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="SkillTag" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="JobSkills" Relationship="JSSModel.FK_JobSkill_Skill" FromRole="Skill" ToRole="JobSkill" />
