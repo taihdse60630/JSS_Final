@@ -17,7 +17,6 @@ namespace JobSearchingSystem
         public Staff()
         {
             this.PurchaseJobPackages = new HashSet<PurchaseJobPackage>();
-            this.Topics = new HashSet<Topic>();
         }
     
         public string StaffID { get; set; }
@@ -25,6 +24,5 @@ namespace JobSearchingSystem
     
         public virtual AspNetUser AspNetUser { get; set; }
         public virtual ICollection<PurchaseJobPackage> PurchaseJobPackages { get; set; }
-        public virtual ICollection<Topic> Topics { get; set; }
     }
 }

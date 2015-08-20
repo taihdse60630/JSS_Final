@@ -22,10 +22,11 @@ namespace JobSearchingSystem
         public System.DateTime CreatedDate { get; set; }
         public Nullable<System.DateTime> UpdatedDate { get; set; }
         public string UpdatedStaffID { get; set; }
-        public bool IsApproved { get; set; }
+        public Nullable<bool> IsApproved { get; set; }
         public bool IsDeleted { get; set; }
+        public bool IsUpdated { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
-        public virtual Staff Staff { get; set; }
+        public virtual AspNetUser AspNetUser1 { get; set; }
     }
 }

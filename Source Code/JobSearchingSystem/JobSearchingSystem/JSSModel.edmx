@@ -498,8 +498,9 @@
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
           <Property Name="UpdatedDate" Type="datetime" />
           <Property Name="UpdatedStaffID" Type="nvarchar" MaxLength="128" />
-          <Property Name="IsApproved" Type="bit" Nullable="false" />
+          <Property Name="IsApproved" Type="bit" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="IsUpdated" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="ViewProfile">
           <Key>
@@ -1262,12 +1263,12 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Topic_Staff">
-          <End Role="Staff" Type="Self.Staff" Multiplicity="0..1" />
+        <Association Name="FK_Topic_AspNetUsers1">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
           <End Role="Topic" Type="Self.Topic" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Staff">
-              <PropertyRef Name="StaffID" />
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Topic">
               <PropertyRef Name="UpdatedStaffID" />
@@ -1594,8 +1595,8 @@
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="Topic" EntitySet="Topic" />
           </AssociationSet>
-          <AssociationSet Name="FK_Topic_Staff" Association="Self.FK_Topic_Staff">
-            <End Role="Staff" EntitySet="Staff" />
+          <AssociationSet Name="FK_Topic_AspNetUsers1" Association="Self.FK_Topic_AspNetUsers1">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="Topic" EntitySet="Topic" />
           </AssociationSet>
           <AssociationSet Name="FK_ViewProfile_Profile" Association="Self.FK_ViewProfile_Profile">
@@ -1723,6 +1724,10 @@
             <End Role="Staff" EntitySet="Staffs" />
           </AssociationSet>
           <AssociationSet Name="FK_Topic_AspNetUsers" Association="JSSModel.FK_Topic_AspNetUsers">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="Topic" EntitySet="Topics" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Topic_AspNetUsers1" Association="JSSModel.FK_Topic_AspNetUsers1">
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
             <End Role="Topic" EntitySet="Topics" />
           </AssociationSet>
@@ -1906,10 +1911,6 @@
             <End Role="Recruiter" EntitySet="Recruiters" />
             <End Role="ViewProfile" EntitySet="ViewProfiles" />
           </AssociationSet>
-          <AssociationSet Name="FK_Topic_Staff" Association="JSSModel.FK_Topic_Staff">
-            <End Role="Staff" EntitySet="Staffs" />
-            <End Role="Topic" EntitySet="Topics" />
-          </AssociationSet>
           <AssociationSet Name="AspNetUserRoles" Association="JSSModel.AspNetUserRoles">
             <End Role="AspNetRole" EntitySet="AspNetRoles" />
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
@@ -2014,6 +2015,7 @@
           <NavigationProperty Name="Reports1" Relationship="JSSModel.FK_Report_AspNetUsers1" FromRole="AspNetUser" ToRole="Report" />
           <NavigationProperty Name="Staff" Relationship="JSSModel.FK_Staff_AspNetUsers" FromRole="AspNetUser" ToRole="Staff" />
           <NavigationProperty Name="Topics" Relationship="JSSModel.FK_Topic_AspNetUsers" FromRole="AspNetUser" ToRole="Topic" />
+          <NavigationProperty Name="Topics1" Relationship="JSSModel.FK_Topic_AspNetUsers1" FromRole="AspNetUser" ToRole="Topic" />
           <NavigationProperty Name="AspNetRoles" Relationship="JSSModel.AspNetUserRoles" FromRole="AspNetUser" ToRole="AspNetRole" />
         </EntityType>
         <EntityType Name="Benefit">
@@ -2500,7 +2502,6 @@
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="AspNetUser" Relationship="JSSModel.FK_Staff_AspNetUsers" FromRole="Staff" ToRole="AspNetUser" />
           <NavigationProperty Name="PurchaseJobPackages" Relationship="JSSModel.FK_PurchaseJobPackage_Staff" FromRole="Staff" ToRole="PurchaseJobPackage" />
-          <NavigationProperty Name="Topics" Relationship="JSSModel.FK_Topic_Staff" FromRole="Staff" ToRole="Topic" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
@@ -2524,10 +2525,11 @@
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
           <Property Name="UpdatedStaffID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="IsApproved" Type="Boolean" Nullable="false" />
+          <Property Name="IsApproved" Type="Boolean" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="IsUpdated" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="AspNetUser" Relationship="JSSModel.FK_Topic_AspNetUsers" FromRole="Topic" ToRole="AspNetUser" />
-          <NavigationProperty Name="Staff" Relationship="JSSModel.FK_Topic_Staff" FromRole="Topic" ToRole="Staff" />
+          <NavigationProperty Name="AspNetUser1" Relationship="JSSModel.FK_Topic_AspNetUsers1" FromRole="Topic" ToRole="AspNetUser" />
         </EntityType>
         <EntityType Name="ViewProfile">
           <Key>
@@ -2745,6 +2747,18 @@
             </Principal>
             <Dependent Role="Topic">
               <PropertyRef Name="WriterID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Topic_AspNetUsers1">
+          <End Type="JSSModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
+          <End Type="JSSModel.Topic" Role="Topic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Topic">
+              <PropertyRef Name="UpdatedStaffID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3288,18 +3302,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Topic_Staff">
-          <End Type="JSSModel.Staff" Role="Staff" Multiplicity="0..1" />
-          <End Type="JSSModel.Topic" Role="Topic" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Staff">
-              <PropertyRef Name="StaffID" />
-            </Principal>
-            <Dependent Role="Topic">
-              <PropertyRef Name="UpdatedStaffID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="AspNetUserRoles">
           <End Type="JSSModel.AspNetRole" Role="AspNetRole" Multiplicity="*" />
           <End Type="JSSModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
@@ -3815,6 +3817,7 @@
           <EntitySetMapping Name="Topics">
             <EntityTypeMapping TypeName="JSSModel.Topic">
               <MappingFragment StoreEntitySet="Topic">
+                <ScalarProperty Name="IsUpdated" ColumnName="IsUpdated" />
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
                 <ScalarProperty Name="UpdatedStaffID" ColumnName="UpdatedStaffID" />

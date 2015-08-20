@@ -23,6 +23,7 @@ namespace JobSearchingSystem
             this.Reports = new HashSet<Report>();
             this.Reports1 = new HashSet<Report>();
             this.Topics = new HashSet<Topic>();
+            this.Topics1 = new HashSet<Topic>();
             this.AspNetRoles = new HashSet<AspNetRole>();
         }
     
@@ -46,6 +47,7 @@ namespace JobSearchingSystem
         public virtual ICollection<Report> Reports1 { get; set; }
         public virtual Staff Staff { get; set; }
         public virtual ICollection<Topic> Topics { get; set; }
+        public virtual ICollection<Topic> Topics1 { get; set; }
         public virtual ICollection<AspNetRole> AspNetRoles { get; set; }
     }
 }
