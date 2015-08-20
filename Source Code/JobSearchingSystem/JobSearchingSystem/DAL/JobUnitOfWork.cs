@@ -240,10 +240,11 @@ namespace JobSearchingSystem.DAL
                     select new JAppliedJob()
                     {
                         JobName = b.JobTitle,
-                        //CompanyName = b.Company,
+                        CompanyName = this.CompanyInfoRepository.Get(s => s.RecruiterID == b.RecruiterID).FirstOrDefault().Company,
                         AppliedDate = a.ApplyDate,
                         JobID = a.JobID,
                         JobSeekerID = a.JobSeekerID,
+                        RecruiterID = b.RecruiterID,
                         Status = a.Status,
 
                     }).AsEnumerable();
@@ -269,7 +270,7 @@ namespace JobSearchingSystem.DAL
 
         public IEnumerable<Profile> getJobSeekerProfile(string userID)
         {
-            return ProfileRepository.Get(s => s.JobSeekerID == userID && s.IsDeleted == false).AsEnumerable();
+            return ProfileRepository.Get(s => s.JobSeekerID == userID && s.IsActive == true && s.IsDeleted == false).AsEnumerable();
         }
 
         public bool ApplyJob(int jobID, int profileID, string userID)

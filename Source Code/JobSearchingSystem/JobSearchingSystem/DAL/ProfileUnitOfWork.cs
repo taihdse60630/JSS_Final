@@ -96,7 +96,7 @@ namespace JobSearchingSystem.DAL
 
             try
             {
-                if (this.ProfileRepository.Get(filter: d => d.Name == profile.Name).FirstOrDefault() == null)
+                if (this.ProfileRepository.Get(filter: d => d.Name == profile.Name && d.JobSeekerID == profile.JobSeekerID).FirstOrDefault() == null)
                 {
                     // Add new
                     this.ProfileRepository.Insert(profile);
@@ -135,7 +135,7 @@ namespace JobSearchingSystem.DAL
                 else
                 {
                     // Update
-                    Profile profileToUpdate = this.ProfileRepository.Get(filter: d => d.Name == profile.Name).FirstOrDefault();
+                    Profile profileToUpdate = this.ProfileRepository.Get(filter: d => d.Name == profile.Name && d.JobSeekerID == profile.JobSeekerID).FirstOrDefault();
                     profileToUpdate.YearOfExperience = profile.YearOfExperience;
                     profileToUpdate.HighestSchoolLevel_ID = profile.HighestSchoolLevel_ID;
                     profileToUpdate.LanguageID = profile.LanguageID;
@@ -148,6 +148,9 @@ namespace JobSearchingSystem.DAL
                     profileToUpdate.ExpectedSalary = profile.ExpectedSalary;
                     profileToUpdate.UpdatedTime = DateTime.Now;
                     profileToUpdate.Objectives = profile.Objectives;
+                    profileToUpdate.JobSeekerID = profile.JobSeekerID;
+                    profileToUpdate.IsActive = profile.IsActive;
+                    profileToUpdate.IsDeleted = false;
 
                     this.ProfileRepository.Update(profileToUpdate);
                     this.Save();
