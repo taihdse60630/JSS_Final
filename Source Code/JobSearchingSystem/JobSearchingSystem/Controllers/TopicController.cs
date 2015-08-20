@@ -14,6 +14,7 @@ namespace JobSearchingSystem.Controllers
     public class TopicController : Controller
     {
         private TopicFunctionModel functionModel = new TopicFunctionModel();
+        private TopicUnitOfWork topicUnitOfWork = new TopicUnitOfWork();
 
         // GET: /Topic/
         public ActionResult Index()
@@ -42,7 +43,7 @@ namespace JobSearchingSystem.Controllers
         public ActionResult Update(TopCreateViewModel model, HttpPostedFileBase file)
         {
             //Get user ID here
-            model.UpdateStaffID = "2c6c4ab1-feb7-49fc-a84e-7fbf9736e7fc";
+            model.UpdateStaffID = topicUnitOfWork.AspNetUserRepository.Get(s => s.UserName == User.Identity.Name).FirstOrDefault().Id;
             model.UpdatedDate = DateTime.Now;
             
             //File uploade code
@@ -68,7 +69,7 @@ namespace JobSearchingSystem.Controllers
         public ActionResult Create(TopCreateViewModel model, HttpPostedFileBase file)
         {
             //Get user ID here
-            model.WriterID = "2c6c4ab1-feb7-49fc-a84e-7fbf9736e7fc";
+            model.WriterID = topicUnitOfWork.AspNetUserRepository.Get(s => s.UserName == User.Identity.Name).FirstOrDefault().Id;
             model.CreatedDate = DateTime.Now;
 
             //File uploade code
@@ -106,7 +107,7 @@ namespace JobSearchingSystem.Controllers
         //Display own list.
         public ActionResult OwnList()
         {
-            string userID = "2c6c4ab1-feb7-49fc-a84e-7fbf9736e7fc"; //Code for getting user ID is putting here.
+            string userID = topicUnitOfWork.AspNetUserRepository.Get(s => s.UserName == User.Identity.Name).FirstOrDefault().Id;
             TopListViewModel model = functionModel.GetListByUserID(userID);
             return View(model);
         }
