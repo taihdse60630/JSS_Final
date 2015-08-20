@@ -9,7 +9,8 @@ namespace JobSearchingSystem.DAL
 {
     public class JobUnitOfWork : UnitOfWork
     {
-        public Boolean checkCity(IEnumerable<int> searchJobCities, IEnumerable<JJobCity> cityList){
+        public Boolean checkCity(IEnumerable<int> searchJobCities, IEnumerable<JJobCity> cityList)
+        {
             Boolean flag = false;
             if (searchJobCities == null)
             {
@@ -17,7 +18,7 @@ namespace JobSearchingSystem.DAL
             }
             else
             {
-               
+
                 foreach (var item in cityList)
                 {
                     foreach (var item2 in searchJobCities)
@@ -29,7 +30,7 @@ namespace JobSearchingSystem.DAL
                     }
                 }
             }
-        
+
             return flag;
         }
 
@@ -72,32 +73,32 @@ namespace JobSearchingSystem.DAL
 
         public IEnumerable<JJobItem> FindJob(String searchString, double minSalary, int schoolLevel, IEnumerable<int> jobCities, IEnumerable<int> jobCategories)
         {
-           
+
             var jobList = (from j in this.JobRepository.Get()
-                    join c in this.CompanyInfoRepository.Get() on j.RecruiterID equals c.RecruiterID
-                    join d in this.JobLevelRepository.Get() on j.JobLevel_ID equals d.JobLevel_ID                  
-                    join f in this.SchoolLevelRepository.Get() on j.MinSchoolLevel_ID equals f.SchoolLevel_ID
-                    join g in this.PurchaseJobPackageRepository.Get() on j.PurchaseJobPackageId equals g.PurchaseJobPackageID
-                    join h in this.JobPackageRepository.Get() on g.JobPackageID equals h.JobPackageID
-                    where ((j.IsPublic) && (j.StartedDate <= DateTime.Now) && (j.EndedDate >= DateTime.Now))
-                    select new JJobItem()
-                    {
-                        JobID = j.JobID,
-                        RecruiterID = j.RecruiterID,
-                        JobTitle = j.JobTitle,
-                        LogoURL = c.LogoURL,
-                        JobLevelName = d.Name,
-                        MinSalary = j.MinSalary.GetValueOrDefault(0),
-                        MaxSalary = j.MaxSalary.GetValueOrDefault(0),
-                        PostedDate = j.StartedDate,                       
-                        SchoolLevel = f.LevelNum,
-                        CompanyDescription = c.Description,
-                        JobView = j.JobView,
-                        isHightLight = h.IsHighlight
-                       
-                    }
+                           join c in this.CompanyInfoRepository.Get() on j.RecruiterID equals c.RecruiterID
+                           join d in this.JobLevelRepository.Get() on j.JobLevel_ID equals d.JobLevel_ID
+                           join f in this.SchoolLevelRepository.Get() on j.MinSchoolLevel_ID equals f.SchoolLevel_ID
+                           join g in this.PurchaseJobPackageRepository.Get() on j.PurchaseJobPackageId equals g.PurchaseJobPackageID
+                           join h in this.JobPackageRepository.Get() on g.JobPackageID equals h.JobPackageID
+                           where ((j.IsPublic) && (j.StartedDate <= DateTime.Now) && (j.EndedDate >= DateTime.Now))
+                           select new JJobItem()
+                           {
+                               JobID = j.JobID,
+                               RecruiterID = j.RecruiterID,
+                               JobTitle = j.JobTitle,
+                               LogoURL = c.LogoURL,
+                               JobLevelName = d.Name,
+                               MinSalary = j.MinSalary.GetValueOrDefault(0),
+                               MaxSalary = j.MaxSalary.GetValueOrDefault(0),
+                               PostedDate = j.StartedDate,
+                               SchoolLevel = f.LevelNum,
+                               CompanyDescription = c.Description,
+                               JobView = j.JobView,
+                               isHightLight = h.IsHighlight
+
+                           }
                    ).ToArray();
-            
+
             for (int i = 0; i < jobList.Length; i++)
             {
                 jobList[i].JobCities = (from a in this.JobCityRepository.Get()
@@ -126,29 +127,29 @@ namespace JobSearchingSystem.DAL
             for (int i = 0; i < jobList.Length; i++)
             {
                 jobList[i].JobCategory = (from a in this.JobCategoryRepository.Get()
-                                        join b in this.CategoryRepository.Get() on a.CategoryID equals b.CategoryID
-                                        where a.JobID == jobList[i].JobID
-                                        select new JJobCategory()
-                                        {
-                                            JobID = a.JobID,
-                                            CategoryID = b.CategoryID,
-                                            Name = b.Name
-                                        }).ToArray();
+                                          join b in this.CategoryRepository.Get() on a.CategoryID equals b.CategoryID
+                                          where a.JobID == jobList[i].JobID
+                                          select new JJobCategory()
+                                          {
+                                              JobID = a.JobID,
+                                              CategoryID = b.CategoryID,
+                                              Name = b.Name
+                                          }).ToArray();
             }
 
-             if (!String.IsNullOrEmpty(searchString))
+            if (!String.IsNullOrEmpty(searchString))
             {
                 jobList = jobList.Where(s => LocDau(s.JobTitle.ToUpper()).Contains(LocDau(searchString.ToUpper()))
-                                         && ((double)s.MinSalary >= minSalary) && (s.SchoolLevel <= schoolLevel) && checkCity(jobCities,s.JobCities)
+                                         && ((double)s.MinSalary >= minSalary) && (s.SchoolLevel <= schoolLevel) && checkCity(jobCities, s.JobCities)
                                          && checkCategories(jobCategories, s.JobCategory)
                     ).ToArray();
             }
-             else
-             {
-                 jobList = jobList.Where(s => ((double)s.MinSalary >= minSalary)  && (s.SchoolLevel <= schoolLevel) && checkCity(jobCities, s.JobCities)
-                                         && checkCategories(jobCategories, s.JobCategory)).ToArray();
-             }
-               
+            else
+            {
+                jobList = jobList.Where(s => ((double)s.MinSalary >= minSalary) && (s.SchoolLevel <= schoolLevel) && checkCity(jobCities, s.JobCities)
+                                        && checkCategories(jobCategories, s.JobCategory)).ToArray();
+            }
+
             return jobList.Reverse().ToArray();
         }
 
@@ -161,61 +162,61 @@ namespace JobSearchingSystem.DAL
             this.JobRepository.Update(jobDetail);
             Save();
 
-           JJobItem job = (from j in this.JobRepository.Get()
-                    join c in this.CompanyInfoRepository.Get() on j.RecruiterID equals c.RecruiterID
-                    join d in this.JobLevelRepository.Get() on j.JobLevel_ID equals d.JobLevel_ID
-                    join e in this.JobCategoryRepository.Get() on j.JobID equals e.JobID
-                    join f in this.SchoolLevelRepository.Get() on j.MinSchoolLevel_ID equals f.SchoolLevel_ID                 
-                    where ((j.JobID == jobID) && (c.IsVisible = true) && (j.IsPublic = true) && (j.StartedDate <= DateTime.Now) && (j.EndedDate >= DateTime.Now))
-                    select new JJobItem()
-                    {
-                        JobID = j.JobID,
-                        RecruiterID = j.RecruiterID,
-                        JobTitle = j.JobTitle,
-                        LogoURL = c.LogoURL,
-                        JobLevelName = d.Name,
-                        MinSalary = j.MinSalary,
-                        MaxSalary = j.MaxSalary,
-                        PostedDate = j.StartedDate,                       
-                        SchoolLevel = f.LevelNum,
-                        Company = c.Company,
-                        Address = c.Address,
-                        JobView = j.JobView,
-                        JobDescription = j.JobDescription,
-                        JobRequirement = j.JobRequirement,
-                        CompanyDescription = c.Description
-                    }).ToArray().First();
-
-           job.ApplicantNumber = this.AppliedJobRepository.Get(filter: m => m.JobID == jobID).Count();
-
-           job.JobCities = (from a in this.JobCityRepository.Get()
-                                   join b in this.CityRepository.Get() on a.CityID equals b.CityID
-                                   where a.JobID == job.JobID
-                                   select new JJobCity()
-                                   {
-                                       CityID = a.CityID,
-                                       Name = b.Name
-                                   }).ToArray();
-           job.JobSkills = (from a in this.JobSkillRepository.Get()
-                                   join b in this.SkillRepository.Get() on a.Skill_ID equals b.Skill_ID
-                                   where a.JobID == job.JobID
-                                   select new JJobSkill()
-                                   {
-                                       JobID = a.JobID,
-                                       SkillID = b.Skill_ID,
-                                       SkillTag = b.SkillTag
-                                   }).ToArray();
-           job.JobCategory = (from a in this.JobCategoryRepository.Get()
-                            join b in this.CategoryRepository.Get() on a.CategoryID equals b.CategoryID
-                            where a.JobID == job.JobID
-                            select new JJobCategory()
+            JJobItem job = (from j in this.JobRepository.Get()
+                            join c in this.CompanyInfoRepository.Get() on j.RecruiterID equals c.RecruiterID
+                            join d in this.JobLevelRepository.Get() on j.JobLevel_ID equals d.JobLevel_ID
+                            join e in this.JobCategoryRepository.Get() on j.JobID equals e.JobID
+                            join f in this.SchoolLevelRepository.Get() on j.MinSchoolLevel_ID equals f.SchoolLevel_ID
+                            where ((j.JobID == jobID) && (c.IsVisible = true) && (j.IsPublic = true) && (j.StartedDate <= DateTime.Now) && (j.EndedDate >= DateTime.Now))
+                            select new JJobItem()
                             {
-                                JobID = a.JobID,
-                                CategoryID = b.CategoryID,
-                                Name = b.Name
-                            }).ToArray();
-            
-           return job;
+                                JobID = j.JobID,
+                                RecruiterID = j.RecruiterID,
+                                JobTitle = j.JobTitle,
+                                LogoURL = c.LogoURL,
+                                JobLevelName = d.Name,
+                                MinSalary = j.MinSalary,
+                                MaxSalary = j.MaxSalary,
+                                PostedDate = j.StartedDate,
+                                SchoolLevel = f.LevelNum,
+                                Company = c.Company,
+                                Address = c.Address,
+                                JobView = j.JobView,
+                                JobDescription = j.JobDescription,
+                                JobRequirement = j.JobRequirement,
+                                CompanyDescription = c.Description
+                            }).ToArray().First();
+
+            job.ApplicantNumber = this.AppliedJobRepository.Get(filter: m => m.JobID == jobID).Count();
+
+            job.JobCities = (from a in this.JobCityRepository.Get()
+                             join b in this.CityRepository.Get() on a.CityID equals b.CityID
+                             where a.JobID == job.JobID
+                             select new JJobCity()
+                             {
+                                 CityID = a.CityID,
+                                 Name = b.Name
+                             }).ToArray();
+            job.JobSkills = (from a in this.JobSkillRepository.Get()
+                             join b in this.SkillRepository.Get() on a.Skill_ID equals b.Skill_ID
+                             where a.JobID == job.JobID
+                             select new JJobSkill()
+                             {
+                                 JobID = a.JobID,
+                                 SkillID = b.Skill_ID,
+                                 SkillTag = b.SkillTag
+                             }).ToArray();
+            job.JobCategory = (from a in this.JobCategoryRepository.Get()
+                               join b in this.CategoryRepository.Get() on a.CategoryID equals b.CategoryID
+                               where a.JobID == job.JobID
+                               select new JJobCategory()
+                               {
+                                   JobID = a.JobID,
+                                   CategoryID = b.CategoryID,
+                                   Name = b.Name
+                               }).ToArray();
+
+            return job;
         }
 
         public bool IsJobExist(int jobID)
@@ -244,22 +245,22 @@ namespace JobSearchingSystem.DAL
                         JobID = a.JobID,
                         JobSeekerID = a.JobSeekerID,
                         Status = a.Status,
-                        
+
                     }).AsEnumerable();
         }
 
         public int DeleteAppliedRequest(int jobId, string jobseekerId)
         {
             var listBeforeDelete = (from a in this.AppliedJobRepository.Get()
-                        where a.JobID == jobId && a.JobSeekerID == jobseekerId && a.IsDeleted == true
-                        select a).ToArray();
+                                    where a.JobID == jobId && a.JobSeekerID == jobseekerId && a.IsDeleted == true
+                                    select a).ToArray();
 
 
             AppliedJob appliedJob = AppliedJobRepository.Get(filter: m => m.JobID == jobId && m.JobSeekerID == jobseekerId).FirstOrDefault();
             appliedJob.IsDeleted = true;
             AppliedJobRepository.Update(appliedJob);
             Save();
-         
+
             var list = (from a in this.AppliedJobRepository.Get()
                         where a.JobID == jobId && a.JobSeekerID == jobseekerId
                         select a).ToArray();
@@ -318,7 +319,7 @@ namespace JobSearchingSystem.DAL
         }
 
         //Change model information into Topic class
-        public Job Model_Topic(JobCreateModel model, int PurchaseJobPackageId)
+        public Job Model_Job(JobCreateModel model, int PurchaseJobPackageId)
         {
             Job temp = new Job();
             temp.RecruiterID = model.JobInfo.RecruiterID;
@@ -340,35 +341,101 @@ namespace JobSearchingSystem.DAL
         }
 
         //Create new job
-        public bool CreateJob(JobCreateModel model, int PurchaseJobPackageId)
+        public bool CreateJob(JobCreateModel model, int PurchaseJobPackageId, string skill1, string skill2, string skill3)
         {
             //try
             //{
-            this.JobRepository.Insert(Model_Topic(model, PurchaseJobPackageId));
+            this.JobRepository.Insert(Model_Job(model, PurchaseJobPackageId));
+            this.Save();
+
+            Job temp = this.JobRepository.Get(job => job.RecruiterID == model.JobInfo.RecruiterID && job.JobTitle == model.JobInfo.JobTitle).Last();
+
+            //Add city
+            foreach (int index in model.CitySelectList)
+            {
+                JobCity item = new JobCity();
+                item.JobID = temp.JobID;
+                item.CityID = index;
+                this.JobCityRepository.Insert(item);
                 this.Save();
+            }
 
-                Job temp = this.JobRepository.Get(job => job.RecruiterID == model.JobInfo.RecruiterID && job.JobTitle == model.JobInfo.JobTitle).Last();
+            //Add category
+            foreach (int index in model.CategorySelectList)
+            {
+                JobCategory item = new JobCategory();
+                item.JobID = temp.JobID;
+                item.CategoryID = index;
+                this.JobCategoryRepository.Insert(item);
+                this.Save();
+            }
 
-                //Add city
-                foreach (int index in model.CitySelectList)
+            //Skill part
+            if (skill1 != null)
+            {
+                Skill s1 = this.SkillRepository.Get(skill => skill.SkillTag == skill1).SingleOrDefault();
+                if (s1 != null)
                 {
-                    JobCity item = new JobCity();
-                    item.JobID = temp.JobID;
-                    item.CityID = index;
-                    this.JobCityRepository.Insert(item);
+                    JobSkill tempjs1 = new JobSkill();
+                    tempjs1.JobID = temp.JobID;
+                    tempjs1.Skill_ID = s1.Skill_ID;
+                    tempjs1.IsDeleted = false;
+                    this.JobSkillRepository.Insert(tempjs1);
                     this.Save();
                 }
-
-                //Add category
-                foreach (int index in model.CategorySelectList)
+                else
                 {
-                    JobCategory item = new JobCategory();
-                    item.JobID = temp.JobID;
-                    item.CategoryID = index;
-                    this.JobCategoryRepository.Insert(item);
+                    Skill temps1 = new Skill();
+                    temps1.SkillTag = skill1;
+                    temps1.IsDeleted = false;
+                    this.SkillRepository.Insert(temps1);
                     this.Save();
                 }
-                return true;
+            }
+
+            if (skill2 != null)
+            {
+                Skill s2 = this.SkillRepository.Get(skill => skill.SkillTag == skill2).SingleOrDefault();
+                if (s2 != null)
+                {
+                    JobSkill tempjs2 = new JobSkill();
+                    tempjs2.JobID = temp.JobID;
+                    tempjs2.Skill_ID = s2.Skill_ID;
+                    tempjs2.IsDeleted = false;
+                    this.JobSkillRepository.Insert(tempjs2);
+                    this.Save();
+                }
+                else
+                {
+                    Skill temps2 = new Skill();
+                    temps2.SkillTag = skill2;
+                    temps2.IsDeleted = false;
+                    this.SkillRepository.Insert(temps2);
+                    this.Save();
+                }
+            }
+            if (skill3 != null)
+            {
+                Skill s3 = this.SkillRepository.Get(skill => skill.SkillTag == skill3).SingleOrDefault();
+                if (s3 != null)
+                {
+                    JobSkill tempjs3 = new JobSkill();
+                    tempjs3.JobID = temp.JobID;
+                    tempjs3.Skill_ID = s3.Skill_ID;
+                    tempjs3.IsDeleted = false;
+                    this.JobSkillRepository.Insert(tempjs3);
+                    this.Save();
+                }
+                else
+                {
+                    Skill temps3 = new Skill();
+                    temps3.SkillTag = skill1;
+                    temps3.IsDeleted = false;
+                    this.SkillRepository.Insert(temps3);
+                    this.Save();
+                }
+            }
+            return true;
             //}
             //catch
             //{

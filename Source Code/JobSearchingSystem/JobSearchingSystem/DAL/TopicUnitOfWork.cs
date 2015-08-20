@@ -11,13 +11,31 @@ namespace JobSearchingSystem.DAL
         //Create new topic
         public bool Create(Topic newTopic)
         {
-            if (newTopic != null)
+            try
             {
                 this.TopicRepository.Insert(newTopic);
                 this.Save();
                 return true;
             }
-            return false;
+            catch
+            {
+                return false;
+            }
+        }
+
+        //Update topc
+        public bool Update(Topic updateTopic)
+        {
+            try
+            {
+                this.TopicRepository.Update(updateTopic);
+                this.Save();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         //Get all topic in List
