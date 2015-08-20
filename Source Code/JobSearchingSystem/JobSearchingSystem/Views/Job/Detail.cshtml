@@ -144,6 +144,7 @@ using (Html.BeginForm("AppliedJob", "Job", FormMethod.Post))
                             @if (Model.profileList.ToArray().Length == 0)
                             {
                                 <div style="color:red"> Bạn chưa tạo bất kì hồ sơ nào</div>
+                                <a href="@Url.Action("List", "Profile")"><i class="fa fa-arrow-right"></i>Tạo hồ sơ ngay</a>
                             }
                             else
                             {

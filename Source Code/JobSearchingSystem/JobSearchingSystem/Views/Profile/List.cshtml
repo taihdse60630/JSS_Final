@@ -109,9 +109,14 @@
                                         &nbsp;<i class="fa fa-edit" data-toggle="tooltip" title="Xem và Cập nhật"></i>
                                     </a>
                                     &nbsp;
-                                    <button type="button" data-target="#ModalDeleteConfirm" data-id="@item.ProfileID" data-toggle="modal" class="open-ModalDisapproveConfirm btn btn-danger" style="display:inline">
+                                    @using (Html.BeginForm("Delete", "Profile", FormMethod.Post, new { id = "DeleteForm" + item.ProfileID, style = "display: inline;" }))
+                                    {
+                                        <input type="hidden" name="profileID" value="@item.ProfileID" />
+                                        <button type="button" data-id="DeleteForm@(item.ProfileID)" data-message="Bạn thật sự muốn xóa?" class="btn btn-red btn-sm confirmButton"><i class="fa fa-trash-o"></i>&nbsp;</button>
+                                    }
+                                    @*<button type="button" data-target="#ModalDeleteConfirm" data-id="@item.ProfileID" data-toggle="modal" class="open-ModalDisapproveConfirm btn btn-danger" style="display:inline">
                                         &nbsp;<i class="fa fa-trash-o" data-toggle="tooltip" title="Xóa"></i>
-                                    </button>
+                                    </button>*@
                                 </td>
                             </tr>
                         }

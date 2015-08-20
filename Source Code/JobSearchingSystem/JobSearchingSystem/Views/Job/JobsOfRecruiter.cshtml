@@ -29,6 +29,7 @@
                         <span>@Model.recruiter.Address</span>
                     </div>
                 </div>
+                <br />
                 <div style="float:left">
                     <i class="fa fa-phone-square"></i> Số điện thoại:  <div class="text-yellow" style="margin-left: 5px; float: right; ">
                         <span>@Model.recruiter.Phone</span>
@@ -52,34 +53,31 @@
                 <tbody>
                     @foreach (var item in Model.jobsOfRecruiter)
                     {
-                        for (int a = 0; a < 10; a++)
+                        <tr onclick="window.location.href = '/Job/Detail?jobID=@item.JobID'">
+                            <td><a href="/Job/Detail?jobID=@item.JobID">@item.JobTitle</a></td>
+                            <td><a style="color: #428bca;">@item.PostedDate.GetValueOrDefault().ToShortDateString()</a></td>
+                            <td>
+                                @{
+                        int i = 0;
+                        foreach (var item2 in item.JobCities)
                         {
-                            <tr>
-                                <td><a href="/Job/Detail?jobID=@item.JobID">@item.JobTitle</a></td>
-                                <td><a style="color: #428bca;">@item.PostedDate.GetValueOrDefault().ToShortDateString()</a></td>
-                                <td>
-                                    @{
-                            int i = 0;
-                            foreach (var item2 in item.JobCities)
+
+                            if (i == 0)
                             {
-
-                                if (i == 0)
-                                {
-                                    <span>@item2.Name </span>
-                                }
-                                else
-                                {
-                                    <span>,@item2.Name </span>
-                                }
-                                i++;
+                                <span>@item2.Name </span>
                             }
-                                    }
-
-
-                                </td>
-                                <td>@item.JobView lượt xem</td>
-                            </tr>
+                            else
+                            {
+                                <span>,@item2.Name </span>
+                            }
+                            i++;
                         }
+                                }
+
+
+                            </td>
+                            <td>@item.JobView lượt xem</td>
+                        </tr>
 
                     }
 

@@ -37,7 +37,7 @@
                         @*<td><input id="square-checkbox-1" tabindex="9" type="checkbox" /></td>*@
                         <td>1</td>
                         <td><a href="/Job/Detail/?jobID=@item.JobID">@item.JobName</a></td>
-                        <td><a href="#" style="color: #428bca;">@item.CompanyName</a></td>
+                        <td><a href="/Job/JobsOfRecruiter/?recruiterID=@item.RecruiterID" style="color: #428bca;">@item.CompanyName</a></td>
                         <td>
                             @String.Format("{0:d}", item.AppliedDate)
                         </td>
