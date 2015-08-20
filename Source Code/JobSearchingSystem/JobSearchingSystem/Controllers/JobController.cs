@@ -78,9 +78,9 @@ namespace JobSearchingSystem.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(JobCreateModel model, int PurchaseJobPackageId)
+        public ActionResult Create(JobCreateModel model, int PurchaseJobPackageId, string skill1, string skill2, string skill3)
         {
-            if (jobUnitOfWork.CreateJob(model, PurchaseJobPackageId))
+            if (jobUnitOfWork.CreateJob(model, PurchaseJobPackageId, skill1, skill2, skill3))
             {
                 return RedirectToAction("OwnList");
             }
