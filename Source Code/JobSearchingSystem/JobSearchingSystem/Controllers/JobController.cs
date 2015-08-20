@@ -47,6 +47,12 @@ namespace JobSearchingSystem.Controllers
             JobCreateModel jobCreateModel = new JobCreateModel();
             string UserID = jobUnitOfWork.AspNetUserRepository.Get(s => s.UserName == User.Identity.Name).FirstOrDefault().Id;
 
+
+            if (jobUnitOfWork.CompanyInfoRepository.GetByID(UserID) == null)
+            {
+                return RedirectToAction("Update", "CompanyInfo");
+            }
+
             if (!jobUnitOfWork.CheckIfCanPostJob(UserID))
             {
                 TempData["message"] = "Bạn cần mua gói công việc";
