@@ -9,8 +9,22 @@
 <script src="~/Content/js/ui-checkbox-radio.js"></script>
 <script src="~/Content/js/table-action.js"></script>
 
+<link type="text/css" rel="stylesheet" href="~/Content/vendors/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+<script src="~/Content/js/email-compose-mail.js"></script>
+<script src="~/Content/vendors/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+<link rel="stylesheet" href="~/Content/css/bootstrap-tagsinput.css">
+<link rel="stylesheet" href="~/Content/css/jquery.tag-editor.css">
+
+
+
+<script src="~/Content/js/jquery.caret.min.js"></script>
+<script src="~/Content/js/jquery.tag-editor.js"></script>
 <script>
     $(document).ready(function () {
+        $('.emailbutton').click(function (id) {
+            $('#receiver').val($(this).data('id'));
+        });
+        //$('#receiver').tagEditor({ initialTags: ['tag1', 'tag2', 'tag3'] });
         $.extend($.fn.dataTable.defaults, {
             searching: true
         });
@@ -62,6 +76,79 @@
     });
        
 </script>
+<script>
+    function getTags() {
+        document.getElementById("tagList").value = $('#receiver').val();
+       
+    }
+    function makeSafe() {
+        document.getElementById('messsage_content2').value = window.escape(editor.getValue());
+    };
+</script>
+<script>
+    function EncapsuleData() {
+        getTags();
+        makeSafe();
+        return true;
+    }
+    
+</script>
+
+<div id="modal-wide-width" tabindex="-1" role="dialog" aria-labelledby="modal-wide-width-label" aria-hidden="true" class="modal fade">
+    <div class="modal-dialog modal-wide-width">
+        <div class="modal-content">
+            <div class="modal-header modal-header-primary">
+                <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
+                <h4 id="modal-header-primary-label" class="modal-title">Tin nhắn mới</h4>
+            </div>
+
+            @using (Html.BeginForm("SendMessage", "Message", FormMethod.Post, new { onsubmit = "return EncapsuleData();" }))
+            {
+                <div class="modal-body">
+                    <div class="compose-mail">
+                        <div class="portlet box portlet-white">
+                            <div class="portlet-body">
+                                <div role="form-horizontal" method="post">
+                                    <div class="form-group">
+                                        <div class="input-group"><span class="input-group-addon">To:</span><input id="receiver" name="receiver" type="text" placeholder="" class="form-control" autocomplete="on" readonly="readonly"/></div>
+                                    </div>
+                                    <div class="form-group hidden">
+                                        <div class="input-group"><span class="input-group-addon">Cc:</span><input id="cc" type="text" placeholder="" class="form-control" /></div>
+                                    </div>
+                                    <div class="form-group hidden">
+                                        <div class="input-group"><span class="input-group-addon">Bcc:</span><input id="bcc" type="text" placeholder="" class="form-control" /></div>
+                                    </div>
+                                    @*<div class="form-group">
+                                            <div class="input-group"><span class="input-group-addon">Subject:</span><input id="subject" type="text" placeholder="" class="form-control" /></div>
+                                        </div>*@
+                                    <div class="compose-editor mbl"><textarea id="message_content" rows="6" class="wysihtml5 form-control"></textarea></div>
+                                    <input type="hidden" id="messsage_content2" name="messageContent" />
+                                    <input type="hidden" id="tagList" name="tagList" />
+
+                                    @*<div class="form-group">
+                                            <input type="file" />
+
+                                            <p class="help-block">
+                                                <i class="fa fa-paperclip"></i>&nbsp;
+                                                Attachments
+                                            </p>
+                                        </div>*@
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-default">Đóng</button>
+                    <button type="submit" onsubmit="EncapsuleData()" class="btn btn-green"><i class="fa fa-check"></i> Gửi</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
 
 <div id="ModalApproveConfirm" tabindex="-1" role="dialog" aria-labelledby="modal-default-label" aria-hidden="false" class="modal fade in" style="display: none;">
     <div class="modal-dialog">
@@ -152,9 +239,11 @@
                                         <span class="label label-sm label-info">Chờ duyệt</span>
                                     </td>
                                     <td>
+                                        <button type="button" data-target="#modal-wide-width" data-id=@item.ApplicantUsername data-toggle="modal" class="emailbutton btn btn-yellow"><i class="fa fa-comments-o" data-toggle="tooltip" title="Phỏng vấn"></i></button>
                                         <button type="button" data-target="#ModalApproveConfirm" data-id="@item.ApplicantID" data-toggle="modal" class="open-ModalApproveConfirm btn btn-success">
                                             &nbsp;<i class="fa fa-check" data-toggle="tooltip" title="Duyệt"></i>
                                         </button>
+
                                         <button type="button" data-target="#ModalDisapproveConfirm" data-id="@item.ApplicantID" data-toggle="modal" class="open-ModalDisapproveConfirm btn btn-danger">
                                             &nbsp;<i class="fa fa-times" data-toggle="tooltip" title="Từ chối"></i>
                                         </button>
@@ -166,17 +255,21 @@
                                         <span class="label label-sm label-success">Đã duyệt</span>
                                     </td>
                                     <td>
-                                        <button type="button" data-target="#ModalDisapproveConfirm" data-id="@item.ApplicantID" data-toggle="modal" class="open-ModalDisapproveConfirm btn btn-danger">
-                                            &nbsp;<i class="fa fa-times" data-toggle="tooltip" title="Từ chối"></i>
-                                        </button>
-                                    </td>
+                                                                              
+                                            <button onclick="SetReceiver()" type="button" data-target="#modal-wide-width" data-id=@item.ApplicantUsername data-toggle="modal" class="btn btn-danger btn-sm btn-block"><i class="fa fa-pencil" style="margin-right:10px"></i>Viết tin nhắn mới</button>
+                                            <button type="button" data-target="#ModalDisapproveConfirm" data-id="@item.ApplicantID" data-toggle="modal" class="open-ModalDisapproveConfirm btn btn-danger">
+                                                &nbsp;<i class="fa fa-times" data-toggle="tooltip" title="Từ chối"></i>
+                                            </button>
+</td>
                                 }
                                 else
                                 {
                                     <td>
                                         <span class="label label-sm label-danger">Đã từ chối</span>
                                     </td>
+                                   
                                     <td>
+                                        <button type="button" data-target="#modal-wide-width" data-toggle="modal" class="btn btn-danger btn-sm btn-block"><i class="fa fa-pencil" style="margin-right:10px"></i>Viết tin nhắn mới</button>
                                         <button type="button" data-target="#ModalApproveConfirm" data-id="@item.ApplicantID" data-toggle="modal" class="open-ModalApproveConfirm btn btn-success">
                                             &nbsp;<i class="fa fa-check" data-toggle="tooltip" title="Duyệt"></i>
                                         </button>

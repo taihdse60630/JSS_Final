@@ -1,4 +1,5 @@
 ﻿@model JobSearchingSystem.Models.TopListViewModel
+@using System.Text.RegularExpressions
 
 @{
     ViewBag.Title = "PendingList";
@@ -6,6 +7,14 @@
 }
 
 <script>
+
+    $(document).ready(function () {
+        $(".topicContent").each(function () {
+            var num = $(this).text();
+            var num2 = window.unescape(num);
+            $(this).text(num2);
+        });
+    });
     $(document).on("click", ".open-ModalApproveConfirm", function (id) {
         var myTopicId = $(this).data('id');
         $("#ApproveTopicID").val(myTopicId);
@@ -22,18 +31,6 @@
         // $('#addBookDialog').modal('show');
     });
 </script>
-
-@foreach (var item in @Model.ListTopic)
-{
-    if (item.Topic_content != null)
-    {
-        <script>
-            $(document).ready(function () {
-                document.getElementById("text_@item.TopicID").innerHTML = window.unescape("@item.Topic_content")
-            });
-        </script>
-    }
-}
 
 <div id="ModalApproveConfirm" tabindex="-1" role="dialog" aria-labelledby="modal-default-label" aria-hidden="false" class="modal fade in" style="display: none;">
     <div class="modal-dialog">
@@ -132,8 +129,16 @@
                                     </div>
                                     <div class="col-md-8 blog-article">
                                         <h3><a href="@Url.Action("Detail", new { id = item.TopicID })">@item.Title</a></h3>
-                                        <div id="text_@item.TopicID">
-                                            @item.Topic_content
+                                        <div id="text_@item.TopicID" class="topicContent">
+                                            @{string content = HttpUtility.UrlDecode(item.Topic_content);
+                                            string noHTML = Regex.Replace(content, @"<[^>]+>|&nbsp;", "").Trim();
+                                            string noHTMLNormalised = Regex.Replace(noHTML, @"\s{2,}", " ");
+                                            if (noHTMLNormalised.Length > 50)
+                                            {
+                                                noHTMLNormalised = noHTMLNormalised.Substring(0, 49) + " ....";
+                                            }}
+                                            @noHTMLNormalised
+
                                         </div>
                                         <a href="@Url.Action("Detail", new { id = item.TopicID })" class="btn btn-primary">
                                             Đọc thêm

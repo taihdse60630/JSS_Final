@@ -1,21 +1,11 @@
 ﻿@model JobSearchingSystem.Models.TopListViewModel
+@using System.Text.RegularExpressions
 
 @{
     ViewBag.Title = "Topic";
     Layout = "~/Views/Shared/_LayoutFinal.cshtml";
 }
 
-@foreach (var item in @Model.ListTopic)
-{
-    if (item.Topic_content != null)
-    {
-        <script>
-            $(document).ready(function () {
-                document.getElementById("text_@item.TopicID").innerHTML = window.unescape("@item.Topic_content")
-            });
-        </script>
-    }
-}
 
 <div class="page-content" style="padding: 20px 100px 20px 100px">
 
@@ -57,7 +47,14 @@
                                                 <div class="col-md-8 blog-article">
                                                     <h3><a href="@Url.Action("Detail", new { id = item.TopicID })">@item.Title</a></h3>
                                                     <div id="text_@item.TopicID">
-                                                        @item.Topic_content
+                                                        @{string content = HttpUtility.UrlDecode(item.Topic_content);
+                                                        string noHTML = Regex.Replace(content, @"<[^>]+>|&nbsp;", "").Trim();
+                                                        string noHTMLNormalised = Regex.Replace(noHTML, @"\s{2,}", " ");
+                                                        if (noHTMLNormalised.Length > 50)
+                                                        {
+                                                            noHTMLNormalised = noHTMLNormalised.Substring(0, 49) + " ....";
+                                                        }}
+                                                        @noHTMLNormalised
                                                     </div>
                                                     <a href="@Url.Action("Detail", new { id = item.TopicID })" class="btn btn-primary">
                                                         Đọc thêm
