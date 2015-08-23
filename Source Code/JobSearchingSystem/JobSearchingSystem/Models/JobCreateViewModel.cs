@@ -91,7 +91,7 @@ namespace JobSearchingSystem.Models
         public Nullable<DateTime> EndedDate { get; set; }
         public bool IsPublic { get; set; }
         public int ApplicantCount { get; set; }
-
+        public string JobPackage { get; set; }
         public JobItem()
         {
             this.JobID = 1;
@@ -100,16 +100,17 @@ namespace JobSearchingSystem.Models
             this.EndedDate = DateTime.Now;
             this.IsPublic = false;
             this.ApplicantCount = 0;
+            this.JobPackage = "";
         }
 
-        public JobItem(int jobID, string title, Nullable<DateTime> started, Nullable<DateTime> ended, bool IsPublic, int count)
+        public JobItem(int jobID, string title, Nullable<DateTime> started, Nullable<DateTime> ended, bool IsPublic, int count, string jobPackage)
         {
             this.JobID = jobID;
             this.PostedDate = started;
             this.EndedDate = ended;
             this.IsPublic = IsPublic;
             this.ApplicantCount = count;
-
+            this.JobPackage = jobPackage;
             if (title.Length > 20)
             {
                 this.JobTitle = title.Substring(0, 20) + "...";
