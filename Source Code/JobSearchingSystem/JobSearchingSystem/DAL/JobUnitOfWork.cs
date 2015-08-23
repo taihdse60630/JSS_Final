@@ -372,7 +372,7 @@ namespace JobSearchingSystem.DAL
             }
 
             //Skill part
-            if (skill1 != null)
+            if (!String.IsNullOrEmpty(skill1))
             {
                 Skill s1 = this.SkillRepository.Get(skill => skill.SkillTag == skill1).SingleOrDefault();
                 if (s1 != null)
@@ -391,10 +391,16 @@ namespace JobSearchingSystem.DAL
                     temps1.IsDeleted = false;
                     this.SkillRepository.Insert(temps1);
                     this.Save();
+                    JobSkill tempjs1 = new JobSkill();
+                    tempjs1.JobID = temp.JobID;
+                    tempjs1.Skill_ID = this.SkillRepository.Get(skill => skill.SkillTag == temps1.SkillTag).LastOrDefault().Skill_ID;
+                    tempjs1.IsDeleted = false;
+                    this.JobSkillRepository.Insert(tempjs1);
+                    this.Save();
                 }
             }
 
-            if (skill2 != null)
+            if (!String.IsNullOrEmpty(skill2))
             {
                 Skill s2 = this.SkillRepository.Get(skill => skill.SkillTag == skill2).SingleOrDefault();
                 if (s2 != null)
@@ -413,9 +419,15 @@ namespace JobSearchingSystem.DAL
                     temps2.IsDeleted = false;
                     this.SkillRepository.Insert(temps2);
                     this.Save();
+                    JobSkill tempjs2 = new JobSkill();
+                    tempjs2.JobID = temp.JobID;
+                    tempjs2.Skill_ID = this.SkillRepository.Get(skill => skill.SkillTag == temps2.SkillTag).LastOrDefault().Skill_ID;
+                    tempjs2.IsDeleted = false;
+                    this.JobSkillRepository.Insert(tempjs2);
+                    this.Save();
                 }
             }
-            if (skill3 != null)
+            if (!String.IsNullOrEmpty(skill3))
             {
                 Skill s3 = this.SkillRepository.Get(skill => skill.SkillTag == skill3).SingleOrDefault();
                 if (s3 != null)
@@ -430,9 +442,15 @@ namespace JobSearchingSystem.DAL
                 else
                 {
                     Skill temps3 = new Skill();
-                    temps3.SkillTag = skill1;
+                    temps3.SkillTag = skill3;
                     temps3.IsDeleted = false;
                     this.SkillRepository.Insert(temps3);
+                    this.Save();
+                    JobSkill tempjs3 = new JobSkill();
+                    tempjs3.JobID = temp.JobID;
+                    tempjs3.Skill_ID = this.SkillRepository.Get(skill => skill.SkillTag == temps3.SkillTag).LastOrDefault().Skill_ID;
+                    tempjs3.IsDeleted = false;
+                    this.JobSkillRepository.Insert(tempjs3);
                     this.Save();
                 }
             }
@@ -459,7 +477,7 @@ namespace JobSearchingSystem.DAL
                         this.Save();
                     }
 
-                    jobList.Add(new JobItem(job.JobID, job.JobTitle, job.StartedDate, job.EndedDate, job.IsPublic, job.AppliedJobs.Where(s => s.IsDeleted == false).Count()));
+                    jobList.Add(new JobItem(job.JobID, job.JobTitle, job.StartedDate, job.EndedDate, job.IsPublic, job.AppliedJobs.Where(s => s.IsDeleted == false).Count(),job.PurchaseJobPackage.JobPackage.Name));
                 }
                 return jobList;
             }
@@ -693,6 +711,86 @@ namespace JobSearchingSystem.DAL
                 listSkill.Add(item.SkillTag);
             }
             return listSkill;
+        }
+
+        public IEnumerable<ApplicantItem> SearchJobseekerMatching(string p, int jobID)
+        {
+            List<ApplicantItem> jobseekerMatchingList = new List<ApplicantItem>();
+            List<Profile> profileOfJobseeker = null;
+            List<int> percentMatchingList = null;
+            ApplicantItem jobseeker = null;
+            var jobseekerList = this.JobseekerRepository.Get();
+            foreach (var item in jobseekerList)
+            {
+                jobseeker = null;
+                profileOfJobseeker = new List<Profile>();
+                percentMatchingList = new List<int>();
+
+                var profileList = ProfileRepository.Get(filter: m => m.JobSeekerID == item.JobSeekerID && m.IsActive == true && m.IsDeleted == false);
+                foreach (var profile in profileList)
+                {
+                    int percentMatching = Matching(profile.ProfileID, jobID);
+                    if (p == "all")
+                    {
+                        jobseeker = new ApplicantItem(item.JobSeekerID, item.FullName, "", DateTime.Now, 0);
+                        profileOfJobseeker.Add(profile);
+                        percentMatchingList.Add(percentMatching);                      
+                       
+                    }
+                    else if( p == "12")
+                    {
+                        if (percentMatching <= 29 || (29 < percentMatching && percentMatching <= 69))
+                        jobseeker = new ApplicantItem(item.JobSeekerID, item.FullName, "", DateTime.Now, 0);
+                        profileOfJobseeker.Add(profile);
+                        percentMatchingList.Add(percentMatching);       
+                    }
+                    else if (p == "13")
+                    {
+                        if (percentMatching <= 29 || (69 < percentMatching && percentMatching <= 100))
+                            jobseeker = new ApplicantItem(item.JobSeekerID, item.FullName, "", DateTime.Now, 0);
+                            profileOfJobseeker.Add(profile);
+                            percentMatchingList.Add(percentMatching);       
+                    }
+                    else if (p == "23")
+                    {
+                        if ((29 < percentMatching && percentMatching <= 69) || (69 < percentMatching && percentMatching <= 100))
+                            jobseeker = new ApplicantItem(item.JobSeekerID, item.FullName, "", DateTime.Now, 0);
+                            profileOfJobseeker.Add(profile);
+                            percentMatchingList.Add(percentMatching);       
+                    }
+                    else if (p == "1")
+                    {
+                        if (percentMatching <= 29)
+                            jobseeker = new ApplicantItem(item.JobSeekerID, item.FullName, "", DateTime.Now, 0);
+                            profileOfJobseeker.Add(profile);
+                            percentMatchingList.Add(percentMatching);       
+                    }
+                    else if (p == "2")
+                    {
+                        if (29 < percentMatching && percentMatching <= 69)
+                            jobseeker = new ApplicantItem(item.JobSeekerID, item.FullName, "", DateTime.Now, 0);
+                            profileOfJobseeker.Add(profile);
+                            percentMatchingList.Add(percentMatching);       
+                    }
+                    else if (p == "3")
+                    {
+                        if (69 < percentMatching && percentMatching <= 100)
+                            jobseeker = new ApplicantItem(item.JobSeekerID, item.FullName, "", DateTime.Now, 0);
+                            profileOfJobseeker.Add(profile);
+                            percentMatchingList.Add(percentMatching);       
+                    }
+                  
+                }
+                if (jobseeker != null)
+                {
+                    jobseeker.ProfileList = profileOfJobseeker;
+                    jobseeker.MatchingPercentList = percentMatchingList;
+                 
+                    jobseekerMatchingList.Add(jobseeker);
+                }
+               
+            }
+            return jobseekerMatchingList;
         }
     }
 }

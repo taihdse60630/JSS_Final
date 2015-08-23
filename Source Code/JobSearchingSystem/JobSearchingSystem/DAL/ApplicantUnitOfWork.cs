@@ -14,7 +14,8 @@ namespace JobSearchingSystem.DAL
             List<ApplicantItem> listApplicant = new List<ApplicantItem>();
             foreach (AppliedJob item in this.AppliedJobRepository.Get(filter: applicant => applicant.JobID == id && applicant.IsDeleted == false))
             {
-                listApplicant.Add(new ApplicantItem(item.JobSeekerID, item.Profile.Name, item.Profile.ExpectedPosition, item.ApplyDate, item.MatchingPercent, item.Status));
+                string username = this.AspNetUserRepository.Get(filter: m => m.Id == item.JobSeekerID).FirstOrDefault().UserName;
+                listApplicant.Add(new ApplicantItem(item.JobSeekerID, item.Profile.Name, item.Profile.ExpectedPosition, item.ApplyDate, item.MatchingPercent, item.Status, username));
             }
             return listApplicant;
         }
