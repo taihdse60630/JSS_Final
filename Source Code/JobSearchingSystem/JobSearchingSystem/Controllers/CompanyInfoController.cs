@@ -66,11 +66,11 @@ namespace JobSearchingSystem.Controllers
                 CoInUpdateViewModel model = new CoInUpdateViewModel();
                 if (result)
                 {
-                    return RedirectToAction("Update");
+                    return RedirectToAction("OwnList", "Job");
                 }
             }
-            
-            return RedirectToAction("Update");
+
+            return RedirectToAction("OwnList", "Job");
         }
 
 

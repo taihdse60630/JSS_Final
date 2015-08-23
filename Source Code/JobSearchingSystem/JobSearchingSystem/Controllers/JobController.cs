@@ -19,6 +19,8 @@ namespace JobSearchingSystem.Controllers
         }
 
         //Displayed list of job created by recruiter
+
+        [Authorize(Roles = "Recruiter")]
         public ActionResult OwnList()
         {
             ViewBag.message = TempData["message"];
@@ -184,7 +186,32 @@ namespace JobSearchingSystem.Controllers
             return RedirectToAction("OwnList");
 
         }
+        [HttpPost]
+        [Authorize(Roles = "Recruiter")]
+        public ActionResult SearchJobseekerMatching(string [] percentMatching, string jobID ){
+            if (String.IsNullOrEmpty(jobID) || percentMatching.Length == 0)
+            {
+                return RedirectToAction("OwnList");
+            }
+            JobseekerList jobseekerList = new JobseekerList();
+            int length = percentMatching.Length;
+            if (length == 3)
+            {
+                jobseekerList.jobseekerList = jobUnitOfWork.SearchJobseekerMatching("all", Int32.Parse(jobID));
+            }
+            else 
+            {
+                string range = "";
+                foreach (var item in percentMatching)
+                {
+                    range += item;
+                }
 
+                jobseekerList.jobseekerList = jobUnitOfWork.SearchJobseekerMatching(range, Int32.Parse(jobID));
+            }
+
+            return View(jobseekerList);
+        }
 
         public JsonResult AutoCompleteSkill(string skill)
         {
