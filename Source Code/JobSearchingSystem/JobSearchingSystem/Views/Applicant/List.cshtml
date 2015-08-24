@@ -21,8 +21,18 @@
 <script src="~/Content/js/jquery.tag-editor.js"></script>
 <script>
     $(document).ready(function () {
-        $('.emailbutton').click(function (id) {
+        $('.emailbutton').click(function (id, option) {
             $('#receiver').val($(this).data('id'));
+            if ($(this).data('option') == "phongvan")
+            {
+                $('#subjectdiv').addClass("hidden");
+            }
+            else if ($(this).data('option') == "tinnhan")
+            {
+                $('#subject').val("");
+                $('#subjectdiv').removeClass("hidden");
+            }
+            
         });
         //$('#receiver').tagEditor({ initialTags: ['tag1', 'tag2', 'tag3'] });
         $.extend($.fn.dataTable.defaults, {
@@ -82,7 +92,7 @@
        
     }
     function makeSafe() {
-        document.getElementById('messsage_content2').value = window.escape(editor.getValue());
+        document.getElementById('messsage_content2').value = window.encodeURI(editor.getValue());
     };
 </script>
 <script>
@@ -102,15 +112,16 @@
                 <h4 id="modal-header-primary-label" class="modal-title">Tin nhắn mới</h4>
             </div>
 
-            @using (Html.BeginForm("SendMessage", "Message", FormMethod.Post, new { onsubmit = "return EncapsuleData();" }))
+            @using (Html.BeginForm("SendMessage", "Applicant", FormMethod.Post, new { onsubmit = "return EncapsuleData();" }))
             {
                 <div class="modal-body">
                     <div class="compose-mail">
                         <div class="portlet box portlet-white">
                             <div class="portlet-body">
                                 <div role="form-horizontal" method="post">
+                                    <input type="hidden" name="jobID" value="@ViewBag.JobID" />
                                     <div class="form-group">
-                                        <div class="input-group"><span class="input-group-addon">To:</span><input id="receiver" name="receiver" type="text" placeholder="" class="form-control" autocomplete="on" readonly="readonly"/></div>
+                                        <div class="input-group"><span class="input-group-addon">To:</span><input id="receiver" name="receiverUsername" type="text" placeholder="" class="form-control" autocomplete="on" readonly="readonly" /></div>
                                     </div>
                                     <div class="form-group hidden">
                                         <div class="input-group"><span class="input-group-addon">Cc:</span><input id="cc" type="text" placeholder="" class="form-control" /></div>
@@ -118,9 +129,9 @@
                                     <div class="form-group hidden">
                                         <div class="input-group"><span class="input-group-addon">Bcc:</span><input id="bcc" type="text" placeholder="" class="form-control" /></div>
                                     </div>
-                                    @*<div class="form-group">
-                                            <div class="input-group"><span class="input-group-addon">Subject:</span><input id="subject" type="text" placeholder="" class="form-control" /></div>
-                                        </div>*@
+                                    <div id="subjectdiv" class="form-group">
+                                        <div class="input-group"><span class="input-group-addon">Subject:</span><input id="subject" name="subject" type="text" placeholder="" class="form-control" /></div>
+                                    </div>
                                     <div class="compose-editor mbl"><textarea id="message_content" rows="6" class="wysihtml5 form-control"></textarea></div>
                                     <input type="hidden" id="messsage_content2" name="messageContent" />
                                     <input type="hidden" id="tagList" name="tagList" />
@@ -204,82 +215,145 @@
     <div class="col-lg-9 panel panel-default">
         <h3 style="font-weight:600;text-align:center">Quản lý ứng viên</h3>
         <br />
-        @using (Html.BeginForm("List", "Applicant", FormMethod.Post))
-        {
-            <br />
-            <div class="table-container">
-                <table id="myTable" class="table table-hover table-striped table-bordered table-advanced tablesorter">
-                    <thead>
+        <br />
+        <div class="table-container">
+            <table id="myTable" class="table table-hover table-striped table-bordered table-advanced tablesorter">
+                <thead>
+                    <tr>
+                        @*<th width="3%"><input type="checkbox" class="checkall" id="select-all" name="userAccessNeeded" /></th>*@
+                        <th width="15%" style="text-align:center">Tên ứng viên</th>
+                        <th width="10%" style="text-align:center">Vị trí</th>
+                        <th width="10%" style="text-align:center">Ngày nộp</th>
+                        <th width="13%" style="text-align:center">Độ phù hợp</th>
+                        <th width="10%" style="text-align:center">Tình trạng</th>
+                        <th width="13%" style="text-align:center">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in @Model)
+                    {
                         <tr>
-                            @*<th width="3%"><input type="checkbox" class="checkall" id="select-all" name="userAccessNeeded" /></th>*@
-                            <th width="15%" style="text-align:center">Tên ứng viên</th>
-                            <th width="15%" style="text-align:center">Vị trí</th>
-                            <th width="10%" style="text-align:center">Ngày nộp</th>
-                            <th width="13%" style="text-align:center">Độ phù hợp</th>
-                            <th width="10%" style="text-align:center">Tình trạng</th>
-                            <th width="13%" style="text-align:center">Thao tác</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in @Model)
-                        {
-                            <tr>
-                                @*<td><input type="checkbox" /></td>*@
-                                <td><a href="#">@item.ApplicantName</a></td>
-                                <td>@item.ExpectedJob</td>
-                                <td>@item.AppliedDate.ToString("dd/MM/yyyy")</td>
+                            @*<td><input type="checkbox" /></td>*@
+                            @if (item.ProfileID > 0)
+                            {
+                                <td><a href="@Url.Action("Detail", "Profile", new { profileID = item.ProfileID })">@item.ApplicantFullName</a></td>
+                            }
+                            else
+                            {
+                                <td><label>@item.ApplicantFullName</label></td>
+                            }
+                            <td>@item.ExpectedJob</td>
+                            <td>@item.AppliedDate.ToString("dd/MM/yyyy")</td>
+                            <td>
+                                <div role="progressbar" aria-valuenow="@item.MatchingPercent" aria-valuemin="0" aria-valuemax="100" style="width: @item.MatchingPercent%;" class="progress-bar progress-bar-green"><span class="sr-only">@item.MatchingPercent Complete</span>
+                                    @item.MatchingPercent %
+                                </div>                                    
+                            </td>
+                            @if (item.Status == 0)
+                            {
                                 <td>
-                                    <div role="progressbar" aria-valuenow="@item.MatchingPercent" aria-valuemin="0" aria-valuemax="100" style="width: @item.MatchingPercent%;" class="progress-bar progress-bar-green"><span class="sr-only">@item.MatchingPercent Complete</span>
-                                        @item.MatchingPercent %
-                                    </div>                                    
+                                    <span class="label label-sm label-info">Chờ duyệt</span>
                                 </td>
-                                @if (item.Status == 0)
-                                {
-                                    <td>
-                                        <span class="label label-sm label-info">Chờ duyệt</span>
-                                    </td>
-                                    <td>
-                                        <button type="button" data-target="#modal-wide-width" data-id=@item.ApplicantUsername data-toggle="modal" class="emailbutton btn btn-yellow"><i class="fa fa-comments-o" data-toggle="tooltip" title="Phỏng vấn"></i></button>
-                                        <button type="button" data-target="#ModalApproveConfirm" data-id="@item.ApplicantID" data-toggle="modal" class="open-ModalApproveConfirm btn btn-success">
-                                            &nbsp;<i class="fa fa-check" data-toggle="tooltip" title="Duyệt"></i>
-                                        </button>
+                                <td>
+                                    <button type="button" style="display: inline" data-target="#modal-wide-width" data-option="phongvan" data-id=@item.ApplicantUsername data-toggle="modal" class="emailbutton btn btn-yellow btn-sm">
+                                        <i class="fa fa-comments-o" data-toggle="tooltip" title="Phỏng vấn"></i>
+                                    </button>
 
-                                        <button type="button" data-target="#ModalDisapproveConfirm" data-id="@item.ApplicantID" data-toggle="modal" class="open-ModalDisapproveConfirm btn btn-danger">
-                                            &nbsp;<i class="fa fa-times" data-toggle="tooltip" title="Từ chối"></i>
+                                    @using (Html.BeginForm("Approve", "Applicant", FormMethod.Post, new { id = "ApproveForm" + item.ApplicantID, style = "display: inline;" }))
+                                    {
+                                        <input type="hidden" name="applicantID" value="@item.ApplicantID" />
+                                        <input type="hidden" name="jobID" value="@ViewBag.JobID" />
+                                        <button type="button" data-id="ApproveForm@(item.ApplicantID)" data-message="Bạn thật sự muốn duyệt?" class="btn btn-success btn-sm confirmButton">
+                                            <i class="fa fa-check" data-toggle="tooltip" title="Duyệt"></i>&nbsp;
                                         </button>
-                                    </td>
-                                }
-                                else if (item.Status == 1)
-                                {
-                                    <td>
-                                        <span class="label label-sm label-success">Đã duyệt</span>
-                                    </td>
-                                    <td>
+                                    }
+
+                                    @using (Html.BeginForm("Disapprove", "Applicant", FormMethod.Post, new { id = "DisapproveForm" + item.ApplicantID, style = "display: inline;" }))
+                                    {
+                                        <input type="hidden" name="applicantID" value="@item.ApplicantID" />
+                                        <input type="hidden" name="jobID" value="@ViewBag.JobID" />
+                                        <button type="button" data-id="DisapproveForm@(item.ApplicantID)" data-message="Bạn thật sự muốn từ chối?" class="btn btn-danger btn-sm confirmButton">
+                                            <i class="fa fa-times" data-toggle="tooltip" title="Từ chối"></i>&nbsp;
+                                        </button>
+                                    }
+                                </td>
+                            }
+                            else if (item.Status == 1)
+                            {
+                                <td>
+                                    <span class="label label-sm label-yellow">Phỏng vấn</span>
+                                </td>
+                                <td>
+                                    
+                                    <button type="button" style="display: inline" data-target="#modal-wide-width" data-option="tinnhan" data-id=@item.ApplicantUsername data-toggle="modal" class="emailbutton btn btn-yellow btn-sm">
+                                        <i class="fa fa-comments-o" data-toggle="tooltip" title="Viết tin nhắn mới"></i>
+                                    </button>
+
+                                    @using (Html.BeginForm("Approve", "Applicant", FormMethod.Post, new { id = "ApproveForm" + item.ApplicantID, style = "display: inline;" }))
+                                    {
+                                        <input type="hidden" name="applicantID" value="@item.ApplicantID" />
+                                        <input type="hidden" name="jobID" value="@ViewBag.JobID" />
+                                        <button type="button" data-id="ApproveForm@(item.ApplicantID)" data-message="Bạn thật sự muốn duyệt?" class="btn btn-success btn-sm confirmButton">
+                                            <i class="fa fa-check" data-toggle="tooltip" title="Duyệt"></i>&nbsp;
+                                        </button>
+                                    }
+                                    
+                                    @using (Html.BeginForm("Disapprove", "Applicant", FormMethod.Post, new { id = "DisapproveForm" + item.ApplicantID, style = "display: inline;" }))
+                                    {
+                                        <input type="hidden" name="applicantID" value="@item.ApplicantID" />
+                                        <input type="hidden" name="jobID" value="@ViewBag.JobID" />
+                                        <button type="button" data-id="DisapproveForm@(item.ApplicantID)" data-message="Bạn thật sự muốn từ chối?" class="btn btn-danger btn-sm confirmButton">
+                                            <i class="fa fa-times" data-toggle="tooltip" title="Từ chối"></i>&nbsp;
+                                        </button>
+                                    }
+                                </td>
+                            }
+                            else if (item.Status == 2)
+                            {
+                                <td>
+                                    <span class="label label-sm label-success">Đã duyệt</span>
+                                </td>
+                                <td>
                                                                               
-                                            <button onclick="SetReceiver()" type="button" data-target="#modal-wide-width" data-id=@item.ApplicantUsername data-toggle="modal" class="btn btn-danger btn-sm btn-block"><i class="fa fa-pencil" style="margin-right:10px"></i>Viết tin nhắn mới</button>
-                                            <button type="button" data-target="#ModalDisapproveConfirm" data-id="@item.ApplicantID" data-toggle="modal" class="open-ModalDisapproveConfirm btn btn-danger">
-                                                &nbsp;<i class="fa fa-times" data-toggle="tooltip" title="Từ chối"></i>
-                                            </button>
-</td>
-                                }
-                                else
-                                {
-                                    <td>
-                                        <span class="label label-sm label-danger">Đã từ chối</span>
-                                    </td>
-                                   
-                                    <td>
-                                        <button type="button" data-target="#modal-wide-width" data-toggle="modal" class="btn btn-danger btn-sm btn-block"><i class="fa fa-pencil" style="margin-right:10px"></i>Viết tin nhắn mới</button>
-                                        <button type="button" data-target="#ModalApproveConfirm" data-id="@item.ApplicantID" data-toggle="modal" class="open-ModalApproveConfirm btn btn-success">
-                                            &nbsp;<i class="fa fa-check" data-toggle="tooltip" title="Duyệt"></i>
+                                    <button type="button" style="display: inline" data-target="#modal-wide-width" data-option="tinnhan" data-id=@item.ApplicantUsername data-toggle="modal" class="emailbutton btn btn-yellow btn-sm">
+                                        <i class="fa fa-comments-o" data-toggle="tooltip" title="Viết tin nhắn mới"></i>
+                                    </button>
+                                    
+                                    @using (Html.BeginForm("Disapprove", "Applicant", FormMethod.Post, new { id = "DisapproveForm" + item.ApplicantID, style = "display: inline;" }))
+                                    {
+                                        <input type="hidden" name="applicantID" value="@item.ApplicantID" />
+                                        <input type="hidden" name="jobID" value="@ViewBag.JobID" />
+                                        <button type="button" data-id="DisapproveForm@(item.ApplicantID)" data-message="Bạn thật sự muốn từ chối?" class="btn btn-danger btn-sm confirmButton">
+                                            <i class="fa fa-times" data-toggle="tooltip" title="Từ chối"></i>&nbsp;
                                         </button>
-                                    </td>
-                                }
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-        }
+                                    }
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    <span class="label label-sm label-danger">Đã từ chối</span>
+                                </td>
+                                   
+                                <td>
+                                    <button type="button" style="display: inline" data-target="#modal-wide-width" data-option="tinnhan" data-id=@item.ApplicantUsername data-toggle="modal" class="emailbutton btn btn-yellow btn-sm">
+                                        <i class="fa fa-comments-o" data-toggle="tooltip" title="Viết tin nhắn mới"></i>
+                                    </button>
+                                    
+                                    @using (Html.BeginForm("Approve", "Applicant", FormMethod.Post, new { id = "ApproveForm" + item.ApplicantID, style = "display: inline;" }))
+                                    {
+                                        <input type="hidden" name="applicantID" value="@item.ApplicantID" />
+                                        <input type="hidden" name="jobID" value="@ViewBag.JobID" />
+                                        <button type="button" data-id="ApproveForm@(item.ApplicantID)" data-message="Bạn thật sự muốn duyệt?" class="btn btn-success btn-sm confirmButton">
+                                            <i class="fa fa-check" data-toggle="tooltip" title="Duyệt"></i>&nbsp;
+                                        </button>
+                                    }
+                                </td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
