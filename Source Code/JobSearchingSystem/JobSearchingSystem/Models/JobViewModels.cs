@@ -73,6 +73,7 @@ namespace JobSearchingSystem.Models
         public int jobID { get; set; }
         public bool isApplied { get; set; }
         public bool isLogined { get; set; }
+        public IEnumerable<Job> jobList { get; set; }
         
     }
 
