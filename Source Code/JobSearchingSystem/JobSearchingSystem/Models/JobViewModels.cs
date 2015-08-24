@@ -104,6 +104,7 @@ namespace JobSearchingSystem.Models
         public string JobName { get; set; }
         public string CompanyName { get; set; }
         public DateTime? AppliedDate { get; set; }
+        public DateTime? AcceptDate { get; set; }
         public int JobID { get; set; }
         public string JobSeekerID { get; set; }
         public string RecruiterID { get; set; }

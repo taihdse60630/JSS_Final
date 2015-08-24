@@ -12,7 +12,7 @@ namespace JobSearchingSystem.Models
     public class ApplicantItem
     {
         public string ApplicantID { get; set; }
-        public string ApplicantName { get; set; }
+        public string ProfileName { get; set; }
         public string ExpectedJob { get; set; }
         public DateTime AppliedDate { get; set; }       
         public int Status { get; set; }
@@ -22,49 +22,63 @@ namespace JobSearchingSystem.Models
         public int YearOfExperience { get; set; }
         public string[] ExpectedLocation { get; set; }
         public string ApplicantUsername { get; set; }
+        public string ApplicantFullName { get; set; }
+        public int ProfileID { get; set; }
 
         public ApplicantItem()
         {
             this.ApplicantID = "";
-            this.ApplicantName = "";
+            this.ProfileName = "";
             this.ExpectedJob = "";
             this.AppliedDate = DateTime.Now;
             this.MatchingPercent = 0;
             this.Status = 0;
         }
 
-        public ApplicantItem(string applicantID, string applicantName, string currentJob, DateTime appliedDate, int percent, int status)
+        public ApplicantItem(string applicantID, string profileName, string currentJob, DateTime appliedDate, int percent, int status)
         {
             this.ApplicantID = applicantID;
-            this.ApplicantName = applicantName;
+            this.ProfileName = profileName;
             this.ExpectedJob = currentJob;
             this.AppliedDate = appliedDate;
             this.MatchingPercent = percent;
             this.Status = status;
         }
-        
 
-            
-        public ApplicantItem(string applicantID, string applicantName, string currentJob, DateTime appliedDate, int status)
+
+
+        public ApplicantItem(string applicantID, string profileName, string currentJob, DateTime appliedDate, int status)
         {
             this.ApplicantID = applicantID;
-            this.ApplicantName = applicantName;
+            this.ProfileName = profileName;
             this.ExpectedJob = currentJob;
             this.AppliedDate = appliedDate;           
             this.Status = status;
         }
 
 
-        public ApplicantItem(string applicantID, string applicantName, string currentJob, DateTime appliedDate, int percent, int status, string username)
+        public ApplicantItem(string applicantID, string profileName, string currentJob, DateTime appliedDate, int percent, int status, string applicantUsername)
         {
             this.ApplicantID = applicantID;
-            this.ApplicantName = applicantName;
+            this.ProfileName = profileName;
             this.ExpectedJob = currentJob;
             this.AppliedDate = appliedDate;
             this.MatchingPercent = percent;
             this.Status = status;
-            this.ApplicantUsername = username;
+            this.ApplicantUsername = applicantUsername;
         }
 
+        public ApplicantItem(string applicantID, string profileName, string currentJob, DateTime appliedDate, int percent, int status, string applicantUsername, string applicantFullName, int profileId)
+        {
+            this.ApplicantID = applicantID;
+            this.ProfileName = profileName;
+            this.ExpectedJob = currentJob;
+            this.AppliedDate = appliedDate;
+            this.MatchingPercent = percent;
+            this.Status = status;
+            this.ApplicantUsername = applicantUsername;
+            this.ApplicantFullName = applicantFullName;
+            this.ProfileID = profileId;
+        }
     }
 }
