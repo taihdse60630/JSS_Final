@@ -15,6 +15,7 @@ using System.Net.Mail;
 namespace JobSearchingSystem.Controllers
 {
     [Authorize]
+    [MessageFilter]
     public class AccountController : Controller
     {
         private AccountUnitOfWork accountUnitOfWork = new AccountUnitOfWork();
@@ -46,7 +47,7 @@ namespace JobSearchingSystem.Controllers
             }
             else
             {
-                TempData["message"] = "Username hoặc Mật khẩu không đúng";
+                TempData["warningmessage"] = "Username hoặc Mật khẩu không đúng!";
             }
 
             if (!String.IsNullOrEmpty(returnUrl))
@@ -61,14 +62,22 @@ namespace JobSearchingSystem.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<ActionResult> Register([Bind(Include = "UserName, Password, ConfirmPassword, Email, FullName, PhoneNumber, RoleName")]RegisterViewModel model)
+        public async Task<ActionResult> Register([Bind(Include = "UserName, Password, ConfirmPassword, Email, FullName, PhoneNumber, RoleName")]RegisterViewModel model, string returnUrl)
         {
             UnitOfWork unitOfWork = new UnitOfWork();
             AspNetUser u = unitOfWork.AspNetUserRepository.Get(s => s.UserName == model.UserName).FirstOrDefault();
             if (u != null)
             {
-                TempData["message"] = "Username đã tồn tại, xin hãy dùng Username khác";
-                return RedirectToAction("Index", "Home");
+                TempData["warningmessage"] = "Username đã tồn tại, xin hãy dùng Username khác!";
+
+                if (!String.IsNullOrEmpty(returnUrl))
+                {
+                    return Redirect("../" + returnUrl);
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Home");
+                }
             }
 
             var user = new ApplicationUser() { UserName = model.UserName };
@@ -87,6 +96,7 @@ namespace JobSearchingSystem.Controllers
                     unitOfWork.Save();
 
                     await SignInAsync(user, isPersistent: false);
+                    TempData["warningmessage"] = "Đăng ký thành công, xin hãy cập nhật thông tin công ty!";
                     return RedirectToAction("Update", "CompanyInfo");
                 }
                 else
@@ -101,18 +111,35 @@ namespace JobSearchingSystem.Controllers
                     unitOfWork.Save();
 
                     await SignInAsync(user, isPersistent: false);
-                    return RedirectToAction("Index", "Home");
+                    TempData["successmessage"] = "Đăng ký thành công.";
+
+                    if (!String.IsNullOrEmpty(returnUrl))
+                    {
+                        return Redirect("../" + returnUrl);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
                 }
             }
             else
             {
-                TempData["message"] = "Đăng ký thất bại";
-                return RedirectToAction("Index", "Home");
+                TempData["errormessage"] = "Đăng ký thất bại!";
+
+                if (!String.IsNullOrEmpty(returnUrl))
+                {
+                    return Redirect("../" + returnUrl);
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Home");
+                }
             }
         }
 
         [HttpPost]
-        public async Task<ActionResult> ChangePassword([Bind(Include = "OldPassword, NewPassword, ConfirmPassword")]ChangePasswordViewModel model)
+        public async Task<ActionResult> ChangePassword([Bind(Include = "OldPassword, NewPassword, ConfirmPassword")]ChangePasswordViewModel model, string returnUrl)
         {
             bool hasPassword = HasPassword();
             ViewBag.HasLocalPassword = hasPassword;
@@ -121,13 +148,11 @@ namespace JobSearchingSystem.Controllers
                 IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
                 if (result.Succeeded)
                 {
-                    TempData["message"] = "Đổi mật khẩu mới thành công";
-                    return RedirectToAction("Index", "Home");
+                    TempData["successmessage"] = "Đổi mật khẩu mới thành công.";
                 }
                 else
                 {
-                    TempData["message"] = "Mật khẩu cũ không đúng";
-                    return RedirectToAction("Index", "Home");
+                    TempData["errormessage"] = "Mật khẩu cũ không đúng!";
                 }
             }
             else
@@ -141,20 +166,27 @@ namespace JobSearchingSystem.Controllers
                 IdentityResult result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
                 if (result.Succeeded)
                 {
-                    TempData["message"] = "Đổi mật khẩu mới thành công";
-                    return RedirectToAction("Index", "Home");
+                    TempData["successmessage"] = "Đổi mật khẩu mới thành công.";
                 }
                 else
                 {
-                    TempData["message"] = "Quá trình đổi mật khẩu mới gặp lỗi";
-                    return RedirectToAction("Index", "Home");
+                    TempData["errormessage"] = "Quá trình đổi mật khẩu mới gặp lỗi!";
                 }
+            }
+
+            if (!String.IsNullOrEmpty(returnUrl))
+            {
+                return Redirect("../" + returnUrl);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
             }
         }
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<ActionResult> ResetPassword(string emailAdress)
+        public async Task<ActionResult> ResetPassword(string emailAdress, string returnUrl)
         {
             if (!String.IsNullOrEmpty(emailAdress))
             {
@@ -185,8 +217,16 @@ namespace JobSearchingSystem.Controllers
                     }
                     else
                     {
-                        TempData["message"] = "Không tìm thấy Id tài khoản";
-                        return RedirectToAction("Index", "Home");
+                        TempData["errormessage"] = "Không tìm thấy Id tài khoản!";
+
+                        if (!String.IsNullOrEmpty(returnUrl))
+                        {
+                            return Redirect("../" + returnUrl);
+                        }
+                        else
+                        {
+                            return RedirectToAction("Index", "Home");
+                        }
                     }
                     mail.Subject = "[JSS] Thông báo mật khẩu mới";
                     mail.Body = "Mật khẩu của bạn đã được tạo mới là: " + newPassword;
@@ -199,26 +239,40 @@ namespace JobSearchingSystem.Controllers
                 }
                 catch (Exception)
                 {
-                    TempData["message"] = "Quá trình gửi mật khẩu mới gặp lỗi";
-                    return RedirectToAction("Index", "Home");
+                    TempData["errormessage"] = "Quá trình gửi mật khẩu mới gặp lỗi!";
+
+                    if (!String.IsNullOrEmpty(returnUrl))
+                    {
+                        return Redirect("../" + returnUrl);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
                 }
 
                 await UserManager.RemovePasswordAsync(userId);
                 IdentityResult result = await UserManager.AddPasswordAsync(userId, newPassword);
                 if (result.Succeeded)
                 {
-                    TempData["message"] = "Bạn hãy vào mail để xem mật khẩu mới";
-                    return RedirectToAction("Index", "Home");
+                    TempData["successmessage"] = "Bạn hãy vào mail để xem mật khẩu mới.";
                 }
                 else
                 {
-                    TempData["message"] = "Quá trình tạo mật khẩu mới gặp lỗi";
-                    return RedirectToAction("Index", "Home");
+                    TempData["errormessage"] = "Quá trình tạo mật khẩu mới gặp lỗi!";
                 }
             }
             else
             {
-                TempData["message"] = "Email trống";
+                TempData["warningmessage"] = "Email trống!";
+            }
+
+            if (!String.IsNullOrEmpty(returnUrl))
+            {
+                return Redirect("../" + returnUrl);
+            }
+            else
+            {
                 return RedirectToAction("Index", "Home");
             }
         }
@@ -278,6 +332,7 @@ namespace JobSearchingSystem.Controllers
         {
             if (!"Staff".Equals(model.RoleName) && !"Manager".Equals(model.RoleName))
             {
+                TempData["errormessage"] = "Không được tạo tài khoản khác ngoài Staff và Manager!";
                 return RedirectToAction("List", "Account", new { showoption = showoption });
             }
 
@@ -285,6 +340,7 @@ namespace JobSearchingSystem.Controllers
             AspNetUser u = unitOfWork.AspNetUserRepository.Get(s => s.UserName == model.UserName).FirstOrDefault();
             if (u != null)
             {
+                TempData["errormessage"] = "Username " + model.UserName + " đã tồn tại!";
                 return RedirectToAction("List", "Account", new { showoption = showoption });
             }
 
@@ -301,6 +357,8 @@ namespace JobSearchingSystem.Controllers
                     staff.IsDeleted = false;
                     unitOfWork.StaffRepository.Insert(staff);
                     unitOfWork.Save();
+
+                    TempData["successmessage"] = "Tạo tài khoản " + model.UserName + " với role Staff thành công.";
                 }
                 else
                 {
@@ -309,13 +367,13 @@ namespace JobSearchingSystem.Controllers
                     manager.IsDeleted = false;
                     unitOfWork.ManagerRepository.Insert(manager);
                     unitOfWork.Save();
-                }
 
-                return RedirectToAction("List", "Account", new { showoption = showoption });
+                    TempData["successmessage"] = "Tạo tài khoản " + model.UserName + " với role Manager thành công.";
+                }
             }
             else
             {
-                AddErrors(result);
+                TempData["errormessage"] = "Tạo tài khoản " + model.UserName + " thất bại!";
             }
 
             return RedirectToAction("List", "Account", new { showoption = showoption });
@@ -333,8 +391,14 @@ namespace JobSearchingSystem.Controllers
                 user.IsActive = false;
                 unitOfWork.AspNetUserRepository.Update(user);
                 unitOfWork.Save();
-            }
 
+                TempData["successmessage"] = "Vô hiệu hóa tài khoản " + UserName + " thành công.";
+            }
+            else
+            {
+                TempData["errormessage"] = "Vô hiệu hóa tài khoản " + UserName + " thất bại!";
+            }
+            
             return RedirectToAction("List", "Account", new { showoption = showoption });
         }
 
@@ -350,6 +414,12 @@ namespace JobSearchingSystem.Controllers
                 user.IsActive = true;
                 unitOfWork.AspNetUserRepository.Update(user);
                 unitOfWork.Save();
+
+                TempData["successmessage"] = "Hoạt hóa tài khoản " + UserName + " thành công.";
+            }
+            else
+            {
+                TempData["errormessage"] = "Hoạt hóa tài khoản " + UserName + " thất bại!";
             }
 
             return RedirectToAction("List", "Account", new { showoption = showoption });
