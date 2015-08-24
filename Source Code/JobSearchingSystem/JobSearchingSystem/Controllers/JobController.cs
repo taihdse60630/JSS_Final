@@ -14,18 +14,11 @@ namespace JobSearchingSystem.Controllers
         // GET: /Job/
         private JobUnitOfWork jobUnitOfWork = new JobUnitOfWork();
         private HomeUnitOfWork homeUnitOfWork = new HomeUnitOfWork();
-        public ActionResult Index()
-        {
-            return View();
-        }
 
         //Displayed list of job created by recruiter
-
         [Authorize(Roles = "Recruiter")]
         public ActionResult OwnList()
         {
-            ViewBag.message = TempData["message"];
-
             string recruiterID = jobUnitOfWork.AspNetUserRepository.Get(s => s.UserName == User.Identity.Name).FirstOrDefault().Id; 
             return View(this.jobUnitOfWork.GetJobByRecruiterID(recruiterID));
         }
@@ -39,12 +32,16 @@ namespace JobSearchingSystem.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Jobseeker")]
+        [HttpPost]
         public ActionResult DeleteAppliedRequest(int jobId, string jobseekerId)
         {
             int deleteResult = jobUnitOfWork.DeleteAppliedRequest(jobId, jobseekerId);
+            TempData["successmessage"] = "Xóa đơn thành công.";
             return RedirectToAction("AppliedJobList");
         }
 
+        [Authorize(Roles = "Recruiter")]
         public ActionResult Create()
         {
             JobCreateModel jobCreateModel = new JobCreateModel();
@@ -53,12 +50,13 @@ namespace JobSearchingSystem.Controllers
 
             if (jobUnitOfWork.CompanyInfoRepository.GetByID(UserID) == null)
             {
+                TempData["warningmessage"] = "Xin hãy cập nhật thông tin công ty trước khi đăng tuyển!";
                 return RedirectToAction("Update", "CompanyInfo");
             }
 
             if (!jobUnitOfWork.CheckIfCanPostJob(UserID))
             {
-                TempData["message"] = "Bạn cần mua gói công việc";
+                TempData["warningmessage"] = "Bạn cần mua gói công việc!";
                 return RedirectToAction("Choose", "JobPackage");
             }
 
@@ -71,31 +69,42 @@ namespace JobSearchingSystem.Controllers
 
             jobCreateModel.JobPackageItemSelectItemList = (from p in jobUnitOfWork.PurchaseJobPackageRepository.Get()
                                                            join j in jobUnitOfWork.JobPackageRepository.Get() on p.JobPackageID equals j.JobPackageID
-                                                           where p.RecruiterID == UserID && p.EndDate >= DateTime.Now && p.IsApproved == true && p.IsDeleted == false
+                                                           where p.RecruiterID == UserID && p.IsApproved == true && p.IsDeleted == false
                                                                && j.IsDeleted == false
                                                            select new JobPackageSelectItem()
                                                            {
-                                                               PurchaseJobPackageID = p.PurchaseJobPackageID,
                                                                JobPackageName = j.Name,
                                                                RemainJobNumber = j.JobNumber - (from jo in jobUnitOfWork.JobRepository.Get()
                                                                                                 where jo.PurchaseJobPackageId == p.PurchaseJobPackageID
                                                                                                 select jo).Count()
-                                                           }).Where(s => s.RemainJobNumber > 0)
+                                                           })
+                                                           .GroupBy(s => s.JobPackageName)
+                                                           .Select(s => new JobPackageSelectItem { JobPackageName = s.Key, RemainJobNumber = s.Sum(g => g.RemainJobNumber) })
+                                                           .Where(s => s.RemainJobNumber > 0)
                                                            .AsEnumerable();
 
             return View(jobCreateModel);
         }
 
+        [Authorize(Roles = "Recruiter")]
         [HttpPost]
-        public ActionResult Create(JobCreateModel model, int PurchaseJobPackageId, string skill1, string skill2, string skill3)
+        public ActionResult Create(JobCreateModel model, string JobPackageName, string skill1, string skill2, string skill3)
         {
-            if (jobUnitOfWork.CreateJob(model, PurchaseJobPackageId, skill1, skill2, skill3))
+            string UserID = jobUnitOfWork.AspNetUserRepository.Get(s => s.UserName == User.Identity.Name).FirstOrDefault().Id;
+
+            if (jobUnitOfWork.CreateJob(model, JobPackageName, skill1, skill2, skill3, UserID))
             {
-                return RedirectToAction("OwnList");
+                TempData["successmessage"] = "Tạo đăng tuyển thành công.";
             }
-            return View(model);
+            else
+            {
+                TempData["errormessage"] = "Tạo đăng tuyển thất bại!";
+            }
+
+            return RedirectToAction("OwnList");
         }
 
+        [AllowAnonymous]
         public ActionResult Find(JFindViewModel model)
         {
             model.jobCities = homeUnitOfWork.getAllCities();
@@ -114,16 +123,18 @@ namespace JobSearchingSystem.Controllers
             return View(model);
         }
 
+        [AllowAnonymous]
         public ActionResult Detail(int? jobID)
         {
             int jobID2 = jobID.GetValueOrDefault();
             if (jobID2 == 0)
             {
-
+                TempData["errormessage"] = "Dữ liệu không hợp lệ!";
                 return RedirectToAction("Index", "Home");
             }
             else if (!jobUnitOfWork.IsJobExist(jobID2))
             {
+                TempData["errormessage"] = "Không tìm thấy công việc!";
                 return RedirectToAction("Index", "Home");
             }
             else
@@ -153,24 +164,37 @@ namespace JobSearchingSystem.Controllers
         }
 
         //Display a hidden job
+        [Authorize(Roles = "Recruiter")]
+        [HttpPost]
         public ActionResult Display(int jobID)
         {
             if (jobUnitOfWork.Display(jobID))
             {
-                return RedirectToAction("OwnList");
+                TempData["successmessage"] = "Hiển thị công việc thành công.";
             }
-            //ThienNN solve conflict
+            else
+            {
+                TempData["errormessage"] = "Hiển thị công việc thất bại!";
+            }
+
             return RedirectToAction("OwnList");
         }
-
-        //    return RedirectToAction("OwnList");
-        //}
 
         [Authorize(Roles = "Jobseeker")]
         public ActionResult AppliedJob(JJobDetailViewModel model)
         {
             string id = jobUnitOfWork.AspNetUserRepository.Get(s => s.UserName == User.Identity.Name).FirstOrDefault().Id;
             bool IsApplied = jobUnitOfWork.ApplyJob(model.jobID, model.profileID, id);
+
+            if (IsApplied)
+            {
+                TempData["successmessage"] = "Gửi đơn thành công.";
+            }
+            else
+            {
+                TempData["errormessage"] = "Gửi đơn thất bại!";
+            }
+
             return RedirectToAction("AppliedJobList");
         }
 
@@ -178,12 +202,19 @@ namespace JobSearchingSystem.Controllers
 
 
         //Hide a displayed job
+        [Authorize(Roles = "Recruiter")]
+        [HttpPost]
         public ActionResult Hide(int jobID)
         {
             if (jobUnitOfWork.Hide(jobID))
             {
-                return RedirectToAction("OwnList");
+                TempData["successmessage"] = "Ẩn công việc thành công.";
             }
+            else
+            {
+                TempData["errormessage"] = "Ẩn công việc thất bại!";
+            }
+
             return RedirectToAction("OwnList");
 
         }
@@ -222,6 +253,7 @@ namespace JobSearchingSystem.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        [AllowAnonymous]
         public ActionResult JobsOfRecruiter(string recruiterID)
         {
             if (String.IsNullOrEmpty(recruiterID))
