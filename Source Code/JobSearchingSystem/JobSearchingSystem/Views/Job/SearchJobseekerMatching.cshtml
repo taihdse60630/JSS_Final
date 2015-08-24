@@ -1,0 +1,230 @@
+﻿@model JobSearchingSystem.Models.JobseekerList
+
+@{
+    ViewBag.Title = "ManageAppliedRequest";
+    Layout = "~/Views/Shared/_LayoutFinal.cshtml";
+}
+
+<script src="~/Content/vendors/iCheck/custom.min.js"></script>
+<script src="~/Content/js/ui-checkbox-radio.js"></script>
+<script src="~/Content/js/table-action.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $.extend($.fn.dataTable.defaults, {
+            searching: true
+        });
+        var table = $('#myTable').DataTable({
+            lengthChange: false,
+            "language": {
+                "lengthMenu": "Hiển thị _MENU_ yêu cầu mỗi trang",
+                "zeroRecords": "Không tìm thấy dữ liệu phù hợp",
+                "info": "Hiển thị trang _PAGE_ trên tổng số _PAGES_ trang",
+                "infoEmpty": "Không tìm thấy dữ liệu phù hợp",
+                "infoFiltered": "(tìm kiếm từ _MAX_ yêu cầu)",
+                "oPaginate": {
+                    "sNext": "Trang sau",
+                    "sPrevious": "Trang trước"
+                }
+            }
+
+        });
+
+
+        $('input[type="checkbox"][name="userAccessNeeded"]').on('ifChecked', function (event) {
+            $('input').iCheck('check');
+
+        });
+
+
+        $('input[type="checkbox"][name="userAccessNeeded"]').on('ifUnchecked', function (event) {
+            $('input').iCheck('uncheck');
+
+        });
+
+
+    });
+
+    $(document).on("click", ".open-ModalApproveConfirm", function (id) {
+        var myApplicantId = $(this).data('id');
+        $("#ApproveApplicantID").val(myApplicantId);
+        // As pointed out in comments,
+        // it is superfluous to have to manually call the modal.
+        // $('#addBookDialog').modal('show');
+    });
+
+    $(document).on("click", ".open-ModalDisapproveConfirm", function (id) {
+        var myApplicantId = $(this).data('id');
+        $("#DisapproveApplicantID").val(myApplicantId);
+        // As pointed out in comments,
+        // it is superfluous to have to manually call the modal.
+        // $('#addBookDialog').modal('show');
+    });
+
+</script>
+
+<div id="ModalApproveConfirm" tabindex="-1" role="dialog" aria-labelledby="modal-default-label" aria-hidden="false" class="modal fade in" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" data-dismiss="modal" aria-hidden="true" class="close">×</button>
+                <h4 id="modal-default-label" class="modal-title">Tiếp nhận hồ sơ</h4>
+            </div>
+            @using (Html.BeginForm("Approve", "Applicant", FormMethod.Post))
+            {
+                <div class="modal-body">
+                    <p>
+                        Bạn có chắc chấp nhận hồ sơ ứng tuyển này?
+                    </p>
+                    <input type="hidden" name="applicantID" id="ApproveApplicantID" value="" />
+                    <input type="hidden" name="jobID" value="@ViewBag.JobID" />
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Đồng ý</button>
+                    <button type="button" data-dismiss="modal" class="btn btn-default">Hủy bỏ</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div id="ModalDisapproveConfirm" tabindex="-1" role="dialog" aria-labelledby="modal-default-label" aria-hidden="false" class="modal fade in" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" data-dismiss="modal" aria-hidden="true" class="close">×</button>
+                <h4 id="modal-default-label" class="modal-title">Từ chối nhận hồ sơ</h4>
+            </div>
+            @using (Html.BeginForm("Disapprove", "Applicant", FormMethod.Post))
+            {
+                <div class="modal-body">
+                    <p>
+                        Bạn có chắc không muốn nhận hồ sơ này?
+                    </p>
+                    <input type="hidden" name="applicantID" id="DisapproveApplicantID" value="" />
+                    <input type="hidden" name="jobID" value="@ViewBag.JobID" />
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger">Đồng ý</button>
+                    <button type="button" data-dismiss="modal" class="btn btn-default">Hủy bỏ</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="page-content" style="padding: 20px 60px 80px 80px">
+    <div class="col-lg-9 panel panel-default">
+        <h3 style="font-weight:600;text-align:center">Danh sách ứng viên phù hợp</h3>
+        <br />
+        @using (Html.BeginForm("List", "Applicant", FormMethod.Post))
+        {
+            <br />
+            <div class="table-container">
+                <table id="myTable" class="table table-hover table-striped table-bordered table-advanced tablesorter">
+                    <thead>
+                        <tr>
+                            @*<th width="3%"><input type="checkbox" class="checkall" id="select-all" name="userAccessNeeded" /></th>*@
+                            <th width="15%" style="text-align:center">Tên ứng viên</th>
+                           
+                            <th width="15%" style="text-align:center">Hồ sơ</th>
+                            @*<th width="10%" style="text-align:center">Ngày nộp</th>*@
+                            <th width="13%" style="text-align:center">Độ phù hợp</th>
+                            @*<th width="10%" style="text-align:center">Tình trạng</th>
+                            <th width="13%" style="text-align:center">Thao tác</th>*@
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.jobseekerList)
+                        {
+                            <tr>
+                                @*<td><input type="checkbox" /></td>*@
+                                <td><a href="#">@item.ApplicantName</a></td>
+                              
+                                <td>@{
+                                    int i =0;
+                            foreach (var profile in item.ProfileList)
+                            {
+                                if (i == 0)
+                                {
+                                       <a href="">@profile.Name</a>
+                                }
+                                else
+                                {
+                                       <br /><br /><a href="" >@profile.Name</a>
+                                }
+                                i++;
+                                     
+                            }
+                                }
+                                </td>
+                                @*<td>@item.AppliedDate.ToString("dd/MM/yyyy")</td>*@
+                                <td>
+                        @{
+                            int k = 0;
+                            
+                            foreach(var percent in item.MatchingPercentList)
+                            {
+                                if (k == 0)
+                                {
+                                    <div role="progressbar" aria-valuenow="@percent" aria-valuemin="0" aria-valuemax="100" style="width: @percent%;" class="progress-bar progress-bar-green">
+                                        <span class="sr-only">@percent Complete</span>
+                                        @percent %
+                                    </div>
+                                }
+                                else 
+                                {    <br /> <br /> <div role="progressbar" aria-valuenow="@percent" aria-valuemin="0" aria-valuemax="100" style="width: @percent%;" class="progress-bar progress-bar-green">
+                                        <span class="sr-only">@percent Complete</span>
+                                        @percent %
+                                    </div>
+                                }
+                                k++;
+                              
+                            }
+                        }
+                                   
+                                </td>
+                                @*@if (item.Status == 0)
+                                {
+                                    <td>
+                                        <span class="label label-sm label-info">Chờ duyệt</span>
+                                    </td>
+                                    <td>
+                                        <button type="button" data-target="#ModalApproveConfirm" data-id="@item.ApplicantID" data-toggle="modal" class="open-ModalApproveConfirm btn btn-success">
+                                            &nbsp;<i class="fa fa-check" data-toggle="tooltip" title="Duyệt"></i>
+                                        </button>
+                                        <button type="button" data-target="#ModalDisapproveConfirm" data-id="@item.ApplicantID" data-toggle="modal" class="open-ModalDisapproveConfirm btn btn-danger">
+                                            &nbsp;<i class="fa fa-times" data-toggle="tooltip" title="Từ chối"></i>
+                                        </button>
+                                    </td>
+                                }*@
+                                @*else if (item.Status == 1)
+                                {
+                                    <td>
+                                        <span class="label label-sm label-success">Đã duyệt</span>
+                                    </td>
+                                    <td>
+                                        <button type="button" data-target="#ModalDisapproveConfirm" data-id="@item.ApplicantID" data-toggle="modal" class="open-ModalDisapproveConfirm btn btn-danger">
+                                            &nbsp;<i class="fa fa-times" data-toggle="tooltip" title="Từ chối"></i>
+                                        </button>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>
+                                        <span class="label label-sm label-danger">Đã từ chối</span>
+                                    </td>
+                                    <td>
+                                        <button type="button" data-target="#ModalApproveConfirm" data-id="@item.ApplicantID" data-toggle="modal" class="open-ModalApproveConfirm btn btn-success">
+                                            &nbsp;<i class="fa fa-check" data-toggle="tooltip" title="Duyệt"></i>
+                                        </button>
+                                    </td>
+                                }*@
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>

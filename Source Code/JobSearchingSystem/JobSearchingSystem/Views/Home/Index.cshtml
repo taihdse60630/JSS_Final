@@ -570,7 +570,16 @@
 
             <div class="panel panel-red">
 
-                <div class="panel-heading">Việc làm</div>
+                <div class="panel-heading">Việc làm
+                
+                    <select style="margin-left: 50%;">
+                        <i class="fa fa-tint"></i>
+                        <option>Mới nhất</option>
+                        <option>Lượt xem nhiều nhất</option>
+
+                    </select>
+                  
+                </div>
                 <div class="panel-body">
 
                     <div id="container" style="overflow-y:scroll;height:500px">
@@ -605,9 +614,9 @@
                                                         </span>
                                                     </em><br />
                                                     <span style="margin-right: 10px;">
-                                                        <i class="fa fa-fw fa-calendar"></i>Posted: @String.Format("{0:d}", item.PostedDate)
+                                                        <i class="fa fa-fw fa-calendar"></i>Ngày đăng: @String.Format("{0:d}", item.PostedDate)
                                                     </span>
-                                                    <span><i class="fa fa-fw fa-eye"></i>Views: @item.JobView</span><br />
+                                                    <span><i class="fa fa-fw fa-eye"></i>Lượt xem: @item.JobView</span><br />
                                                     @{
                                                                 int i = 1;
                                                                 foreach (var item3 in item.JobSkills)

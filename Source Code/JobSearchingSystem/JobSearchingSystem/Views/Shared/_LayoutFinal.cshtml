@@ -93,6 +93,30 @@
 
 
     </script>
+
+    <script>
+        $(document).ready(function () {
+            $('.confirmationDelete').on('click', function () {
+                var id = this.id;
+                swal({
+                    title: "Bạn có thực sự muốn xóa ?",
+                    text: "",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Có",
+                    cancelButtonText: "Không",
+                    closeOnConfirm: false
+                },
+                function () {
+                    window.location.href = id;
+                    //alert(id);
+                });
+            });
+        });
+
+
+    </script>
     <!--loading validation-->
     @Scripts.Render("~/bundles/jqueryval")
 

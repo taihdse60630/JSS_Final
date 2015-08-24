@@ -2,9 +2,10 @@
 @model JobSearchingSystem.Models.ImageModel
 
 
-@if(!String.IsNullOrEmpty(Model.imageUrl) && !"/Content/img/yourlogo.jpeg".Equals(Model.imageUrl)){
-    
-    <input class="companyLogoUploaded" type="hidden" value="@Model.imageUrl " />
+@if (!String.IsNullOrEmpty(Model.imageUrl) && !"/Content/img/yourlogo.jpeg".Equals(Model.imageUrl))
+{
+
+    <input id="companyLogoUploaded" class="companyLogoUploaded" type="hidden" value="@Model.imageUrl " />
 }
 
 @if (String.IsNullOrEmpty(Model.imageUrl))
