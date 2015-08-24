@@ -23,6 +23,24 @@ namespace JobSearchingSystem.Models
         public IEnumerable<ProListItem> proList { get; set; }
     }
 
+    public class ProDetailViewModel
+    {
+        public IEnumerable<City> cities { get; set; }
+        public IEnumerable<SchoolLevel> schoolLevels { get; set; }
+        public IEnumerable<Language> languages { get; set; }
+        public IEnumerable<Level> levels { get; set; }
+        public IEnumerable<JobLevel> jobLevels { get; set; }
+        public IEnumerable<Category> categories { get; set; }
+        public int expectedCity { get; set; }
+        public int categoryID { get; set; }
+
+        public Contact contact { get; set; }
+        public Profile profile { get; set; }
+        public EmploymentHistory employmentHistory { get; set; }
+        public EducationHistory educationHistory { get; set; }
+        public ReferencePerson referencePerson { get; set; }
+    }
+
     public class ProCommonInfoItem
     {
         public Profile profile { get; set; }
