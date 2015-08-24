@@ -242,6 +242,7 @@ namespace JobSearchingSystem.DAL
                         JobName = b.JobTitle,
                         CompanyName = this.CompanyInfoRepository.Get(s => s.RecruiterID == b.RecruiterID).FirstOrDefault().Company,
                         AppliedDate = a.ApplyDate,
+                        AcceptDate = a.AcceptDate,
                         JobID = a.JobID,
                         JobSeekerID = a.JobSeekerID,
                         RecruiterID = b.RecruiterID,
@@ -287,6 +288,10 @@ namespace JobSearchingSystem.DAL
                     if (appliedJob.IsDeleted == true)
                     {
                         appliedJob.ProfileID = profileID;
+                        appliedJob.ApplyDate = DateTime.Now;
+                        appliedJob.MatchingPercent = this.Matching(profileID, jobID);
+                        appliedJob.Status = 0;
+                        appliedJob.AcceptDate = null;
                         appliedJob.IsDeleted = false;
                         this.AppliedJobRepository.Update(appliedJob);
                         this.Save();
@@ -307,6 +312,7 @@ namespace JobSearchingSystem.DAL
                     newAppliedJob.ApplyDate = DateTime.Now;
                     newAppliedJob.MatchingPercent = this.Matching(profileID, jobID);
                     newAppliedJob.Status = 0;
+                    newAppliedJob.AcceptDate = null;
                     newAppliedJob.IsDeleted = false;
 
                     this.AppliedJobRepository.Insert(newAppliedJob);
