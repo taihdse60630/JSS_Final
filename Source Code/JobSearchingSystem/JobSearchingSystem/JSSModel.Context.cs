@@ -68,7 +68,6 @@ namespace JobSearchingSystem
         public virtual DbSet<SchoolLevel> SchoolLevels { get; set; }
         public virtual DbSet<Skill> Skills { get; set; }
         public virtual DbSet<Staff> Staffs { get; set; }
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Topic> Topics { get; set; }
         public virtual DbSet<ViewProfile> ViewProfiles { get; set; }
     }

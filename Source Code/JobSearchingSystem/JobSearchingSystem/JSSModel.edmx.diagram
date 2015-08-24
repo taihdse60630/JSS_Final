@@ -6,51 +6,50 @@
     <edmx:Diagrams>
       <Diagram DiagramId="66db5acaad3246f9b5c664a47d3b1184" Name="Diagram1" ZoomLevel="94">
         <EntityTypeShape EntityType="JSSModel.C__MigrationHistory" Width="1.5" PointX="0.75" PointY="0.75" />
-        <EntityTypeShape EntityType="JSSModel.Administrator" Width="1.5" PointX="5.25" PointY="62.875" />
-        <EntityTypeShape EntityType="JSSModel.Advertise" Width="1.5" PointX="11.25" PointY="51.625" />
-        <EntityTypeShape EntityType="JSSModel.AppliedJob" Width="1.5" PointX="12.75" PointY="38.125" />
+        <EntityTypeShape EntityType="JSSModel.Administrator" Width="1.5" PointX="5.25" PointY="29.375" />
+        <EntityTypeShape EntityType="JSSModel.Advertise" Width="1.5" PointX="8.25" PointY="60.375" />
+        <EntityTypeShape EntityType="JSSModel.AppliedJob" Width="1.5" PointX="14.75" PointY="43" />
         <EntityTypeShape EntityType="JSSModel.AspNetRole" Width="1.5" PointX="0.75" PointY="43.875" />
-        <EntityTypeShape EntityType="JSSModel.AspNetUserClaim" Width="1.5" PointX="5.25" PointY="39.375" />
-        <EntityTypeShape EntityType="JSSModel.AspNetUserLogin" Width="1.5" PointX="5.25" PointY="29.375" />
+        <EntityTypeShape EntityType="JSSModel.AspNetUserClaim" Width="1.5" PointX="5.25" PointY="42.25" />
+        <EntityTypeShape EntityType="JSSModel.AspNetUserLogin" Width="1.5" PointX="5.25" PointY="31.75" />
         <EntityTypeShape EntityType="JSSModel.AspNetUser" Width="1.5" PointX="3" PointY="42.25" />
-        <EntityTypeShape EntityType="JSSModel.Benefit" Width="1.5" PointX="13.5" PointY="28" />
-        <EntityTypeShape EntityType="JSSModel.Category" Width="1.5" PointX="7.5" PointY="24" />
-        <EntityTypeShape EntityType="JSSModel.City" Width="1.5" PointX="10.5" PointY="28" />
-        <EntityTypeShape EntityType="JSSModel.CompanyInfo" Width="1.5" PointX="7.5" PointY="42" />
-        <EntityTypeShape EntityType="JSSModel.CompanyInfoCity" Width="1.5" PointX="9.75" PointY="42.5" />
-        <EntityTypeShape EntityType="JSSModel.Contact" Width="1.5" PointX="8.25" PointY="49.875" />
-        <EntityTypeShape EntityType="JSSModel.DesiredBenefit" Width="1.5" PointX="10.5" PointY="45.5" />
-        <EntityTypeShape EntityType="JSSModel.EducationHistory" Width="1.5" PointX="18.75" PointY="44.125" />
-        <EntityTypeShape EntityType="JSSModel.EmploymentHistory" Width="1.5" PointX="15.75" PointY="57.75" />
-        <EntityTypeShape EntityType="JSSModel.ExpectedCategory" Width="1.5" PointX="15.75" PointY="47.5" />
-        <EntityTypeShape EntityType="JSSModel.ExpectedCity" Width="1.5" PointX="15.75" PointY="44.5" />
-        <EntityTypeShape EntityType="JSSModel.Job" Width="1.5" PointX="7.5" PointY="34.25" />
-        <EntityTypeShape EntityType="JSSModel.JobBenefit" Width="1.5" PointX="15.75" PointY="36" />
-        <EntityTypeShape EntityType="JSSModel.JobCategory" Width="1.5" PointX="9.75" PointY="35.125" />
-        <EntityTypeShape EntityType="JSSModel.JobCity" Width="1.5" PointX="12.75" PointY="31.125" />
-        <EntityTypeShape EntityType="JSSModel.JobLanguage" Width="1.5" PointX="12.75" PointY="33.875" />
-        <EntityTypeShape EntityType="JSSModel.JobLevel" Width="1.5" PointX="5.25" PointY="25.375" />
-        <EntityTypeShape EntityType="JSSModel.JobPackage" Width="1.5" PointX="8.25" PointY="27" />
-        <EntityTypeShape EntityType="JSSModel.Jobseeker" Width="1.5" PointX="5.25" PointY="42.125" />
-        <EntityTypeShape EntityType="JSSModel.JobSkill" Width="1.5" PointX="9.75" PointY="32" />
-        <EntityTypeShape EntityType="JSSModel.Language" Width="1.5" PointX="10.5" PointY="24.625" />
-        <EntityTypeShape EntityType="JSSModel.Level" Width="1.5" PointX="10.5" PointY="21.375" />
-        <EntityTypeShape EntityType="JSSModel.Manager" Width="1.5" PointX="5.25" PointY="56.125" />
-        <EntityTypeShape EntityType="JSSModel.Message" Width="1.5" PointX="5.25" PointY="48.25" />
-        <EntityTypeShape EntityType="JSSModel.MessageReceiver" Width="1.5" PointX="10.5" PointY="48.5" />
-        <EntityTypeShape EntityType="JSSModel.OwnSkill" Width="1.5" PointX="7.5" PointY="46.5" />
-        <EntityTypeShape EntityType="JSSModel.Profile" Width="1.5" PointX="13.5" PointY="42" />
-        <EntityTypeShape EntityType="JSSModel.PurchaseAdvertise" Width="1.5" PointX="13.5" PointY="50" />
-        <EntityTypeShape EntityType="JSSModel.PurchaseJobPackage" Width="1.5" PointX="10.5" PointY="38" />
-        <EntityTypeShape EntityType="JSSModel.Recruiter" Width="1.5" PointX="5.25" PointY="35.75" />
-        <EntityTypeShape EntityType="JSSModel.ReferencePerson" Width="1.5" PointX="15.75" PointY="54.25" />
-        <EntityTypeShape EntityType="JSSModel.Report" Width="1.5" PointX="5.25" PointY="32" />
-        <EntityTypeShape EntityType="JSSModel.SchoolLevel" Width="1.5" PointX="5.25" PointY="21.5" />
-        <EntityTypeShape EntityType="JSSModel.Skill" Width="1.5" PointX="7.5" PointY="31.125" />
-        <EntityTypeShape EntityType="JSSModel.Staff" Width="1.5" PointX="5.25" PointY="45.75" />
-        <EntityTypeShape EntityType="JSSModel.sysdiagram" Width="1.5" PointX="2.75" PointY="0.75" />
-        <EntityTypeShape EntityType="JSSModel.Topic" Width="1.5" PointX="5.25" PointY="58.625" />
-        <EntityTypeShape EntityType="JSSModel.ViewProfile" Width="1.5" PointX="15.75" PointY="41.5" />
+        <EntityTypeShape EntityType="JSSModel.Benefit" Width="1.5" PointX="12.5" PointY="29.75" />
+        <EntityTypeShape EntityType="JSSModel.Category" Width="1.5" PointX="12.5" PointY="39.75" />
+        <EntityTypeShape EntityType="JSSModel.City" Width="1.5" PointX="7.5" PointY="30.625" />
+        <EntityTypeShape EntityType="JSSModel.CompanyInfo" Width="1.5" PointX="7.5" PointY="34.25" />
+        <EntityTypeShape EntityType="JSSModel.CompanyInfoCity" Width="1.5" PointX="9.75" PointY="34.75" />
+        <EntityTypeShape EntityType="JSSModel.Contact" Width="1.5" PointX="8.25" PointY="40.875" />
+        <EntityTypeShape EntityType="JSSModel.DesiredBenefit" Width="1.5" PointX="7.5" PointY="53.625" />
+        <EntityTypeShape EntityType="JSSModel.EducationHistory" Width="1.5" PointX="15.75" PointY="53.25" />
+        <EntityTypeShape EntityType="JSSModel.EmploymentHistory" Width="1.5" PointX="12.75" PointY="57" />
+        <EntityTypeShape EntityType="JSSModel.ExpectedCategory" Width="1.5" PointX="12.75" PointY="53.625" />
+        <EntityTypeShape EntityType="JSSModel.ExpectedCity" Width="1.5" PointX="12.75" PointY="50.625" />
+        <EntityTypeShape EntityType="JSSModel.Job" Width="1.5" PointX="12.5" PointY="33" />
+        <EntityTypeShape EntityType="JSSModel.JobBenefit" Width="1.5" PointX="14.75" PointY="34.75" />
+        <EntityTypeShape EntityType="JSSModel.JobCategory" Width="1.5" PointX="14.75" PointY="37.75" />
+        <EntityTypeShape EntityType="JSSModel.JobCity" Width="1.5" PointX="14.75" PointY="31.75" />
+        <EntityTypeShape EntityType="JSSModel.JobLanguage" Width="1.5" PointX="17.75" PointY="34.5" />
+        <EntityTypeShape EntityType="JSSModel.JobLevel" Width="1.5" PointX="10.25" PointY="27.125" />
+        <EntityTypeShape EntityType="JSSModel.JobPackage" Width="1.5" PointX="5.25" PointY="66.125" />
+        <EntityTypeShape EntityType="JSSModel.Jobseeker" Width="1.5" PointX="5.25" PointY="53.125" />
+        <EntityTypeShape EntityType="JSSModel.JobSkill" Width="1.5" PointX="17.75" PointY="30.75" />
+        <EntityTypeShape EntityType="JSSModel.Language" Width="1.5" PointX="15.5" PointY="47.25" />
+        <EntityTypeShape EntityType="JSSModel.Level" Width="1.5" PointX="15.5" PointY="25.375" />
+        <EntityTypeShape EntityType="JSSModel.Manager" Width="1.5" PointX="5.25" PointY="56.875" />
+        <EntityTypeShape EntityType="JSSModel.Message" Width="1.5" PointX="5.25" PointY="61.875" />
+        <EntityTypeShape EntityType="JSSModel.MessageReceiver" Width="1.5" PointX="7.5" PointY="57.25" />
+        <EntityTypeShape EntityType="JSSModel.OwnSkill" Width="1.5" PointX="7.5" PointY="50.625" />
+        <EntityTypeShape EntityType="JSSModel.Profile" Width="1.5" PointX="10.5" PointY="51" />
+        <EntityTypeShape EntityType="JSSModel.PurchaseAdvertise" Width="1.5" PointX="10.5" PointY="44.625" />
+        <EntityTypeShape EntityType="JSSModel.PurchaseJobPackage" Width="1.5" PointX="7.5" PointY="46.125" />
+        <EntityTypeShape EntityType="JSSModel.Recruiter" Width="1.5" PointX="5.25" PointY="34.375" />
+        <EntityTypeShape EntityType="JSSModel.ReferencePerson" Width="1.5" PointX="12.75" PointY="63.125" />
+        <EntityTypeShape EntityType="JSSModel.Report" Width="1.5" PointX="5.25" PointY="45" />
+        <EntityTypeShape EntityType="JSSModel.SchoolLevel" Width="1.5" PointX="10.25" PointY="31" />
+        <EntityTypeShape EntityType="JSSModel.Skill" Width="1.5" PointX="15.5" PointY="28.75" />
+        <EntityTypeShape EntityType="JSSModel.Staff" Width="1.5" PointX="5.25" PointY="59.375" />
+        <EntityTypeShape EntityType="JSSModel.Topic" Width="1.5" PointX="5.25" PointY="38" />
+        <EntityTypeShape EntityType="JSSModel.ViewProfile" Width="1.5" PointX="12.75" PointY="47.375" />
         <AssociationConnector Association="JSSModel.FK_Administrator_AspNetUsers" />
         <AssociationConnector Association="JSSModel.FK_PurchaseAdvertise_Advertise" />
         <AssociationConnector Association="JSSModel.FK_AppliedJob_Job" />

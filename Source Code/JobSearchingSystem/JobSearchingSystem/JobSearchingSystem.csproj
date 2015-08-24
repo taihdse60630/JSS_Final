@@ -208,6 +208,7 @@
     <Compile Include="Controllers\JobController.cs" />
     <Compile Include="Controllers\JobPackageController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
+    <Compile Include="Controllers\MessageFilterAttribute.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\StatisticController.cs" />
@@ -352,9 +353,6 @@
       <DependentUpon>JSSModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Startup.cs" />
-    <Compile Include="sysdiagram.cs">
-      <DependentUpon>JSSModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Topic.cs">
       <DependentUpon>JSSModel.tt</DependentUpon>
     </Compile>
@@ -2836,6 +2834,11 @@
     <Content Include="Views\Advertise\AdvertiseRequestListRecruiter.cshtml" />
     <Content Include="Views\Job\JobsOfRecruiter.cshtml" />
     <Content Include="Views\JobPackage\JobPackageRequestListRecruiter.cshtml" />
+    <Content Include="Views\Topic\OwnList.cshtml" />
+    <Content Include="Views\Topic\PendingList.cshtml" />
+    <Content Include="Views\Topic\Update.cshtml" />
+    <Content Include="Views\Profile\Detail.cshtml" />
+    <Content Include="Views\Job\SearchJobseekerMatching.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -476,16 +476,6 @@
           <Property Name="StaffID" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
         </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
-        </EntityType>
         <EntityType Name="Topic">
           <Key>
             <PropertyRef Name="TopicID" />
@@ -1344,7 +1334,6 @@
           <EntitySet Name="SchoolLevel" EntityType="Self.SchoolLevel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Skill" EntityType="Self.Skill" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Staff" EntityType="Self.Staff" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Topic" EntityType="Self.Topic" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ViewProfile" EntityType="Self.ViewProfile" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Administrator_AspNetUsers" Association="Self.FK_Administrator_AspNetUsers">
@@ -1656,7 +1645,6 @@
           <EntitySet Name="SchoolLevels" EntityType="JSSModel.SchoolLevel" />
           <EntitySet Name="Skills" EntityType="JSSModel.Skill" />
           <EntitySet Name="Staffs" EntityType="JSSModel.Staff" />
-          <EntitySet Name="sysdiagrams" EntityType="JSSModel.sysdiagram" />
           <EntitySet Name="Topics" EntityType="JSSModel.Topic" />
           <EntitySet Name="ViewProfiles" EntityType="JSSModel.ViewProfile" />
           <AssociationSet Name="FK_Administrator_AspNetUsers" Association="JSSModel.FK_Administrator_AspNetUsers">
@@ -2502,16 +2490,6 @@
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="AspNetUser" Relationship="JSSModel.FK_Staff_AspNetUsers" FromRole="Staff" ToRole="AspNetUser" />
           <NavigationProperty Name="PurchaseJobPackages" Relationship="JSSModel.FK_PurchaseJobPackage_Staff" FromRole="Staff" ToRole="PurchaseJobPackage" />
-        </EntityType>
-        <EntityType Name="sysdiagram">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <EntityType Name="Topic">
           <Key>
@@ -3800,17 +3778,6 @@
               <MappingFragment StoreEntitySet="Staff">
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="StaffID" ColumnName="StaffID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="JSSModel.sysdiagram">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="definition" ColumnName="definition" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="name" ColumnName="name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
