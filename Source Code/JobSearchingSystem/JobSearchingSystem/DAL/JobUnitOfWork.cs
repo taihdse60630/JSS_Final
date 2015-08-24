@@ -662,7 +662,7 @@ namespace JobSearchingSystem.DAL
         public IEnumerable<JJobItem> JobsOfRecruiter(string recruiterID)
         {
             var jobList = (from a in this.JobRepository.Get()
-                           where (a.RecruiterID == recruiterID) && (a.IsPublic = true) && (a.StartedDate <= DateTime.Now) && (a.EndedDate >= DateTime.Now)
+                           where (a.RecruiterID == recruiterID) && (a.IsPublic) && (a.StartedDate <= DateTime.Now) && (a.EndedDate >= DateTime.Now)
                            select new JJobItem()
                            {
                                JobID = a.JobID,
@@ -791,6 +791,32 @@ namespace JobSearchingSystem.DAL
                
             }
             return jobseekerMatchingList;
+        }
+
+        public IEnumerable<Job> GetRevelantJobs(int jobID2)
+        {
+            List<Job> jobList = new List<Job>();
+            var categories = JobCategoryRepository.Get(filter: m => m.JobID == jobID2).ToArray();
+            foreach (var item in categories)
+            {
+                var jobIDList = JobCategoryRepository.Get(filter: m => m.CategoryID == item.CategoryID).ToArray();
+                foreach (var job in jobIDList)
+                {
+                    if (job.JobID != jobID2) 
+                    {
+                        var jobItem = JobRepository.Get(filter: a => (a.JobID == job.JobID) && (a.IsPublic) && (a.StartedDate <= DateTime.Now) && (a.EndedDate >= DateTime.Now)).FirstOrDefault();
+                        if (jobItem != null)
+                        {
+                            jobList.Add(jobItem);
+                        }
+                    }
+                  
+                   
+                }
+
+            }
+            
+            return jobList.OrderByDescending(m => m.StartedDate).Take(5).Distinct();
         }
     }
 }
