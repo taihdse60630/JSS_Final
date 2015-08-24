@@ -12,6 +12,8 @@ using JobSearchingSystem.Models;
 
 namespace JobSearchingSystem.Controllers
 {
+    [Authorize(Roles = "Staff")]
+    [MessageFilter]
     public class CommonListController : Controller
     {
         private CommonListUnitOfWork commonListUnitOfWork = new CommonListUnitOfWork();
@@ -49,24 +51,48 @@ namespace JobSearchingSystem.Controllers
                 {
                     bool result = commonListUnitOfWork.CreateCity(name);
 
-                    return RedirectToAction("CityList");
+                    if (result)
+                    {
+                        TempData["successmessage"] = "Tạo thành phố " + name + " thành công.";
+                    }
+                    else
+                    {
+                        TempData["errormessage"] = "Tạo thành phố " + name + " thất bại!";
+                    }
+                }
+                else
+                {
+                    TempData["errormessage"] = "Dữ liệu không hợp lệ!";
                 }
             }
-
+            else
+            {
+                TempData["errormessage"] = "Có lỗi xảy ra!";
+            }
+            
             return RedirectToAction("CityList");
         }
 
         [HttpPost]
         public ActionResult UpdateCity(string id, string name)
         {
-           
-                if (!String.IsNullOrEmpty(id) && !String.IsNullOrEmpty(name))
+            if (!String.IsNullOrEmpty(id) && !String.IsNullOrEmpty(name))
+            {
+                bool result = commonListUnitOfWork.UpdateCity(name, Int32.Parse(id));
+
+                if (result)
                 {
-                    bool result = commonListUnitOfWork.UpdateCity(name, Int32.Parse(id));
-                    ComCityListViewModel model = new ComCityListViewModel();
-                    
-                    return RedirectToAction("CityList", model);
+                    TempData["successmessage"] = "Cập nhật thành phố " + name + " thành công.";
                 }
+                else
+                {
+                    TempData["errormessage"] = "Cập nhật thành phố " + name + " thất bại!";
+                }
+            }
+            else
+            {
+                TempData["errormessage"] = "Dữ liệu không hợp lệ!";
+            }
             
             return RedirectToAction("CityList");
         }
@@ -74,11 +100,18 @@ namespace JobSearchingSystem.Controllers
         [HttpPost]
         public ActionResult DeleteCity(int id)
         {
-
             bool result = commonListUnitOfWork.DeleteCity(id);
-            ComCityListViewModel model = new ComCityListViewModel();
 
-            return RedirectToAction("CityList", model);
+            if (result)
+            {
+                TempData["successmessage"] = "Xóa thành phố thành công.";
+            }
+            else
+            {
+                TempData["errormessage"] = "Xóa thành phố thất bại!";
+            }
+
+            return RedirectToAction("CityList");
         }
 
         public ActionResult CategoryList()
@@ -101,18 +134,23 @@ namespace JobSearchingSystem.Controllers
 
                     if (result)
                     {
-                        model.message = "Tạo nhóm ngành nghề thành công.";
+                        TempData["successmessage"] = "Tạo nhóm ngành nghề " + model.name + " thành công.";
                     }
                     else
                     {
-                        model.message = "Tạo nhóm ngành nghề thất bại.";
+                        TempData["errormessage"] = "Tạo nhóm ngành nghề " + model.name + " thất bại!";
                     }
-
-                    return RedirectToAction("CategoryList");
                 }
-
-                return RedirectToAction("CategoryList");
+                else
+                {
+                    TempData["errormessage"] = "Dữ liệu không hợp lệ!";
+                }
             }
+            else
+            {
+                TempData["errormessage"] = "Có lỗi xảy ra!";
+            }
+
             return RedirectToAction("CategoryList");
         }
 
@@ -121,20 +159,23 @@ namespace JobSearchingSystem.Controllers
         {
             
             if (!String.IsNullOrEmpty(name))
+            {
+                bool result = commonListUnitOfWork.UpdateCategory(name, description, id);
+                    
+                if (result)
                 {
-                    bool result = commonListUnitOfWork.UpdateCategory(name, description, id);
-                    ComCategoryListViewModel model = new ComCategoryListViewModel();
-                    if (result)
-                    {
-                        model.message = "Cập nhật nhóm ngành nghề thành công.";
-                    }
-                    else
-                    {
-                        model.message = "Cập nhật nhóm ngành nghề thất bại.";
-                    }
-
-                    return RedirectToAction("CategoryList");
+                    TempData["successmessage"] = "Cập nhật nhóm ngành nghề " + name + " thành công.";
+                }
+                else
+                {
+                    TempData["errormessage"] = "Cập nhật nhóm ngành nghề " + name + " thất bại!";
+                }
             }
+            else
+            {
+                TempData["errormessage"] = "Dữ liệu không hợp lệ!";
+            }
+
             return RedirectToAction("CategoryList");
         }
         
@@ -142,18 +183,18 @@ namespace JobSearchingSystem.Controllers
         public ActionResult DeleteCategory(int id)
         {
            
-                bool result = commonListUnitOfWork.DeleteCategory(id);
-                ComCategoryListViewModel model = new ComCategoryListViewModel();
-                if (result)
-                {
-                    model.message = "Xóa nhóm ngành nghề thành công.";
-                }
-                else
-                {
-                    model.message = "Xóa nhóm ngành nghề thất bại.";
-                }
+            bool result = commonListUnitOfWork.DeleteCategory(id);
 
-                return RedirectToAction("CategoryList");
+            if (result)
+            {
+                TempData["successmessage"] = "Xóa nhóm ngành nghề thành công.";
+            }
+            else
+            {
+                TempData["errormessage"] = "Xóa nhóm ngành nghề thất bại!";
+            }
+
+            return RedirectToAction("CategoryList");
            
         }
 
@@ -177,18 +218,23 @@ namespace JobSearchingSystem.Controllers
 
                     if (result)
                     {
-                        model.message = "Tạo ngôn ngữ thành công.";
+                        TempData["successmessage"] = "Tạo ngôn ngữ " + model.name + " thành công.";
                     }
                     else
                     {
-                        model.message = "Tạo ngôn ngữ thất bại.";
+                        TempData["errormessage"] = "Tạo ngôn ngữ " + model.name + " thất bại!";
                     }
-
-                    return RedirectToAction("LanguageList");
                 }
-
-                return RedirectToAction("LanguageList");
+                else
+                {
+                    TempData["errormessage"] = "Dữ liệu không hợp lệ!";
+                }
             }
+            else
+            {
+                TempData["errormessage"] = "Có lỗi xảy ra!";
+            }
+
             return RedirectToAction("LanguageList");
         }
 
@@ -199,18 +245,21 @@ namespace JobSearchingSystem.Controllers
             if (!String.IsNullOrEmpty(name))
             {
                 bool result = commonListUnitOfWork.UpdateLanguage(name, id);
-                ComLanguageViewModel model = new ComLanguageViewModel();
+                
                 if (result)
                 {
-                    model.message = "Cập nhật ngôn ngữ thành công.";
+                    TempData["successmessage"] = "Cập nhật ngôn ngữ " + name + " thành công.";
                 }
                 else
                 {
-                    model.message = "Cập nhật ngôn ngữ thất bại.";
+                    TempData["errormessage"] = "Cập nhật ngôn ngữ " + name + " thất bại!";
                 }
-
-                return RedirectToAction("LanguageList");
             }
+            else
+            {
+                TempData["errormessage"] = "Dữ liệu không hợp lệ!";
+            }
+
             return RedirectToAction("LanguageList");
         }
 
@@ -219,14 +268,14 @@ namespace JobSearchingSystem.Controllers
         {
 
             bool result = commonListUnitOfWork.DeleteLanguage(id);
-            ComLanguageViewModel model = new ComLanguageViewModel();
+            
             if (result)
             {
-                model.message = "Xóa ngôn ngữ thành công.";
+                TempData["successmessage"] = "Xóa ngôn ngữ thành công.";
             }
             else
             {
-                model.message = "Xóa ngôn ngữ thất bại.";
+                TempData["errormessage"] = "Xóa ngôn ngữ thất bại!";
             }
 
             return RedirectToAction("LanguageList");
@@ -254,18 +303,23 @@ namespace JobSearchingSystem.Controllers
 
                     if (result)
                     {
-                        model.message = "Tạo JobLevel thành công.";
+                        TempData["successmessage"] = "Tạo cấp bậc " + model.name + " thành công.";
                     }
                     else
                     {
-                        model.message = "Tạo JobLevel thất bại.";
+                        TempData["errormessage"] = "Tạo cấp bậc " + model.name + " thất bại!";
                     }
-
-                    return RedirectToAction("JobLevelList");
                 }
-
-                return RedirectToAction("JobLevelList");
+                else
+                {
+                    TempData["errormessage"] = "Dữ liệu không hợp lệ!";
+                }
             }
+            else
+            {
+                TempData["errormessage"] = "Có lỗi xảy ra!";
+            }
+
             return RedirectToAction("JobLevelList");
         }
 
@@ -276,18 +330,21 @@ namespace JobSearchingSystem.Controllers
             if (!String.IsNullOrEmpty(name))
             {
                 bool result = commonListUnitOfWork.UpdateJobLevel(name, levelNum, id);
-                ComJobLevelViewModel model = new ComJobLevelViewModel();
+                
                 if (result)
                 {
-                    model.message = "Cập nhật JobLevel thành công.";
+                    TempData["successmessage"] = "Cập nhật cấp bậc " + name + " thành công.";
                 }
                 else
                 {
-                    model.message = "Cập nhật JobLevel thất bại.";
+                    TempData["errormessage"] = "Cập nhật cấp bậc " + name + " thất bại!";
                 }
-
-                return RedirectToAction("JobLevelList");
             }
+            else
+            {
+                TempData["errormessage"] = "Có lỗi xảy ra!";
+            }
+
             return RedirectToAction("JobLevelList");
         }
 
@@ -296,14 +353,14 @@ namespace JobSearchingSystem.Controllers
         {
 
             bool result = commonListUnitOfWork.DeleteJobLevel(id);
-            ComJobLevelViewModel model = new ComJobLevelViewModel();
+            
             if (result)
             {
-                model.message = "Xóa JobLevel thành công.";
+                TempData["successmessage"] = "Xóa cấp bậc thành công.";
             }
             else
             {
-                model.message = "Xóa JobLevel thất bại.";
+                TempData["errormessage"] = "Xóa cấp bậc thất bại!";
             }
 
             return RedirectToAction("JobLevelList");
@@ -331,18 +388,23 @@ namespace JobSearchingSystem.Controllers
 
                     if (result)
                     {
-                        model.message = "Tạo SchoolLevel thành công.";
+                        TempData["successmessage"] = "Tạo bằng cấp " + model.name + " thành công.";
                     }
                     else
                     {
-                        model.message = "Tạo SchoolLevel thất bại.";
+                        TempData["errormessage"] = "Tạo bằng cấp " + model.name + " thất bại!";
                     }
-
-                    return RedirectToAction("SchoolLevelList");
                 }
-
-                return RedirectToAction("SchoolLevelList");
+                else
+                {
+                    TempData["errormessage"] = "Dữ liệu không hợp lệ!";
+                }
             }
+            else
+            {
+                TempData["errormessage"] = "Có lỗi xảy ra!";
+            }
+
             return RedirectToAction("SchoolLevelList");
         }
 
@@ -353,18 +415,21 @@ namespace JobSearchingSystem.Controllers
             if (!String.IsNullOrEmpty(name))
             {
                 bool result = commonListUnitOfWork.UpdateSchoolLevel(name, levelNum, id);
-                ComSchoolLevelViewModel model = new ComSchoolLevelViewModel();
+                
                 if (result)
                 {
-                    model.message = "Cập nhật SchoolLevel thành công.";
+                    TempData["successmessage"] = "Cập nhật bằng cấp " + name + " thành công.";
                 }
                 else
                 {
-                    model.message = "Cập nhật SchoolLevel thất bại.";
+                    TempData["errormessage"] = "Cập nhật bằng cấp " + name + " thất bại!";
                 }
-
-                return RedirectToAction("SchoolLevelList");
             }
+            else
+            {
+                TempData["errormessage"] = "Có lỗi xảy ra!";
+            }
+
             return RedirectToAction("SchoolLevelList");
         }
 
@@ -373,14 +438,14 @@ namespace JobSearchingSystem.Controllers
         {
 
             bool result = commonListUnitOfWork.DeleteSchoolLevel(id);
-            ComSchoolLevelViewModel model = new ComSchoolLevelViewModel();
+            
             if (result)
             {
-                model.message = "Xóa SchoolLevel thành công.";
+                TempData["successmessage"] = "Xóa bằng cấp thành công.";
             }
             else
             {
-                model.message = "Xóa SchoolLevel thất bại.";
+                TempData["errormessage"] = "Xóa bằng cấp thất bại!";
             }
 
             return RedirectToAction("SchoolLevelList");
@@ -408,18 +473,23 @@ namespace JobSearchingSystem.Controllers
 
                     if (result)
                     {
-                        model.message = "Tạo Level thành công.";
+                        TempData["successmessage"] = "Tạo trình độ ngôn ngữ " + model.name + " thành công.";
                     }
                     else
                     {
-                        model.message = "Tạo Level thất bại.";
+                        TempData["errormessage"] = "Tạo trình độ ngôn ngữ " + model.name + " thất bại!";
                     }
-
-                    return RedirectToAction("LevelList");
                 }
-
-                return RedirectToAction("LevelList");
+                else
+                {
+                    TempData["errormessage"] = "Dữ liệu không hợp lệ!";
+                }
             }
+            else
+            {
+                TempData["errormessage"] = "Có lỗi xảy ra!";
+            }
+
             return RedirectToAction("LevelList");
         }
 
@@ -430,18 +500,21 @@ namespace JobSearchingSystem.Controllers
             if (!String.IsNullOrEmpty(name))
             {
                 bool result = commonListUnitOfWork.UpdateLevel(name, levelNum, id);
-                ComLevelViewModel model = new ComLevelViewModel();
+                
                 if (result)
                 {
-                    model.message = "Cập nhật Level thành công.";
+                    TempData["successmessage"] = "Cập nhật trình độ ngôn ngữ " + name + " thành công.";
                 }
                 else
                 {
-                    model.message = "Cập nhật Level thất bại.";
+                    TempData["errormessage"] = "Cập nhật trình độ ngôn ngữ " + name + " thất bại!";
                 }
-
-                return RedirectToAction("LevelList");
             }
+            else
+            {
+                TempData["errormessage"] = "Có lỗi xảy ra!";
+            }
+
             return RedirectToAction("LevelList");
         }
 
@@ -450,14 +523,14 @@ namespace JobSearchingSystem.Controllers
         {
 
             bool result = commonListUnitOfWork.DeleteLevel(id);
-            ComLevelViewModel model = new ComLevelViewModel();
+            
             if (result)
             {
-                model.message = "Xóa Level thành công.";
+                TempData["successmessage"] = "Xóa trình độ ngôn ngữ thành công.";
             }
             else
             {
-                model.message = "Xóa Level thất bại.";
+                TempData["errormessage"] = "Xóa trình độ ngôn ngữ thất bại!";
             }
 
             return RedirectToAction("LevelList");
