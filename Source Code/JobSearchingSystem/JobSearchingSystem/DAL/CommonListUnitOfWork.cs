@@ -47,16 +47,32 @@ namespace JobSearchingSystem.DAL
         {
             if (!String.IsNullOrEmpty(name))
             {
-                City city = this.CityRepository.Get(s => s.CityID == id).FirstOrDefault();
+                City city = this.CityRepository.GetByID(id);
 
                 if (city != null)
                 {
-                    city.Name = name;
-                    this.CityRepository.Update(city);
-                    this.Save();
-                    return true;
+                    IEnumerable<City> oldCities = this.CityRepository.Get(s => s.Name == name).AsEnumerable();
+
+                    if (oldCities.Count() == 0)
+                    {
+                        city.Name = name;
+                        this.CityRepository.Update(city);
+                        this.Save();
+                        return true;
+                    }
+                    else
+                    {
+                        if (oldCities.ElementAt(0).IsDeleted == true)
+                        {
+                            oldCities.ElementAt(0).IsDeleted = false;
+                            this.CityRepository.Update(oldCities.ElementAt(0));
+                            city.IsDeleted = true;
+                            this.CityRepository.Update(city);
+                            this.Save();
+                            return true;
+                        }
+                    }
                 }
-                return false;
             }
             return false;
         }
@@ -65,16 +81,16 @@ namespace JobSearchingSystem.DAL
         public bool DeleteCity(int id)
         {
 
-                City city = this.CityRepository.Get(s => s.CityID == id).FirstOrDefault();
+            City city = this.CityRepository.GetByID(id);
 
-                if (city != null)
-                {
-                    city.IsDeleted = true;
-                    this.CityRepository.Update(city);
-                    this.Save();
-                    return true;
-                }
-                return false;
+            if (city != null)
+            {
+                city.IsDeleted = true;
+                this.CityRepository.Update(city);
+                this.Save();
+                return true;
+            }
+            return false;
             
         }
 
@@ -120,34 +136,50 @@ namespace JobSearchingSystem.DAL
         {
             if (!String.IsNullOrEmpty(name))
             {
-                Category category = this.CategoryRepository.Get(s => s.CategoryID == id).FirstOrDefault();
+                Category category = this.CategoryRepository.GetByID(id);
 
                 if (category != null)
                 {
-                    category.Name = name;
-                    category.Description = description;
-                    this.CategoryRepository.Update(category);
-                    this.Save();
-                    return true;
+                    IEnumerable<Category> oldCategories = this.CategoryRepository.Get(s => s.Name == name).AsEnumerable();
+
+                    if (oldCategories.Count() == 0)
+                    {
+                        category.Name = name;
+                        category.Description = description;
+                        this.CategoryRepository.Update(category);
+                        this.Save();
+                        return true;
+                    }
+                    else
+                    {
+                        if (oldCategories.ElementAt(0).IsDeleted == true)
+                        {
+                            oldCategories.ElementAt(0).IsDeleted = false;
+                            this.CategoryRepository.Update(oldCategories.ElementAt(0));
+                            category.IsDeleted = true;
+                            this.CategoryRepository.Update(category);
+                            this.Save();
+                            return true;
+                        }
+                    }
                 }
-                return false;
             }
             return false;
         }
 
         public bool DeleteCategory(int id)
         {
-           
-                Category category = this.CategoryRepository.Get(s => s.CategoryID == id).FirstOrDefault();
 
-                if (category != null)
-                {
-                    category.IsDeleted = true;
-                    this.CategoryRepository.Update(category);
-                    this.Save();
-                    return true;
-                }
-                return false;
+            Category category = this.CategoryRepository.GetByID(id);
+
+            if (category != null)
+            {
+                category.IsDeleted = true;
+                this.CategoryRepository.Update(category);
+                this.Save();
+                return true;
+            }
+            return false;
         }
 
         public IEnumerable<Language> GetLanguageList()
@@ -191,24 +223,39 @@ namespace JobSearchingSystem.DAL
         {
             if (!String.IsNullOrEmpty(name))
             {
-                Language language = this.LanguageRepository.Get(s => s.LanguageID == id).FirstOrDefault();
+                Language language = this.LanguageRepository.GetByID(id);
 
                 if (language != null)
                 {
-                    language.Name = name;
-                    this.LanguageRepository.Update(language);
-                    this.Save();
-                    return true;
+                    IEnumerable<Language> oldLanguages = this.LanguageRepository.Get(s => s.Name == name).AsEnumerable();
+
+                    if (oldLanguages.Count() == 0)
+                    {
+                        language.Name = name;
+                        this.LanguageRepository.Update(language);
+                        this.Save();
+                        return true;
+                    }
+                    else
+                    {
+                        if (oldLanguages.ElementAt(0).IsDeleted == true)
+                        {
+                            oldLanguages.ElementAt(0).IsDeleted = false;
+                            this.LanguageRepository.Update(oldLanguages.ElementAt(0));
+                            language.IsDeleted = true;
+                            this.LanguageRepository.Update(language);
+                            this.Save();
+                            return true;
+                        }
+                    }
                 }
-                return false;
             }
             return false;
         }
 
         public bool DeleteLanguage(int id)
         {
-
-            Language language = this.LanguageRepository.Get(s => s.LanguageID == id).FirstOrDefault();
+            Language language = this.LanguageRepository.GetByID(id);
 
             if (language != null)
             {
@@ -263,17 +310,33 @@ namespace JobSearchingSystem.DAL
         {
             if (!String.IsNullOrEmpty(name))
             {
-                JobLevel jobLevel = this.JobLevelRepository.Get(s => s.JobLevel_ID == id).FirstOrDefault();
+                JobLevel jobLevel = this.JobLevelRepository.GetByID(id);
 
                 if (jobLevel != null)
                 {
-                    jobLevel.Name = name;
-                    jobLevel.LevelNum = levelNum;
-                    this.JobLevelRepository.Update(jobLevel);
-                    this.Save();
-                    return true;
+                    IEnumerable<JobLevel> oldJobLevels = this.JobLevelRepository.Get(s => s.Name == name).AsEnumerable();
+
+                    if (oldJobLevels.Count() == 0)
+                    {
+                        jobLevel.Name = name;
+                        jobLevel.LevelNum = levelNum;
+                        this.JobLevelRepository.Update(jobLevel);
+                        this.Save();
+                        return true;
+                    }
+                    else
+                    {
+                        if (oldJobLevels.ElementAt(0).IsDeleted == true)
+                        {
+                            oldJobLevels.ElementAt(0).IsDeleted = false;
+                            this.JobLevelRepository.Update(oldJobLevels.ElementAt(0));
+                            jobLevel.IsDeleted = true;
+                            this.JobLevelRepository.Update(jobLevel);
+                            this.Save();
+                            return true;
+                        }
+                    }
                 }
-                return false;
             }
             return false;
         }
@@ -281,7 +344,7 @@ namespace JobSearchingSystem.DAL
         public bool DeleteJobLevel(int id)
         {
 
-            JobLevel jobLevel = this.JobLevelRepository.Get(s => s.JobLevel_ID == id).FirstOrDefault();
+            JobLevel jobLevel = this.JobLevelRepository.GetByID(id);
 
             if (jobLevel != null)
             {
@@ -336,17 +399,33 @@ namespace JobSearchingSystem.DAL
         {
             if (!String.IsNullOrEmpty(name))
             {
-                SchoolLevel schoolLevel = this.SchoolLevelRepository.Get(s => s.SchoolLevel_ID == id).FirstOrDefault();
+                SchoolLevel schoolLevel = this.SchoolLevelRepository.GetByID(id);
 
                 if (schoolLevel != null)
                 {
-                    schoolLevel.Name = name;
-                    schoolLevel.LevelNum = levelNum;
-                    this.SchoolLevelRepository.Update(schoolLevel);
-                    this.Save();
-                    return true;
+                    IEnumerable<SchoolLevel> oldSchoolLevels = this.SchoolLevelRepository.Get(s => s.Name == name).AsEnumerable();
+
+                    if (oldSchoolLevels.Count() == 0)
+                    {
+                        schoolLevel.Name = name;
+                        schoolLevel.LevelNum = levelNum;
+                        this.SchoolLevelRepository.Update(schoolLevel);
+                        this.Save();
+                        return true;
+                    }
+                    else
+                    {
+                        if (oldSchoolLevels.ElementAt(0).IsDeleted == true)
+                        {
+                            oldSchoolLevels.ElementAt(0).IsDeleted = false;
+                            this.SchoolLevelRepository.Update(oldSchoolLevels.ElementAt(0));
+                            schoolLevel.IsDeleted = true;
+                            this.SchoolLevelRepository.Update(schoolLevel);
+                            this.Save();
+                            return true;
+                        }
+                    }
                 }
-                return false;
             }
             return false;
         }
@@ -354,7 +433,7 @@ namespace JobSearchingSystem.DAL
         public bool DeleteSchoolLevel(int id)
         {
 
-            SchoolLevel schoolLevel = this.SchoolLevelRepository.Get(s => s.SchoolLevel_ID == id).FirstOrDefault();
+            SchoolLevel schoolLevel = this.SchoolLevelRepository.GetByID(id);
 
             if (schoolLevel != null)
             {
@@ -409,17 +488,33 @@ namespace JobSearchingSystem.DAL
         {
             if (!String.IsNullOrEmpty(name))
             {
-                Level Level = this.LevelRepository.Get(s => s.Level_ID == id).FirstOrDefault();
+                Level level = this.LevelRepository.GetByID(id);
 
-                if (Level != null)
+                if (level != null)
                 {
-                    Level.Name = name;
-                    Level.LevelNum = levelNum;
-                    this.LevelRepository.Update(Level);
-                    this.Save();
-                    return true;
+                    IEnumerable<Level> oldLevels = this.LevelRepository.Get(s => s.Name == name).AsEnumerable();
+
+                    if (oldLevels.Count() == 0)
+                    {
+                        level.Name = name;
+                        level.LevelNum = levelNum;
+                        this.LevelRepository.Update(level);
+                        this.Save();
+                        return true;
+                    }
+                    else
+                    {
+                        if (oldLevels.ElementAt(0).IsDeleted == true)
+                        {
+                            oldLevels.ElementAt(0).IsDeleted = false;
+                            this.LevelRepository.Update(oldLevels.ElementAt(0));
+                            level.IsDeleted = true;
+                            this.LevelRepository.Update(level);
+                            this.Save();
+                            return true;
+                        }
+                    }
                 }
-                return false;
             }
             return false;
         }
@@ -427,7 +522,7 @@ namespace JobSearchingSystem.DAL
         public bool DeleteLevel(int id)
         {
 
-            Level Level = this.LevelRepository.Get(s => s.Level_ID == id).FirstOrDefault();
+            Level Level = this.LevelRepository.GetByID(id);
 
             if (Level != null)
             {
