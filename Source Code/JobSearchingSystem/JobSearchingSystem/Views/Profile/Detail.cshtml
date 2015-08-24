@@ -1,0 +1,686 @@
+﻿@{
+    ViewBag.Title = "Xem hồ sơ";
+    Layout = "~/Views/Shared/_LayoutFinal.cshtml";
+}
+
+@model JobSearchingSystem.Models.ProDetailViewModel
+
+<!--LOADING SCRIPTS FOR PAGE-->
+<link type="text/css" rel="stylesheet" href="~/Content/vendors/bootstrap-colorpicker/css/colorpicker.css">
+<link type="text/css" rel="stylesheet" href="~/Content/vendors/bootstrap-datepicker/css/datepicker.css">
+<link type="text/css" rel="stylesheet" href="~/Content/vendors/bootstrap-daterangepicker/daterangepicker-bs3.css">
+<link type="text/css" rel="stylesheet" href="~/Content/vendors/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css">
+<link type="text/css" rel="stylesheet" href="~/Content/vendors/bootstrap-timepicker/css/bootstrap-timepicker.min.css">
+<link type="text/css" rel="stylesheet" href="~/Content/vendors/bootstrap-clockface/css/clockface.css">
+<link type="text/css" rel="stylesheet" href="~/Content/vendors/bootstrap-switch/css/bootstrap-switch.css">
+
+<script src="~/Content/vendors/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+<script src="~/Content/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+<script src="~/Content/vendors/moment/moment.js"></script>
+<script src="~/Content/vendors/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+<script src="~/Content/vendors/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
+<script src="~/Content/vendors/bootstrap-clockface/js/clockface.js"></script>
+<script src="~/Content/vendors/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>
+<script src="~/Content/vendors/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+<script src="~/Content/vendors/jquery-maskedinput/jquery-maskedinput.js"></script>
+<script src="~/Content/js/form-components.js"></script>
+
+<div class="page-content" style="padding: 20px 100px 20px 100px; background-color: #dedede; ">
+
+    <br />
+
+    <!--Thông tin cá nhân div-->
+    @if (Model.contact != null && Model.contact.IsVisible == true)
+    {
+        <div class="col-lg-12 panel panel-default">
+            <br />
+
+            <div id="tab-two-columns-horizontal" class="tab-pane fade active in">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="panel panel-grey">
+                            <div class="panel-heading">Thông tin cá nhân</div>
+                            <div class="panel-body pan form-horizontal">
+                                <div class="form-body pal">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="inputName" class="col-md-6 control-label">Họ và tên<span class="require">*</span></label>
+                                                <div class="col-md-6">
+                                                    <label class="control-label">@Model.contact.FullName</label>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-md-5 control-label">Giới tính<span class="require">*</span></label>
+                                                <div class="col-md-7">
+                                                    @if (@Model.contact.Gender == true)
+                                                    {
+                                                        <label class="control-label">Nam</label>
+                                                    }
+                                                    else
+                                                    {
+                                                        <label class="control-label">Nữ</label>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="inputFirstName" class="col-md-6 control-label">Tình trạng hôn nhân<span class="require">*</span></label>
+
+                                                <div class="col-md-6">
+                                                    @if (@Model.contact.MaritalStatus == true)
+                                                    {
+                                                        <label class="control-label">Đã kết hôn</label>
+                                                    }
+                                                    else
+                                                    {
+                                                        <label class="control-label">Độc thân</label>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="inputLastName" class="col-md-5 control-label">Quốc gia<span class="require">*</span></label>
+
+                                                <div class="col-md-7">
+                                                    @if (@Model.contact.Nationality == true)
+                                                    {
+                                                        <label class="control-label">Người Việt Nam</label>
+                                                    }
+                                                    else
+                                                    {
+                                                        <label class="control-label">Người nước ngoài</label>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="inputAddress" class="col-md-6 control-label">Địa chỉ</label>
+                                                <div class="col-md-6">
+                                                    <label class="control-label">@Model.contact.Address</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="inputPhone" class="col-md-5 control-label">Điện thoại<span class="require">*</span></label>
+
+                                                <div class="col-md-7">
+                                                    <label class="control-label">@Model.contact.PhoneNumber</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="inputBirthday" class="col-md-6 control-label">Ngày sinh<span class="require">*</span></label>
+
+                                                <div class="col-md-6">
+                                                    <label class="control-label">@Model.contact.DateofBirth.ToString("dd/MM/yyyy")</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="inputAddress" class="col-md-5 control-label">Quận/Huyện</label>
+                                                <div class="col-md-7">
+                                                    <label class="control-label">@Model.contact.District</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="inputLastName" class="col-md-6 control-label">Tỉnh/Thành Phố<span class="require">*</span></label>
+
+                                                <div class="col-md-6">
+                                                    @if (Model.cities != null)
+                                                    {
+                                                        for (int count = 0; count < Model.cities.Count(); count++)
+                                                        {
+                                                            if (@Model.cities.ElementAt(count).CityID == Model.contact.CityID)
+                                                            {
+                                                                <label class="control-label">@Model.cities.ElementAt(count).Name</label>
+                                                            }
+                                                        }
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <br />
+    }
+   
+    <!--Thông tin chung div-->
+    <div class="col-lg-12 panel panel-default">
+        <br />
+
+        <div id="tab-two-columns-horizontal" class="tab-pane fade active in">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-grey">
+                        <div class="panel-heading">Thông tin chung</div>
+                        <div class="panel-body pan form-horizontal">
+                            <div class="form-body pal">
+                                <input type="hidden" name="ProfileID" value="@Model.profile.ProfileID" />
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="inputName" class="col-md-5 control-label">Tên hồ sơ <span class="require">*</span></label>
+
+                                            <div class="col-md-7">
+                                                <label class="control-label">@Model.profile.Name</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="inputAddress1" class="col-md-5 control-label">Số năm kinh nghiệm <span class="require">*</span></label>
+
+                                            @if (Model.profile.YearOfExperience <= 0)
+                                            {
+                                                <div class="col-md-7">
+                                                    <label class="control-label">Chưa có kinh nghiệm</label>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="col-md-7">
+                                                    <label class="control-label">@Model.profile.YearOfExperience</label>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="inputStates" class="col-md-5 control-label">Bằng cấp cao nhất<span class="require">*</span></label>
+
+                                            <div class="col-md-7">
+                                                @if (@Model.schoolLevels != null)
+                                                {
+                                                    for (int count = 0; count < Model.schoolLevels.Count(); count++)
+                                                    {
+                                                        if (@Model.schoolLevels.ElementAt(count).SchoolLevel_ID == @Model.profile.HighestSchoolLevel_ID)
+                                                        {
+                                                            <label class="control-label">@Model.schoolLevels.ElementAt(count).Name</label>
+                                                        }
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="languagebox">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="inputPostCode" class="col-md-5 control-label">Ngoại ngữ <span class="require">*</span></label>
+
+                                                <div class="col-md-7">
+                                                    @if (Model.languages != null)
+                                                    {
+                                                        for (int count = 0; count < Model.languages.Count(); count++)
+                                                        {
+                                                            if (@Model.languages.ElementAt(count).LanguageID == @Model.profile.LanguageID)
+                                                            {
+                                                                <label class="control-label">@Model.languages.ElementAt(count).Name</label>
+                                                            }
+                                                        }
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="selCountry" class="col-md-5 control-label">Trình độ <span class="require">*</span></label>
+
+                                                <div class="col-md-7">
+                                                    @if (Model.levels != null)
+                                                    {
+                                                        for (int count = 0; count < Model.levels.Count(); count++)
+                                                        {
+                                                            if (@Model.levels.ElementAt(count).Level_ID == @Model.profile.Level_ID)
+                                                            {
+                                                                <label class="control-label">@Model.levels.ElementAt(count).Name</label>
+                                                            }
+                                                        }
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--<div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <div class="col-md-3">
+
+                                            </div>
+                                            <div class="col-md-6">
+
+                                                <a href="javascript:void(do_something())" onclick="AddLanguage();" class="btn btn-success">
+                                                    Thêm mới
+                                                    &nbsp;<i class="fa fa-plus"></i>
+                                                </a>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>-->
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+
+                                            <label for="selLastCompany" class="col-md-5 control-label">Công ty gần đây nhất</label>
+
+                                            <div class="col-md-7">
+                                                <label class="control-label">@Model.profile.MostRecentCompany</label>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+
+                                            <label for="selLastCompany" class="col-md-5 control-label">Vị trí gần đây nhất</label>
+
+                                            <div class="col-md-7">
+                                                <label class="control-label">@Model.profile.MostRecentPosition</label>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+
+                                            <label for="selLastCompany" class="col-md-5 control-label">Cấp bậc hiện tại</label>
+
+                                            <div class="col-md-7">
+                                                @if (Model.jobLevels != null)
+                                                {
+                                                    for (int count = 0; count < Model.jobLevels.Count(); count++)
+                                                    {
+                                                        if (@Model.jobLevels.ElementAt(count).JobLevel_ID == @Model.profile.CurrentJobLevel_ID)
+                                                        {
+                                                            <label class="control-label">@Model.jobLevels.ElementAt(count).Name</label>
+                                                        }
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+
+                                            <label for="selLastCompany" class="col-md-5 control-label">Vị trí mong muốn<span class="require">*</span></label>
+
+                                            <div class="col-md-7">
+                                                <label class="control-label">@Model.profile.ExpectedPosition</label>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+
+                                            <label for="selLastCompany" class="col-md-5 control-label">Cấp bậc mong muốn<span class="require">*</span></label>
+
+                                            <div class="col-md-7">
+                                                @if (Model.jobLevels != null)
+                                                {
+                                                    for (int count = 0; count < Model.jobLevels.Count(); count++)
+                                                    {
+                                                        if (@Model.jobLevels.ElementAt(count).JobLevel_ID == @Model.profile.ExpectedJobLevel_ID)
+                                                        {
+                                                            <label class="control-label">@Model.jobLevels.ElementAt(count).Name</label>
+                                                        }
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+
+                                            <label for="selLastCompany" class="col-md-5 control-label">Nơi làm việc<span class="require">*</span></label>
+
+                                            <div class="col-md-7">
+                                                @if (Model.cities != null)
+                                                {
+                                                    for (int count = 0; count < Model.cities.Count(); count++)
+                                                    {
+                                                        if (@Model.cities.ElementAt(count).CityID == @Model.expectedCity)
+                                                        {
+                                                            <label class="control-label">@Model.cities.ElementAt(count).Name</label>
+                                                        }
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+
+                                            <label for="selLastCompany" class="col-md-5 control-label">Nghành nghề<span class="require">*</span></label>
+
+                                            <div class="col-md-7">
+                                                @if (Model.categories != null)
+                                                {
+                                                    for (int count = 0; count < Model.categories.Count(); count++)
+                                                    {
+                                                        if (@Model.categories.ElementAt(count).CategoryID == @Model.categoryID)
+                                                        {
+                                                            <label class="control-label">@Model.categories.ElementAt(count).Name</label>
+                                                        }
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+
+                                            <label for="selLastCompany" class="col-md-5 control-label">Mức lương mong muốn<span class="require">*</span></label>
+
+                                            @if (@Model.profile.ExpectedSalary == 0)
+                                            {
+                                                <div class="col-md-7">
+                                                    <label class="control-label">Thương lượng</label>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="col-md-7">
+                                                    <label class="control-label">@Model.profile.ExpectedSalary</label>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <div class="col-md-12"></div>
+                                            <label for="inputObjective" class="control-label" style="margin-left: 15px">Giới Thiệu Bản Thân Và Miêu Tả Mục Tiêu Nghề Nghiệp Của Bạn <span class="require">*</span></label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div>
+                                            <label class="control-label">@Model.profile.Objectives</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br />
+    <!--Kinh nghiệm làm việc div-->
+    @if (Model.employmentHistory != null)
+    {
+        <div id="EmploymentHistoryDiv" class="col-lg-12 panel panel-default">
+        <br />
+
+        <div id="tab-two-columns-horizontal" class="tab-pane fade active in">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-grey">
+                        <div class="panel-heading">Kinh nghiệm làm việc</div>
+                        <div class="panel-body pan form-horizontal">
+                            <div class="form-body pal">
+                                <input type="hidden" name="EmploymentHistoryID" value="@Model.employmentHistory.EmploymentHistoryID" />
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+
+                                            <label for="inputPosition" class="col-md-5 control-label">Chức danh <span class="require">*</span></label>
+
+                                            <div class="col-md-7">
+                                                <label class="control-label">@Model.employmentHistory.Position</label>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+
+                                            <label for="inputPosition" class="col-md-5 control-label">Công ty <span class="require">*</span></label>
+
+                                            <div class="col-md-7">
+                                                <label class="control-label">@Model.employmentHistory.Company</label>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="inputPosition" class="col-md-5 control-label">Thời gian công tác <span class="require">*</span></label>
+
+                                            <div class="col-md-7">
+                                                <label class="control-label">@Model.employmentHistory.WorkingTime</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="inputPosition" class="col-md-5 control-label">Mô tả</label>
+                                            <div class="col-md-7">
+                                                <label class="control-label">@Model.employmentHistory.Description</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br />
+    }
+    
+    <!--Học vấn div-->
+    @if (Model.educationHistory != null)
+    {
+        <div id="EducationHistoryDiv" class="col-lg-12 panel panel-default">
+        <br />
+
+        <div id="tab-two-columns-horizontal" class="tab-pane fade active in">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-grey">
+                        <div class="panel-heading">Học vấn</div>
+                        <div class="panel-body pan form-horizontal">
+                            <div class="form-body pal">
+                                <input type="hidden" name="EducationHistoryID" value="@Model.educationHistory.EducationHistoryID" />
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+
+                                            <label for="inputPosition" class="col-md-5 control-label">Chuyên ngành <span class="require">*</span></label>
+
+                                            <div class="col-md-7">
+                                                <label class="control-label">@Model.educationHistory.Subject</label>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+
+                                            <label for="inputPosition" class="col-md-5 control-label">Trường <span class="require">*</span></label>
+
+                                            <div class="col-md-7">
+                                                <label class="control-label">@Model.educationHistory.School</label>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="inputStates" class="col-md-5 control-label">Bằng cấp <span class="require">*</span></label>
+
+                                            <div class="col-md-7">
+                                                @if (@Model.schoolLevels != null)
+                                                {
+                                                    for (int count = 0; count < Model.schoolLevels.Count(); count++)
+                                                    {
+                                                        if (@Model.schoolLevels.ElementAt(count).SchoolLevel_ID == @Model.educationHistory.SchoolLevel_ID)
+                                                        {
+                                                            <label class="control-label">@Model.schoolLevels.ElementAt(count).Name</label>
+                                                        }
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="inputPosition" class="col-md-5 control-label">Thành tựu</label>
+                                            <div class="col-md-7">
+                                                <label class="control-label">@Model.educationHistory.Achievement</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br />
+    }
+    
+    <!--Thông tin tham khảo div-->
+    @if (Model.referencePerson != null)
+    {
+        <div id="ReferencePersonDiv" class="col-lg-12 panel panel-default">
+        <br />
+
+        <div id="tab-two-columns-horizontal" class="tab-pane fade active in">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-grey">
+                        <div class="panel-heading">Thông tin tham khảo</div>
+                        <div class="panel-body pan form-horizontal">
+                            <div class="form-body pal">
+                                <input type="hidden" name="ReferencePersonID" value="@Model.referencePerson.ReferencePersonID" />
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+
+                                            <label for="inputPosition" class="col-md-5 control-label">Họ tên <span class="require">*</span></label>
+
+                                            <div class="col-md-7">
+                                                <label class="control-label">@Model.referencePerson.ReferencePersonName</label>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+
+                                            <label for="inputPosition" class="col-md-5 control-label">Chức danh <span class="require">*</span></label>
+
+                                            <div class="col-md-7">
+                                                <label class="control-label">@Model.referencePerson.ReferencePersonPosition</label>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+
+                                            <label for="inputPosition" class="col-md-5 control-label">Công ty <span class="require">*</span></label>
+
+                                            <div class="col-md-7">
+                                                <label class="control-label">@Model.referencePerson.ReferencePersonCompany</label>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+
+                                            <label for="inputPosition" class="col-md-5 control-label">Email <span class="require">*</span></label>
+
+                                            <div class="col-md-7">
+                                                <label class="control-label">@Model.referencePerson.EmailAddress</label>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="inputPhone" class="col-md-5 control-label">Điện thoại</label>
+
+                                            <div class="col-md-7">
+                                                <label class="control-label">@Model.referencePerson.ReferencePersonPhoneNumber</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    }
+    
+</div>

@@ -216,7 +216,7 @@
     
 </script>
 
-<div class="page-content" style="padding: 20px 60px 50px 150px">
+<div class="page-content" style="padding: 20px 100px 20px 100px; background-color: #dedede; ">
 
     <br />
 @using (Html.BeginForm("Update", "Profile", FormMethod.Post))
@@ -237,8 +237,8 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="inputName" class="col-md-3 control-label">Họ và tên<span class="require">*</span></label>
-                                                <div class="col-md-9">
+                                                <label for="inputName" class="col-md-6 control-label">Họ và tên<span class="require">*</span></label>
+                                                <div class="col-md-6">
                                                     @Html.TextBoxFor(s => s.contactForm.FullName, new { @class = "form-control", Value = Model.contact.FullName, id = "inputName", Name = "FullName" })
                                                     @Html.ValidationMessageFor(s => s.contactForm.FullName, "", new { @class = "ErrorMessage", data_valmsg_for = "FullName" })
                                                 </div>
@@ -247,8 +247,8 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="col-md-3 control-label">Giới tính<span class="require">*</span></label>
-                                                <div class="col-md-9">
+                                                <label class="col-md-6 control-label">Giới tính<span class="require">*</span></label>
+                                                <div class="col-md-6">
                                                     <div class="radio">
                                                         @if (@Model.contact.Gender == true)
                                                         {
@@ -278,9 +278,9 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="inputFirstName" class="col-md-3 control-label">Tình trạng hôn nhân<span class="require">*</span></label>
+                                                <label for="inputFirstName" class="col-md-6 control-label">Tình trạng hôn nhân<span class="require">*</span></label>
 
-                                                <div class="col-md-9">
+                                                <div class="col-md-6">
                                                     <select id="selGender" class="form-control" name="MaritalStatus">
                                                         @if (@Model.contact.MaritalStatus == true)
                                                         {
@@ -298,9 +298,9 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="inputLastName" class="col-md-3 control-label">Quốc gia<span class="require">*</span></label>
+                                                <label for="inputLastName" class="col-md-6 control-label">Quốc gia<span class="require">*</span></label>
 
-                                                <div class="col-md-9">
+                                                <div class="col-md-6">
                                                     <select id="selGender" class="form-control" name="Nationality">
                                                         @if (@Model.contact.Nationality == true)
                                                         {
@@ -320,15 +320,15 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="inputAddress" class="col-md-3 control-label">Địa chỉ</label>
-                                                <div class="col-md-9"><input id="inputAddress" name="Address" value="@Model.contact.Address" type="text" placeholder="" class="form-control"></div>
+                                                <label for="inputAddress" class="col-md-6 control-label">Địa chỉ</label>
+                                                <div class="col-md-6"><input id="inputAddress" name="Address" value="@Model.contact.Address" type="text" placeholder="" class="form-control"></div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="inputPhone" class="col-md-3 control-label">Điện thoại<span class="require">*</span></label>
+                                                <label for="inputPhone" class="col-md-6 control-label">Điện thoại<span class="require">*</span></label>
 
-                                                <div class="col-md-9">
+                                                <div class="col-md-6">
                                                     @Html.TextBoxFor(s => s.contactForm.PhoneNumber, new { @class = "form-control", Value = Model.contact.PhoneNumber, id = "inputPhone", Name = "PhoneNumber" })
                                                     @Html.ValidationMessageFor(s => s.contactForm.PhoneNumber, "", new { @class = "ErrorMessage", data_valmsg_for = "PhoneNumber" })
                                                 </div>
@@ -338,24 +338,24 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="inputBirthday" class="col-md-3 control-label">Ngày sinh<span class="require">*</span></label>
+                                                <label for="inputBirthday" class="col-md-6 control-label">Ngày sinh<span class="require">*</span></label>
 
-                                                <div class="col-md-9"><input id="inputBirthday" name="DateofBirth" value="@Model.contact.DateofBirth.ToString("dd/MM/yyyy")" type="text" data-date-format="dd/mm/yyyy" placeholder="" class="datepicker-default form-control"></div>
+                                                <div class="col-md-6"><input id="inputBirthday" name="DateofBirth" value="@Model.contact.DateofBirth.ToString("dd/MM/yyyy")" type="text" data-date-format="dd/mm/yyyy" placeholder="" class="datepicker-default form-control"></div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="inputAddress" class="col-md-3 control-label">Quận/Huyện</label>
-                                                <div class="col-md-9"><input id="inputDistrict" name="District" value="@Model.contact.District" type="text" placeholder="" class="form-control"></div>
+                                                <label for="inputAddress" class="col-md-6 control-label">Quận/Huyện</label>
+                                                <div class="col-md-6"><input id="inputDistrict" name="District" value="@Model.contact.District" type="text" placeholder="" class="form-control"></div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="inputLastName" class="col-md-3 control-label">Tỉnh/Thành Phố<span class="require">*</span></label>
+                                                <label for="inputLastName" class="col-md-6 control-label">Tỉnh/Thành Phố<span class="require">*</span></label>
 
-                                                <div class="col-md-9">
+                                                <div class="col-md-6">
                                                     <select class="form-control" name="CityID" id="city" data-val="true" data-val-range="Hãy chọn Tỉnh/Thành phố" data-val-range-max="2147483647" data-val-range-min="0">
                                                         <option value="-1">Vui lòng chọn...</option>
                                                         @if (Model.cities != null)
@@ -383,8 +383,8 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="inputRecruiterShow" class="col-md-3 control-label">Hiện với nhà tuyển dụng<span class="require">*</span></label>
-                                                <div class="col-md-9">
+                                                <label for="inputRecruiterShow" class="col-md-6 control-label">Hiện với nhà tuyển dụng<span class="require">*</span></label>
+                                                <div class="col-md-6">
                                                     @if (@Model.contact.IsVisible == true)
                                                     {
                                                         <input id="IsVisible" name="IsVisible" type="hidden" value="true" />
@@ -427,11 +427,11 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="inputName" class="col-md-3 control-label">Tên hồ sơ <span class="require">*</span></label>
+                                                <label for="inputName" class="col-md-5 control-label">Tên hồ sơ <span class="require">*</span></label>
                                                 
                                                 @if (!String.IsNullOrEmpty(Model.commonInfoItem.profile.Name))
                                                 {
-                                                    <div class="col-md-9">
+                                                    <div class="col-md-7">
                                                         <input id="CommonInfoName" name="Name" type="hidden" value="@Model.commonInfoItem.profile.Name" />
                                                         <input id="inputCommonInfoName" name="inputCommonInfoName" disabled value="@Model.commonInfoItem.profile.Name" data-val="true" data-val-length="Tên hồ sơ không được vượt quá 50 kí tự." data-val-length-max="50" data-val-required="Tên hồ sơ không được trống." type="text" placeholder="" class="form-control">
                                                         <span class="field-validation-valid ErrorMessage" data-valmsg-for="inputCommonInfoName" data-valmsg-replace="true"></span>
@@ -439,7 +439,7 @@
                                                 }
                                                 else
                                                 {
-                                                    <div class="col-md-9">
+                                                    <div class="col-md-7">
                                                         <input id="CommonInfoName" name="Name" type="hidden" />
                                                         <input id="inputCommonInfoName" name="inputCommonInfoName" value="" data-val="true" data-val-length="Tên hồ sơ không được vượt quá 50 kí tự." data-val-length-max="50" data-val-required="Tên hồ sơ không được trống." type="text" placeholder="" class="form-control">
                                                         <span class="field-validation-valid ErrorMessage" data-valmsg-for="inputCommonInfoName" data-valmsg-replace="true"></span>
@@ -452,7 +452,7 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="inputAddress1" class="col-md-3 control-label">Số năm kinh nghiệm <span class="require">*</span></label>
+                                                <label for="inputAddress1" class="col-md-5 control-label">Số năm kinh nghiệm <span class="require">*</span></label>
 
                                                 @if (Model.commonInfoItem.profile.YearOfExperience == 0)
                                                 {
@@ -461,10 +461,10 @@
                                                         <input id="inputExperienceYear" name="inputExperienceYear" value="" disabled="disabled" type="text" data-val="true" data-val-number="Số năm kinh nghiệm phải nhập định dạng số." data-val-required="Số năm kinh nghiệm không được trống." placeholder="" class="form-control">
                                                         <span class="field-validation-valid ErrorMessage" data-valmsg-for="inputExperienceYear" data-valmsg-replace="true"></span>
                                                     </div>
-                                                    <div class="checkbox col-md-6">
+                                                    <div class="checkbox col-md-4">
                                                         <label class="">
                                                             <input type="checkbox" checked="checked" id="expCheckBox" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);">&nbsp;
-                                                            Mới tốt nghiệp chưa có kinh nghiệm
+                                                            Chưa có kinh nghiệm
                                                         </label>
                                                     </div>
                                                 }
@@ -475,7 +475,7 @@
                                                         <input id="inputExperienceYear" name="inputExperienceYear" value="@Model.commonInfoItem.profile.YearOfExperience" type="text" data-val="true" data-val-number="Số năm kinh nghiệm phải nhập định dạng số." data-val-required="Số năm kinh nghiệm không được trống." placeholder="" class="form-control">
                                                         <span class="field-validation-valid ErrorMessage" data-valmsg-for="inputExperienceYear" data-valmsg-replace="true"></span>
                                                     </div>
-                                                    <div class="checkbox col-md-6">
+                                                    <div class="checkbox col-md-4">
                                                         <label class="">
                                                             <input type="checkbox" id="expCheckBox" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);">&nbsp;
                                                             Mới tốt nghiệp chưa có kinh nghiệm
@@ -484,13 +484,11 @@
                                                 }
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="inputStates" class="col-md-3 control-label">Bằng cấp cao nhất<span class="require">*</span></label>
+                                                <label for="inputStates" class="col-md-5 control-label">Bằng cấp cao nhất<span class="require">*</span></label>
 
-                                                <div class="col-md-9">
+                                                <div class="col-md-7">
                                                     <select class="form-control" name="HighestSchoolLevel_ID" data-val="true" data-val-range="Hãy chọn Bằng cấp cao nhất" data-val-range-max="2147483647" data-val-range-min="0">
                                                         <option value="-1">Vui lòng chọn...</option>
                                                         @if (@Model.schoolLevels != null)
@@ -521,9 +519,9 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="inputPostCode" class="col-md-3 control-label">Ngoại ngữ <span class="require">*</span></label>
+                                                    <label for="inputPostCode" class="col-md-5 control-label">Ngoại ngữ <span class="require">*</span></label>
 
-                                                    <div class="col-md-9">
+                                                    <div class="col-md-7">
                                                         <select class="form-control" name="languageID" data-val="true" data-val-range="Hãy chọn Ngoại ngữ" data-val-range-max="2147483647" data-val-range-min="0">
                                                             <option value="-1">Vui lòng chọn...</option>
                                                             @if (Model.languages != null)
@@ -551,9 +549,9 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="selCountry" class="col-md-3 control-label">Trình độ <span class="require">*</span></label>
+                                                    <label for="selCountry" class="col-md-5 control-label">Trình độ <span class="require">*</span></label>
 
-                                                    <div class="col-md-9">
+                                                    <div class="col-md-7">
                                                         <select class="form-control" name="level_ID" data-val="true" data-val-range="Hãy chọn Trình độ" data-val-range-max="2147483647" data-val-range-min="0">
                                                             <option value="-1">Vui lòng chọn...</option>
                                                             @if (Model.levels != null)
@@ -602,9 +600,9 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
 
-                                                <label for="selLastCompany" class="col-md-3 control-label">Công ty gần đây nhất</label>
+                                                <label for="selLastCompany" class="col-md-5 control-label">Công ty gần đây nhất</label>
 
-                                                <div class="col-md-9">
+                                                <div class="col-md-7">
                                                     <input id="lastCompany" value="@Model.commonInfoItem.profile.MostRecentCompany" name="MostRecentCompany" type="text" placeholder="Ví dụ: FPT Software" class="form-control">
                                                 </div>
 
@@ -615,9 +613,9 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
 
-                                                <label for="selLastCompany" class="col-md-3 control-label">Vị trí gần đây nhất</label>
+                                                <label for="selLastCompany" class="col-md-5 control-label">Vị trí gần đây nhất</label>
 
-                                                <div class="col-md-9">
+                                                <div class="col-md-7">
                                                     <input id="lastCompany" value="@Model.commonInfoItem.profile.MostRecentPosition" name="MostRecentPosition" type="text" placeholder="Ví dụ: Chuyên viên lập trình Android" class="form-control">
                                                 </div>
 
@@ -626,9 +624,9 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
 
-                                                <label for="selLastCompany" class="col-md-3 control-label">Cấp bậc hiện tại</label>
+                                                <label for="selLastCompany" class="col-md-5 control-label">Cấp bậc hiện tại</label>
 
-                                                <div class="col-md-9">
+                                                <div class="col-md-7">
                                                     <select class="form-control" name="CurrentJobLevel_ID">
                                                         <option value="-1">Vui lòng chọn...</option>
                                                         @if (Model.jobLevels != null)
@@ -658,9 +656,9 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
 
-                                                <label for="selLastCompany" class="col-md-3 control-label">Vị trí mong muốn<span class="require">*</span></label>
+                                                <label for="selLastCompany" class="col-md-5 control-label">Vị trí mong muốn<span class="require">*</span></label>
 
-                                                <div class="col-md-9">
+                                                <div class="col-md-7">
                                                     @Html.TextBoxFor(s => s.commonInfoForm.ExpectedPosition, new { @class = "form-control", Value = Model.commonInfoItem.profile.ExpectedPosition, Name = "ExpectedPosition", placeholder = "Ví dụ: Chủ tịch hội đồng quản trị" })
                                                     @Html.ValidationMessageFor(s => s.commonInfoForm.ExpectedPosition, "", new { @class = "ErrorMessage", data_valmsg_for = "ExpectedPosition" })
                                                 </div>
@@ -670,9 +668,9 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
 
-                                                <label for="selLastCompany" class="col-md-3 control-label">Cấp bậc mong muốn<span class="require">*</span></label>
+                                                <label for="selLastCompany" class="col-md-5 control-label">Cấp bậc mong muốn<span class="require">*</span></label>
 
-                                                <div class="col-md-9">
+                                                <div class="col-md-7">
                                                     <select class="form-control" name="ExpectedJobLevel_ID" data-val="true" data-val-range="Hãy chọn Cấp bậc mong muốn" data-val-range-max="2147483647" data-val-range-min="0">
                                                         <option value="-1">Vui lòng chọn...</option>
                                                         @if (Model.jobLevels != null)
@@ -703,9 +701,9 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
 
-                                                <label for="selLastCompany" class="col-md-3 control-label">Nơi làm việc<span class="require">*</span></label>
+                                                <label for="selLastCompany" class="col-md-5 control-label">Nơi làm việc<span class="require">*</span></label>
 
-                                                <div class="col-md-9">
+                                                <div class="col-md-7">
                                                     <select class="form-control" name="expectedCity" data-val="true" data-val-range="Hãy chọn Nơi làm việc" data-val-range-max="2147483647" data-val-range-min="0">
                                                         <option value="-1">Vui lòng chọn...</option>
                                                         @if (Model.cities != null)
@@ -734,9 +732,9 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
 
-                                                <label for="selLastCompany" class="col-md-3 control-label">Nghành nghề<span class="require">*</span></label>
+                                                <label for="selLastCompany" class="col-md-5 control-label">Nghành nghề<span class="require">*</span></label>
 
-                                                <div class="col-md-9">
+                                                <div class="col-md-7">
                                                     <select class="form-control" name="categoryID" data-val="true" data-val-range="Hãy chọn Nghành nghề" data-val-range-max="2147483647" data-val-range-min="0">
                                                         <option value="-1">Vui lòng chọn...</option>
                                                         @if (Model.categories != null)
@@ -767,7 +765,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
 
-                                                <label for="selLastCompany" class="col-md-3 control-label">Mức lương mong muốn<span class="require">*</span></label>
+                                                <label for="selLastCompany" class="col-md-5 control-label">Mức lương mong muốn<span class="require">*</span></label>
 
                                                 @if (@Model.commonInfoItem.profile.ExpectedSalary == 0)
                                                 {
@@ -776,13 +774,13 @@
                                                         <input id="inputExpectedSalary" name="inputExpectedSalary" value="" disabled="disabled" type="text" data-val="true" data-val-number="Mức lương mong muốn phải nhập định dạng số." data-val-required="Mức lương mong muốn không được trống." placeholder="" class="form-control">
                                                         <span class="field-validation-valid ErrorMessage" data-valmsg-for="inputExpectedSalary" data-valmsg-replace="true"></span>
                                                     </div>
-                                                    <div class="checkbox col-md-6">
+                                                    <div class="checkbox col-md-4">
                                                         <label class="">
                                                             <input type="checkbox" checked="checked" id="expectedSalaryCheckBox" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);">&nbsp;
                                                             Thương lượng
                                                         </label>
                                                     </div>
-                                                }
+}
                                                 else
                                                 {
                                                     <div class="col-md-3">
@@ -790,7 +788,7 @@
                                                         <input id="inputExpectedSalary" name="inputExpectedSalary" value="@Model.commonInfoItem.profile.ExpectedSalary.ToString("0")" type="text" data-val="true" data-val-number="Mức lương mong muốn phải nhập định dạng số." data-val-required="Mức lương mong muốn không được trống." placeholder="" class="form-control">
                                                         <span class="field-validation-valid ErrorMessage" data-valmsg-for="inputExpectedSalary" data-valmsg-replace="true"></span>
                                                     </div>
-                                                    <div class="checkbox col-md-6">
+                                                    <div class="checkbox col-md-4">
                                                         <label class="">
                                                             <input type="checkbox" id="expectedSalaryCheckBox" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);">&nbsp;
                                                             Thương lượng
@@ -846,10 +844,10 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
+                                                
+                                                <label for="inputPosition" class="col-md-5 control-label">Chức danh <span class="require">*</span></label>
 
-                                                <label for="inputPosition" class="col-md-3 control-label">Chức danh <span class="require">*</span></label>
-
-                                                <div class="col-md-9">
+                                                <div class="col-md-7">
                                                     @Html.TextBoxFor(s => s.employmentHistoryForm.Position, new { @class = "form-control", Value = Model.employmentHistory.Position, Name = "Position" })
                                                     @Html.ValidationMessageFor(s => s.employmentHistoryForm.Position, "", new { @class = "ErrorMessage", data_valmsg_for = "Position" })
                                                 </div>
@@ -859,9 +857,9 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
 
-                                                <label for="inputPosition" class="col-md-3 control-label">Công ty <span class="require">*</span></label>
+                                                <label for="inputPosition" class="col-md-5 control-label">Công ty <span class="require">*</span></label>
 
-                                                <div class="col-md-9">
+                                                <div class="col-md-7">
                                                     @Html.TextBoxFor(s => s.employmentHistoryForm.Company, new { @class = "form-control", Value = Model.employmentHistory.Company, Name = "Company" })
                                                     @Html.ValidationMessageFor(s => s.employmentHistoryForm.Company, "", new { @class = "ErrorMessage", data_valmsg_for = "Company" })
                                                 </div>
@@ -872,7 +870,7 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="inputPosition" class="col-md-3 control-label">Thời gian công tác <span class="require">*</span></label>
+                                                <label for="inputPosition" class="col-md-5 control-label">Thời gian công tác <span class="require">*</span></label>
 
                                                 <div class="col-md-3">
                                                     <input id="WorkingTime" name="WorkingTime" value="@Model.employmentHistory.WorkingTime" type="text" data-val="true" data-val-number="Thời gian công tác phải nhập định dạng số." data-val-required="Thời gian công tác không được trống." placeholder="" class="form-control">
@@ -884,8 +882,8 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="inputPosition" class="col-md-3 control-label">Mô tả</label>
-                                                <div class="col-md-9"><textarea rows="4" cols="50" name="Description" class="form-control" style="width:240%">@Model.employmentHistory.Description</textarea></div>
+                                                <label for="inputPosition" class="col-md-5 control-label">Mô tả</label>
+                                                <div class="col-md-7"><textarea rows="4" cols="50" name="Description" class="form-control" style="width:300%">@Model.employmentHistory.Description</textarea></div>
                                             </div>
                                         </div>
                                     </div>
@@ -922,9 +920,9 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
 
-                                                <label for="inputPosition" class="col-md-3 control-label">Chuyên ngành <span class="require">*</span></label>
+                                                <label for="inputPosition" class="col-md-5 control-label">Chuyên ngành <span class="require">*</span></label>
 
-                                                <div class="col-md-9">
+                                                <div class="col-md-7">
                                                     @Html.TextBoxFor(s => s.educationHistoryForm.Subject, new { @class = "form-control", Value = Model.educationHistory.Subject, Name = "Subject" })
                                                     @Html.ValidationMessageFor(s => s.educationHistoryForm.Subject, "", new { @class = "ErrorMessage", data_valmsg_for = "Subject" })
                                                 </div>
@@ -936,9 +934,9 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
 
-                                                <label for="inputPosition" class="col-md-3 control-label">Trường <span class="require">*</span></label>
+                                                <label for="inputPosition" class="col-md-5 control-label">Trường <span class="require">*</span></label>
 
-                                                <div class="col-md-9">
+                                                <div class="col-md-7">
                                                     @Html.TextBoxFor(s => s.educationHistoryForm.School, new { @class = "form-control", Value = Model.educationHistory.School, Name = "School" })
                                                     @Html.ValidationMessageFor(s => s.educationHistoryForm.School, "", new { @class = "ErrorMessage", data_valmsg_for = "School" })
                                                 </div>
@@ -947,9 +945,9 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="inputStates" class="col-md-3 control-label">Bằng cấp <span class="require">*</span></label>
+                                                <label for="inputStates" class="col-md-5 control-label">Bằng cấp <span class="require">*</span></label>
 
-                                                <div class="col-md-9">
+                                                <div class="col-md-7">
                                                     <select class="form-control" name="SchoolLevel_ID" data-val="true" data-val-range="Hãy chọn Bằng cấp" data-val-range-max="2147483647" data-val-range-min="0">
                                                         <option value="-1">Vui lòng chọn...</option>
                                                         @if (@Model.schoolLevels != null)
@@ -979,8 +977,8 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="inputPosition" class="col-md-3 control-label">Thành tựu</label>
-                                                <div class="col-md-9"><textarea rows="4" cols="50" name="Achievement" class="form-control" style="width:240%">@Model.educationHistory.Achievement</textarea></div>
+                                                <label for="inputPosition" class="col-md-5 control-label">Thành tựu</label>
+                                                <div class="col-md-7"><textarea rows="4" cols="50" name="Achievement" class="form-control" style="width:300%">@Model.educationHistory.Achievement</textarea></div>
                                             </div>
                                         </div>
                                     </div>
@@ -1016,10 +1014,10 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
+                                                
+                                                <label for="inputPosition" class="col-md-5 control-label">Họ tên <span class="require">*</span></label>
 
-                                                <label for="inputPosition" class="col-md-3 control-label">Họ tên <span class="require">*</span></label>
-
-                                                <div class="col-md-9">
+                                                <div class="col-md-7">
                                                     @Html.TextBoxFor(s => s.referencePersonForm.ReferencePersonName, new { @class = "form-control", Value = Model.referencePerson.ReferencePersonName, Name = "ReferencePersonName" })
                                                     @Html.ValidationMessageFor(s => s.referencePersonForm.ReferencePersonName, "", new { @class = "ErrorMessage", data_valmsg_for = "ReferencePersonName" })
                                                 </div>
@@ -1029,9 +1027,9 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
 
-                                                <label for="inputPosition" class="col-md-3 control-label">Chức danh <span class="require">*</span></label>
+                                                <label for="inputPosition" class="col-md-5 control-label">Chức danh <span class="require">*</span></label>
 
-                                                <div class="col-md-9">
+                                                <div class="col-md-7">
                                                     @Html.TextBoxFor(s => s.referencePersonForm.ReferencePersonPosition, new { @class = "form-control", Value = Model.referencePerson.ReferencePersonPosition, Name = "ReferencePersonPosition" })
                                                     @Html.ValidationMessageFor(s => s.referencePersonForm.ReferencePersonPosition, "", new { @class = "ErrorMessage", data_valmsg_for = "ReferencePersonPosition" })
                                                 </div>
@@ -1043,10 +1041,10 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
 
-                                                <label for="inputPosition" class="col-md-3 control-label">Công ty <span class="require">*</span></label>
+                                                <label for="inputPosition" class="col-md-5 control-label">Công ty <span class="require">*</span></label>
 
-                                                <div class="col-md-9">
-                                                    @Html.TextBoxFor(s => s.referencePersonForm.ReferencePersonCompany, new { @class = "form-control", Value = Model.referencePerson.ReferencePersonCompany, Name = "ReferencePersonCompany", style = "width:240%" })
+                                                <div class="col-md-7">
+                                                    @Html.TextBoxFor(s => s.referencePersonForm.ReferencePersonCompany, new { @class = "form-control", Value = Model.referencePerson.ReferencePersonCompany, Name = "ReferencePersonCompany", style = "width:300%" })
                                                     @Html.ValidationMessageFor(s => s.referencePersonForm.ReferencePersonCompany, "", new { @class = "ErrorMessage", data_valmsg_for = "ReferencePersonCompany" })
                                                 </div>
 
@@ -1057,9 +1055,9 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
 
-                                                <label for="inputPosition" class="col-md-3 control-label">Email <span class="require">*</span></label>
+                                                <label for="inputPosition" class="col-md-5 control-label">Email <span class="require">*</span></label>
 
-                                                <div class="col-md-9">
+                                                <div class="col-md-7">
                                                     <input type="text" data-val="true" data-val-email="Email không đúng định dạng." data-val-length="Độ dài Email không được vượt quá 100." data-val-length-max="100" data-val-required="Email không được trống." placeholder="vd: abc@gmail.com" name="EmailAddress" class="form-control" value="@Model.referencePerson.EmailAddress">
                                                     <span class="field-validation-valid ErrorMessage" data-valmsg-for="EmailAddress" data-valmsg-replace="true"></span>
                                                 </div>
@@ -1068,9 +1066,9 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="inputPhone" class="col-md-3 control-label">Điện thoại</label>
+                                                <label for="inputPhone" class="col-md-5 control-label">Điện thoại</label>
 
-                                                <div class="col-md-9">
+                                                <div class="col-md-7">
                                                     @Html.TextBoxFor(s => s.referencePersonForm.ReferencePersonPhoneNumber, new { @class = "form-control", Value = Model.referencePerson.ReferencePersonPhoneNumber, id = "inputPhone", Name = "ReferencePersonPhoneNumber" })
                                                     @Html.ValidationMessageFor(s => s.referencePersonForm.ReferencePersonPhoneNumber, "", new { @class = "ErrorMessage", data_valmsg_for = "ReferencePersonPhoneNumber" })
                                                 </div>
@@ -1084,17 +1082,16 @@
             </div>
         </div>
     </div>
-
+    
     <div class="col-lg-12 panel panel-default">
-        <br />
-
+        
         <div id="tab-two-columns-horizontal" class="tab-pane fade active in">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="panel-body pan form-horizontal">
                         <div class="form-body pal">
                             <!--Button-->
-                            <div class="text-right" style="margin-bottom: 35px">
+                            <div class="text-right">
                                 <button type="submit" class="btn btn-success">@ViewBag.ButtonName</button>
                             </div>
                         </div>
@@ -1102,7 +1099,6 @@
                 </div>
             </div>
         </div>
-        <br /><br /><br />
     </div>
 }
 </div>
