@@ -46,7 +46,6 @@ namespace JobSearchingSystem.Models
     }
 
     public class JobPackageSelectItem {
-        public int PurchaseJobPackageID { get; set; }
         public string JobPackageName { get; set; }
         public int RemainJobNumber { get; set; }
     }
