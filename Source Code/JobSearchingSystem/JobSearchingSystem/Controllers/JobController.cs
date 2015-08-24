@@ -129,7 +129,7 @@ namespace JobSearchingSystem.Controllers
             {
                 JJobDetailViewModel jJobDetailViewModel = new JJobDetailViewModel();
                 jJobDetailViewModel.Job = jobUnitOfWork.GetJobDetail(jobID2);
-
+                jJobDetailViewModel.jobList = jobUnitOfWork.GetRevelantJobs(jobID2);
                 if (!String.IsNullOrEmpty(User.Identity.Name))
                 {
                     jJobDetailViewModel.isLogined = true;
