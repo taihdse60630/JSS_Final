@@ -105,8 +105,16 @@
     <!--LOADING SCRIPTS FOR PAGE-->
     <script>
         $(document).ready(function () {
-            if ($("#message").val().length >= 1) {
-                $("#modal-message").modal("show");
+            if ($("#successmessage").val().length >= 1) {
+                swal($("#successmessage").val(), "", "success")
+            }
+            
+            if ($("#warningmessage").val().length >= 1) {
+                swal($("#warningmessage").val(), "", "warning")
+            }
+
+            if ($("#errormessage").val().length >= 1) {
+                swal($("#errormessage").val(), "", "error")
             }
 
             $('input[type="checkbox"][id="RememberMeCheckBox"]').on('ifChecked', function (event) {
@@ -194,17 +202,19 @@
 
 <body class="horizontal-menu-page fixed-topbar">
 
-    <input id="message" type="hidden" value="@ViewBag.message" />
+    <input id="successmessage" type="hidden" value="@ViewBag.successmessage" />
+    <input id="warningmessage" type="hidden" value="@ViewBag.warningmessage" />
+    <input id="errormessage" type="hidden" value="@ViewBag.errormessage" />
 
     <!--MESSAGE MODAL-->
-    <div id="modal-message" tabindex="-1" role="dialog" aria-labelledby="modal-default-label" aria-hidden="true" class="modal fade">
+    @*<div id="modal-message" tabindex="-1" role="dialog" aria-labelledby="modal-default-label" aria-hidden="true" class="modal fade">
         <div class="page-form">
             <div class="header-content"><h1 style=" font-family: sans-serif;">Thông báo</h1></div>
             <div class="body-content">
                 <p>@ViewBag.message</p>
             </div>
         </div>
-    </div>
+    </div>*@
 
     @using (Html.BeginForm("Login", "Account", FormMethod.Post))
     {
