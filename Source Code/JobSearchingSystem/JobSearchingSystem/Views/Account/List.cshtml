@@ -7,9 +7,31 @@
 
 <script>
     $(document).ready(function () {
+
+        $.extend($.fn.dataTable.defaults, {
+            searching: true
+        });
+        var table = $('#myTable').DataTable({
+            lengthChange: false,
+            "language": {
+                "lengthMenu": "Hiển thị _MENU_ yêu cầu mỗi trang",
+                "zeroRecords": "Không tìm thấy dữ liệu phù hợp",
+                "info": "Hiển thị trang _PAGE_ trên tổng số _PAGES_ trang",
+                "infoEmpty": "Không tìm thấy dữ liệu phù hợp",
+                "infoFiltered": "(tìm kiếm từ _MAX_ yêu cầu)",
+                "oPaginate": {
+                    "sNext": "Trang sau",
+                    "sPrevious": "Trang trước"
+                }
+            }
+
+        });
+
         $("#CreateBtn").click(function () {
             $("#CreateForm").modal("show");
         });
+
+        $('.showoption').val($('#beginshowoption').val());
 
         $('#selShowoption').change(function () {
             $('.showoption').val($('#selShowoption').val());
@@ -17,6 +39,8 @@
     });
 
 </script>
+
+<input type="hidden" id="beginshowoption" value="@Model.showoption" />
 
 <div id="CreateForm" tabindex="-1" role="dialog" aria-labelledby="modal-stackable-label" aria-hidden="true" class="modal fade">
     <div class="modal-dialog">
@@ -66,38 +90,42 @@
 
 
 
-<div class="page-content" style="padding: 20px 0px 20px 250px">
+<div class="page-content" style="padding: 20px 100px 20px 100px; background-color: #dedede; ">
     <div class="col-lg-9 panel panel-default">
         <h3 style="font-weight:600;text-align:center">Danh sách Account</h3>
-        <button id="CreateBtn" type="button" class="btn btn-grey btn-sm" style="display:inline">
-            <i class="fa fa-plus"></i>&nbsp;
-            Tạo mới
-        </button>&nbsp;
+        @if (String.IsNullOrEmpty(Model.showoption) || "0".Equals(Model.showoption))
+        {
+            <button id="CreateBtn" type="button" class="btn btn-grey btn-sm" style="display:inline">
+                <i class="fa fa-pencil"></i>&nbsp;
+                Tạo mới
+            </button>
+        }
+        &nbsp;
         <label style="display:inline">Chế độ hiển thị:</label>&nbsp;
         @using (Html.BeginForm("List", "Account", FormMethod.Post, new { Style = "display:inline" }))
         {
             if (String.IsNullOrEmpty(Model.showoption))
             {
-                <select id="selShowoption" style="display:inline; width:20%" class="form-control" name="showoption" onchange="this.form.submit()">
+                <select id="selShowoption" style="display:inline; width:25%" class="form-control" name="showoption" onchange="this.form.submit()">
+                    <option value="" selected>Tất cả</option>
                     <option value="0">Nhóm quản lý</option>
                     <option value="1">Nhóm người dùng</option>
-                    <option value="" selected>Tất cả</option>
                 </select>
             }
             else if ("0".Equals(Model.showoption))
             {
-                <select id="selShowoption" style="display:inline; width:20%" class="form-control" name="showoption" onchange="this.form.submit()">
+                <select id="selShowoption" style="display:inline; width:25%" class="form-control" name="showoption" onchange="this.form.submit()">
+                    <option value="">Tất cả</option>
                     <option value="0" selected>Nhóm quản lý</option>
                     <option value="1">Nhóm người dùng</option>
-                    <option value="">Tất cả</option>
                 </select>
             }
             else
             {
-                <select id="selShowoption" style="display:inline; width:20%" class="form-control" name="showoption" onchange="this.form.submit()">
+                <select id="selShowoption" style="display:inline; width:25%" class="form-control" name="showoption" onchange="this.form.submit()">
+                    <option value="">Tất cả</option>
                     <option value="0">Nhóm quản lý</option>
                     <option value="1" selected>Nhóm người dùng</option>
-                    <option value="">Tất cả</option>
                 </select>
             }
         }
@@ -105,7 +133,7 @@
         <br />
 
         <div class="table-container">
-            <table class="table table-hover table-striped table-bordered table-advanced tablesorter">
+            <table id="myTable" class="table table-hover table-striped table-bordered table-advanced tablesorter">
                 <thead>
                     <tr>
                         <th width="10%">No</th>
@@ -142,25 +170,23 @@
                                 <td>
                                     @if (item.IsActive == true)
                                     {
-                                        using (Html.BeginForm("DeactiveAccount", "Account", FormMethod.Post, new { style = "display:inline" }))
+                                        using (Html.BeginForm("DeactiveAccount", "Account", FormMethod.Post, new { id = "DeactiveForm" + item.UserName, style = "display: inline;" }))
                                         {
                                             <input type="hidden" name="showoption" class="showoption" />
                                             <input type="hidden" name="UserName" value="@item.UserName" />
-                                            <button type="submit" class="btn btn-danger btn-xs">
-                                                <i class="fa fa-trash-o"></i>&nbsp;
-                                                Vô hiệu hóa
+                                            <button type="button" data-id="DeactiveForm@(item.UserName)" data-message="Bạn thật sự muốn vô hiệu hóa?" class="btn btn-red btn-sm confirmButton">
+                                                <i class="fa fa-times" data-toggle="tooltip" title="Vô hiệu hóa"></i>&nbsp;
                                             </button>
                                         }
                                     }
                                     else
                                     {
-                                        using (Html.BeginForm("ActiveAccount", "Account", FormMethod.Post, new { style = "display:inline" }))
+                                        using (Html.BeginForm("ActiveAccount", "Account", FormMethod.Post, new { id = "ActiveForm" + item.UserName, style = "display: inline;" }))
                                         {
                                             <input type="hidden" name="showoption" class="showoption" />
                                             <input type="hidden" name="UserName" value="@item.UserName" />
-                                            <button type="submit" class="btn btn-primary btn-xs">
-                                                <i class="fa fa-refresh"></i>&nbsp;
-                                                Hoạt hóa
+                                            <button type="button" data-id="ActiveForm@(item.UserName)" data-message="Bạn thật sự muốn hoạt hóa?" class="btn btn-primary btn-sm confirmButton">
+                                                <i class="fa fa-refresh" data-toggle="tooltip" title="Hoạt hóa"></i>&nbsp;
                                             </button>
                                         }
                                     }
