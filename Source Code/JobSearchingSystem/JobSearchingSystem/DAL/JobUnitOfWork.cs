@@ -348,11 +348,30 @@ namespace JobSearchingSystem.DAL
         }
 
         //Create new job
-        public bool CreateJob(JobCreateModel model, int PurchaseJobPackageId, string skill1, string skill2, string skill3)
+        public bool CreateJob(JobCreateModel model, string JobPackageName, string skill1, string skill2, string skill3, string recruiterID)
         {
             //try
             //{
-            this.JobRepository.Insert(Model_Job(model, PurchaseJobPackageId));
+            JobPackage jobPackage = this.JobPackageRepository.Get(s => s.Name == JobPackageName).FirstOrDefault();
+            if (jobPackage == null)
+            {
+                return false;
+            }
+            PurchaseJobPackage purchaseJobPackage = (from p in this.PurchaseJobPackageRepository.Get()
+                                                     join j in this.JobPackageRepository.Get() on p.JobPackageID equals j.JobPackageID
+                                                     where p.RecruiterID == recruiterID && p.IsApproved == true && p.IsDeleted == false
+                                                        && p.JobPackageID == jobPackage.JobPackageID
+                                                        && (from jo in this.JobRepository.Get()
+                                                            where jo.PurchaseJobPackageId == p.PurchaseJobPackageID
+                                                            select jo).Count() < j.JobNumber
+                                                     select p)
+                                                     .AsEnumerable().FirstOrDefault();
+            if (purchaseJobPackage == null)
+            {
+                return false;
+            }
+
+            this.JobRepository.Insert(Model_Job(model, purchaseJobPackage.PurchaseJobPackageID));
             this.Save();
 
             Job temp = this.JobRepository.Get(job => job.RecruiterID == model.JobInfo.RecruiterID && job.JobTitle == model.JobInfo.JobTitle).Last();
