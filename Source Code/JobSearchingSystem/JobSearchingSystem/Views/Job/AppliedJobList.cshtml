@@ -8,7 +8,7 @@
 
 
 
-<div class="page-content" style="padding: 20px 100px 20px 220px">
+<div class="page-content" style="padding: 20px 100px 20px 100px; background-color: #dedede; ">
     <div class="col-lg-9 panel panel-default">
         <h3 style="font-weight:600;text-align:center">Tình trạng ứng tuyển</h3>
         <br />
@@ -60,10 +60,14 @@
 
                                 <td>
 
-                                    <a id="/Job/DeleteAppliedRequest?JobID=@item.JobID&&JobSeekerID=@item.JobSeekerID" class="label label-sm label-danger confirmationDelete">
-                                        <i class="fa fa-times"></i>&nbsp;
-
-                                    </a>
+                                    @using (Html.BeginForm("DeleteAppliedRequest", "Job", FormMethod.Post, new { id = "DeleteForm" + item.JobID, style = "display: inline;" }))
+                                    {
+                                        <input type="hidden" name="JobID" value="@item.JobID" />
+                                        <input type="hidden" name="JobSeekerID" value="@item.JobSeekerID" />
+                                        <button type="button" data-id="DeleteForm@(item.JobID)" data-message="Bạn thật sự muốn xóa?" class="btn btn-red btn-sm confirmButton">
+                                            <i class="fa fa-trash-o" data-toggle="tooltip" title="Xóa"></i>&nbsp;
+                                        </button>
+                                    }
                                 </td>
                             </tr>
                         }

@@ -288,10 +288,10 @@
                                             <div class="form-group">
                                                 <label for="inputFirstName" class="col-md-3 control-label">Gói công việc<span class="require">*</span></label>
                                                 <div class="col-md-9">
-                                                    <select id="demo5" name="PurchaseJobPackageId">
+                                                    <select id="demo5" name="JobPackageName">
                                                         @foreach (var item in @Model.JobPackageItemSelectItemList)
                                                         {
-                                                            <option value="@item.PurchaseJobPackageID">@item.JobPackageName - (Còn lại @item.RemainJobNumber bài đăng)</option>
+                                                            <option value="@item.JobPackageName">@item.JobPackageName - (Còn lại @item.RemainJobNumber bài đăng)</option>
                                                         }
                                                     </select>
                                                 </div>

@@ -186,102 +186,103 @@
 </div>
 
 
-<div class="page-content" style="padding: 20px 60px 80px 80px">
-    <div class="col-lg-12 panel panel-default">
+<div class="page-content" style="padding: 20px 100px 20px 100px; background-color: #dedede; ">
+    <div class="col-lg-9 panel panel-default">
         <h2 style="font-weight:600;text-align:center">Quản lý việc làm</h2>
         <br />
-        <div class="row">
+        <div class="row" style="margin-bottom: 10px">
             <div class="col-sm-3 col-md-3" style="width:23%">
                 <a href="@Url.Action("Create","Job")" class="btn btn-blue btn-sm btn-block"><i class="fa fa-pencil"></i>&nbsp;Đăng việc làm mới</a>
             </div>
             <div class="col-sm-3 col-md-3" style="width:23%">
                 <button onclick="CheckJobPackage()" type="button" class="btn btn-danger btn-sm btn-block"><i class="fa fa-search" style="margin-right:10px"></i>Tìm ứng viên</button>
             </div>
-        <div class="mtl mbl"></div>
-            <div class="row" >
-                <div class="col-sm-12 col-md-12" style="margin-top: 20px;">
-                    <div class="table-container">
+            <div class="mtl mbl"></div>
+        </div>
 
-                        <table id="JSSTable" class="table table-hover table-striped table-bordered table-advanced tablesorter">
-                            <thead>
-                                <tr>
-                                    <th width="7%"></th>
-                                    <th width="20%">Tiêu đề</th>
-                                    <th width="10%">Loại</th>
-                                    <th width="10%">Ngày đăng</th>
-                                    <th width="10%">Hết hạn</th>
-                                    <th width="5%">Ứng viên</th>
-                                    <th width="15%">Tình trạng</th>
-                                    <th width="33%">Thao tác</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in @Model)
+        <div class="table-container">
+
+            <table id="JSSTable" class="table table-hover table-striped table-bordered table-advanced tablesorter">
+                <thead>
+                    <tr>
+                        <th width="7%"></th>
+                        <th width="20%">Tiêu đề</th>
+                        <th width="10%">Loại</th>
+                        <th width="10%">Ngày đăng</th>
+                        <th width="10%">Hết hạn</th>
+                        <th width="3%">Ứng viên</th>
+                        <th width="13%">Tình trạng</th>
+                        <th width="37%">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in @Model)
+                    {
+                        <tr data-toggle="tooltip" title="Quản lý ứng viên" onclick="document.location = '@Url.Action("List","Applicant",new { id = item.JobID })'">
+                            <td><input id="@item.JobID" type="radio" name="jobPackage" value="@item.JobPackage" /></td>
+                            <td>
+                                @item.JobTitle
+                            </td>
+                            <td>
+                                @item.JobPackage
+                            </td>
+                            <td>
+                                @item.PostedDate.Value.ToString("dd/MM/yyyy")
+                            </td>
+                            <td>
+                                @item.EndedDate.Value.ToString("dd/MM/yyyy")
+                            </td>
+                            <td>
+                                @item.ApplicantCount
+                            </td>
+                            <td>
+                                @if (item.IsPublic == true)
                                 {
-                                    <tr>
-                                        <td><input id="@item.JobID" type="radio" name="jobPackage" value="@item.JobPackage" /></td>
-                                        <td>
-                                            @item.JobTitle
-                                        </td>
-                                        <td>
-                                            @item.JobPackage
-                                        </td>
-                                        <td>
-                                            @item.PostedDate.Value.ToString("dd/MM/yyyy")
-                                        </td>
-                                        <td>
-                                            @item.EndedDate.Value.ToString("dd/MM/yyyy")
-                                        </td>
-                                        <td>
-                                            @item.ApplicantCount
-                                        </td>
-                                        <td>
-                                            @if (item.IsPublic == true)
-                                            {
-                                                <span class="label label-success">Đang hiển thị</span>
-                                            }
-                                            else
-                                            {
-                                                <span class="label label-warning">Không hiển thị</span>
-                                            }
-                                            @if (DateTime.Now.CompareTo(item.EndedDate) > 0)
-                                            {
-                                                <span class="label label-danger">Quá hạn</span>
-                                            }
-                                        </td>
-                                        <td>
-                                            <a href="@Url.Action("Detail","Job",new { jobID = item.JobID })" class="btn btn-info" data-toggle="tooltip" title="Xem thông tin"><i class="fa fa-info-circle"></i></a>
-                                            @if (DateTime.Now.CompareTo(item.EndedDate) < 0)
-                                            {
-                                                <button type="button" class="btn btn-violet" data-toggle="tooltip" title="Chỉnh sửa"><i class="fa fa-edit"></i></button>
-
-                                                if (item.IsPublic == true)
-                                                {
-                                                    <button type="button" data-target="#ModalHideConfirm" data-id="@item.JobID" data-toggle="modal" class="open-ModalHideConfirm btn btn-warning">
-                                                        <i class="fa fa-times"></i>
-                                                    </button>
-                                                }
-                                                else
-                                                {
-                                                    <button type="button" data-target="#ModalDisplayConfirm" data-id="@item.JobID" data-toggle="modal" class="open-ModalDisplayConfirm btn btn-success">
-                                                        <i class="fa fa-check"></i>
-                                                    </button>
-                                                }
-                                                if (item.ApplicantCount > 0)
-                                                {
-                                                    <a href="@Url.Action("List","Applicant",new { id = item.JobID })" class="btn btn-blue" data-toggle="tooltip" title="Ứng viên"><i class="fa fa-male"></i></a>
-                                                }
-                                            }
-                                        </td>
-                                    </tr>
+                                    <span class="label label-success">Đang hiển thị</span>
                                 }
-                            </tbody>
-                        </table>
-                      
-                        </div>
-                    </div>
-                </div>
-            </div>
+                                else
+                                {
+                                    <span class="label label-warning">Không hiển thị</span>
+                                }
+                                @if (DateTime.Now.CompareTo(item.EndedDate) > 0)
+                                {
+                                    <span class="label label-danger">Quá hạn</span>
+                                }
+                            </td>
+                            <td>
+                                <a href="@Url.Action("Detail","Job",new { jobID = item.JobID })" class="btn btn-info btn-sm" data-toggle="tooltip" title="Xem thông tin"><i class="fa fa-info-circle"></i></a>
+                                @if (DateTime.Now.CompareTo(item.EndedDate) < 0)
+                                {
+                                    <button type="button" class="btn btn-violet btn-sm" data-toggle="tooltip" title="Chỉnh sửa"><i class="fa fa-edit"></i></button>
+
+                                    if (item.IsPublic == true)
+                                    {
+                                        using (Html.BeginForm("Hide", "Job", FormMethod.Post, new { id = "HideForm" + item.JobID, style = "display: inline;" }))
+                                        {
+                                            <input type="hidden" name="jobID" value="@item.JobID" />
+                                            <button type="button" data-id="HideForm@(item.JobID)" data-message="Bạn thật sự muốn ẩn?" class="btn btn-warning btn-sm confirmButton">
+                                                <i class="fa fa-times" data-toggle="tooltip" title="Ẩn"></i>&nbsp;
+                                            </button>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        using (Html.BeginForm("Display", "Job", FormMethod.Post, new { id = "DislayForm" + item.JobID, style = "display: inline;" }))
+                                        {
+                                            <input type="hidden" name="jobID" value="@item.JobID" />
+                                            <button type="button" data-id="DislayForm@(item.JobID)" data-message="Bạn thật sự muốn hiển thị?" class="btn btn-success btn-sm confirmButton">
+                                                <i class="fa fa-check" data-toggle="tooltip" title="Hiển thị"></i>&nbsp;
+                                            </button>
+                                        }
+                                    }
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
 
     </div>
 
