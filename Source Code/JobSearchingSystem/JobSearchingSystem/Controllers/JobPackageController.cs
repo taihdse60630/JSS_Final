@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace JobSearchingSystem.Controllers
 {
+    [MessageFilter]
     public class JobPackageController : Controller
     {
         private PackageUnitOfWork packageUnitOfWork = new PackageUnitOfWork();

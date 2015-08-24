@@ -7,6 +7,7 @@ using JobSearchingSystem.Models;
 using JobSearchingSystem.DAL;
 namespace JobSearchingSystem.Controllers
 {
+    [MessageFilter]
     public class JobController : Controller
     {
         //

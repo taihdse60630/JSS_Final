@@ -11,6 +11,7 @@ using System.IO;
 
 namespace JobSearchingSystem.Controllers
 {
+    [MessageFilter]
     public class TopicController : Controller
     {
         private TopicFunctionModel functionModel = new TopicFunctionModel();

@@ -8,6 +8,8 @@ using System.Web.Mvc;
 
 namespace JobSearchingSystem.Controllers
 {
+    [Authorize(Roles = "Recruiter")]
+    [MessageFilter]
     public class CompanyInfoController : Controller
     {
         private CompanyInfoUnitOfWork companyInfoUnitOfWork = new CompanyInfoUnitOfWork();
@@ -16,7 +18,7 @@ namespace JobSearchingSystem.Controllers
         // GET: /CompanyInfo/
         public ActionResult Index()
         {
-            return View();
+            return Update();
         }
 
         [HttpGet]
@@ -66,8 +68,16 @@ namespace JobSearchingSystem.Controllers
                 CoInUpdateViewModel model = new CoInUpdateViewModel();
                 if (result)
                 {
-                    return RedirectToAction("OwnList", "Job");
+                    TempData["successmessage"] = "Cập nhật thông tin chi tiết công ty thành công.";
                 }
+                else
+                {
+                    TempData["errormessage"] = "Cập nhật thông tin chi tiết công ty thất bại!";
+                }
+            }
+            else
+            {
+                TempData["errormessage"] = "Dữ liệu không hợp lệ!";
             }
 
             return RedirectToAction("OwnList", "Job");

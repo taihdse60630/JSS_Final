@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace JobSearchingSystem.Controllers
 {
+    [MessageFilter]
     public class StatisticController : Controller
     {
         //

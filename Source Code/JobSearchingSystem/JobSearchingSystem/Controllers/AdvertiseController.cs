@@ -9,6 +9,7 @@ using System.IO;
 using System.Collections;
 namespace JobSearchingSystem.Controllers
 {
+    [MessageFilter]
     public class AdvertiseController : Controller
     {
         private AdvertiseUnitOfrWork advertiseUnitOfWork = new AdvertiseUnitOfrWork();

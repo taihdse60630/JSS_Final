@@ -8,6 +8,7 @@ using JobSearchingSystem.Models;
 
 namespace JobSearchingSystem.Controllers
 {
+    [MessageFilter]
     public class HomeController : Controller
     {
         private HomeUnitOfWork homeUnitOfWork = new HomeUnitOfWork();
@@ -18,8 +19,6 @@ namespace JobSearchingSystem.Controllers
         }
         public ActionResult Index()
         {
-            ViewBag.message = TempData["message"];
-
             HIndexViewModel hIndexViewModel = new HIndexViewModel();
             homeUnitOfWork.getAllJob(hIndexViewModel);
             hIndexViewModel.jobCities = homeUnitOfWork.getAllCities();
@@ -34,20 +33,6 @@ namespace JobSearchingSystem.Controllers
             var c = homeUnitOfWork.getPurchaseAdvertise("C").ToArray();
 
             return View(hIndexViewModel);
-        }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
         }
 
         public ActionResult Find(HIndexViewModel model)
