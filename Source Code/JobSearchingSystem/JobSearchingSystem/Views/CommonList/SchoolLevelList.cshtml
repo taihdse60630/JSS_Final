@@ -7,6 +7,26 @@
 
 <script>
     $(document).ready(function () {
+
+        $.extend($.fn.dataTable.defaults, {
+            searching: true
+        });
+        var table = $('#myTable').DataTable({
+            lengthChange: false,
+            "language": {
+                "lengthMenu": "Hiển thị _MENU_ yêu cầu mỗi trang",
+                "zeroRecords": "Không tìm thấy dữ liệu phù hợp",
+                "info": "Hiển thị trang _PAGE_ trên tổng số _PAGES_ trang",
+                "infoEmpty": "Không tìm thấy dữ liệu phù hợp",
+                "infoFiltered": "(tìm kiếm từ _MAX_ yêu cầu)",
+                "oPaginate": {
+                    "sNext": "Trang sau",
+                    "sPrevious": "Trang trước"
+                }
+            }
+
+        });
+
         $("#CreateBtn").click(function () {
             $("#CreateForm").modal("show");
         });
@@ -83,7 +103,7 @@
 
 
 
-<div class="page-content" style="padding: 20px 0px 20px 250px">
+<div class="page-content" style="padding: 20px 100px 20px 100px; background-color: #dedede; ">
     <div class="col-lg-9 panel panel-default">
         <h3 style="font-weight:600;text-align:center">Danh sách bằng cấp</h3>
         <button id="CreateBtn" type="button" class="btn btn-grey btn-sm">
@@ -94,7 +114,7 @@
         <br />
 
         <div class="table-container">
-            <table class="table table-hover table-striped table-bordered table-advanced tablesorter">
+            <table id="myTable" class="table table-hover table-striped table-bordered table-advanced tablesorter">
                 <thead>
                     <tr>
                         <th width="1%">No</th>
@@ -118,18 +138,16 @@
                                     @Html.DisplayFor(modelItem => item.LevelNum)
                                 </td>
                                 <td>
-                                    <button type="button" data-target="#@item.SchoolLevel_ID" style="display:inline" data-toggle="modal" class="btn btn-blue btn-xs">
-                                        <i class="fa fa-edit"></i>&nbsp;
-                                        Cập Nhật
+                                    <button type="button" data-target="#@item.SchoolLevel_ID" style="display:inline" data-toggle="modal" class="btn btn-blue btn-sm">
+                                        <i class="fa fa-edit" data-toggle="tooltip" title="Cập Nhật"></i>&nbsp;
                                     </button>
                                     &nbsp;
 
-                                    @using (Html.BeginForm("DeleteSchoolLevel", "CommonList", FormMethod.Post, new { style = "display:inline" }))
+                                    @using (Html.BeginForm("DeleteSchoolLevel", "CommonList", FormMethod.Post, new { id = "DeleteForm" + item.SchoolLevel_ID, style = "display: inline;" }))
                                     {
                                         <input type="hidden" name="id" value="@item.SchoolLevel_ID" />
-                                        <button type="submit" class="btn btn-danger btn-xs">
-                                            <i class="fa fa-trash-o"></i>&nbsp;
-                                            Xóa
+                                        <button type="button" data-id="DeleteForm@(item.SchoolLevel_ID)" data-message="Bạn thật sự muốn xóa?" class="btn btn-red btn-sm confirmButton">
+                                            <i class="fa fa-trash-o" data-toggle="tooltip" title="Xóa"></i>&nbsp;
                                         </button>
                                     }
                                 </td>
