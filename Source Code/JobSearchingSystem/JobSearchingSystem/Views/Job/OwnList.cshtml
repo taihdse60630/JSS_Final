@@ -218,21 +218,21 @@
                 <tbody>
                     @foreach (var item in @Model)
                     {
-                        <tr data-toggle="tooltip" title="Quản lý ứng viên" onclick="document.location = '@Url.Action("List","Applicant",new { id = item.JobID })'">
+                        <tr data-toggle="tooltip" title="Quản lý ứng viên">
                             <td><input id="@item.JobID" type="radio" name="jobPackage" value="@item.JobPackage" /></td>
-                            <td>
+                            <td onclick="document.location = '@Url.Action("List","Applicant",new { id = item.JobID })'">
                                 @item.JobTitle
                             </td>
-                            <td>
+                            <td onclick="document.location = '@Url.Action("List","Applicant",new { id = item.JobID })'">
                                 @item.JobPackage
                             </td>
-                            <td>
+                            <td onclick="document.location = '@Url.Action("List","Applicant",new { id = item.JobID })'">
                                 @item.PostedDate.Value.ToString("dd/MM/yyyy")
                             </td>
-                            <td>
+                            <td onclick="document.location = '@Url.Action("List","Applicant",new { id = item.JobID })'">
                                 @item.EndedDate.Value.ToString("dd/MM/yyyy")
                             </td>
-                            <td>
+                            <td onclick="document.location = '@Url.Action("List","Applicant",new { id = item.JobID })'">
                                 @item.ApplicantCount
                             </td>
                             <td>
