@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using JobSearchingSystem.DAL;
+using JobSearchingSystem.Models;
 
 namespace JobSearchingSystem.Controllers
 {
@@ -112,6 +113,63 @@ namespace JobSearchingSystem.Controllers
             }
 
             return RedirectToAction("List", new { id = jobID });
+        }
+
+        public JsonResult GetMatchingDetail(string applicantID, int jobID)
+        {
+            if (!String.IsNullOrEmpty(applicantID))
+            {
+                AppliedJob appliedJob = applicantUnitOfWork.AppliedJobRepository.Get(s => s.JobSeekerID == applicantID && s.JobID == jobID).FirstOrDefault();
+
+                if (appliedJob != null)
+                {
+                    int profileID = appliedJob.ProfileID;
+
+                    var sosanhItemList = applicantUnitOfWork.GetMatchingDetail(profileID, jobID);
+
+                    return Json(sosanhItemList, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return this.Json(string.Empty);
+                }
+            }
+            else
+            {
+                return this.Json(string.Empty);
+            }
+        }
+
+        public JsonResult GetMatchingDetail2(string applicantID1, string applicantID2, int jobID)
+        {
+            if (!String.IsNullOrEmpty(applicantID1)
+             && !String.IsNullOrEmpty(applicantID2))
+            {
+                AppliedJob appliedJob1 = applicantUnitOfWork.AppliedJobRepository.Get(s => s.JobSeekerID == applicantID1 && s.JobID == jobID).FirstOrDefault();
+                AppliedJob appliedJob2 = applicantUnitOfWork.AppliedJobRepository.Get(s => s.JobSeekerID == applicantID2 && s.JobID == jobID).FirstOrDefault();
+
+                if (appliedJob1 != null && appliedJob2 != null)
+                {
+                    int profileID1 = appliedJob1.ProfileID;
+                    int profileID2 = appliedJob2.ProfileID;
+
+                    var sosanhItemList1 = applicantUnitOfWork.GetMatchingDetail(profileID1, jobID);
+                    var sosanhItemList2 = applicantUnitOfWork.GetMatchingDetail(profileID2, jobID);
+
+                    Jobseeker applicant1 = applicantUnitOfWork.JobseekerRepository.GetByID(applicantID1);
+                    Jobseeker applicant2 = applicantUnitOfWork.JobseekerRepository.GetByID(applicantID2);
+
+                    return Json(new { profile1 = sosanhItemList1, profile2 = sosanhItemList2, applicantname1 = applicant1.FullName, applicantname2 = applicant2.FullName }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return this.Json(string.Empty);
+                }
+            }
+            else
+            {
+                return this.Json(string.Empty);
+            }
         }
 	}
 }

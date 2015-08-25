@@ -80,6 +80,22 @@ namespace JobSearchingSystem.Controllers
                 }
             }
 
+            Jobseeker js = accountUnitOfWork.JobseekerRepository.Get(s => s.Email == model.Email).FirstOrDefault();
+            Recruiter rc = accountUnitOfWork.RecruiterRepository.Get(s => s.Email == model.Email).FirstOrDefault();
+            if (js != null || rc != null)
+            {
+                TempData["warningmessage"] = "Email đã tồn tại, xin hãy dùng Email khác!";
+
+                if (!String.IsNullOrEmpty(returnUrl))
+                {
+                    return Redirect("../" + returnUrl);
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+
             var user = new ApplicationUser() { UserName = model.UserName };
             var result = await UserManager.CreateAsync(user, model.Password);
             if (result.Succeeded)

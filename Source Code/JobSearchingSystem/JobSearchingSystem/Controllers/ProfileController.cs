@@ -272,11 +272,11 @@ namespace JobSearchingSystem.Controllers
 
                     int profileID = updatedProfile.ProfileID;
 
-                    employmentHistoryResult = UpdateEmploymentHistory(employmentHistory, profileID);
+                    employmentHistoryResult = profileUnitOfWork.UpdateEmploymentHistory(employmentHistory, profileID);
                     if (employmentHistoryResult) { percentStatus += 25; }
-                    educationHistoryResult = UpdateEducationHistory(educationHistory, profileID);
-                    if (educationHistoryResult) { percentStatus += 25; } 
-                    referencePersonResult = UpdateReferencePerson(referencePerson, profileID);
+                    educationHistoryResult = profileUnitOfWork.UpdateEducationHistory(educationHistory, profileID);
+                    if (educationHistoryResult) { percentStatus += 25; }
+                    referencePersonResult = profileUnitOfWork.UpdateReferencePerson(referencePerson, profileID);
                     if (referencePersonResult) { percentStatus += 25; }
 
                     updatedProfile.PercentStatus = percentStatus;
@@ -360,107 +360,6 @@ namespace JobSearchingSystem.Controllers
         }
 
         [Authorize(Roles = "Jobseeker")]
-        private bool UpdateEmploymentHistory(EmploymentHistory employmentHistory, int profileID)
-        {
-            if (!String.IsNullOrEmpty(employmentHistory.Position)
-                && !String.IsNullOrEmpty(employmentHistory.Company))
-            {
-                if (employmentHistory.EmploymentHistoryID == -2)
-                {
-                    return false;
-                }
-                else if (employmentHistory.EmploymentHistoryID == -1)
-                {
-                    // Add new
-                    employmentHistory.ProfileID = profileID;
-                    employmentHistory.IsDeleted = false;
-                    profileUnitOfWork.EmploymentHistoryRepository.Insert(employmentHistory);
-                    profileUnitOfWork.Save();
-                }
-                else
-                {
-                    // Update
-                    employmentHistory.ProfileID = profileID;
-                    employmentHistory.IsDeleted = false;
-                    profileUnitOfWork.EmploymentHistoryRepository.Update(employmentHistory);
-                    profileUnitOfWork.Save();
-                }
-
-                return true;
-            }
-
-            return false;
-        }
-
-        [Authorize(Roles = "Jobseeker")]
-        private bool UpdateEducationHistory(EducationHistory educationHistory, int profileID)
-        {
-            if (!String.IsNullOrEmpty(educationHistory.Subject)
-                && !String.IsNullOrEmpty(educationHistory.School))
-            {
-                if (educationHistory.EducationHistoryID == -2)
-                {
-                    return false;
-                }
-                else if (educationHistory.EducationHistoryID == -1)
-                {
-                    // Add new
-                    educationHistory.ProfileID = profileID;
-                    educationHistory.IsDeleted = false;
-                    profileUnitOfWork.EducationHistoryRepository.Insert(educationHistory);
-                    profileUnitOfWork.Save();
-                }
-                else
-                {
-                    // Update
-                    educationHistory.ProfileID = profileID;
-                    educationHistory.IsDeleted = false;
-                    profileUnitOfWork.EducationHistoryRepository.Update(educationHistory);
-                    profileUnitOfWork.Save();
-                }
-
-                return true;
-            }
-
-            return false;
-        }
-
-        [Authorize(Roles = "Jobseeker")]
-        private bool UpdateReferencePerson(ReferencePerson referencePerson, int profileID)
-        {
-            if (!String.IsNullOrEmpty(referencePerson.ReferencePersonName)
-                && !String.IsNullOrEmpty(referencePerson.ReferencePersonPosition)
-                && !String.IsNullOrEmpty(referencePerson.ReferencePersonCompany)
-                && !String.IsNullOrEmpty(referencePerson.EmailAddress))
-            {
-                if (referencePerson.ReferencePersonID == -2)
-                {
-                    return false;
-                }
-                else if (referencePerson.ReferencePersonID == -1)
-                {
-                    // Add new
-                    referencePerson.ProfileID = profileID;
-                    referencePerson.IsDeleted = false;
-                    profileUnitOfWork.ReferencePersonRepository.Insert(referencePerson);
-                    profileUnitOfWork.Save();
-                }
-                else
-                {
-                    // Update
-                    referencePerson.ProfileID = profileID;
-                    referencePerson.IsDeleted = false;
-                    profileUnitOfWork.ReferencePersonRepository.Update(referencePerson);
-                    profileUnitOfWork.Save();
-                }
-
-                return true;
-            }
-
-            return false;
-        }
-
-        [Authorize(Roles = "Jobseeker")]
         [HttpPost]
         public ActionResult ActiveProfile(string activeProfileId, string activeStatus)
         {
@@ -494,6 +393,7 @@ namespace JobSearchingSystem.Controllers
                     profileUnitOfWork.ProfileRepository.Update(profile);
                     profileUnitOfWork.Save();
 
+                    TempData["successmessage"] = "Thay đổi trạng thái thành công.";
                     return RedirectToAction("List");
                 }
 
