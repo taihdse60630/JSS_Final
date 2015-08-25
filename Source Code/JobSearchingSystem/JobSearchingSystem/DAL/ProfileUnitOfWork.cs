@@ -227,5 +227,103 @@ namespace JobSearchingSystem.DAL
 
             return true;
         }
+
+        public bool UpdateEmploymentHistory(EmploymentHistory employmentHistory, int profileID)
+        {
+            if (!String.IsNullOrEmpty(employmentHistory.Position)
+                && !String.IsNullOrEmpty(employmentHistory.Company))
+            {
+                if (employmentHistory.EmploymentHistoryID == -2)
+                {
+                    return false;
+                }
+                else if (employmentHistory.EmploymentHistoryID == -1)
+                {
+                    // Add new
+                    employmentHistory.ProfileID = profileID;
+                    employmentHistory.IsDeleted = false;
+                    this.EmploymentHistoryRepository.Insert(employmentHistory);
+                    this.Save();
+                }
+                else
+                {
+                    // Update
+                    employmentHistory.ProfileID = profileID;
+                    employmentHistory.IsDeleted = false;
+                    this.EmploymentHistoryRepository.Update(employmentHistory);
+                    this.Save();
+                }
+
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool UpdateEducationHistory(EducationHistory educationHistory, int profileID)
+        {
+            if (!String.IsNullOrEmpty(educationHistory.Subject)
+                && !String.IsNullOrEmpty(educationHistory.School))
+            {
+                if (educationHistory.EducationHistoryID == -2)
+                {
+                    return false;
+                }
+                else if (educationHistory.EducationHistoryID == -1)
+                {
+                    // Add new
+                    educationHistory.ProfileID = profileID;
+                    educationHistory.IsDeleted = false;
+                    this.EducationHistoryRepository.Insert(educationHistory);
+                    this.Save();
+                }
+                else
+                {
+                    // Update
+                    educationHistory.ProfileID = profileID;
+                    educationHistory.IsDeleted = false;
+                    this.EducationHistoryRepository.Update(educationHistory);
+                    this.Save();
+                }
+
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool UpdateReferencePerson(ReferencePerson referencePerson, int profileID)
+        {
+            if (!String.IsNullOrEmpty(referencePerson.ReferencePersonName)
+                && !String.IsNullOrEmpty(referencePerson.ReferencePersonPosition)
+                && !String.IsNullOrEmpty(referencePerson.ReferencePersonCompany)
+                && !String.IsNullOrEmpty(referencePerson.EmailAddress))
+            {
+                if (referencePerson.ReferencePersonID == -2)
+                {
+                    return false;
+                }
+                else if (referencePerson.ReferencePersonID == -1)
+                {
+                    // Add new
+                    referencePerson.ProfileID = profileID;
+                    referencePerson.IsDeleted = false;
+                    this.ReferencePersonRepository.Insert(referencePerson);
+                    this.Save();
+                }
+                else
+                {
+                    // Update
+                    referencePerson.ProfileID = profileID;
+                    referencePerson.IsDeleted = false;
+                    this.ReferencePersonRepository.Update(referencePerson);
+                    this.Save();
+                }
+
+                return true;
+            }
+
+            return false;
+        }
     }
 }
