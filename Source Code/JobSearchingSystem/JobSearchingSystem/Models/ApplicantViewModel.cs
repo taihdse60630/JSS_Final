@@ -9,6 +9,15 @@ namespace JobSearchingSystem.Models
     {
         public IEnumerable<ApplicantItem> jobseekerList { get; set; }
     }
+
+    public class SosanhItem
+    {
+        public string jobInfo { get; set; }
+        public bool isSatisfied { get; set; }
+        public string columnName { get; set; }
+        public string applicantInfo { get; set; }
+    }
+
     public class ApplicantItem
     {
         public string ApplicantID { get; set; }
