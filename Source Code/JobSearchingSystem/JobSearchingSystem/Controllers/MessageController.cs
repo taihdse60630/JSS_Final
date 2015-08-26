@@ -89,7 +89,12 @@ namespace JobSearchingSystem.Controllers
             }
 
             messageUnitOfWork.deleteMessage(userId, list, model.typeOfMessage);
-            return RedirectToAction("List");
+            if (("sentMessage").Equals(model.typeOfMessage)){
+                  return RedirectToAction("SentMessageList");
+            }else{
+                return RedirectToAction("List");
+            }
+            
         }
 
         public ActionResult Detail(int? id)

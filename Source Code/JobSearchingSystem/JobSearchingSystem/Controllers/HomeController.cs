@@ -20,7 +20,7 @@ namespace JobSearchingSystem.Controllers
         public ActionResult Index()
         {
             HIndexViewModel hIndexViewModel = new HIndexViewModel();
-            homeUnitOfWork.getAllJob(hIndexViewModel);
+            hIndexViewModel.jobList = homeUnitOfWork.getAllJob();
             hIndexViewModel.jobCities = homeUnitOfWork.getAllCities();
             hIndexViewModel.jobCategories = homeUnitOfWork.getAllCategories();
             hIndexViewModel.schoolLevelList = homeUnitOfWork.getAllSchoolLevel();
@@ -44,6 +44,15 @@ namespace JobSearchingSystem.Controllers
             TempData["searchJobCities"] = model.searchJobCities;
             TempData["searchJobCategories"] = model.searchJobCategories;
             return RedirectToAction("Find", "Job", jFindViewModel);
+        }
+
+        public ActionResult SortJob(string type)
+        {
+            
+            HIndexViewModel model = new HIndexViewModel();
+            model.jobList = homeUnitOfWork.getAllJobAreSorted(type);
+            int length = model.jobList.Count();
+            return PartialView("JobPartial", model);
         }
     }
 }
