@@ -5,14 +5,77 @@
 }
 @model JobSearchingSystem.Models.JMessageDetailViewModel
 <link type="text/css" rel="stylesheet" href="~/Content/vendors/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+<style>
+            .ui-autocomplete {
+                z-index: 5000;
+            }
+    </style>
 <script src="~/Content/vendors/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
 <script src="~/Content/js/email-compose-mail.js"></script>
+<link rel="stylesheet" href="~/Content/css/bootstrap-tagsinput.css">
+<link rel="stylesheet" href="~/Content/css/jquery.tag-editor.css">
 
+
+
+<script src="~/Content/js/jquery.caret.min.js"></script>
+<script src="~/Content/js/jquery.tag-editor.js"></script>
+<script>
+    function makeSafe() {
+        document.getElementById('messsage_content2').value = window.escape(editor.getValue());
+    };
+
+    function makeDangerous() {
+        document.getElementById('Topic_content').value = window.unescape(document.getElementById('Topic_content').value);
+    }
+
+    $(document).ready(function () {
+
+        SearchText();
+    });
+    function SearchText() {
+        var userList;
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "/Message/AutoCompleteUser",
+            data: "{'username':'" + document.getElementById('receiver').value + "'}",
+            dataType: "json",
+            success: function (data) {
+                userList = data;
+                $('#receiver').tagEditor({
+                    autocomplete: {
+                        delay: 0, // show suggestions immediately
+                        position: { collision: 'flip' }, // automatic menu position up/down
+                        source: userList
+                    },
+                    forceLowercase: false,
+                    placeholder: 'Receiver username ...',
+                    onChange: function (field, editor, tags) {
+
+                    }
+                });
+            },
+            error: function (xhr, status, error) {
+                alert(error);
+            }
+        });
+    }
+
+    function EncapsuleData() {
+        getTags();
+        makeSafe();
+        return true;
+    }
+    function getTags() {
+        document.getElementById("tagList").value = $('#receiver').tagEditor('getTags')[0].tags;
+
+    }
+</script>
 @if (Model.message.Content != null)
 {
     <script>
-    $(document).ready(function () { 
-        document.getElementById("message_content").innerHTML = window.unescape("@Model.message.Content")
+    $(document).ready(function () {
+        document.getElementById("message_content_mail").innerHTML = window.unescape("@Model.message.Content")
     });
     </script>
 }
@@ -25,81 +88,72 @@
                 <h4 id="modal-header-primary-label" class="modal-title">Tin nhắn mới</h4>
             </div>
 
-            <div class="modal-body">
-                <div class="compose-mail">
-                    <div class="portlet box portlet-white">
+            @using (Html.BeginForm("SendMessage", "Message", FormMethod.Post, new { onsubmit = "return EncapsuleData();" }))
+            {
+                <div class="modal-body">
+                    <div class="compose-mail">
+                        <div class="portlet box portlet-white">
+                            <div class="portlet-body">
+                                <div role="form-horizontal" method="post">
+                                    <div class="form-group">
+                                        <div class="input-group"><span class="input-group-addon">To:</span><input id="receiver" name="receiver" type="text" placeholder="" class="form-control" autocomplete="on" /></div>
+                                    </div>
+                                    <div class="form-group hidden">
+                                        <div class="input-group"><span class="input-group-addon">Cc:</span><input id="cc" type="text" placeholder="" class="form-control" /></div>
+                                    </div>
+                                    <div class="form-group hidden">
+                                        <div class="input-group"><span class="input-group-addon">Bcc:</span><input id="bcc" type="text" placeholder="" class="form-control" /></div>
+                                    </div>
+                                    @*<div class="form-group">
+                                            <div class="input-group"><span class="input-group-addon">Subject:</span><input id="subject" type="text" placeholder="" class="form-control" /></div>
+                                        </div>*@
+                                    <div class="compose-editor mbl"><textarea id="message_content" rows="6" class="wysihtml5 form-control"></textarea></div>
+                                    <input type="hidden" id="messsage_content2" name="messageContent" />
+                                    <input type="hidden" id="tagList" name="tagList" />
 
-                        <div class="portlet-body">
-                            <form role="form-horizontal" method="post">
-                                <div class="form-group">
-                                    <div class="input-group"><span class="input-group-addon">To:</span><input id="to" type="text" placeholder="" class="form-control" /></div>
-                                </div>
-                                <div class="form-group hidden">
-                                    <div class="input-group"><span class="input-group-addon">Cc:</span><input id="cc" type="text" placeholder="" class="form-control" /></div>
-                                </div>
-                                <div class="form-group hidden">
-                                    <div class="input-group"><span class="input-group-addon">Bcc:</span><input id="bcc" type="text" placeholder="" class="form-control" /></div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="input-group"><span class="input-group-addon">Subject:</span><input id="subject" type="text" placeholder="" class="form-control" /></div>
-                                </div>
-                                <div class="compose-editor mbl"><textarea rows="6" class="wysihtml5 form-control"></textarea></div>
-                                <div class="form-group">
-                                    <input type="file" />
+                                    @*<div class="form-group">
+                                            <input type="file" />
 
-                                    <p class="help-block">
-                                        <i class="fa fa-paperclip"></i>&nbsp;
-                                        Attachments
-                                    </p>
-                                </div>
+                                            <p class="help-block">
+                                                <i class="fa fa-paperclip"></i>&nbsp;
+                                                Attachments
+                                            </p>
+                                        </div>*@
 
-                                @*<div class="compose-btn">
-                                        <button class="btn btn-sm btn-primary">
-                                            <i class="fa fa-check"></i>&nbsp;
-                                            Send
-                                        </button>
-                                        &nbsp;
-                                        <button class="btn btn-default btn-sm">
-                                            <i class="fa fa-times"></i>&nbsp;
-                                            Discard
-                                        </button>
-                                        &nbsp;
-                                        <button class="btn btn-sm btn-default">Draft</button>
-                                    </div>*@
-                            </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
-                <button class="btn btn-grey"><i class="fa fa-edit"></i> Draft</button>
-                <button type="button" class="btn btn-green"><i class="fa fa-check"></i> Send</button>
-            </div>
+
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-default">Đóng</button>
+                    <button type="submit" onsubmit="EncapsuleData()" class="btn btn-green"><i class="fa fa-check"></i> Gửi</button>
+                </div>
+            }
         </div>
     </div>
 </div>
-
 
 <div class="page-content" style="padding: 20px 80px 795px 150px">
     <div class="col-lg-12 panel panel-default">
 
         <h2 style="font-weight:600;text-align:center">Quản lý tin nhắn</h2>
-   
+
         <br />
         <div class="row">
             <div class="col-sm-3 col-md-2">
             </div>
-            <div class="col-sm-9 col-md-10">  
+            <div class="col-sm-9 col-md-10" style="margin-left: 25%">
                 <a href="@Url.Action("List")" class="btn btn-info">
                     <i class="fa fa-arrow-circle-o-left"></i>&nbsp;
                     Quay lại hộp tin
-                </a>             
+                </a>
             </div>
         </div>
         <div class="mtl mbl"></div>
         <div class="row">
-            <div class="col-sm-3 col-md-2">
+            <div class="col-sm-3 col-md-3">
                 <button type="button" data-target="#modal-wide-width" data-toggle="modal" class="btn btn-danger btn-sm btn-block"><i class="fa fa-pencil" style="margin-right:10px"></i>Viết tin nhắn mới</button>
                 <div class="mtm mbm"></div>
                 <ul style="border-style: solid;background: #FFF;border-color: rgb(230, 232, 216);" class="nav nav-pills nav-stacked">
@@ -109,31 +163,31 @@
                 </ul>
                 <hr>
                 @*<ul style="background: #fff" class="nav nav-pills nav-stacked">
-                        <li class="active"><a href="#">Buddy Online</a></li>
-                        <li><a href="#"><i class="fa fa-circle text-yellow pull-right"></i>Home</a></li>
-                        <li><a href="#"><i class="fa fa-circle text-success pull-right"></i>Work</a></li>
-                        <li><a href="#"><i class="fa fa-circle text-red pull-right"></i>Family</a></li>
-                        <li><a href="#"><i class="fa fa-circle text-muted pull-right"></i>Other</a></li>
-                    </ul>*@
+                <li class="active"><a href="#">Buddy Online</a></li>
+                <li><a href="#"><i class="fa fa-circle text-yellow pull-right"></i>Home</a></li>
+                <li><a href="#"><i class="fa fa-circle text-success pull-right"></i>Work</a></li>
+                <li><a href="#"><i class="fa fa-circle text-red pull-right"></i>Family</a></li>
+                <li><a href="#"><i class="fa fa-circle text-muted pull-right"></i>Other</a></li>
+            </ul>*@
             </div>
-            <div class="col-sm-9 col-md-10">
+            <div class="col-sm-9 col-md-9">
                 <div class="compose-mail">
                     <div class="portlet box portlet-white" style="border-color: rgb(223, 223, 223);border-style: solid;">
                         <div class="portlet-header">
                             @*<div class="caption" style="font-weight: 600; font-size: x-large;">Accept applied job request</div>*@
                             @*<div class="tools">
-                                <a href="#" class="btn btn-default btn-xs">
-                                    <i class="fa fa-mail-reply mln"></i>&nbsp;
-                                    Reply
-                                </a>&nbsp;<a href="#" data-hover="tooltip" title="" class="btn btn-default btn-xs" data-original-title="Print"><i class="fa fa-print mln"></i></a>&nbsp;<a href="#" data-hover="tooltip" title="" class="btn btn-default btn-xs" data-original-title="Trash"><i class="fa fa-trash-o mln"></i></a>
-                            </div>*@
+                            <a href="#" class="btn btn-default btn-xs">
+                                <i class="fa fa-mail-reply mln"></i>&nbsp;
+                                Reply
+                            </a>&nbsp;<a href="#" data-hover="tooltip" title="" class="btn btn-default btn-xs" data-original-title="Print"><i class="fa fa-print mln"></i></a>&nbsp;<a href="#" data-hover="tooltip" title="" class="btn btn-default btn-xs" data-original-title="Trash"><i class="fa fa-trash-o mln"></i></a>
+                        </div>*@
                         </div>
                         <div class="portlet-body">
                             <div class="mail-content" style="height:300px">
                                 <div class="mail-sender">
                                     <div class="row">
                                         <div class="col-md-8">
-                                            <img src="http://dddn.vcmedia.vn/P5inccccccccccccloy2lsBqhjffc/Image/2014/10/Truong-Gia-Binh-ea6b7.jpg" alt="" width="60px" class="img-circle mrm"><strong>[@Model.message.SenderName]</strong>&nbsp;
+                                            <strong>[@Model.message.SenderName]</strong>&nbsp;
                                             to
                                             &nbsp;<strong>me</strong>
                                         </div>
@@ -141,37 +195,37 @@
                                     </div>
                                 </div>
                                 <div class="mail-view">
-                                 
-                                    <div id="message_content"></div>
+
+                                    <div id="message_content_mail"></div>
                                 </div>
                                 @*<div class="mail-attachment">
-                                    <p><span><i class="fa fa-paperclip mrs"></i>3 attachments ---<a href="#" class="mrm mls">Download all attachments</a>|<a href="#" class="mlm">View all images</a></span></p>
-                                    <ul>
-                                        <li>
-                                            <a href="#" class="thumb-attach"><img src="images/gallery/1.jpg"></a><a href="#" class="name">IMG_001.jpg</a><br><a href="#" class="link">
-                                                <small>Download</small>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="thumb-attach"><img src="images/gallery/2.jpg"></a><a href="#" class="name">IMG_002.jpg</a><br><a href="#" class="link">
-                                                <small>Download</small>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="thumb-attach"><img src="images/gallery/3.jpg"></a><a href="#" class="name">IMG_003.jpg</a><br><a href="#" class="link">
-                                                <small>Download</small>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>*@
+                                <p><span><i class="fa fa-paperclip mrs"></i>3 attachments ---<a href="#" class="mrm mls">Download all attachments</a>|<a href="#" class="mlm">View all images</a></span></p>
+                                <ul>
+                                    <li>
+                                        <a href="#" class="thumb-attach"><img src="images/gallery/1.jpg"></a><a href="#" class="name">IMG_001.jpg</a><br><a href="#" class="link">
+                                            <small>Download</small>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="thumb-attach"><img src="images/gallery/2.jpg"></a><a href="#" class="name">IMG_002.jpg</a><br><a href="#" class="link">
+                                            <small>Download</small>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="thumb-attach"><img src="images/gallery/3.jpg"></a><a href="#" class="name">IMG_003.jpg</a><br><a href="#" class="link">
+                                            <small>Download</small>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>*@
                                 @*<div class="clearfix"></div>
-                                <hr>*@
+                            <hr>*@
                                 @*<p>
-                                    <a href="#" class="btn btn-default btn-xs">
-                                        <i class="fa fa-mail-reply mln"></i>&nbsp;
-                                        Reply
-                                    </a>&nbsp;<a href="#" data-hover="tooltip" title="" class="btn btn-default btn-xs" data-original-title="Print"><i class="fa fa-print mln"></i></a>&nbsp;<a href="#" data-hover="tooltip" title="" class="btn btn-default btn-xs" data-original-title="Trash"><i class="fa fa-trash-o mln"></i></a>
-                                </p>*@
+                                <a href="#" class="btn btn-default btn-xs">
+                                    <i class="fa fa-mail-reply mln"></i>&nbsp;
+                                    Reply
+                                </a>&nbsp;<a href="#" data-hover="tooltip" title="" class="btn btn-default btn-xs" data-original-title="Print"><i class="fa fa-print mln"></i></a>&nbsp;<a href="#" data-hover="tooltip" title="" class="btn btn-default btn-xs" data-original-title="Trash"><i class="fa fa-trash-o mln"></i></a>
+                            </p>*@
                             </div>
                         </div>
                     </div>

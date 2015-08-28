@@ -27,17 +27,19 @@
                         <th width="12%">Công ty</th>
                         <th width="7%">Ngày ứng tuyển</th>
                         <th width="7%">Nhà tuyển dụng phản hồi</th>
-                        <th width="7%">Tình trạng</th>
+                        <th width="7%">Thao tác</th>
                     </tr>
                 </thead>
                 <tbody>
                     @if (Model.AppliedJobList != null)
                     {
+                        int i = 1;
                         foreach (var item in Model.AppliedJobList)
                         {
+                           
                             <tr>
                                 @*<td><input id="square-checkbox-1" tabindex="9" type="checkbox" /></td>*@
-                                <td>1</td>
+                                <td>@i</td>
                                 <td><a href="/Job/Detail/?jobID=@item.JobID">@item.JobName</a></td>
                                 <td><a href="/Job/JobsOfRecruiter/?recruiterID=@item.RecruiterID" style="color: #428bca;">@item.CompanyName</a></td>
                                 <td>
@@ -50,16 +52,17 @@
                                     }
                                     else if (item.Status == 1)
                                     {
-                                        <span class="label label-sm label-success">Chấp nhận</span>
+                                        <span class="label label-sm label-success">Được chấp nhận</span>
                                     }
                                     else
                                     {
-                                        <span class="label label-sm label-danger">Từ chối</span>
+                                        <span class="label label-sm label-danger">Bị từ chối</span>
                                     }
                                 </td>
 
                                 <td>
 
+                                  
                                     @using (Html.BeginForm("DeleteAppliedRequest", "Job", FormMethod.Post, new { id = "DeleteForm" + item.JobID, style = "display: inline;" }))
                                     {
                                         <input type="hidden" name="JobID" value="@item.JobID" />
@@ -70,6 +73,7 @@
                                     }
                                 </td>
                             </tr>
+                            i++;
                         }
                     }
                 </tbody>

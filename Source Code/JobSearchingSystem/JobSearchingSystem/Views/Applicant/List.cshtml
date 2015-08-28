@@ -23,15 +23,17 @@
     $(document).ready(function () {
         $('.emailbutton').click(function (id, option) {
             $('#receiver').val($(this).data('id'));
-            if ($(this).data('option') == "phongvan")
-            {
-                $('#subjectdiv').addClass("hidden");
-            }
-            else if ($(this).data('option') == "tinnhan")
-            {
-                $('#subject').val("");
-                $('#subjectdiv').removeClass("hidden");
-            }
+
+            $('#subjectdiv').addClass("hidden");
+            //if ($(this).data('option') == "phongvan")
+            //{
+            //    $('#subjectdiv').addClass("hidden");
+            //}
+            //else if ($(this).data('option') == "tinnhan")
+            //{
+            //    $('#subject').val("");
+            //    $('#subjectdiv').removeClass("hidden");
+            //}
             
         });
         //$('#receiver').tagEditor({ initialTags: ['tag1', 'tag2', 'tag3'] });
@@ -248,7 +250,9 @@
        
     }
     function makeSafe() {
-        document.getElementById('messsage_content2').value = window.encodeURI(editor.getValue());
+        //document.getElementById('messsage_content2').value = window.encodeURI(editor.getValue());
+        
+        document.getElementById('messsage_content2').value = window.escape(editor.getValue());
     };
 </script>
 <script>
@@ -569,8 +573,8 @@
                                     <span class="label label-sm label-info">Chờ duyệt</span>
                                 </td>
                                 <td>
-                                    <button type="button" style="display: inline" data-target="#modal-wide-width" data-option="phongvan" data-id=@item.ApplicantUsername data-toggle="modal" class="emailbutton btn btn-yellow btn-sm">
-                                        <i class="fa fa-comments-o" data-toggle="tooltip" title="Phỏng vấn"></i>
+                                    <button type="button" style="display: inline" data-target="#modal-wide-width" data-option="tinnhan" data-id=@item.ApplicantUsername data-toggle="modal" class="emailbutton btn btn-yellow btn-sm">
+                                        <i class="fa fa-comments-o" data-toggle="tooltip" title="Viết tin nhắn mới"></i>
                                     </button>
 
                                     @using (Html.BeginForm("Approve", "Applicant", FormMethod.Post, new { id = "ApproveForm" + item.ApplicantID, style = "display: inline;" }))
@@ -593,36 +597,6 @@
                                 </td>
                             }
                             else if (item.Status == 1)
-                            {
-                                <td>
-                                    <span class="label label-sm label-yellow">Chờ phỏng vấn</span>
-                                </td>
-                                <td>
-                                    
-                                    <button type="button" style="display: inline" data-target="#modal-wide-width" data-option="tinnhan" data-id=@item.ApplicantUsername data-toggle="modal" class="emailbutton btn btn-yellow btn-sm">
-                                        <i class="fa fa-comments-o" data-toggle="tooltip" title="Viết tin nhắn mới"></i>
-                                    </button>
-
-                                    @using (Html.BeginForm("Approve", "Applicant", FormMethod.Post, new { id = "ApproveForm" + item.ApplicantID, style = "display: inline;" }))
-                                    {
-                                        <input type="hidden" name="applicantID" value="@item.ApplicantID" />
-                                        <input type="hidden" name="jobID" value="@ViewBag.JobID" />
-                                        <button type="button" data-id="ApproveForm@(item.ApplicantID)" data-message="Bạn thật sự muốn duyệt?" class="btn btn-success btn-sm confirmButton">
-                                            <i class="fa fa-check" data-toggle="tooltip" title="Duyệt"></i>&nbsp;
-                                        </button>
-                                    }
-                                    
-                                    @using (Html.BeginForm("Disapprove", "Applicant", FormMethod.Post, new { id = "DisapproveForm" + item.ApplicantID, style = "display: inline;" }))
-                                    {
-                                        <input type="hidden" name="applicantID" value="@item.ApplicantID" />
-                                        <input type="hidden" name="jobID" value="@ViewBag.JobID" />
-                                        <button type="button" data-id="DisapproveForm@(item.ApplicantID)" data-message="Bạn thật sự muốn từ chối?" class="btn btn-danger btn-sm confirmButton">
-                                            <i class="fa fa-times" data-toggle="tooltip" title="Từ chối"></i>&nbsp;
-                                        </button>
-                                    }
-                                </td>
-                            }
-                            else if (item.Status == 2)
                             {
                                 <td>
                                     <span class="label label-sm label-success">Đã duyệt</span>

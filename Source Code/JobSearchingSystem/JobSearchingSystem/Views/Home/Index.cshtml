@@ -87,7 +87,34 @@
     });
 
 </script>
+<script>
+    $(document).ready(function () {
 
+        $('#sortJob').on('change', function () {
+            var sortType = this.value;
+            var fd = new FormData();
+
+            fd.append("type", sortType);
+            $.ajax({             
+               
+                url: "/Home/SortJob",
+                type: "POST",
+                cache: false,
+                data: fd,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    $("#jobList").hide();
+                    $("#joblistSorted").empty().append(data);
+                },
+                error: function (xhr, status, error) {
+                    alert(error);
+                }
+            });
+        });
+    });
+
+</script>
 
 
 @*<script src="~/Content/js/jquery.min.js"></script>
@@ -299,7 +326,7 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <input id="searchString" name="searchString" value="@Model.searchString" type="text" placeholder="Nhập Chức Danh, Vị Trí Công Việc, Kỹ Năng Liên Quan..." class="form-control">
+                                                <input id="searchString" name="searchString" value="@Model.searchString" type="text" placeholder="Nhập tên công việc..." class="form-control">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -328,15 +355,19 @@
                                                 <select id="schoolLevel" name="schoolLevel" class="form-control" name="currentJobLevel" data-placeholder="Ví dụ: Nhân viên" tabindex="-1" title="Cấp bậc hiện tại">
                                                     @if (Model.schoolLevelList != null)
                                                     {
-                                                        foreach (var item in Model.schoolLevelList)
+                                                        for (int i = 1; i <= Model.schoolLevelList.Count(); i++)
                                                         {
-                                                            if (item.LevelNum == Model.schoolLevel)
+                                                           
+                                                            foreach (var item in Model.schoolLevelList)
                                                             {
-                                                                <option selected value="@item.LevelNum">@item.Name</option>
-                                                            }
-                                                            else
-                                                            {
-                                                                <option value="@item.LevelNum">@item.Name</option>
+
+                                                                if (item.LevelNum == i)
+                                                                {
+                                                                    <option value="@item.LevelNum">@item.Name</option>
+                                                                }
+
+                                                               
+
                                                             }
                                                         }
                                                     }
@@ -572,149 +603,22 @@
 
                 <div class="panel-heading">Việc làm
                 
-                    <select style="margin-left: 50%;">
+                    <select id="sortJob" style="margin-left: 50%; color: peru">
                         <i class="fa fa-tint"></i>
-                        <option>Mới nhất</option>
-                        <option>Lượt xem nhiều nhất</option>
+                        <option value="new" selected>Mới nhất</option>
+                        <option value="view" >Lượt xem nhiều nhất</option>
 
                     </select>
                   
                 </div>
                 <div class="panel-body">
-
-                    <div id="container" style="overflow-y:scroll;height:500px">
-                        <ul class="list-group" id="myList" style="margin-left: 2%;">
-
-                            @if (Model.jobList != null)
-                            {
-                                foreach (var item in Model.jobList)
-                                {
-
-                                    <li class="list-group-item">
-                                        <a target="_blank" href="/Job/Detail/?jobID=@item.JobID" >
-                                            <div class="row">
-                                                <div class="col-md-9">                                                  
-                                                    @if (item.isHightLight)
-                                                    {
-                                                          <strong style="color:red">@item.JobTitle</strong><br />
-                                                    }else
-                                                    {
-                                                          <strong>@item.JobTitle</strong><br />
-                                                    }
-                                                  
-                                                    <em>
-                                                        <span>
-                                                            <span>
-                                                                @if (item.JobCities != null)
-                                                                {
-                                                                    foreach (var item2 in item.JobCities)
-                                                                    { @item2.Name <span>,</span>}
-                                                                }
-                                                            </span>|<span>@item.JobLevelName</span>
-                                                        </span>
-                                                    </em><br />
-                                                    <span style="margin-right: 10px;">
-                                                        <i class="fa fa-fw fa-calendar"></i>Ngày đăng: @String.Format("{0:d}", item.PostedDate)
-                                                    </span>
-                                                    <span><i class="fa fa-fw fa-eye"></i>Lượt xem: @item.JobView</span><br />
-                                                    @{
-                                                                int i = 1;
-                                                                foreach (var item3 in item.JobSkills)
-                                                                {
-                                                                    if (i == 1)
-                                                                    {
-                                                                        <div class="progress" style="width: 10%;height: 5px;margin-top: 1.5%;float: left;margin-right: 2%;">
-                                                                            <div role="progressbar" aria-valuetransitiongoal="100" class="progress-bar progress-bar-success" aria-valuenow="100" style="width: 100%;"></div>
-                                                                        </div><em style="font-size: x-small;">@item3.SkillTag</em> <br />
-                                                                    }
-                                                                    if (i == 2)
-                                                                    {
-                                                                        <div class="progress" style="width: 9.4%;height: 5px;margin-top: 1.5%;float: left;margin-right: 2%;position:absolute">
-                                                                            <div role="progressbar" aria-valuetransitiongoal="100" class="progress-bar progress-bar-warning" aria-valuenow="100" style="width: 100%;"></div>
-                                                                        </div><em style="font-size: x-small;">@item3.SkillTag</em><br />
-                                                                    }
-                                                                    if (i == 3)
-                                                                    {
-                                                                        <div class="progress" style="width: 10%; height: 5px; margin-top: 1.5%; float: left; margin-right: 2%;">
-                                                                            <div role="progressbar" aria-valuetransitiongoal="100" class="progress-bar progress-bar-danger" aria-valuenow="100" style="width: 100%;"></div>
-                                                                        </div><em style="font-size: x-small;">@item3.SkillTag</em>
-                                                                    }
-                                                                    i++;
-                                                                }
-                                                    }
-                                                    @*<div class="progress" style="width: 10%;height: 5px;margin-top: 1.5%;float: left;margin-right: 2%;">
-                                                        <div role="progressbar" aria-valuetransitiongoal="100" class="progress-bar progress-bar-success" aria-valuenow="100" style="width: 75%;"></div>
-                                                    </div><em style="font-size: x-small;">It- Phần Cứng - Mạng</em>
-                                                    <br />
-
-                                                    <div class="progress" style="width: 9.4%;height: 5px;margin-top: 1.5%;float: left;margin-right: 2%;position:absolute">
-                                                        <div role="progressbar" aria-valuetransitiongoal="100" class="progress-bar progress-bar-warning" aria-valuenow="100" style="width: 75%;"></div>
-                                                    </div><em style="font-size: x-small;">SQL Server</em><br />
-
-                                                    <div class="progress" style="width: 10%; height: 5px; margin-top: 1.5%; float: left; margin-right: 2%;">
-                                                        <div role="progressbar" aria-valuetransitiongoal="100" class="progress-bar progress-bar-danger" aria-valuenow="100" style="width: 75%;"></div>
-                                                    </div><em style="font-size: x-small;">English; Japanese</em>*@
-                                                </div>
-                                                <div class="col-md-3">
-                                                    @if (item.MinSalary == null && item.MaxSalary == null)
-                                                    {
-                                                         <strong>Thỏa thuận</strong><br />
-                                                    }
-                                                    else
-                                                    {
-                                                         <strong>$@item.MinSalary.ToString().TrimEnd('0').TrimEnd(',')- $@item.MaxSalary.ToString().TrimEnd('0').TrimEnd(',')</strong><br />
-                                                    }
-                                                   
-                                                    <a href="#"> <img class="salesLogoImage img-responsive" src="@item.LogoURL" width="88" height="43"  border="0"></a>
-                                                </div>
-                                            </div>
-
-                                        </a>
-                                    </li>
-                                    <br />
-                                }
-                            }
-
-
-                            @*@for (int i = 0; i < 100; i++)
-                            {
-                                <li class="list-group-item">
-                                    <a target="_blank" href="http://www.vietnamworks.com/tuyen-gap-lap-trinh-vien-net-569885-jd" title="Job - Tuyển Gấp Lập Trình Viên .NET - CTC Communications">
-                                        <div class="row">
-                                            <div class="col-md-9">
-                                                <strong>Tuyển Gấp Lập Trình Viên .NET</strong><br />
-                                                <em><span><span>Da Nang, Ha Noi, Ho Chi Minh</span>|<span>Experienced (Non-Manager)</span></span></em><br />
-                                                <span style="margin-right: 10px;"><i class="fa fa-fw fa-calendar"></i>Posted: 22/06/2015</span>
-                                                <span><i class="fa fa-fw fa-eye"></i>Views: 2300</span><br />
-                                                <div class="progress" style="width: 10%;height: 5px;margin-top: 1.5%;float: left;margin-right: 2%;">
-                                                    <div role="progressbar" aria-valuetransitiongoal="100" class="progress-bar progress-bar-success" aria-valuenow="100" style="width: 75%;"></div>
-                                                </div><em style="font-size: x-small;">It- Phần Cứng - Mạng</em>
-                                                <br />
-
-                                                <div class="progress" style="width: 9.4%;height: 5px;margin-top: 1.5%;float: left;margin-right: 2%;position:absolute">
-                                                    <div role="progressbar" aria-valuetransitiongoal="100" class="progress-bar progress-bar-warning" aria-valuenow="100" style="width: 75%;"></div>
-                                                </div><em style="font-size: x-small;">SQL Server</em><br />
-
-                                                <div class="progress" style="width: 10%; height: 5px; margin-top: 1.5%; float: left; margin-right: 2%;">
-                                                    <div role="progressbar" aria-valuetransitiongoal="100" class="progress-bar progress-bar-danger" aria-valuenow="100" style="width: 75%;"></div>
-                                                </div><em style="font-size: x-small;">English; Japanese</em>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <strong>$300 - $500</strong><br />
-                                                <a href="#"> <img class="salesLogoImage img-responsive" src="~/Content/img/logo_21.jpg" width="88" height="43" alt="Việc làm, tuyển dụng, tìm việc làm, viec lam - Viethung" title="Việc làm tại Viethung" border="0"></a>
-                                            </div>
-                                        </div>
-
-                                    </a>
-                                </li>
-                                <br />
-                            }*@
-
-
-
-                        </ul>
+                    <div id="jobList">
+                        @Html.Partial("JobPartial", Model)                       
+                    </div>
+                    <div id="joblistSorted">
 
                     </div>
+                  
                 </div>
 
                 @*<h2 style="margin-left: 2%;">Việc làm</h2>*@

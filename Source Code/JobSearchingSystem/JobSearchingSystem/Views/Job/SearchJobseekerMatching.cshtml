@@ -31,6 +31,117 @@
         });
 
 
+        $('input[type="checkbox"][name="checkboxname"]').on('ifChecked', function (event) {
+            if ($('input[type="checkbox"][name="checkboxname"]').filter(':checked').length >= 2) {
+                $('input[type="checkbox"][name="checkboxname"]').not(':checked').iCheck('disable');
+            }
+        });
+
+        $('input[type="checkbox"][name="checkboxname"]').on('ifUnchecked', function (event) {
+            $('input[type="checkbox"][name="checkboxname"]').not(':checked').iCheck('enable');
+        });
+
+        $('#sosanhbutton').click(function () {
+            if ($('input[type="checkbox"][name="checkboxname"]').filter(':checked').length < 2) {
+                swal("Bạn cần phải chọn 2 ứng viên để so sánh!", "", "warning")
+            }
+            else {
+                var applicant1;
+                var applicant2;
+                $('input[type="checkbox"][name="checkboxname"]').filter(':checked').each(function (i, e) {
+                    if (i == 0) {
+                        applicant1 = $(this).val();
+                    }
+                    else {
+                        applicant2 = $(this).val();
+                    }
+                });
+
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    url: "/Applicant/GetMatchingDetail2",
+                    data: "{'applicantID1':'" + applicant1 + "','applicantID2':'" + applicant2 + "','jobID':'" + $('#jobid').val() + "'}",
+                    dataType: "json",
+                    success: function (data) {
+
+                        $('#matchingDetailBody2').html("");
+
+                        $('#ungvien1').html(data.applicantname1);
+                        $('#ungvien2').html(data.applicantname2);
+
+                        $.each(data.profile1, function (i, e) {
+                            if (data.profile1[i].isSatisfied && data.profile2[i].isSatisfied) {
+                                $('#matchingDetailBody2').html($('#matchingDetailBody2').html() + "<tr>"
+                                                                                                + "<td>"
+                                                                                                    + data.profile1[i].columnName
+                                                                                                + "</td>"
+                                                                                                + "<td>"
+                                                                                                    + data.profile1[i].jobInfo
+                                                                                                + "</td>"
+                                                                                                + "<td style='color: green'>"
+                                                                                                    + data.profile1[i].applicantInfo
+                                                                                                + "</td>"
+                                                                                                + "<td style='color: green'>"
+                                                                                                    + data.profile2[i].applicantInfo
+                                                                                                + "</td>"
+                                                                                            + "</tr>");
+                            } else if (data.profile1[i].isSatisfied && !data.profile2[i].isSatisfied) {
+                                $('#matchingDetailBody2').html($('#matchingDetailBody2').html() + "<tr>"
+                                                                                                + "<td>"
+                                                                                                    + data.profile1[i].columnName
+                                                                                                + "</td>"
+                                                                                                + "<td>"
+                                                                                                    + data.profile1[i].jobInfo
+                                                                                                + "</td>"
+                                                                                                + "<td style='color: green'>"
+                                                                                                    + data.profile1[i].applicantInfo
+                                                                                                + "</td>"
+                                                                                                + "<td style='color: red'>"
+                                                                                                    + data.profile2[i].applicantInfo
+                                                                                                + "</td>"
+                                                                                            + "</tr>");
+                            } else if (!data.profile1[i].isSatisfied && data.profile2[i].isSatisfied) {
+                                $('#matchingDetailBody2').html($('#matchingDetailBody2').html() + "<tr>"
+                                                                                                + "<td>"
+                                                                                                    + data.profile1[i].columnName
+                                                                                                + "</td>"
+                                                                                                + "<td>"
+                                                                                                    + data.profile1[i].jobInfo
+                                                                                                + "</td>"
+                                                                                                + "<td style='color: red'>"
+                                                                                                    + data.profile1[i].applicantInfo
+                                                                                                + "</td>"
+                                                                                                + "<td style='color: green'>"
+                                                                                                    + data.profile2[i].applicantInfo
+                                                                                                + "</td>"
+                                                                                            + "</tr>");
+                            } else if (!data.profile1[i].isSatisfied && !data.profile2[i].isSatisfied) {
+                                $('#matchingDetailBody2').html($('#matchingDetailBody2').html() + "<tr>"
+                                                                                                + "<td>"
+                                                                                                    + data.profile1[i].columnName
+                                                                                                + "</td>"
+                                                                                                + "<td>"
+                                                                                                    + data.profile1[i].jobInfo
+                                                                                                + "</td>"
+                                                                                                + "<td style='color: red'>"
+                                                                                                    + data.profile1[i].applicantInfo
+                                                                                                + "</td>"
+                                                                                                + "<td style='color: red'>"
+                                                                                                    + data.profile2[i].applicantInfo
+                                                                                                + "</td>"
+                                                                                            + "</tr>");
+                            }
+
+                        });
+
+                        $('#modal-show-matching-detail-2').modal('show');
+                    }
+                });
+            }
+        });
+
+
         $('input[type="checkbox"][name="userAccessNeeded"]').on('ifChecked', function (event) {
             $('input').iCheck('check');
 
@@ -41,6 +152,8 @@
             $('input').iCheck('uncheck');
 
         });
+
+
 
 
     });
@@ -62,6 +175,71 @@
     });
 
 </script>
+
+<div id="modal-show-matching-detail-2" tabindex="-1" role="dialog" aria-labelledby="modal-wide-width-label" aria-hidden="true" class="modal fade">
+    <div class="modal-dialog modal-wide-width">
+        <div class="modal-content">
+            <div class="modal-header modal-header-primary">
+                <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
+                <h4 id="modal-header-primary-label" class="modal-title">Kết quả so sánh</h4>
+            </div>
+            <div class="modal-body">
+                <div class="compose-mail">
+                    <div class="portlet box portlet-white">
+                        <div class="portlet-body">
+                            <div role="form-horizontal" method="post">
+                                <div class="table-container">
+                                    <table class="table table-hover table-striped table-bordered table-advanced tablesorter">
+                                        <thead>
+                                            <tr>
+                                                <th width="15%">Mục so sánh</th>
+                                                <th width="15%">Yêu cầu công việc</th>
+                                                <th id="ungvien1" width="15%">Ứng viên 1</th>
+                                                <th id="ungvien2" width="15%">Ứng viên 2</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="matchingDetailBody2"></tbody>
+                                    </table>
+                                </div>
+                                @*<div class="form-group">
+                                        <div class="input-group"><span class="input-group-addon">To:</span><input id="receiver" name="receiverUsername" type="text" placeholder="" class="form-control" autocomplete="on" readonly="readonly" /></div>
+                                    </div>
+                                    <div class="form-group hidden">
+                                        <div class="input-group"><span class="input-group-addon">Cc:</span><input id="cc" type="text" placeholder="" class="form-control" /></div>
+                                    </div>
+                                    <div class="form-group hidden">
+                                        <div class="input-group"><span class="input-group-addon">Bcc:</span><input id="bcc" type="text" placeholder="" class="form-control" /></div>
+                                    </div>
+                                    <div id="subjectdiv" class="form-group">
+                                        <div class="input-group"><span class="input-group-addon">Subject:</span><input id="subject" name="subject" type="text" placeholder="" class="form-control" /></div>
+                                    </div>
+                                    <div class="compose-editor mbl"><textarea id="message_content" rows="6" class="wysihtml5 form-control"></textarea></div>
+                                    <input type="hidden" id="messsage_content2" name="messageContent" />
+                                    <input type="hidden" id="tagList" name="tagList" />*@
+
+                                @*<div class="form-group">
+                                        <input type="file" />
+
+                                        <p class="help-block">
+                                            <i class="fa fa-paperclip"></i>&nbsp;
+                                            Attachments
+                                        </p>
+                                    </div>*@
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @*<div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-default">Đóng</button>
+                    <button type="submit" onsubmit="EncapsuleData()" class="btn btn-green"><i class="fa fa-check"></i> Gửi</button>
+                </div>*@
+
+        </div>
+    </div>
+</div>
 
 <div id="ModalApproveConfirm" tabindex="-1" role="dialog" aria-labelledby="modal-default-label" aria-hidden="false" class="modal fade in" style="display: none;">
     <div class="modal-dialog">
@@ -113,10 +291,20 @@
     </div>
 </div>
 
+
 <div class="page-content" style="padding: 20px 60px 80px 80px">
     <div class="col-lg-9 panel panel-default">
+        <input id="jobid" type="hidden" value="@ViewBag.jobid" />
         <h3 style="font-weight:600;text-align:center">Danh sách ứng viên phù hợp</h3>
         <br />
+        <div class="row" style="margin-bottom: 10px">
+            <div class="col-sm-3 col-md-3" style="width:23%">
+                <button id="sosanhbutton" type="button" class="btn btn-blue btn-sm btn-block">
+                    <i class="fa fa-pencil"></i>&nbsp;So sánh
+                </button>
+            </div>
+            <div class="mtl mbl"></div>
+        </div>
         @using (Html.BeginForm("List", "Applicant", FormMethod.Post))
         {
             <br />
@@ -124,7 +312,7 @@
                 <table id="myTable" class="table table-hover table-striped table-bordered table-advanced tablesorter">
                     <thead>
                         <tr>
-                            @*<th width="3%"><input type="checkbox" class="checkall" id="select-all" name="userAccessNeeded" /></th>*@
+                            <th width="1%" style="text-align:center">Chọn</th>
                             <th width="15%" style="text-align:center">Tên ứng viên</th>
                            
                             <th width="15%" style="text-align:center">Hồ sơ</th>
@@ -132,28 +320,28 @@
                             <th width="13%" style="text-align:center">Độ phù hợp</th>
                             @*<th width="10%" style="text-align:center">Tình trạng</th>
                             <th width="13%" style="text-align:center">Thao tác</th>*@
+                        
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var item in Model.jobseekerList)
                         {
                             <tr>
-                                @*<td><input type="checkbox" /></td>*@
-                                <td><a href="#">@item.ApplicantName</a></td>
+
+                                <td><input id="checkbox@(item.ApplicantID)" value="@item.ApplicantID" name="checkboxname" data-id="checkbox@(item.ApplicantID)" class="checkboxclass" type="checkbox" /></td>
+                                <td><a href="#">@item.ApplicantFullName</a></td>
                               
                                 <td>@{
                                     int i =0;
                             foreach (var profile in item.ProfileList)
                             {
-                                if (i == 0)
+                                if (i != 0)
                                 {
-                                       <a href="">@profile.Name</a>
-                                }
-                                else
-                                {
-                                       <br /><br /><a href="" >@profile.Name</a>
+                                       <br /><br />
                                 }
                                 i++;
+                                
+                                <a target="_blank" href="@Url.Action("Detail", "Profile", new { profileID = profile.ProfileID })" >@profile.Name</a>
                                      
                             }
                                 }
@@ -165,23 +353,39 @@
                             
                             foreach(var percent in item.MatchingPercentList)
                             {
-                                if (k == 0)
+                                if (k != 0)
                                 {
-                                    <div role="progressbar" aria-valuenow="@percent" aria-valuemin="0" aria-valuemax="100" style="width: @percent%;" class="progress-bar progress-bar-green">
+                                    <br /> <br />
+                                }
+
+                                if (percent < 30)
+                                {
+                                    <div role="progressbar" aria-valuenow="@percent" aria-valuemin="0" aria-valuemax="100" style="width: @percent%;" class="progress-bar progress-bar-danger">
                                         <span class="sr-only">@percent Complete</span>
                                         @percent %
                                     </div>
                                 }
-                                else 
-                                {    <br /> <br /> <div role="progressbar" aria-valuenow="@percent" aria-valuemin="0" aria-valuemax="100" style="width: @percent%;" class="progress-bar progress-bar-green">
+                                else if (percent < 70)
+                                {
+
+                                    <div role="progressbar" aria-valuenow="@percent" aria-valuemin="0" aria-valuemax="100" style="width: @percent%;" class="progress-bar progress-bar-warning">
                                         <span class="sr-only">@percent Complete</span>
                                         @percent %
                                     </div>
                                 }
+                                else
+                                {
+                                    <div role="progressbar" aria-valuenow="@percent" aria-valuemin="0" aria-valuemax="100" style="width: @percent%;" class="progress-bar progress-bar-success">
+                                        <span class="sr-only">@percent Complete</span>
+                                        @percent %
+                                    </div>
+                                }
+
+
                                 k++;
-                              
+
                             }
-                        }
+}
                                    
                                 </td>
                                 @*@if (item.Status == 0)

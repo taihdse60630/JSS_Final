@@ -119,18 +119,6 @@
 
     $(document).ready(function () {       
 
-        $('.iCheck-helper').click(function () {
-            var parent = $(this).parent().get(0);
-            var checkboxId = parent.getElementsByTagName('input')[0].id;
-         
-            var listMessageDelete = document.getElementById("listMessageDelete").value;
-            if (listMessageDelete.length > 0) {
-                document.getElementById("listMessageDelete").value = listMessageDelete + "," +checkboxId;
-            } else {
-                document.getElementById("listMessageDelete").value = checkboxId;
-            }
-             
-        });
         SearchText();
     });
     function SearchText() {
@@ -260,26 +248,15 @@
 </div>
 
 
-<div class="page-content" style="padding: 20px 80px 795px 150px">
-    <div class="col-lg-12 panel panel-default" style="width:130%">
+<div class="page-content" style="padding: 20px 80px 795px 120px">
+    <div class="col-lg-12 panel panel-default" >
         <h2 style="font-weight:600;text-align:center">Quản lý tin nhắn</h2>
         <br />
              <div class="row">
             <div class="col-sm-3 col-md-2">
             </div>
             <div class="col-sm-9 col-md-10">
-                <div class="btn-group">
-                   
-                    <button type="button" class="btn btn-default"><div class="icheckbox_minimal-grey" style="position: relative;"><input type="checkbox" style="margin: 0px; vertical-align: middle; position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"><ins class="iCheck-helper" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins></div></button>
-                    <button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button>
-                    <ul role="menu" class="dropdown-menu">
-                        <li><a href="#">Tất cả</a></li>
-                        <li><a href="#">Đã đọc</a></li>
-                        <li><a href="#">Chưa đọc</a></li>
-                        <li><a href="#">Đã đánh đấu</a></li>
-                        <li><a href="#">Chưa đánh dâus</a></li>
-                    </ul>
-                </div>
+            
                 <button type="button" data-toggle="tooltip" title="" class="btn btn-default btn-sm mls mrs" data-original-title="Refresh"><span class="glyphicon glyphicon-refresh"></span></button>
                 <div class="btn-group btn-group-sm">
                     <button type="button" data-toggle="dropdown" class="btn btn-blue dropdown-toggle">
@@ -288,7 +265,7 @@
                     </button>
                     <ul role="menu" class="dropdown-menu">
                         <li><a href="#"><i class="fa fa-check-circle-o fa-fw mrs"></i> Đánh dấu đã xem tất cả tin nhắn</a></li>
-                        <li><a href="#" onclick="summitDeleteForm()"><i class="fa fa-trash-o fa-fw mrs"></i>Xóa các tin nhắn đã chọn</a></li>
+                        <li><a  onclick="summitDeleteForm()"><i class="fa fa-trash-o fa-fw mrs"></i>Xóa các tin nhắn đã chọn</a></li>
                         @*<li class="divider"></li>
                             <li class="text-center pbm">
                                 <small class="text-muted">Select messages to see more actions</small>
@@ -307,24 +284,24 @@
         </div>
         <div class="mtl mbl"></div>
         <div class="row">
-            <div class="col-sm-3 col-md-2">
+            <div class="col-sm-3 col-md-3">
                 <button type="button" data-target="#modal-wide-width" data-toggle="modal" class="btn btn-danger btn-sm btn-block"><i class="fa fa-pencil" style="margin-right:10px"></i>Viết tin nhắn mới</button>
                 <div class="mtm mbm"></div>
                 <ul id="messageCategory" style="border-style: solid;background: #FFF;border-color: rgb(230, 232, 216);" class="nav nav-pills nav-stacked">
-                    <li id="allMessage"><a href="/Message/List"><span class="badge pull-right">42</span><i class="fa fa-inbox fa-fw mrs"></i>Hộp tin</a></li>                  
-                    <li id="sentMessage"><a href="/Message/SentMessageList"><i class="fa fa-plane fa-fw mrs"></i>Tin đã gửi</a></li>                   
+                    <li id="allMessage"><a href="/Message/List"><span class="badge pull-right">42</span><i class="fa fa-inbox fa-fw mrs"></i>Hộp tin</a></li>
+                    <li id="sentMessage"><a href="/Message/SentMessageList"><i class="fa fa-plane fa-fw mrs"></i>Tin đã gửi</a></li>
                     <li id="deletedMessage"><a href="/Message/DeletedMessageList"><i class="fa fa-trash-o fa-fw mrs"></i>Tin đã xóa</a></li>
                 </ul>
                 <hr>
                 @*<ul style="background: #fff" class="nav nav-pills nav-stacked">
-                        <li class="active"><a href="#">Buddy Online</a></li>
-                        <li><a href="#"><i class="fa fa-circle text-yellow pull-right"></i>Home</a></li>
-                        <li><a href="#"><i class="fa fa-circle text-success pull-right"></i>Work</a></li>
-                        <li><a href="#"><i class="fa fa-circle text-red pull-right"></i>Family</a></li>
-                        <li><a href="#"><i class="fa fa-circle text-muted pull-right"></i>Other</a></li>
-                    </ul>*@
+                <li class="active"><a href="#">Buddy Online</a></li>
+                <li><a href="#"><i class="fa fa-circle text-yellow pull-right"></i>Home</a></li>
+                <li><a href="#"><i class="fa fa-circle text-success pull-right"></i>Work</a></li>
+                <li><a href="#"><i class="fa fa-circle text-red pull-right"></i>Family</a></li>
+                <li><a href="#"><i class="fa fa-circle text-muted pull-right"></i>Other</a></li>
+            </ul>*@
             </div>
-            <div class="col-sm-9 col-md-10">
+            <div class="col-sm-9 col-md-9">
                 <ul class="nav nav-tabs">
                     <li class="active">
                         <a href="#home" data-toggle="tab">
@@ -333,92 +310,93 @@
                         </a>
                     </li>
                     @*<li class="">
-                            <a href="#profile" data-toggle="tab">
-                                <span class="glyphicon glyphicon-user"></span>&nbsp;
-                                Social
-                            </a>
-                        </li>
-                        <li class="">
-                            <a href="#messages" data-toggle="tab">
-                                <span class="glyphicon glyphicon-tags"></span>&nbsp;
-                                Promotions
-                            </a>
-                        </li>
-                        <li><a href="#settings" data-toggle="tab"><span class="glyphicon glyphicon-plus man"></span></a></li>*@
+                    <a href="#profile" data-toggle="tab">
+                        <span class="glyphicon glyphicon-user"></span>&nbsp;
+                        Social
+                    </a>
+                </li>
+                <li class="">
+                    <a href="#messages" data-toggle="tab">
+                        <span class="glyphicon glyphicon-tags"></span>&nbsp;
+                        Promotions
+                    </a>
+                </li>
+                <li><a href="#settings" data-toggle="tab"><span class="glyphicon glyphicon-plus man"></span></a></li>*@
                 </ul>
-                
+
 
                 @*<h2>Chat</h2>
-                <div class="container">
-                    <input type="text" id="message" />
-                    <input type="button" id="sendmessage" value="Send" />
-                    <input type="hidden" id="displayname" />
-                    <ul id="discussion"></ul>
-                </div>*@
+            <div class="container">
+                <input type="text" id="message" />
+                <input type="button" id="sendmessage" value="Send" />
+                <input type="hidden" id="displayname" />
+                <ul id="discussion"></ul>
+            </div>*@
                 @*@section scripts {
-                    <!--Script references. -->
-                    <!--The jQuery library is required and is referenced by default in _Layout.cshtml. -->
-                    <!--Reference the SignalR library. -->
-                    <script src="~/Scripts/jquery.signalR-2.2.0.min.js"></script>
-                    <!--Reference the autogenerated SignalR hub script. -->
-                    <script src="~/signalr/hubs"></script>
-                    <!--SignalR script to update the chat page and send messages.-->
-                    <script>
-                        $(function () {
-                            // Reference the auto-generated proxy for the hub.
-                            var chat = $.connection.chatHub;
-                            // Create a function that the hub can call back to display messages.
-                            chat.client.addNewMessageToPage = function (name, message) {
-                                // Add the message to the page.
-                                $('#discussion').append('<li><strong>' + htmlEncode(name)
-                                    + '</strong>: ' + htmlEncode(message) + '</li>');
-                            };
-                            // Get the user name and store it to prepend to messages.
-                            $('#displayname').val(prompt('Enter your name:', ''));
-                            // Set initial focus to message input box.
-                            $('#message').focus();
-                            // Start the connection.
-                            $.connection.hub.start().done(function () {
-                                $('#sendmessage').click(function () {
-                                    // Call the Send method on the hub.
-                                    chat.server.send($('#displayname').val(), $('#message').val());
-                                    // Clear text box and reset focus for next comment.
-                                    $('#message').val('').focus();
-                                });
+                <!--Script references. -->
+                <!--The jQuery library is required and is referenced by default in _Layout.cshtml. -->
+                <!--Reference the SignalR library. -->
+                <script src="~/Scripts/jquery.signalR-2.2.0.min.js"></script>
+                <!--Reference the autogenerated SignalR hub script. -->
+                <script src="~/signalr/hubs"></script>
+                <!--SignalR script to update the chat page and send messages.-->
+                <script>
+                    $(function () {
+                        // Reference the auto-generated proxy for the hub.
+                        var chat = $.connection.chatHub;
+                        // Create a function that the hub can call back to display messages.
+                        chat.client.addNewMessageToPage = function (name, message) {
+                            // Add the message to the page.
+                            $('#discussion').append('<li><strong>' + htmlEncode(name)
+                                + '</strong>: ' + htmlEncode(message) + '</li>');
+                        };
+                        // Get the user name and store it to prepend to messages.
+                        $('#displayname').val(prompt('Enter your name:', ''));
+                        // Set initial focus to message input box.
+                        $('#message').focus();
+                        // Start the connection.
+                        $.connection.hub.start().done(function () {
+                            $('#sendmessage').click(function () {
+                                // Call the Send method on the hub.
+                                chat.server.send($('#displayname').val(), $('#message').val());
+                                // Clear text box and reset focus for next comment.
+                                $('#message').val('').focus();
                             });
                         });
-                        // This optional function html-encodes messages for display in the page.
-                        function htmlEncode(value) {
-                            var encodedValue = $('<div />').text(value).html();
-                            return encodedValue;
-                        }
-                    </script>
-                }*@
+                    });
+                    // This optional function html-encodes messages for display in the page.
+                    function htmlEncode(value) {
+                        var encodedValue = $('<div />').text(value).html();
+                        return encodedValue;
+                    }
+                </script>
+            }*@
 
                 @if (Model.typeOfMessage == "sentMessage")
                 {
-                  <div id="messageList">
-                    @{Html.RenderPartial("_MessageSentPartial", Model);}
-                </div>
-                }else
-                { 
-                <div id="messageList">
-                    @{Html.RenderPartial("_MessagePartial", Model);}
-                </div>
+                    <div id="messageList">
+                        @{Html.RenderPartial("_MessageSentPartial", Model);}
+                    </div>
                 }
-               
-                <input type="hidden" id="messageRole" value=@Model.typeOfMessage />  
+                else
+                {
+                    <div id="messageList">
+                        @{Html.RenderPartial("_MessagePartial", Model);}
+                    </div>
+                }
+
+                <input type="hidden" name="messageRole" id="messageRole" value="@Model.typeOfMessage" />
 
                 @*@Html.Partial("_MessagePartial")*@
-            
 
-    @*@using (Html.BeginForm("DeleteMessage", "Message", FormMethod.Post, new { id = "deleteForm" }))
-                            {
-        <input type="text" id="listMessageDelete" name="listMessageDelete" />
-                            }*@
 
-                    @*<a href="/Message/Detail?id=@item.MessageID " class="list-group-item"><div class="icheckbox_minimal-grey" style="position: relative;"><input type="checkbox" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"><ins class="iCheck-helper" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins></div><span class="fa fa-star-o mrm mlm"></span><span style="min-width: 120px; display: inline-block;" class="name">@item.SenderName</span><span></span>&nbsp; - &nbsp;<span style="font-size: 11px;" id="message_@item.MessageID" class="text-muted">@noHTMLNormalised</span><span class="badge">@item.SendTime</span><span class="pull-right mrl"><span class="glyphicon glyphicon-paperclip"></span></span></a>*@
-                    @*<script>
+                @*@using (Html.BeginForm("DeleteMessage", "Message", FormMethod.Post, new { id = "deleteForm" }))
+                                {
+            <input type="text" id="listMessageDelete" name="listMessageDelete" />
+                                }*@
+
+                @*<a href="/Message/Detail?id=@item.MessageID " class="list-group-item"><div class="icheckbox_minimal-grey" style="position: relative;"><input type="checkbox" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"><ins class="iCheck-helper" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins></div><span class="fa fa-star-o mrm mlm"></span><span style="min-width: 120px; display: inline-block;" class="name">@item.SenderName</span><span></span>&nbsp; - &nbsp;<span style="font-size: 11px;" id="message_@item.MessageID" class="text-muted">@noHTMLNormalised</span><span class="badge">@item.SendTime</span><span class="pull-right mrl"><span class="glyphicon glyphicon-paperclip"></span></span></a>*@
+                @*<script>
               $(document).ready(function () {
                   document.getElementById("message_@item.MessageID").innerHTML = window.unescape("@item.Content");
               });
@@ -430,7 +408,7 @@
 
 
 
-                    @*<div id="profile" class="tab-pane fade">
+                @*<div id="profile" class="tab-pane fade">
                 <div class="list-group">
                     <a href="@Url.Action("ViewMessage")" class="list-group-item"><div class="icheckbox_minimal-grey" style="position: relative;"><input type="checkbox" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"><ins class="iCheck-helper" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins></div><span class="fa fa-star-o mrm mlm"></span><span style="min-width: 120px; display: inline-block;" class="name">Trương Gia Bình</span><span>Accept job applied request</span>&nbsp; - &nbsp;<span style="font-size: 11px;" class="text-muted">Dear Mr.Vinh We are glad to invite you to Fville at 5.pm for...</span><span class="badge">12:10 AM</span><span class="pull-right mrl"><span class="glyphicon glyphicon-paperclip"></span></span></a><a href="#" class="list-group-item">
                         <div class="icheckbox_minimal-grey" style="position: relative;"><input type="checkbox" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"><ins class="iCheck-helper" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins></div><span class="fa fa-star-o mrm mlm"></span><span style="min-width: 120px; display: inline-block;" class="name">Trương Gia Bình</span><span>Accept job applied request</span>&nbsp; -
@@ -481,7 +459,7 @@
                     </a><a href="@Url.Action("ViewMessage")" class="list-group-item"><div class="icheckbox_minimal-grey" style="position: relative;"><input type="checkbox" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"><ins class="iCheck-helper" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins></div><span class="fa fa-star-o mrm mlm"></span><span style="min-width: 120px; display: inline-block;" class="name">Trương Gia Bình</span><span>Accept job applied request</span>&nbsp; - &nbsp;<span style="font-size: 11px;" class="text-muted">Dear Mr.Vinh We are glad to invite you to Fville at 5.pm for...</span><span class="badge">12:10 AM</span><span class="pull-right mrl"><span class="glyphicon glyphicon-paperclip"></span></span></a>
                 </div>
             </div>*@
-               
+
             </div>
         </div>
 
