@@ -160,17 +160,17 @@ namespace JobSearchingSystem.DAL
 
         public IEnumerable<City> getAllCities()
         {
-            return CityRepository.Get();
+            return CityRepository.Get(filter: m => m.IsDeleted == false);
         }
 
         public IEnumerable<Category> getAllCategories()
         {
-            return CategoryRepository.Get();
+            return CategoryRepository.Get(filter: m => m.IsDeleted == false);
         }
 
         public IEnumerable<SchoolLevel> getAllSchoolLevel()
         {
-            return SchoolLevelRepository.Get();
+            return SchoolLevelRepository.Get(filter:m => m.IsDeleted == false);
         }
 
         internal IEnumerable<PurchaseAdvertise> getPurchaseAdvertise(string position)

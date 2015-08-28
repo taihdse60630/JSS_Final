@@ -757,7 +757,8 @@ namespace JobSearchingSystem.DAL
                     int percentMatching = Matching(profile.ProfileID, jobID);
                     if (p == "all")
                     {
-                        jobseeker = new ApplicantItem(item.JobSeekerID, item.FullName, "", DateTime.Now, 0);
+                        jobseeker = new ApplicantItem(item.JobSeekerID, "", "", DateTime.Now, 0);
+                        jobseeker.ApplicantFullName = item.FullName;
                         profileOfJobseeker.Add(profile);
                         percentMatchingList.Add(percentMatching);                      
                        
@@ -765,42 +766,48 @@ namespace JobSearchingSystem.DAL
                     else if( p == "12")
                     {
                         if (percentMatching <= 29 || (29 < percentMatching && percentMatching <= 69))
-                        jobseeker = new ApplicantItem(item.JobSeekerID, item.FullName, "", DateTime.Now, 0);
+                        jobseeker = new ApplicantItem(item.JobSeekerID, "", "", DateTime.Now, 0);
+                        jobseeker.ApplicantFullName = item.FullName;
                         profileOfJobseeker.Add(profile);
                         percentMatchingList.Add(percentMatching);       
                     }
                     else if (p == "13")
                     {
                         if (percentMatching <= 29 || (69 < percentMatching && percentMatching <= 100))
-                            jobseeker = new ApplicantItem(item.JobSeekerID, item.FullName, "", DateTime.Now, 0);
+                            jobseeker = new ApplicantItem(item.JobSeekerID, "", "", DateTime.Now, 0);
+                            jobseeker.ApplicantFullName = item.FullName;
                             profileOfJobseeker.Add(profile);
                             percentMatchingList.Add(percentMatching);       
                     }
                     else if (p == "23")
                     {
                         if ((29 < percentMatching && percentMatching <= 69) || (69 < percentMatching && percentMatching <= 100))
-                            jobseeker = new ApplicantItem(item.JobSeekerID, item.FullName, "", DateTime.Now, 0);
+                            jobseeker = new ApplicantItem(item.JobSeekerID, "", "", DateTime.Now, 0);
+                            jobseeker.ApplicantFullName = item.FullName;
                             profileOfJobseeker.Add(profile);
                             percentMatchingList.Add(percentMatching);       
                     }
                     else if (p == "1")
                     {
                         if (percentMatching <= 29)
-                            jobseeker = new ApplicantItem(item.JobSeekerID, item.FullName, "", DateTime.Now, 0);
+                            jobseeker = new ApplicantItem(item.JobSeekerID, "", "", DateTime.Now, 0);
+                            jobseeker.ApplicantFullName = item.FullName;
                             profileOfJobseeker.Add(profile);
                             percentMatchingList.Add(percentMatching);       
                     }
                     else if (p == "2")
                     {
                         if (29 < percentMatching && percentMatching <= 69)
-                            jobseeker = new ApplicantItem(item.JobSeekerID, item.FullName, "", DateTime.Now, 0);
+                            jobseeker = new ApplicantItem(item.JobSeekerID,"", "", DateTime.Now, 0);
+                            jobseeker.ApplicantFullName = item.FullName;
                             profileOfJobseeker.Add(profile);
                             percentMatchingList.Add(percentMatching);       
                     }
                     else if (p == "3")
                     {
                         if (69 < percentMatching && percentMatching <= 100)
-                            jobseeker = new ApplicantItem(item.JobSeekerID, item.FullName, "", DateTime.Now, 0);
+                            jobseeker = new ApplicantItem(item.JobSeekerID, "", "", DateTime.Now, 0);
+                            jobseeker.ApplicantFullName = item.FullName;
                             profileOfJobseeker.Add(profile);
                             percentMatchingList.Add(percentMatching);       
                     }

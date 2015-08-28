@@ -40,7 +40,7 @@ namespace JobSearchingSystem.DAL
             try
             {
                 AppliedJob appliedJob = this.AppliedJobRepository.Get(applicant => applicant.JobSeekerID == id && applicant.JobID == jobID).SingleOrDefault();
-                appliedJob.Status = 2;
+                appliedJob.Status = 1;
                 this.AppliedJobRepository.Update(appliedJob);
                 this.Save();
                 return true;
@@ -57,7 +57,7 @@ namespace JobSearchingSystem.DAL
             try
             {
                 AppliedJob appliedJob = this.AppliedJobRepository.Get(applicant => applicant.JobSeekerID == id && applicant.JobID == jobID).SingleOrDefault();
-                appliedJob.Status = 3;
+                appliedJob.Status = 2;
                 this.AppliedJobRepository.Update(appliedJob);
                 this.Save();
                 return true;
