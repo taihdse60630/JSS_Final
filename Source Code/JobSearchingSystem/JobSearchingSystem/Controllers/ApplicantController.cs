@@ -63,6 +63,8 @@ namespace JobSearchingSystem.Controllers
         [HttpPost]
         public ActionResult SendMessage(string receiverUsername, string messageContent, int jobID, string subject)
         {
+            MessageController messageController = new MessageController();
+
             if (String.IsNullOrEmpty(receiverUsername) || String.IsNullOrEmpty(messageContent))
             {
                 TempData["errormessage"] = "Dữ liệu không hợp lệ!";
@@ -88,7 +90,7 @@ namespace JobSearchingSystem.Controllers
                 return RedirectToAction("List", new { id = jobID });
             }
 
-            AppliedJob appliedJob = applicantUnitOfWork.AppliedJobRepository.Get(s => s.JobSeekerID == user.Id && s.JobID == jobID).FirstOrDefault();
+            /*AppliedJob appliedJob = applicantUnitOfWork.AppliedJobRepository.Get(s => s.JobSeekerID == user.Id && s.JobID == jobID).FirstOrDefault();
             if (appliedJob == null)
             {
                 TempData["errormessage"] = "Không tìm thấy thông tin đơn!";
@@ -97,14 +99,22 @@ namespace JobSearchingSystem.Controllers
 
             appliedJob.Status = 1;
             applicantUnitOfWork.AppliedJobRepository.Update(appliedJob);
-            applicantUnitOfWork.Save();
+            applicantUnitOfWork.Save();*/
 
             //applicantUnitOfWork.SendMessage(User.Identity.Name, list, messageContent);
-            messageContent = HttpUtility.UrlDecode(messageContent);
+
+             //ThienNN
+            string messageForMail = "Chào bạn,<br><br>Bạn vừa nhận được tin nhắn từ nhà tuyển dụng vui lòng đăng nhập vào hệ thống chúng tôi bằng link sau để kiểm tra hộp tin nhắn <br /> http://localhost:64977/Message/List <br><br>Best Regards,<br>JSS";
+            //messageContent = HttpUtility.UrlDecode(messageContent);
+           
+            
+
+
             if (String.IsNullOrEmpty(subject))
             {
-                applicantUnitOfWork.SendEmail(receiverUsername, "Thông báo phỏng vấn", messageContent);
-                TempData["successmessage"] = "Mail thông báo phỏng vấn đã được gửi đi.";
+                applicantUnitOfWork.SendEmail(receiverUsername, "Thông báo tin nhắn mới", messageForMail);
+                messageController.SendMessageInterview(User.Identity.Name, receiverUsername, messageContent);
+                TempData["successmessage"] = "Tin nhắn của bạn đã được gửi đi.";
             }
             else
             {

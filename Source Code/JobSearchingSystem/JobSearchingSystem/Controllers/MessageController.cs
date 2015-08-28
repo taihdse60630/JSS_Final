@@ -16,6 +16,7 @@ namespace JobSearchingSystem.Controllers
         private MessageUnitOfWork messageUnitOfWork = new MessageUnitOfWork();
         //
         // GET: /Message/
+       
         public ActionResult Index()
         {
             return List();
@@ -144,6 +145,26 @@ namespace JobSearchingSystem.Controllers
                  
 
             messageUnitOfWork.SendMessage(User.Identity.Name, list, messageContent);
+            return RedirectToAction("List");
+        }
+
+        public ActionResult SendMessageInterview(string sender, string receiver, string messageContent)
+        {
+            ArrayList list = new ArrayList();
+            list.AddRange(receiver.Split(new char[] { ',' }));
+            for (int i = 0; i < list.Count; i++)
+            {
+                for (int j = i + 1; j < list.Count; j++)
+                {
+                    if (list[i].ToString() == list[j].ToString())
+                    {
+                        list.Remove(list[j]);
+                    }
+                }
+            }
+
+
+            messageUnitOfWork.SendMessage(sender, list, messageContent);
             return RedirectToAction("List");
         }
 

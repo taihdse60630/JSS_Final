@@ -242,6 +242,8 @@ namespace JobSearchingSystem.Controllers
                 jobseekerList.jobseekerList = jobUnitOfWork.SearchJobseekerMatching(range, Int32.Parse(jobID));
             }
 
+            ViewBag.jobid = jobID;
+
             return View(jobseekerList);
         }
 

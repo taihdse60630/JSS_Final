@@ -12,8 +12,8 @@ using JobSearchingSystem.Models;
 
 namespace JobSearchingSystem.Controllers
 {
-    //[Authorize(Roles = "Staff")]
-    //[MessageFilter]
+    [Authorize(Roles = "Staff")]
+    [MessageFilter]
     public class CommonListController : Controller
     {
         private CommonListUnitOfWork commonListUnitOfWork = new CommonListUnitOfWork();

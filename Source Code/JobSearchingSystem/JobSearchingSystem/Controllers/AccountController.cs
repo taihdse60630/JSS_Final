@@ -15,7 +15,7 @@ using System.Net.Mail;
 namespace JobSearchingSystem.Controllers
 {
     [Authorize]
-    //[MessageFilter]
+    [MessageFilter]
     public class AccountController : Controller
     {
         private AccountUnitOfWork accountUnitOfWork = new AccountUnitOfWork();
