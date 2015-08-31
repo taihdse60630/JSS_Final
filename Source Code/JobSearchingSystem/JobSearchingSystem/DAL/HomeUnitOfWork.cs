@@ -204,5 +204,11 @@ namespace JobSearchingSystem.DAL
             
 
         }
+
+        public IEnumerable<Topic> GetAllTopic()
+        {
+            return this.TopicRepository.Get(filter: m => m.IsApproved == true && m.IsDeleted == false).Reverse().AsEnumerable();
+           
+        }
     }
 }

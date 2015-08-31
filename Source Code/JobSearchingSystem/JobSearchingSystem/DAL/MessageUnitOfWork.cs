@@ -23,7 +23,8 @@ namespace JobSearchingSystem.DAL
                         SenderID = a.SenderID,
                         SenderName = c.UserName,
                         Content = a.Message_content,
-                        SendTime = a.SendTime
+                        SendTime = a.SendTime,
+                        ReadTime = b.ReadTime
                     }).AsEnumerable();
 
             messageList = messageList.Reverse();
@@ -43,50 +44,53 @@ namespace JobSearchingSystem.DAL
             return listUser;
         }
 
-        public void SendMessage(string sender, ArrayList receiver, string messageContent)
+        public bool SendMessage(string sender, ArrayList receiver, string messageContent)
         {
-
-            List<string> receiverList = new List<string>();
-            foreach (var item in receiver)
-            {
-                string userId = getAspNetUserIdByName(item.ToString());
-                if (userId != null)
+            try {
+                List<string> receiverList = new List<string>();
+                foreach (var item in receiver)
                 {
-                    receiverList.Add(userId);
+                    string userId = getAspNetUserIdByName(item.ToString());
+                    if (userId != null)
+                    {
+                        receiverList.Add(userId);
+                    }
                 }
-            }
 
-            if (receiverList.ToArray().Length > 0)
-            {
-                Message messageSender = new Message();
-                messageSender.SenderID = getAspNetUserIdByName(sender);
-                messageSender.Message_content = messageContent;
-                messageSender.IsCanceled = false;
-                messageSender.IsDeletedBySender = false;
-                messageSender.SendTime = DateTime.Now;
-                MessageRepository.Insert(messageSender);
-                Save();
-
-                int id = MessageRepository.Get().LastOrDefault().MessageID;
-
-                MessageReceiver messageReceiver = null;
-                foreach (var item in receiverList)
+                if (receiverList.ToArray().Length > 0)
                 {
-                    messageReceiver = new MessageReceiver();
-                    messageReceiver.ReceiverID = item.ToString();
-                    messageReceiver.IsDeleted = false;
-                    messageReceiver.MessageID = id;
-
-                    MessageReceiverRepository.Insert(messageReceiver);
+                    Message messageSender = new Message();
+                    messageSender.SenderID = getAspNetUserIdByName(sender);
+                    messageSender.Message_content = messageContent;
+                    messageSender.IsCanceled = false;
+                    messageSender.IsDeletedBySender = false;
+                    messageSender.SendTime = DateTime.Now;
+                    MessageRepository.Insert(messageSender);
                     Save();
+
+                    int id = MessageRepository.Get().LastOrDefault().MessageID;
+
+                    MessageReceiver messageReceiver = null;
+                    foreach (var item in receiverList)
+                    {
+                        messageReceiver = new MessageReceiver();
+                        messageReceiver.ReceiverID = item.ToString();
+                        messageReceiver.IsDeleted = false;
+                        messageReceiver.MessageID = id;
+
+                        MessageReceiverRepository.Insert(messageReceiver);
+                        Save();
+                    }
+
+
                 }
-               
-           
+                return true;
+
             }
-            else
-            {
-               
+            catch(Exception e) {
+                return false;
             }
+          
 
         
             
@@ -120,20 +124,63 @@ namespace JobSearchingSystem.DAL
             }
         }
 
-        public JMesssage GetMessageDetail(string receiverId, int messageId)
+        public JMesssage GetMessageDetail(string receiverId, int messageId, string typeOfMessage)
         {
-            JMesssage message = (from a in this.MessageRepository.Get()
-                                 join b in this.MessageReceiverRepository.Get() on a.MessageID equals b.MessageID
-                                 join c in this.AspNetUserRepository.Get() on a.SenderID equals c.Id
-                                 where a.MessageID == messageId 
-                                 select new JMesssage()
-                                 {
-                                     MessageID = a.MessageID,
-                                     Content = a.Message_content,
-                                     SenderName = c.UserName,
-                                     SenderID = a.SenderID,
-                                     SendTime = a.SendTime
-                                 }).FirstOrDefault();
+            JMesssage message = new JMesssage();
+            if(typeOfMessage.Equals("allMessage"))
+            {
+                MessageReceiver readMessage = this.MessageReceiverRepository.Get(filter: m => m.ReceiverID == receiverId && m.MessageID == messageId).FirstOrDefault();
+                readMessage.ReadTime = DateTime.Now;
+                this.MessageReceiverRepository.Update(readMessage);
+                Save();
+
+                 message = (from a in this.MessageRepository.Get()
+                                     join b in this.MessageReceiverRepository.Get() on a.MessageID equals b.MessageID
+                                     join c in this.AspNetUserRepository.Get() on a.SenderID equals c.Id
+                                     where a.MessageID == messageId
+                                     select new JMesssage()
+                                     {
+                                         MessageID = a.MessageID,
+                                         Content = a.Message_content,
+                                         SenderName = c.UserName,
+                                         ReceiverName ="tôi",
+                                         SenderID = a.SenderID,
+                                         SendTime = a.SendTime
+                                     }).FirstOrDefault();
+            }
+            else 
+            {
+                 message = (from a in this.MessageRepository.Get()
+                                     join b in this.MessageReceiverRepository.Get() on a.MessageID equals b.MessageID
+                                     join c in this.AspNetUserRepository.Get() on a.SenderID equals c.Id
+                                     where a.MessageID == messageId
+                                     select new JMesssage()
+                                     {
+                                         MessageID = a.MessageID,
+                                         Content = a.Message_content,
+                                         SenderName = "tôi",
+                                         SenderID = a.SenderID,
+                                         SendTime = a.SendTime
+                                     }).FirstOrDefault();
+                 IEnumerable<MessageReceiver> sentMessage = this.MessageReceiverRepository.Get(filter: m => m.MessageID == messageId).AsEnumerable();
+                int k = 0; 
+                foreach (var item in sentMessage)
+                 {
+                     string receiverName = this.AspNetUserRepository.GetByID(item.ReceiverID).UserName;
+                     if (message.ReceiverName == null)
+                     {
+                         message.ReceiverName += receiverName;
+                     }else if(k == sentMessage.Count())
+                     {
+                         message.ReceiverName += receiverName;
+                     }else
+                     {
+                         message.ReceiverName += "," + receiverName;
+                     }
+                    k++;
+                 }
+            }
+        
             return message;
         }
 
@@ -263,6 +310,20 @@ namespace JobSearchingSystem.DAL
             messageDeleteList.Reverse(0,messageDeleteList.Count);
 
             return messageDeleteList;
+        }
+
+        public bool CheckReceiverExist(ArrayList list)
+        {
+            bool result = true;
+            foreach (var item in list)
+            {
+                if (this.AspNetUserRepository.Get(filter: m => m.UserName == item).FirstOrDefault() == null)
+                {
+                    result = false;
+                }
+            }
+
+            return result;
         }
     }
 }

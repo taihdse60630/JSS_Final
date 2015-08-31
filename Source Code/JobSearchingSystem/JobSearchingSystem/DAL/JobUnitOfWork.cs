@@ -144,7 +144,11 @@ namespace JobSearchingSystem.DAL
                                          && checkCategories(jobCategories, s.JobCategory)
                     ).ToArray();
             }
-            else
+            else if (schoolLevel == 0)
+            {
+                jobList = jobList.Where(s => ((double)s.MinSalary >= minSalary) && checkCity(jobCities, s.JobCities)
+                                        && checkCategories(jobCategories, s.JobCategory)).ToArray();
+            }else
             {
                 jobList = jobList.Where(s => ((double)s.MinSalary >= minSalary) && (s.SchoolLevel <= schoolLevel) && checkCity(jobCities, s.JobCities)
                                         && checkCategories(jobCategories, s.JobCategory)).ToArray();

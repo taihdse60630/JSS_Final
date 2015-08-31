@@ -15,21 +15,29 @@ namespace JobSearchingSystem.DAL
             return AdvertiseRepository.Get();
         }
 
-        public void CreateAdvertiseRequest(string userID, int advertiseID, string imageUrl)
+        public bool CreateAdvertiseRequest(string userID, int advertiseID, string imageUrl)
         {
-            CompanyInfo companyInfo = CompanyInfoRepository.GetByID(userID);
-            PurchaseAdvertise purchaseAdvertise = new PurchaseAdvertise();
-            purchaseAdvertise.AdvertiseID = advertiseID;
-            purchaseAdvertise.LogoUrl = imageUrl;
-            purchaseAdvertise.RecuiterID = userID;
-            purchaseAdvertise.PurchasedDate = DateTime.Now;
-            purchaseAdvertise.EndDate = DateTime.Now.AddDays(30);
-            purchaseAdvertise.IsVisible = false;
-            purchaseAdvertise.IsApproved = null;
-            purchaseAdvertise.LinkUrl = "";
+            try {
+                CompanyInfo companyInfo = CompanyInfoRepository.GetByID(userID);
+                PurchaseAdvertise purchaseAdvertise = new PurchaseAdvertise();
+                purchaseAdvertise.AdvertiseID = advertiseID;
+                purchaseAdvertise.LogoUrl = imageUrl;
+                purchaseAdvertise.RecuiterID = userID;
+                purchaseAdvertise.PurchasedDate = DateTime.Now;
+                purchaseAdvertise.EndDate = DateTime.Now.AddDays(30);
+                purchaseAdvertise.IsVisible = false;
+                purchaseAdvertise.IsApproved = null;
+                purchaseAdvertise.LinkUrl = "";
 
-            PurchaseAdvertiseRepository.Insert(purchaseAdvertise);
-            Save();
+                PurchaseAdvertiseRepository.Insert(purchaseAdvertise);
+                Save();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+      
         }
 
         public IEnumerable<JPurchaseAdvertise> GetAllAdvertiseRequest()
