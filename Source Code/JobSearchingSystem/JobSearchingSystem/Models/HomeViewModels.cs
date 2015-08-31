@@ -18,7 +18,7 @@ namespace JobSearchingSystem.Models
         public IEnumerable<PurchaseAdvertise> purchaseAdvertiseTypeA { get; set; }
         public IEnumerable<PurchaseAdvertise> purchaseAdvertiseTypeB { get; set; }
         public IEnumerable<PurchaseAdvertise> purchaseAdvertiseTypeC { get; set; }
-
+        public IEnumerable<Topic> topicList { get; set; }
         public int schoolLevel { get; set; }
         public double minSalary { get; set; }
 

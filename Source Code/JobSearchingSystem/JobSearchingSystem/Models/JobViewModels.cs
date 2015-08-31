@@ -60,6 +60,7 @@ namespace JobSearchingSystem.Models
         public IEnumerable<SchoolLevel> schoolLevelList { get; set; }
         public IEnumerable<City> jobCities { get; set; }
         public IEnumerable<Category> jobCategories { get; set; }
+        public IEnumerable<PurchaseAdvertise> purchaseAdvertiseTypeA { get; set; }
         public int schoolLevel { get; set; }
         public double minSalary { get; set; }
     }

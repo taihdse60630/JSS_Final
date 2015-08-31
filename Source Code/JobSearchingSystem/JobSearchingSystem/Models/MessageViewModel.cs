@@ -11,6 +11,7 @@ namespace JobSearchingSystem.Models
         public string SenderID { get; set; }
         public string Content { get; set; }
         public DateTime? SendTime { get; set; }
+        public DateTime? ReadTime { get; set; }
         public string SenderName { get; set; }
         public List<string> ReceiverList { get; set; }
         public string ReceiverName { get; set; }
@@ -19,10 +20,16 @@ namespace JobSearchingSystem.Models
     {
         public IEnumerable<JMesssage> messageList { get; set; }
         public string typeOfMessage { get; set; }
+        public int numberOfInbox { get; set; }
+        public int numberOfSent {get;set;}
+        public int numberOfDeleted { get; set; }
     }
 
     public class JMessageDetailViewModel
     {
         public JMesssage message { get; set; }
+        public int numberOfInbox { get; set; }
+        public int numberOfSent { get; set; }
+        public int numberOfDeleted { get; set; }
     }
 }
