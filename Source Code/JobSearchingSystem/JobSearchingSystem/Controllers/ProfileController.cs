@@ -141,7 +141,21 @@ namespace JobSearchingSystem.Controllers
                 proUpdateViewModel.contact.DateofBirth = DateTime.Now;
             }
 
-            proUpdateViewModel.commonInfoItem = new ProCommonInfoItem();
+            IEnumerable<OwnSkill> ownSkillList = profileUnitOfWork.OwnSkillRepository.Get(s => s.JobSeekerID == user.Id).AsEnumerable();
+            proUpdateViewModel.ownSkills = "";
+            for (int i = 0; i < ownSkillList.Count(); i++)
+            {
+                if (i == 0)
+                {
+                    proUpdateViewModel.ownSkills = profileUnitOfWork.SkillRepository.GetByID(ownSkillList.ElementAt(i).Skill_ID).SkillTag;
+                }
+                else
+                {
+                    proUpdateViewModel.ownSkills += "," + profileUnitOfWork.SkillRepository.GetByID(ownSkillList.ElementAt(i).Skill_ID).SkillTag;
+                }
+            }
+
+                proUpdateViewModel.commonInfoItem = new ProCommonInfoItem();
             if (!String.IsNullOrEmpty(profileID))
             {
                 ViewBag.ButtonName = "Cập nhật";
@@ -245,6 +259,7 @@ namespace JobSearchingSystem.Controllers
         [HttpPost]       
         public ActionResult Update([Bind(Include = "FullName, Gender, MaritalStatus, Nationality, Address, DateofBirth, PhoneNumber, CityID, District, IsVisible")] 
                                         Contact contact,
+                                   string skillList,
                                    [Bind(Include = "ProfileID, Name, YearOfExperience, HighestSchoolLevel_ID, LanguageID, Level_ID, MostRecentCompany, MostRecentPosition, CurrentJobLevel_ID, ExpectedPosition, ExpectedJobLevel_ID, ExpectedSalary, Objectives")]
                                             Profile profile, string expectedCity, string categoryID,
                                    [Bind(Include = "EmploymentHistoryID, Position, Company, WorkingTime, Description")]EmploymentHistory employmentHistory,
@@ -252,10 +267,13 @@ namespace JobSearchingSystem.Controllers
                                    [Bind(Include = "ReferencePersonID, ReferencePersonName, ReferencePersonPosition, ReferencePersonCompany, EmailAddress, ReferencePersonPhoneNumber")]ReferencePerson referencePerson,
                                    string ButtonName)
         {
+            AspNetUser jobseeker = profileUnitOfWork.AspNetUserRepository.Get(s => s.UserName == User.Identity.Name && s.IsActive == true).LastOrDefault();
+
+            bool updateSkillResult = profileUnitOfWork.UpdateSkill(skillList, jobseeker.Id);
+
             bool contactResult = UpdateContact(contact);
             if ("Tạo mới".Equals(ButtonName))
             {
-                AspNetUser jobseeker = profileUnitOfWork.AspNetUserRepository.Get(s => s.UserName == User.Identity.Name && s.IsActive == true).LastOrDefault();
                 if (jobseeker != null)
                 {
                     Profile oldProfile = profileUnitOfWork.ProfileRepository.Get(s => s.Name == profile.Name && s.JobSeekerID == jobseeker.Id && s.IsDeleted == false).LastOrDefault();
@@ -291,15 +309,39 @@ namespace JobSearchingSystem.Controllers
                     profileUnitOfWork.ProfileRepository.Update(updatedProfile);
                     profileUnitOfWork.Save();
 
-                    TempData["successmessage"] = "Tạo/Cập nhật hồ sơ thành công.";
+                    if ("Tạo mới".Equals(ButtonName))
+                    {
+                        TempData["successmessage"] = "Tạo hồ sơ thành công.";
+                    }
+                    else
+                    {
+                        TempData["successmessage"] = "Cập nhật hồ sơ thành công.";
+                    }
+
                     return RedirectToAction("List");
                 }
 
-                TempData["errormessage"] = "Tạo/Cập nhật hồ sơ thất bại!";
+                if ("Tạo mới".Equals(ButtonName))
+                {
+                    TempData["errormessage"] = "Tạo hồ sơ thất bại!";
+                }
+                else
+                {
+                    TempData["errormessage"] = "Cập nhật hồ sơ thất bại!";
+                }
+                
                 return RedirectToAction("Update");
             }
 
-            TempData["errormessage"] = "Tạo/Cập nhật hồ sơ thất bại!";
+            if ("Tạo mới".Equals(ButtonName)) 
+            {
+                TempData["errormessage"] = "Tạo hồ sơ thất bại!";
+            }
+            else
+            {
+                TempData["errormessage"] = "Cập nhật hồ sơ thất bại!";
+            }
+            
             return RedirectToAction("Update", new { profileID = profile.ProfileID });
         }
 

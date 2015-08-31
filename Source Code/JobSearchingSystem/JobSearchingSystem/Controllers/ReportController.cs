@@ -27,7 +27,7 @@ namespace JobSearchingSystem.Controllers
         public ActionResult DeleteReport(int reportID)
         {
             reportUnitOfWork.DeleteReport(reportID);
-
+            TempData["successmessage"] = "Xóa report thành công.";
             return RedirectToAction("Index");
         }
 

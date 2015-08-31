@@ -19,6 +19,8 @@ namespace JobSearchingSystem.Controllers
         [Authorize(Roles = "Recruiter")]
         public ActionResult OwnList()
         {
+            ViewBag.jobpackagemessage = TempData["jobpackagemessage"];
+
             string recruiterID = jobUnitOfWork.AspNetUserRepository.Get(s => s.UserName == User.Identity.Name).FirstOrDefault().Id; 
             return View(this.jobUnitOfWork.GetJobByRecruiterID(recruiterID));
         }
@@ -56,8 +58,8 @@ namespace JobSearchingSystem.Controllers
 
             if (!jobUnitOfWork.CheckIfCanPostJob(UserID))
             {
-                TempData["warningmessage"] = "Bạn cần mua gói công việc!";
-                return RedirectToAction("Choose", "JobPackage");
+                TempData["jobpackagemessage"] = "Bạn cần mua gói công việc!";
+                return RedirectToAction("OwnList");
             }
 
             jobCreateModel.JobLevelList = jobUnitOfWork.JobLevelRepository.Get(filter: d => d.IsDeleted == false);
@@ -218,31 +220,35 @@ namespace JobSearchingSystem.Controllers
             return RedirectToAction("OwnList");
 
         }
-        [HttpPost]
+        
         [Authorize(Roles = "Recruiter")]
         public ActionResult SearchJobseekerMatching(string [] percentMatching, string jobID ){
-            if (String.IsNullOrEmpty(jobID) || percentMatching.Length == 0)
+            List<string> percentMatchingList = new List<string>();
+
+            if (!String.IsNullOrEmpty(jobID) && percentMatching != null && percentMatching.Length > 0)
+            {
+                percentMatchingList = percentMatching.ToList();
+            }
+            else if (TempData["percentMatching"] != null)
+            {
+                percentMatchingList = TempData["percentMatching"].ToString().Split(',').ToList();
+            }
+            else
             {
                 return RedirectToAction("OwnList");
             }
-            JobseekerList jobseekerList = new JobseekerList();
-            int length = percentMatching.Length;
-            if (length == 3)
-            {
-                jobseekerList.jobseekerList = jobUnitOfWork.SearchJobseekerMatching("all", Int32.Parse(jobID));
-            }
-            else 
-            {
-                string range = "";
-                foreach (var item in percentMatching)
-                {
-                    range += item;
-                }
 
-                jobseekerList.jobseekerList = jobUnitOfWork.SearchJobseekerMatching(range, Int32.Parse(jobID));
-            }
+            JobseekerList jobseekerList = new JobseekerList();
+            
+            jobseekerList.jobseekerList = jobUnitOfWork.SearchJobseekerMatching(percentMatchingList, Int32.Parse(jobID));
 
             ViewBag.jobid = jobID;
+
+            jobseekerList.percentMatching = percentMatchingList.ElementAt(0);
+            for (int i = 1; i < percentMatchingList.Count(); i++)
+            {
+                jobseekerList.percentMatching += "," + percentMatchingList.ElementAt(i);
+            }
 
             return View(jobseekerList);
         }
@@ -269,6 +275,43 @@ namespace JobSearchingSystem.Controllers
                 model.recruiter = jobUnitOfWork.GetRecuiterInfo(recruiterID);
                 return View(model);
             }
+        }
+
+        [HttpPost]
+        public ActionResult SendMessage(string receiverUserId, string messageContent, int jobID, string subject, string percentMatching)
+        {
+            ApplicantUnitOfWork applicantUnitOfWork = new ApplicantUnitOfWork();
+            MessageController messageController = new MessageController();
+
+            if (String.IsNullOrEmpty(receiverUserId) || String.IsNullOrEmpty(messageContent))
+            {
+                TempData["errormessage"] = "Dữ liệu không hợp lệ!";
+                return RedirectToAction("List", new { id = jobID });
+            }
+
+            AspNetUser user = applicantUnitOfWork.AspNetUserRepository.GetByID(receiverUserId);
+            if (user == null)
+            {
+                TempData["errormessage"] = "Không tìm thấy thông tin tài khoản!";
+                return RedirectToAction("List", new { id = jobID });
+            }
+            //ThienNN
+            string messageForMail = "Chào bạn,<br><br>Bạn vừa nhận được tin nhắn từ nhà tuyển dụng vui lòng đăng nhập vào hệ thống chúng tôi bằng link sau để kiểm tra hộp tin nhắn <br /> http://localhost:64977/Message/List <br><br>Best Regards,<br>JSS";
+
+            if (String.IsNullOrEmpty(subject))
+            {
+                applicantUnitOfWork.SendEmail(user.UserName, "Thông báo tin nhắn mới", messageForMail);
+                messageController.SendMessageInterview(User.Identity.Name, user.UserName, messageContent);
+                TempData["successmessage"] = "Tin nhắn của bạn đã được gửi đi.";
+            }
+            else
+            {
+                applicantUnitOfWork.SendEmail(user.UserName, subject, messageContent);
+                TempData["successmessage"] = "Mail đã được gửi đi.";
+            }
+
+            TempData["percentMatching"] = percentMatching;
+            return RedirectToAction("SearchJobseekerMatching", new { jobID = jobID });
         }
     }
 }
