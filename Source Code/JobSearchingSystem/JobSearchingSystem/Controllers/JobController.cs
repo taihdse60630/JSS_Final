@@ -110,7 +110,7 @@ namespace JobSearchingSystem.Controllers
             model.jobCities = homeUnitOfWork.getAllCities();
             model.jobCategories = homeUnitOfWork.getAllCategories();
             model.schoolLevelList = homeUnitOfWork.getAllSchoolLevel();
-
+            model.purchaseAdvertiseTypeA = homeUnitOfWork.getPurchaseAdvertise("A");
             String searchString = model.searchString;
             if (model.searchJobCities == null && model.searchjobCategories == null)
             {

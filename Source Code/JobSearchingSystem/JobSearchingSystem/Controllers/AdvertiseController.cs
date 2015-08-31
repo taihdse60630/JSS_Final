@@ -94,7 +94,15 @@ namespace JobSearchingSystem.Controllers
             int advertiseID = model.advertiseID;
             string userID = advertiseUnitOfWork.AspNetUserRepository.Get(s => s.UserName == User.Identity.Name).FirstOrDefault().Id;
             string imageUrl = model.logo;
-            advertiseUnitOfWork.CreateAdvertiseRequest(userID, advertiseID, imageUrl);
+            bool result = advertiseUnitOfWork.CreateAdvertiseRequest(userID, advertiseID, imageUrl);
+            if (result)
+            {
+                TempData["successmessage"] = "Yêu cầu mua quảng cáo của bạn đã gửi thành công";
+            }
+            else
+            {
+                TempData["errormessage"] = "Yêu cầu mua quảng cáo của bạn đã gửi thất bại.";
+            }
             return RedirectToAction("AdvertiseRequestListRecruiter");
 
         }

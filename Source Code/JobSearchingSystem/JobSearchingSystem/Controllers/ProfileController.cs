@@ -112,9 +112,10 @@ namespace JobSearchingSystem.Controllers
         [Authorize(Roles = "Jobseeker")]
         public ActionResult Update(string profileID, string mode)
         {
+            AspNetUser user = profileUnitOfWork.AspNetUserRepository.Get(s => s.UserName == User.Identity.Name).FirstOrDefault();
+
             if ("create".Equals(mode))
             {
-                AspNetUser user = profileUnitOfWork.AspNetUserRepository.Get(s => s.UserName == User.Identity.Name).FirstOrDefault();
                 IEnumerable<Profile> profiles = profileUnitOfWork.ProfileRepository.Get(s => s.JobSeekerID == user.Id && s.IsDeleted == false).AsEnumerable();
 
                 if (profiles.Count() >= 5)
@@ -152,12 +153,19 @@ namespace JobSearchingSystem.Controllers
                 }
                 catch (Exception)
                 {
-                    return View(proUpdateViewModel);
+                    TempData["warningmessage"] = "Lỗi dữ liệu!";
+                    return RedirectToAction("List");
                 }
 
                 Profile profile = profileUnitOfWork.ProfileRepository.GetByID(profileIDNum);
                 if (profile != null)
                 {
+                    if (profile.JobSeekerID != user.Id)
+                    {
+                        TempData["warningmessage"] = "Bạn không có quyền sửa hồ sơ này!";
+                        return RedirectToAction("List");
+                    }
+
                     ViewBag.ButtonName = "Cập nhật";
 
                     proUpdateViewModel.commonInfoItem.profile = profile;
@@ -363,6 +371,8 @@ namespace JobSearchingSystem.Controllers
         [HttpPost]
         public ActionResult ActiveProfile(string activeProfileId, string activeStatus)
         {
+            AspNetUser jobseeker = profileUnitOfWork.AspNetUserRepository.Get(s => s.UserName == User.Identity.Name && s.IsActive == true).LastOrDefault();
+
             if (!String.IsNullOrEmpty(activeProfileId)
                 && !String.IsNullOrEmpty(activeStatus))
             {
@@ -384,6 +394,14 @@ namespace JobSearchingSystem.Controllers
                 {
                     if ("true".Equals(activeStatus))
                     {
+                        IEnumerable<Profile> allProfile = profileUnitOfWork.ProfileRepository.Get(s => s.JobSeekerID == jobseeker.Id).AsEnumerable();
+                        foreach (Profile item in allProfile)
+                        {
+                            item.IsActive = false;
+                            profileUnitOfWork.ProfileRepository.Update(item);
+                            profileUnitOfWork.Save();
+                        }
+
                         profile.IsActive = true;
                     }
                     else

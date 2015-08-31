@@ -27,10 +27,10 @@ namespace JobSearchingSystem.Controllers
             hIndexViewModel.purchaseAdvertiseTypeA = homeUnitOfWork.getPurchaseAdvertise("A");
             hIndexViewModel.purchaseAdvertiseTypeB = homeUnitOfWork.getPurchaseAdvertise("B");
             hIndexViewModel.purchaseAdvertiseTypeC = homeUnitOfWork.getPurchaseAdvertise("C");
-
-            var a = homeUnitOfWork.getPurchaseAdvertise("A").ToArray() ;
-            var b = homeUnitOfWork.getPurchaseAdvertise("B").ToArray();
-            var c = homeUnitOfWork.getPurchaseAdvertise("C").ToArray();
+            hIndexViewModel.topicList = homeUnitOfWork.GetAllTopic();
+            //var a = homeUnitOfWork.getPurchaseAdvertise("A").ToArray() ;
+            //var b = homeUnitOfWork.getPurchaseAdvertise("B").ToArray();
+            //var c = homeUnitOfWork.getPurchaseAdvertise("C").ToArray();
 
             return View(hIndexViewModel);
         }

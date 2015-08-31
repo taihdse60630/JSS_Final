@@ -29,6 +29,9 @@ namespace JobSearchingSystem.Controllers
             string receiverID = messageUnitOfWork.AspNetUserRepository.Get(s => s.UserName == User.Identity.Name).FirstOrDefault().Id;
             model.messageList = messageUnitOfWork.getAllMessage(receiverID);
             model.typeOfMessage = "allMessage";
+            model.numberOfInbox = model.messageList.Count();
+            model.numberOfSent = messageUnitOfWork.getAllSentMessage(receiverID).Count();
+            model.numberOfDeleted = messageUnitOfWork.getAllDeleteMessage(receiverID).Count();
             return View(model);
         }
 
@@ -38,6 +41,9 @@ namespace JobSearchingSystem.Controllers
               string receiverID = messageUnitOfWork.AspNetUserRepository.Get(s => s.UserName == User.Identity.Name).FirstOrDefault().Id;
               model.messageList = messageUnitOfWork.getAllSentMessage(receiverID);
               model.typeOfMessage = "sentMessage";
+              model.numberOfInbox = messageUnitOfWork.getAllMessage(receiverID).Count();
+              model.numberOfSent = model.messageList.Count();
+              model.numberOfDeleted = messageUnitOfWork.getAllDeleteMessage(receiverID).Count();
              return View("List", model);
         }
 
@@ -47,6 +53,10 @@ namespace JobSearchingSystem.Controllers
             string receiverID = messageUnitOfWork.AspNetUserRepository.Get(s => s.UserName == User.Identity.Name).FirstOrDefault().Id;
             model.messageList = messageUnitOfWork.getAllDeleteMessage(receiverID);
             model.typeOfMessage = "deletedMessage";
+
+            model.numberOfInbox = messageUnitOfWork.getAllMessage(receiverID).Count();
+            model.numberOfSent = messageUnitOfWork.getAllSentMessage(receiverID).Count();
+            model.numberOfDeleted = model.messageList.Count();
             return View("List", model);
         }
 
@@ -98,11 +108,11 @@ namespace JobSearchingSystem.Controllers
             
         }
 
-        public ActionResult Detail(int? id)
+        public ActionResult Detail(int? id, string typeOfMessage)
         {
             string receiverID = messageUnitOfWork.AspNetUserRepository.Get(s => s.UserName == User.Identity.Name).FirstOrDefault().Id; 
             int messageId = id.GetValueOrDefault();
-            if (messageId == 0)
+            if (messageId == 0 || String.IsNullOrEmpty(typeOfMessage))
             {
 
                 return RedirectToAction("List", "Message");
@@ -114,11 +124,37 @@ namespace JobSearchingSystem.Controllers
             else
             {
                 JMessageDetailViewModel jMessageDetailViewModel= new JMessageDetailViewModel();
-                jMessageDetailViewModel.message = messageUnitOfWork.GetMessageDetail(receiverID,messageId);
+                jMessageDetailViewModel.message = messageUnitOfWork.GetMessageDetail(receiverID, messageId, typeOfMessage);
+                jMessageDetailViewModel.numberOfInbox = messageUnitOfWork.getAllMessage(receiverID).Count();
+                jMessageDetailViewModel.numberOfSent = messageUnitOfWork.getAllSentMessage(receiverID).Count();
+                jMessageDetailViewModel.numberOfDeleted = messageUnitOfWork.getAllDeleteMessage(receiverID).Count(); ;
                 return View(jMessageDetailViewModel);
             }
          
         }
+
+
+        public JsonResult CheckReceiverList(string userList)
+        {
+            ArrayList list = new ArrayList();
+            list.AddRange(userList.Split(new char[] { ',' }));
+            for (int i = 0; i < list.Count; i++)
+            {
+                for (int j = i + 1; j < list.Count; j++)
+                {
+                    if (list[i].ToString() == list[j].ToString())
+                    {
+                        list.Remove(list[j]);
+                    }
+                }
+            }
+
+            bool result = messageUnitOfWork.CheckReceiverExist(list);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+
+        }
+
 
         public JsonResult AutoCompleteUser(string username)
         {
@@ -144,7 +180,16 @@ namespace JobSearchingSystem.Controllers
             }
                  
 
-            messageUnitOfWork.SendMessage(User.Identity.Name, list, messageContent);
+            bool result = messageUnitOfWork.SendMessage(User.Identity.Name, list, messageContent);
+            if (result)
+            {
+                TempData["successmessage"] = "Tin nhắn của bạn đã được gửi đi.";
+            }
+            else
+            {
+                TempData["errormessage"] = "Gửi tin nhắn thất bại.";
+            }
+            
             return RedirectToAction("List");
         }
 
