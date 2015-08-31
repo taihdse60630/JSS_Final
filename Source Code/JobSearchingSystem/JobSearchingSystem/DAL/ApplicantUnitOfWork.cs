@@ -133,13 +133,14 @@ namespace JobSearchingSystem.DAL
                 decimal? maxSalary = job.MaxSalary;
                 SosanhItem sosanh1 = new SosanhItem();
                 sosanh1.columnName = "Mức lương";
+                sosanh1.tyle = 20;
                 if (minSalary == null && maxSalary == null)
                 {
                     sosanh1.jobInfo = "Thỏa thuận";
                 }
                 else
                 {
-                    sosanh1.jobInfo = minSalary.ToString() + " => " + maxSalary.ToString();
+                    sosanh1.jobInfo = "$" + String.Format("{0:#.00}", minSalary) + " => $" + String.Format("{0:#.00}", maxSalary);
                 }
                 if (expectedSalary == 0)
                 {
@@ -147,7 +148,7 @@ namespace JobSearchingSystem.DAL
                 }
                 else
                 {
-                    sosanh1.applicantInfo = expectedSalary.ToString();
+                    sosanh1.applicantInfo = "$" + String.Format("{0:#.00}", expectedSalary);
                 }
                 if (expectedSalary == 0
                     || (minSalary != null && maxSalary != null && minSalary <= expectedSalary && expectedSalary <= maxSalary)
@@ -162,11 +163,12 @@ namespace JobSearchingSystem.DAL
                 }
                 matchingDetail.Add(sosanh1);
 
-                // JobLevel_ID - 10
+                // JobLevel_ID - 20
                 JobLevel expectedJobLevel = this.JobLevelRepository.GetByID(profile.ExpectedJobLevel_ID);
                 JobLevel jobLevel = this.JobLevelRepository.GetByID(job.JobLevel_ID);
                 SosanhItem sosanh2 = new SosanhItem();
                 sosanh2.columnName = "Vị trí";
+                sosanh2.tyle = 20;
                 sosanh2.jobInfo = jobLevel.Name;
                 sosanh2.applicantInfo = expectedJobLevel.Name;
                 if (expectedJobLevel != null && jobLevel != null)
@@ -182,11 +184,12 @@ namespace JobSearchingSystem.DAL
                 }
                 matchingDetail.Add(sosanh2);
 
-                // MinSchoolLevel_ID - 10
+                // MinSchoolLevel_ID - 20
                 SchoolLevel highestSchoolLevel = this.SchoolLevelRepository.GetByID(profile.HighestSchoolLevel_ID);
                 SchoolLevel minSchoolLevel = this.SchoolLevelRepository.GetByID(job.MinSchoolLevel_ID);
                 SosanhItem sosanh3 = new SosanhItem();
                 sosanh3.columnName = "Trình độ";
+                sosanh3.tyle = 20;
                 sosanh3.jobInfo = minSchoolLevel.Name;
                 sosanh3.applicantInfo = highestSchoolLevel.Name;
                 if (highestSchoolLevel != null && minSchoolLevel != null)
@@ -208,6 +211,7 @@ namespace JobSearchingSystem.DAL
                 IEnumerable<int> skillIdIntersectList = jobSkillIdList.Intersect(ownSkillIdList);
                 SosanhItem sosanh4 = new SosanhItem();
                 sosanh4.columnName = "Kỹ năng";
+                sosanh4.tyle = 20;
                 if (jobSkillIdList.Count() == 0)
                 {
                     sosanh4.jobInfo = "Không yêu cầu";
@@ -243,44 +247,44 @@ namespace JobSearchingSystem.DAL
                 matchingDetail.Add(sosanh4);
 
                 // Benefit (nhieu TH) - 20
-                IEnumerable<int> jobBenefitIdList = this.JobBenefitRepository.Get(s => s.JobID == jobId && s.IsDeleted == false).Select(s => s.BenefitID).AsEnumerable();
-                IEnumerable<int> desiredBenefit = this.DesiredBenefitRepository.Get(s => s.JobSeekerID == profile.JobSeekerID && s.IsDeleted == false).Select(s => s.BenefitID).AsEnumerable();
-                IEnumerable<int> benefitIdIntersectList = jobBenefitIdList.Intersect(desiredBenefit);
-                SosanhItem sosanh5 = new SosanhItem();
-                sosanh5.columnName = "Phúc lợi";
-                if (jobBenefitIdList.Count() == 0)
-                {
-                    sosanh5.jobInfo = "Không hỗ trợ";
-                }
-                else
-                {
-                    sosanh5.jobInfo = this.BenefitRepository.GetByID(jobBenefitIdList.ElementAt(0)).Name;
-                    for (int i = 1; i < jobBenefitIdList.Count(); i++)
-                    {
-                        sosanh5.jobInfo += "; " + this.BenefitRepository.GetByID(jobBenefitIdList.ElementAt(i)).Name;
-                    }
-                }
-                if (desiredBenefit.Count() == 0)
-                {
-                    sosanh5.applicantInfo = "Không yêu cầu";
-                }
-                else
-                {
-                    sosanh5.applicantInfo = this.BenefitRepository.GetByID(desiredBenefit.ElementAt(0)).Name;
-                    for (int i = 1; i < desiredBenefit.Count(); i++)
-                    {
-                        sosanh5.applicantInfo += "; " + this.BenefitRepository.GetByID(desiredBenefit.ElementAt(i)).Name;
-                    }
-                }
-                if (jobBenefitIdList.Count() == 0 || benefitIdIntersectList.Count() > 0)
-                {
-                    sosanh5.isSatisfied = true;
-                }
-                else
-                {
-                    sosanh5.isSatisfied = false;
-                }
-                matchingDetail.Add(sosanh5);
+                //IEnumerable<int> jobBenefitIdList = this.JobBenefitRepository.Get(s => s.JobID == jobId && s.IsDeleted == false).Select(s => s.BenefitID).AsEnumerable();
+                //IEnumerable<int> desiredBenefit = this.DesiredBenefitRepository.Get(s => s.JobSeekerID == profile.JobSeekerID && s.IsDeleted == false).Select(s => s.BenefitID).AsEnumerable();
+                //IEnumerable<int> benefitIdIntersectList = jobBenefitIdList.Intersect(desiredBenefit);
+                //SosanhItem sosanh5 = new SosanhItem();
+                //sosanh5.columnName = "Phúc lợi";
+                //if (jobBenefitIdList.Count() == 0)
+                //{
+                //    sosanh5.jobInfo = "Không hỗ trợ";
+                //}
+                //else
+                //{
+                //    sosanh5.jobInfo = this.BenefitRepository.GetByID(jobBenefitIdList.ElementAt(0)).Name;
+                //    for (int i = 1; i < jobBenefitIdList.Count(); i++)
+                //    {
+                //        sosanh5.jobInfo += "; " + this.BenefitRepository.GetByID(jobBenefitIdList.ElementAt(i)).Name;
+                //    }
+                //}
+                //if (desiredBenefit.Count() == 0)
+                //{
+                //    sosanh5.applicantInfo = "Không yêu cầu";
+                //}
+                //else
+                //{
+                //    sosanh5.applicantInfo = this.BenefitRepository.GetByID(desiredBenefit.ElementAt(0)).Name;
+                //    for (int i = 1; i < desiredBenefit.Count(); i++)
+                //    {
+                //        sosanh5.applicantInfo += "; " + this.BenefitRepository.GetByID(desiredBenefit.ElementAt(i)).Name;
+                //    }
+                //}
+                //if (jobBenefitIdList.Count() == 0 || benefitIdIntersectList.Count() > 0)
+                //{
+                //    sosanh5.isSatisfied = true;
+                //}
+                //else
+                //{
+                //    sosanh5.isSatisfied = false;
+                //}
+                //matchingDetail.Add(sosanh5);
 
                 // Category - 10
                 IEnumerable<int> jobCategoryIdList = this.JobCategoryRepository.Get(s => s.JobID == jobId && s.IsDeleted == false).Select(s => s.CategoryID).AsEnumerable();
@@ -288,6 +292,7 @@ namespace JobSearchingSystem.DAL
                 IEnumerable<int> categoryIdIntersectList = jobCategoryIdList.Intersect(expectedCategoryIdList);
                 SosanhItem sosanh6 = new SosanhItem();
                 sosanh6.columnName = "Ngành nghề";
+                sosanh6.tyle = 10;
                 if (jobCategoryIdList.Count() == 0)
                 {
                     sosanh6.jobInfo = "Không có";
@@ -328,6 +333,7 @@ namespace JobSearchingSystem.DAL
                 IEnumerable<int> cityIdIntersectList = jobCityIdList.Intersect(expectedCityIdList);
                 SosanhItem sosanh7 = new SosanhItem();
                 sosanh7.columnName = "Thành phố";
+                sosanh7.tyle = 10;
                 if (jobCityIdList.Count() == 0)
                 {
                     sosanh7.jobInfo = "Không có";

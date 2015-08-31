@@ -325,5 +325,71 @@ namespace JobSearchingSystem.DAL
 
             return false;
         }
+
+        public bool UpdateSkill(string skillList, string jobseekerId)
+        {
+            if (!String.IsNullOrEmpty(jobseekerId)
+                && this.JobseekerRepository.GetByID(jobseekerId) != null)
+            {
+                Jobseeker jobseeker = this.JobseekerRepository.GetByID(jobseekerId);
+
+                IEnumerable<OwnSkill> willbeRemovedSkills = this.OwnSkillRepository.Get(s => s.JobSeekerID == jobseeker.JobSeekerID).AsEnumerable();
+                foreach (OwnSkill s in willbeRemovedSkills)
+                {
+                    this.OwnSkillRepository.Delete(s);
+                }
+                this.Save();
+
+                if (!String.IsNullOrEmpty(skillList))
+                {
+                    List<string> skills = skillList.Split(',').ToList();
+                    foreach (string skilltag in skills)
+                    {
+                        Skill oldSkill = this.SkillRepository.Get(s => s.SkillTag.ToUpper() == skilltag.ToUpper()).FirstOrDefault();
+
+                        if (oldSkill != null)
+                        {
+                            OwnSkill newOwnSkill = new OwnSkill();
+                            newOwnSkill.Skill_ID = oldSkill.Skill_ID;
+                            newOwnSkill.JobSeekerID = jobseeker.JobSeekerID;
+                            newOwnSkill.IsDeleted = false;
+
+                            this.OwnSkillRepository.Insert(newOwnSkill);
+                        }
+                        else
+                        {
+                            Skill newSkill = new Skill();
+                            newSkill.SkillTag = skilltag;
+                            newSkill.IsDeleted = false;
+
+                            this.SkillRepository.Insert(newSkill);
+                            this.Save();
+
+                            Skill addedSkill = this.SkillRepository.Get(s => s.SkillTag.ToUpper() == skilltag.ToUpper()).LastOrDefault();
+                            if (addedSkill != null)
+                            {
+                                OwnSkill newOwnSkill = new OwnSkill();
+                                newOwnSkill.Skill_ID = addedSkill.Skill_ID;
+                                newOwnSkill.JobSeekerID = jobseeker.JobSeekerID;
+                                newOwnSkill.IsDeleted = false;
+
+                                this.OwnSkillRepository.Insert(newOwnSkill);
+                            }
+                            else
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                    this.Save();
+                }
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

@@ -139,10 +139,22 @@ namespace JobSearchingSystem.DAL
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                jobList = jobList.Where(s => LocDau(s.JobTitle.ToUpper()).Contains(LocDau(searchString.ToUpper()))
-                                         && ((double)s.MinSalary >= minSalary) && (s.SchoolLevel <= schoolLevel) && checkCity(jobCities, s.JobCities)
-                                         && checkCategories(jobCategories, s.JobCategory)
-                    ).ToArray();
+                if (schoolLevel > 0)
+                {
+                    jobList = jobList.Where(s => LocDau(s.JobTitle.ToUpper()).Contains(LocDau(searchString.ToUpper()))
+                                      && ((double)s.MinSalary >= minSalary) && (s.SchoolLevel <= schoolLevel) && checkCity(jobCities, s.JobCities)
+                                      && checkCategories(jobCategories, s.JobCategory)
+                 ).ToArray();
+                }
+                else
+                {
+                    jobList = jobList.Where(s => LocDau(s.JobTitle.ToUpper()).Contains(LocDau(searchString.ToUpper()))
+                                       && ((double)s.MinSalary >= minSalary) && checkCity(jobCities, s.JobCities)
+                                       && checkCategories(jobCategories, s.JobCategory)
+                        ).ToArray();
+
+                }
+             
             }
             else if (schoolLevel == 0)
             {
@@ -275,7 +287,7 @@ namespace JobSearchingSystem.DAL
 
         public IEnumerable<Profile> getJobSeekerProfile(string userID)
         {
-            return ProfileRepository.Get(s => s.JobSeekerID == userID && s.IsActive == true && s.IsDeleted == false).AsEnumerable();
+            return ProfileRepository.Get(s => s.JobSeekerID == userID && s.IsDeleted == false).AsEnumerable();
         }
 
         public bool ApplyJob(int jobID, int profileID, string userID)
@@ -618,25 +630,25 @@ namespace JobSearchingSystem.DAL
                     matchingPercent += 20;
                 }
 
-                // JobLevel_ID - 10
+                // JobLevel_ID - 20
                 JobLevel expectedJobLevel = this.JobLevelRepository.GetByID(profile.ExpectedJobLevel_ID);
                 JobLevel jobLevel = this.JobLevelRepository.GetByID(job.JobLevel_ID);
                 if (expectedJobLevel != null && jobLevel != null)
                 {
                     if (jobLevel.LevelNum >= expectedJobLevel.LevelNum)
                     {
-                        matchingPercent += 10;
+                        matchingPercent += 20;
                     }
                 }
 
-                // MinSchoolLevel_ID - 10
+                // MinSchoolLevel_ID - 20
                 SchoolLevel highestSchoolLevel = this.SchoolLevelRepository.GetByID(profile.HighestSchoolLevel_ID);
                 SchoolLevel minSchoolLevel = this.SchoolLevelRepository.GetByID(job.MinSchoolLevel_ID);
                 if (highestSchoolLevel != null && minSchoolLevel != null)
                 {
                     if (highestSchoolLevel.LevelNum >= minSchoolLevel.LevelNum)
                     {
-                        matchingPercent += 10;
+                        matchingPercent += 20;
                     }
                 }
 
@@ -654,17 +666,17 @@ namespace JobSearchingSystem.DAL
                 }
 
                 // Benefit (nhieu TH) - 20
-                IEnumerable<int> jobBenefitIdList = this.JobBenefitRepository.Get(s => s.JobID == jobId && s.IsDeleted == false).Select(s => s.BenefitID).AsEnumerable();
-                IEnumerable<int> desiredBenefit = this.DesiredBenefitRepository.Get(s => s.JobSeekerID == profile.JobSeekerID && s.IsDeleted == false).Select(s => s.BenefitID).AsEnumerable();
-                IEnumerable<int> benefitIdIntersectList = jobBenefitIdList.Intersect(desiredBenefit);
-                if (jobBenefitIdList.Count() == 0)
-                {
-                    matchingPercent += 20;
-                }
-                if (benefitIdIntersectList.Count() > 0)
-                {
-                    matchingPercent += benefitIdIntersectList.Count() * 20 / jobBenefitIdList.Count();
-                }
+                //IEnumerable<int> jobBenefitIdList = this.JobBenefitRepository.Get(s => s.JobID == jobId && s.IsDeleted == false).Select(s => s.BenefitID).AsEnumerable();
+                //IEnumerable<int> desiredBenefit = this.DesiredBenefitRepository.Get(s => s.JobSeekerID == profile.JobSeekerID && s.IsDeleted == false).Select(s => s.BenefitID).AsEnumerable();
+                //IEnumerable<int> benefitIdIntersectList = jobBenefitIdList.Intersect(desiredBenefit);
+                //if (jobBenefitIdList.Count() == 0)
+                //{
+                //    matchingPercent += 20;
+                //}
+                //if (benefitIdIntersectList.Count() > 0)
+                //{
+                //    matchingPercent += benefitIdIntersectList.Count() * 20 / jobBenefitIdList.Count();
+                //}
 
                 // Category - 10
                 IEnumerable<int> jobCategoryIdList = this.JobCategoryRepository.Get(s => s.JobID == jobId && s.IsDeleted == false).Select(s => s.CategoryID).AsEnumerable();
@@ -742,90 +754,46 @@ namespace JobSearchingSystem.DAL
             return listSkill;
         }
 
-        public IEnumerable<ApplicantItem> SearchJobseekerMatching(string p, int jobID)
+        public IEnumerable<ApplicantItem> SearchJobseekerMatching(List<string> percentList, int jobID)
         {
             List<ApplicantItem> jobseekerMatchingList = new List<ApplicantItem>();
             List<Profile> profileOfJobseeker = null;
-            List<int> percentMatchingList = null;
+            //List<int> percentMatchingList = null;
             ApplicantItem jobseeker = null;
             var jobseekerList = this.JobseekerRepository.Get();
             foreach (var item in jobseekerList)
             {
                 jobseeker = null;
                 profileOfJobseeker = new List<Profile>();
-                percentMatchingList = new List<int>();
+                //percentMatchingList = new List<int>();
 
                 var profileList = ProfileRepository.Get(filter: m => m.JobSeekerID == item.JobSeekerID && m.IsActive == true && m.IsDeleted == false);
                 foreach (var profile in profileList)
                 {
                     int percentMatching = Matching(profile.ProfileID, jobID);
-                    if (p == "all")
+                    if ((percentList.Contains("1") && percentMatching <= 29)
+                        || (percentList.Contains("2") && percentMatching > 29 && percentMatching <= 69)
+                        || (percentList.Contains("3") && percentMatching > 69))
                     {
                         jobseeker = new ApplicantItem(item.JobSeekerID, "", "", DateTime.Now, 0);
                         jobseeker.ApplicantFullName = item.FullName;
+                        jobseeker.ApplicantUsername = this.AspNetUserRepository.GetByID(item.JobSeekerID).UserName;
+                        jobseeker.MatchingPercent = percentMatching;
                         profileOfJobseeker.Add(profile);
-                        percentMatchingList.Add(percentMatching);                      
-                       
+                        //percentMatchingList.Add(percentMatching);
                     }
-                    else if( p == "12")
-                    {
-                        if (percentMatching <= 29 || (29 < percentMatching && percentMatching <= 69))
-                        jobseeker = new ApplicantItem(item.JobSeekerID, "", "", DateTime.Now, 0);
-                        jobseeker.ApplicantFullName = item.FullName;
-                        profileOfJobseeker.Add(profile);
-                        percentMatchingList.Add(percentMatching);       
-                    }
-                    else if (p == "13")
-                    {
-                        if (percentMatching <= 29 || (69 < percentMatching && percentMatching <= 100))
-                            jobseeker = new ApplicantItem(item.JobSeekerID, "", "", DateTime.Now, 0);
-                            jobseeker.ApplicantFullName = item.FullName;
-                            profileOfJobseeker.Add(profile);
-                            percentMatchingList.Add(percentMatching);       
-                    }
-                    else if (p == "23")
-                    {
-                        if ((29 < percentMatching && percentMatching <= 69) || (69 < percentMatching && percentMatching <= 100))
-                            jobseeker = new ApplicantItem(item.JobSeekerID, "", "", DateTime.Now, 0);
-                            jobseeker.ApplicantFullName = item.FullName;
-                            profileOfJobseeker.Add(profile);
-                            percentMatchingList.Add(percentMatching);       
-                    }
-                    else if (p == "1")
-                    {
-                        if (percentMatching <= 29)
-                            jobseeker = new ApplicantItem(item.JobSeekerID, "", "", DateTime.Now, 0);
-                            jobseeker.ApplicantFullName = item.FullName;
-                            profileOfJobseeker.Add(profile);
-                            percentMatchingList.Add(percentMatching);       
-                    }
-                    else if (p == "2")
-                    {
-                        if (29 < percentMatching && percentMatching <= 69)
-                            jobseeker = new ApplicantItem(item.JobSeekerID,"", "", DateTime.Now, 0);
-                            jobseeker.ApplicantFullName = item.FullName;
-                            profileOfJobseeker.Add(profile);
-                            percentMatchingList.Add(percentMatching);       
-                    }
-                    else if (p == "3")
-                    {
-                        if (69 < percentMatching && percentMatching <= 100)
-                            jobseeker = new ApplicantItem(item.JobSeekerID, "", "", DateTime.Now, 0);
-                            jobseeker.ApplicantFullName = item.FullName;
-                            profileOfJobseeker.Add(profile);
-                            percentMatchingList.Add(percentMatching);       
-                    }
-                  
                 }
                 if (jobseeker != null)
                 {
                     jobseeker.ProfileList = profileOfJobseeker;
-                    jobseeker.MatchingPercentList = percentMatchingList;
+                    //jobseeker.MatchingPercentList = percentMatchingList;
                  
                     jobseekerMatchingList.Add(jobseeker);
                 }
                
             }
+
+            jobseekerMatchingList = jobseekerMatchingList.OrderByDescending(m => m.MatchingPercent).ToList();
             return jobseekerMatchingList;
         }
 
