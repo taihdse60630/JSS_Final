@@ -64,7 +64,7 @@
             else {
                 $("#categoriesList").multiselect("widget").find(":checkbox:not(:checked)").attr('disabled', false);
             }
-        })
+        });
     });
 
 </script>
@@ -131,6 +131,9 @@
         SearchText("skill3");
     });
 </script>
+
+
+
 <!--LOADING SCRIPTS FOR PAGE-->
 @using (Html.BeginForm("Create", "Job", FormMethod.Post, new { id = "createJobForm" }))
 {

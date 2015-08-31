@@ -9,8 +9,36 @@
 <script src="~/Content/js/ui-checkbox-radio.js"></script>
 <script src="~/Content/js/table-action.js"></script>
 
+<link type="text/css" rel="stylesheet" href="~/Content/vendors/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+<script src="~/Content/js/email-compose-mail.js"></script>
+<script src="~/Content/vendors/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+<link rel="stylesheet" href="~/Content/css/bootstrap-tagsinput.css">
+<link rel="stylesheet" href="~/Content/css/jquery.tag-editor.css">
+
+
+
+<script src="~/Content/js/jquery.caret.min.js"></script>
+<script src="~/Content/js/jquery.tag-editor.js"></script>
 <script>
     $(document).ready(function () {
+
+        $('.emailbutton').click(function (id, fullname, option) {
+            $('#receiver').val($(this).data('fullname'));
+            $('#receiverUserId').val($(this).data('id'));
+
+            $('#subjectdiv').addClass("hidden");
+            //if ($(this).data('option') == "phongvan")
+            //{
+            //    $('#subjectdiv').addClass("hidden");
+            //}
+            //else if ($(this).data('option') == "tinnhan")
+            //{
+            //    $('#subject').val("");
+            //    $('#subjectdiv').removeClass("hidden");
+            //}
+
+        });
+
         $.extend($.fn.dataTable.defaults, {
             searching: true
         });
@@ -41,27 +69,73 @@
             $('input[type="checkbox"][name="checkboxname"]').not(':checked').iCheck('enable');
         });
 
+        $('.matchingPercent').click(function (profileid, jobid) {
+            //var userList;
+            $.ajax({
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                url: "/Applicant/GetMatchingDetail3",
+                data: "{'profileID':'" + $(this).data('profileid') + "','jobID':'" + $(this).data('jobid') + "'}",
+                dataType: "json",
+                success: function (data) {
+
+                    $('#matchingDetailBody').html("");
+
+                    $.each(data, function (i, e) {
+                        if (e.isSatisfied) {
+                            $('#matchingDetailBody').html($('#matchingDetailBody').html() + "<tr style='color: green'>"
+                                                                                            + "<td>"
+                                                                                                + e.columnName
+                                                                                            + "</td>"
+                                                                                            + "<td>"
+                                                                                                + e.jobInfo
+                                                                                            + "</td>"
+                                                                                            + "<td>"
+                                                                                                + e.applicantInfo
+                                                                                            + "</td>"
+                                                                                        + "</tr>");
+                        }
+                        else {
+                            $('#matchingDetailBody').html($('#matchingDetailBody').html() + "<tr style='color: red'>"
+                                                                                            + "<td>"
+                                                                                                + e.columnName
+                                                                                            + "</td>"
+                                                                                            + "<td>"
+                                                                                                + e.jobInfo
+                                                                                            + "</td>"
+                                                                                            + "<td>"
+                                                                                                + e.applicantInfo
+                                                                                            + "</td>"
+                                                                                        + "</tr>");
+                        }
+                    });
+
+                    $('#modal-show-matching-detail').modal('show');
+                }
+            });
+        });
+
         $('#sosanhbutton').click(function () {
             if ($('input[type="checkbox"][name="checkboxname"]').filter(':checked').length < 2) {
                 swal("Bạn cần phải chọn 2 ứng viên để so sánh!", "", "warning")
             }
             else {
-                var applicant1;
-                var applicant2;
+                var profile1;
+                var profile2;
                 $('input[type="checkbox"][name="checkboxname"]').filter(':checked').each(function (i, e) {
                     if (i == 0) {
-                        applicant1 = $(this).val();
+                        profile1 = $(this).val();
                     }
                     else {
-                        applicant2 = $(this).val();
+                        profile2 = $(this).val();
                     }
                 });
 
                 $.ajax({
                     type: "POST",
                     contentType: "application/json; charset=utf-8",
-                    url: "/Applicant/GetMatchingDetail2",
-                    data: "{'applicantID1':'" + applicant1 + "','applicantID2':'" + applicant2 + "','jobID':'" + $('#jobid').val() + "'}",
+                    url: "/Applicant/GetMatchingDetail4",
+                    data: "{'profileID1':'" + profile1 + "','profileID2':'" + profile2 + "','jobID':'" + $('#jobid').val() + "'}",
                     dataType: "json",
                     success: function (data) {
 
@@ -176,6 +250,97 @@
 
 </script>
 
+<script>
+    function getTags() {
+        document.getElementById("tagList").value = $('#receiver').val();
+
+    }
+    function makeSafe() {
+        //document.getElementById('messsage_content2').value = window.encodeURI(editor.getValue());
+
+        document.getElementById('messsage_content2').value = window.escape(editor.getValue());
+    };
+</script>
+<script>
+    function EncapsuleData() {
+        var content = editor.getValue();
+        if (content == "") {
+            swal("Vui lòng nhập nội dung tin nhắn", "", "error")
+        } else {
+            getTags();
+            makeSafe();
+            $('form#sendMessageForm').submit();
+        }
+    }
+
+</script>
+
+
+
+<div id="modal-show-matching-detail" tabindex="-1" role="dialog" aria-labelledby="modal-wide-width-label" aria-hidden="true" class="modal fade">
+    <div class="modal-dialog modal-wide-width">
+        <div class="modal-content">
+            <div class="modal-header modal-header-primary">
+                <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
+                <h4 id="modal-header-primary-label" class="modal-title">Kết quả so sánh</h4>
+            </div>
+            <div class="modal-body">
+                <div class="compose-mail">
+                    <div class="portlet box portlet-white">
+                        <div class="portlet-body">
+                            <div role="form-horizontal" method="post">
+                                <div class="table-container">
+                                    <table class="table table-hover table-striped table-bordered table-advanced tablesorter">
+                                        <thead>
+                                            <tr>
+                                                <th width="15%">Mục so sánh</th>
+                                                <th width="15%">Yêu cầu công việc</th>
+                                                <th width="15%">Ứng viên</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="matchingDetailBody"></tbody>
+                                    </table>
+                                </div>
+                                @*<div class="form-group">
+                                        <div class="input-group"><span class="input-group-addon">To:</span><input id="receiver" name="receiverUsername" type="text" placeholder="" class="form-control" autocomplete="on" readonly="readonly" /></div>
+                                    </div>
+                                    <div class="form-group hidden">
+                                        <div class="input-group"><span class="input-group-addon">Cc:</span><input id="cc" type="text" placeholder="" class="form-control" /></div>
+                                    </div>
+                                    <div class="form-group hidden">
+                                        <div class="input-group"><span class="input-group-addon">Bcc:</span><input id="bcc" type="text" placeholder="" class="form-control" /></div>
+                                    </div>
+                                    <div id="subjectdiv" class="form-group">
+                                        <div class="input-group"><span class="input-group-addon">Subject:</span><input id="subject" name="subject" type="text" placeholder="" class="form-control" /></div>
+                                    </div>
+                                    <div class="compose-editor mbl"><textarea id="message_content" rows="6" class="wysihtml5 form-control"></textarea></div>
+                                    <input type="hidden" id="messsage_content2" name="messageContent" />
+                                    <input type="hidden" id="tagList" name="tagList" />*@
+
+                                @*<div class="form-group">
+                                        <input type="file" />
+
+                                        <p class="help-block">
+                                            <i class="fa fa-paperclip"></i>&nbsp;
+                                            Attachments
+                                        </p>
+                                    </div>*@
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @*<div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-default">Đóng</button>
+                    <button type="submit" onsubmit="EncapsuleData()" class="btn btn-green"><i class="fa fa-check"></i> Gửi</button>
+                </div>*@
+
+        </div>
+    </div>
+</div>
+
 <div id="modal-show-matching-detail-2" tabindex="-1" role="dialog" aria-labelledby="modal-wide-width-label" aria-hidden="true" class="modal fade">
     <div class="modal-dialog modal-wide-width">
         <div class="modal-content">
@@ -266,6 +431,64 @@
     </div>
 </div>
 
+<div id="modal-wide-width" tabindex="-1" role="dialog" aria-labelledby="modal-wide-width-label" aria-hidden="true" class="modal fade">
+    <div class="modal-dialog modal-wide-width">
+        <div class="modal-content">
+            <div class="modal-header modal-header-primary">
+                <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
+                <h4 id="modal-header-primary-label" class="modal-title">Tin nhắn mới</h4>
+            </div>
+
+            @using (Html.BeginForm("SendMessage", "Job", FormMethod.Post, new { id = "sendMessageForm" }))
+            {
+                <div class="modal-body">
+                    <div class="compose-mail">
+                        <div class="portlet box portlet-white">
+                            <div class="portlet-body">
+                                <div role="form-horizontal" method="post">
+                                    <input type="hidden" name="jobID" value="@ViewBag.JobID" />
+                                    <input type="hidden" id="receiverUserId" name="receiverUserId" />
+                                    <input type="hidden" name="percentMatching" value="@Model.percentMatching" />
+                                    <div class="form-group">
+                                        <div class="input-group"><span class="input-group-addon">To:</span><input id="receiver" name="receiverUsername" type="text" placeholder="" class="form-control" autocomplete="on" readonly="readonly" /></div>
+                                    </div>
+                                    <div class="form-group hidden">
+                                        <div class="input-group"><span class="input-group-addon">Cc:</span><input id="cc" type="text" placeholder="" class="form-control" /></div>
+                                    </div>
+                                    <div class="form-group hidden">
+                                        <div class="input-group"><span class="input-group-addon">Bcc:</span><input id="bcc" type="text" placeholder="" class="form-control" /></div>
+                                    </div>
+                                    <div id="subjectdiv" class="form-group">
+                                        <div class="input-group"><span class="input-group-addon">Subject:</span><input id="subject" name="subject" type="text" placeholder="" class="form-control" /></div>
+                                    </div>
+                                    <div class="compose-editor mbl"><textarea id="message_content" rows="6" class="wysihtml5 form-control"></textarea></div>
+                                    <input type="hidden" id="messsage_content2" name="messageContent" />
+                                    <input type="hidden" id="tagList" name="tagList" />
+
+                                    @*<div class="form-group">
+                                            <input type="file" />
+
+                                            <p class="help-block">
+                                                <i class="fa fa-paperclip"></i>&nbsp;
+                                                Attachments
+                                            </p>
+                                        </div>*@
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-default">Đóng</button>
+                    <button type="button" onclick="EncapsuleData()" class="btn btn-green"><i class="fa fa-check"></i> Gửi</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
 <div id="ModalDisapproveConfirm" tabindex="-1" role="dialog" aria-labelledby="modal-default-label" aria-hidden="false" class="modal fade in" style="display: none;">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -313,26 +536,28 @@
                     <thead>
                         <tr>
                             <th width="1%" style="text-align:center">Chọn</th>
-                            <th width="15%" style="text-align:center">Tên ứng viên</th>
-                           
+                            <th width="15%" style="text-align:center">Tài khoản</th>    
+                            <th width="15%" style="text-align:center">Tên ứng viên</th>                                                  
                             <th width="15%" style="text-align:center">Hồ sơ</th>
                             @*<th width="10%" style="text-align:center">Ngày nộp</th>*@
                             <th width="13%" style="text-align:center">Độ phù hợp</th>
-                            @*<th width="10%" style="text-align:center">Tình trạng</th>
-                            <th width="13%" style="text-align:center">Thao tác</th>*@
+                            @*<th width="10%" style="text-align:center">Tình trạng</th>*@
+                            <th width="5%" style="text-align:center">Thao tác</th>
                         
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var item in Model.jobseekerList)
                         {
+                            int i = 0;
                             <tr>
 
-                                <td><input id="checkbox@(item.ApplicantID)" value="@item.ApplicantID" name="checkboxname" data-id="checkbox@(item.ApplicantID)" class="checkboxclass" type="checkbox" /></td>
-                                <td><a href="#">@item.ApplicantFullName</a></td>
+                                <td><input id="checkbox@(item.ProfileList.ElementAt(i).ProfileID)" value="@item.ProfileList.ElementAt(i).ProfileID" name="checkboxname" data-id="checkbox@(item.ProfileList.ElementAt(i).ProfileID)" class="checkboxclass" type="checkbox" /></td>
+                                <td><a >@item.ApplicantUsername</a></td>
+                                <td><a >@item.ApplicantFullName</a></td>
                               
-                                <td>@{
-                                    int i =0;
+                                <td>
+                            @{
                             foreach (var profile in item.ProfileList)
                             {
                                 if (i != 0)
@@ -344,50 +569,51 @@
                                 <a target="_blank" href="@Url.Action("Detail", "Profile", new { profileID = profile.ProfileID })" >@profile.Name</a>
                                      
                             }
-                                }
+                            }
                                 </td>
-                                @*<td>@item.AppliedDate.ToString("dd/MM/yyyy")</td>*@
                                 <td>
                         @{
-                            int k = 0;
                             
-                            foreach(var percent in item.MatchingPercentList)
-                            {
-                                if (k != 0)
+                            
+                           
+                                if (item.MatchingPercent < 30)
                                 {
-                                    <br /> <br />
-                                }
-
-                                if (percent < 30)
-                                {
-                                    <div role="progressbar" aria-valuenow="@percent" aria-valuemin="0" aria-valuemax="100" style="width: @percent%;" class="progress-bar progress-bar-danger">
-                                        <span class="sr-only">@percent Complete</span>
-                                        @percent %
+                                    <div data-profileid="@item.ProfileList.ElementAt(0).ProfileID" data-jobid="@ViewBag.JobID" data-toggle="tooltip" title="Xem so sánh" role="progressbar" aria-valuenow="@item.MatchingPercent" aria-valuemin="0" aria-valuemax="100" style="width:@item.MatchingPercent%;" class="progress-bar progress-bar-danger matchingPercent">
+                                        <span class="sr-only">@item.MatchingPercent Complete</span>
+                                        @item.MatchingPercent %
                                     </div>
                                 }
-                                else if (percent < 70)
+                                else if (item.MatchingPercent < 70)
                                 {
 
-                                    <div role="progressbar" aria-valuenow="@percent" aria-valuemin="0" aria-valuemax="100" style="width: @percent%;" class="progress-bar progress-bar-warning">
-                                        <span class="sr-only">@percent Complete</span>
-                                        @percent %
+                                    <div data-profileid="@item.ProfileList.ElementAt(0).ProfileID" data-jobid="@ViewBag.JobID" data-toggle="tooltip" title="Xem so sánh" role="progressbar" aria-valuenow="@item.MatchingPercent" aria-valuemin="0" aria-valuemax="100" style="width: @item.MatchingPercent%;" class="progress-bar progress-bar-warning matchingPercent">
+                                        <span class="sr-only">@item.MatchingPercent Complete</span>
+                                        @item.MatchingPercent %
                                     </div>
                                 }
                                 else
                                 {
-                                    <div role="progressbar" aria-valuenow="@percent" aria-valuemin="0" aria-valuemax="100" style="width: @percent%;" class="progress-bar progress-bar-success">
-                                        <span class="sr-only">@percent Complete</span>
-                                        @percent %
+                                    <div data-profileid="@item.ProfileList.ElementAt(0).ProfileID" data-jobid="@ViewBag.JobID" data-toggle="tooltip" title="Xem so sánh" role="progressbar" aria-valuenow="@item.MatchingPercent" aria-valuemin="0" aria-valuemax="100" style="width: @item.MatchingPercent%;" class="progress-bar progress-bar-success matchingPercent">
+                                        <span class="sr-only">@item.MatchingPercent Complete</span>
+                                        @item.MatchingPercent %
                                     </div>
                                 }
 
 
-                                k++;
 
-                            }
+
+
 }
                                    
                                 </td>
+                                <td>
+                                    @foreach (var profile2 in item.ProfileList) {
+                                        <button type="button" style="display: inline" data-target="#modal-wide-width" data-option="tinnhan" data-id=@profile2.JobSeekerID data-fullname="@item.ApplicantUsername" data-toggle="modal" class="emailbutton btn btn-yellow btn-sm">
+                                            <i class="fa fa-comments-o" data-toggle="tooltip" title="Viết tin nhắn mới"></i>
+                                        </button>
+                                    }
+                                </td>
+                                
                                 @*@if (item.Status == 0)
                                 {
                                     <td>

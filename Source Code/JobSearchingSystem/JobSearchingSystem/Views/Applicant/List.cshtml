@@ -80,6 +80,9 @@
                                                                                             + "<td>"
                                                                                                 + e.applicantInfo
                                                                                             + "</td>"
+                                                                                            + "<td>"
+                                                                                                + e.tyle + "%"
+                                                                                            + "</td>"
                                                                                         + "</tr>");
                         }
                         else {
@@ -92,6 +95,9 @@
                                                                                             + "</td>"
                                                                                             + "<td>"
                                                                                                 + e.applicantInfo
+                                                                                            + "</td>"
+                                                                                            + "<td>"
+                                                                                                + e.tyle + "%"
                                                                                             + "</td>"
                                                                                         + "</tr>");
                         }
@@ -141,8 +147,13 @@
                         $('#ungvien1').html(data.applicantname1);
                         $('#ungvien2').html(data.applicantname2);
 
+                        var percent1 = 0;
+                        var percent2 = 0;
+
                         $.each(data.profile1, function (i, e) {
                             if (data.profile1[i].isSatisfied && data.profile2[i].isSatisfied) {
+                                percent1 += data.profile1[i].tyle;
+                                percent2 += data.profile2[i].tyle;
                                 $('#matchingDetailBody2').html($('#matchingDetailBody2').html() + "<tr>"
                                                                                                 + "<td>"
                                                                                                     + data.profile1[i].columnName
@@ -155,9 +166,13 @@
                                                                                                 + "</td>"
                                                                                                 + "<td style='color: green'>"
                                                                                                     + data.profile2[i].applicantInfo
+                                                                                                + "</td>"
+                                                                                                + "<td>"
+                                                                                                    + e.tyle + "%"
                                                                                                 + "</td>"
                                                                                             + "</tr>");
                             } else if (data.profile1[i].isSatisfied && !data.profile2[i].isSatisfied) {
+                                percent1 += data.profile1[i].tyle;
                                 $('#matchingDetailBody2').html($('#matchingDetailBody2').html() + "<tr>"
                                                                                                 + "<td>"
                                                                                                     + data.profile1[i].columnName
@@ -170,9 +185,13 @@
                                                                                                 + "</td>"
                                                                                                 + "<td style='color: red'>"
                                                                                                     + data.profile2[i].applicantInfo
+                                                                                                + "</td>"
+                                                                                                + "<td>"
+                                                                                                    + e.tyle + "%"
                                                                                                 + "</td>"
                                                                                             + "</tr>");
                             } else if (!data.profile1[i].isSatisfied && data.profile2[i].isSatisfied) {
+                                percent2 += data.profile2[i].tyle;
                                 $('#matchingDetailBody2').html($('#matchingDetailBody2').html() + "<tr>"
                                                                                                 + "<td>"
                                                                                                     + data.profile1[i].columnName
@@ -185,6 +204,9 @@
                                                                                                 + "</td>"
                                                                                                 + "<td style='color: green'>"
                                                                                                     + data.profile2[i].applicantInfo
+                                                                                                + "</td>"
+                                                                                                + "<td>"
+                                                                                                    + e.tyle + "%"
                                                                                                 + "</td>"
                                                                                             + "</tr>");
                             } else if (!data.profile1[i].isSatisfied && !data.profile2[i].isSatisfied) {
@@ -201,10 +223,63 @@
                                                                                                 + "<td style='color: red'>"
                                                                                                     + data.profile2[i].applicantInfo
                                                                                                 + "</td>"
+                                                                                                + "<td>"
+                                                                                                    + e.tyle + "%"
+                                                                                                + "</td>"
                                                                                             + "</tr>");
                             }
                             
                         });
+
+                        if (percent1 > percent2) {
+                            $('#matchingDetailBody2').html($('#matchingDetailBody2').html() + "<tr>"
+                                                                                                + "<td colspan = 2 style='text-align: right;'>"
+                                                                                                    + "Tổng:"
+                                                                                                + "</td>"
+                                                                                                + "<td style='color: green'>"
+                                                                                                    + percent1 + "%"
+                                                                                                + "</td>"
+                                                                                                + "<td style='color: red'>"
+                                                                                                    + percent2 + "%"
+                                                                                                + "</td>"
+                                                                                                + "<td>"
+                                                                                                    + "100%"
+                                                                                                + "</td>"
+                                                                                            + "</tr>");
+                        }
+                        else if (percent1 < percent2) {
+                            $('#matchingDetailBody2').html($('#matchingDetailBody2').html() + "<tr>"
+                                                                                                + "<td colspan = 2 style='text-align: right;'>"
+                                                                                                    + "Tổng:"
+                                                                                                + "</td>"
+                                                                                                + "<td style='color: red'>"
+                                                                                                    + percent1 + "%"
+                                                                                                + "</td>"
+                                                                                                + "<td style='color: green'>"
+                                                                                                    + percent2 + "%"
+                                                                                                + "</td>"
+                                                                                                + "<td>"
+                                                                                                    + "100%"
+                                                                                                + "</td>"
+                                                                                            + "</tr>");
+                        }
+                        else {
+                            $('#matchingDetailBody2').html($('#matchingDetailBody2').html() + "<tr>"
+                                                                                                + "<td colspan = 2 style='text-align: right;'>"
+                                                                                                    + "Tổng:"
+                                                                                                + "</td>"
+                                                                                                + "<td style='color: green'>"
+                                                                                                    + percent1 + "%"
+                                                                                                + "</td>"
+                                                                                                + "<td style='color: green'>"
+                                                                                                    + percent2 + "%"
+                                                                                                + "</td>"
+                                                                                                + "<td>"
+                                                                                                    + "100%"
+                                                                                                + "</td>"
+                                                                                            + "</tr>");
+                        }
+                        
 
                         $('#modal-show-matching-detail-2').modal('show');
                     }
@@ -288,6 +363,7 @@
                                                     <th width="15%">Mục so sánh</th>
                                                     <th width="15%">Yêu cầu công việc</th>
                                                     <th width="15%">Ứng viên</th>
+                                                    <th width="5%">Tỷ lệ</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="matchingDetailBody">
@@ -355,6 +431,7 @@
                                                 <th width="15%">Yêu cầu công việc</th>
                                                 <th id="ungvien1" width="15%">Ứng viên 1</th>
                                                 <th id="ungvien2" width="15%">Ứng viên 2</th>
+                                                <th width="5%">Tỷ lệ</th>
                                             </tr>
                                         </thead>
                                         <tbody id="matchingDetailBody2"></tbody>

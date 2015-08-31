@@ -166,9 +166,25 @@
             var href = window.location.href.split('/');
             if (href.length == 5) {
                 $('input[name="returnUrl"]').val(href[3] + '/' + href[4]);
+
+                var tempreturnurl = href[4].split('?');
+                if (tempreturnurl.length == 2) {
+                    var tempreturnurl2 = tempreturnurl[1].split('=');
+                    if (tempreturnurl2[0] == 'ReturnUrl') {
+                        $('input[name="returnUrl"]').val(unescape(tempreturnurl2[1]));
+                    }
+                }
             }
             else if (href.length == 6) {
                 $('input[name="returnUrl"]').val(href[3] + '/' + href[4] + '/' + href[5]);
+
+                var tempreturnurl = href[5].split('?');
+                if (tempreturnurl.length == 2) {
+                    var tempreturnurl2 = tempreturnurl[1].split('=');
+                    if (tempreturnurl2[0] == 'ReturnUrl') {
+                        $('input[name="returnUrl"]').val(unescape(tempreturnurl2[1]));
+                    }
+                }
             }
             else {
                 $('input[name="returnUrl"]').val("Home/Index");

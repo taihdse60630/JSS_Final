@@ -127,33 +127,33 @@ using (Html.BeginForm("AppliedJob", "Job", FormMethod.Post))
                 <div class="modal-body">
 
                     <div class="row">
-                        <div class="col-md-3">
-                            <a href="#" class="thumbnail"><img alt="hello" src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcS8sGvToN7LeZB7WZH-PYQ6OqKB94ZLE9DD4WS96dhzudIZqaC_" style="width: 300px; height: 130px;"></a>
+                        <div class="col-md-1">
+                            
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-11" style="font-size:medium">
                             <h3 class="text-orange">
                                 <span id="app-fullName">@Model.jobSeeker.FullName</span><br>
                             </h3>
                             @*Vị trí: <small><a href="#" class="editable editable-click" tabindex="1" id="app-title">Developer</a></small>*@
                             <input type="hidden" name="appJobTitle" id="appJobTitle" value="Developer"><br>
                             @*Công ty gần đây nhất: <small><a href="#" class="editable editable-click" tabindex="1" id="app-title">FPT Software Hochiminh Ltd</a></small><br>
-                            Địa điểm làm việc mong muốn: <small><a href="#" class="editable editable-click" tabindex="1" id="app-title">Ho Chi Minh</a></small><br>*@
+            Địa điểm làm việc mong muốn: <small><a href="#" class="editable editable-click" tabindex="1" id="app-title">Ho Chi Minh</a></small><br>*@
                             Địa chỉ email: <small><label style="color:#2B8AE2;" class="editable editable-click" tabindex="1" id="app-title">@Model.jobSeeker.Email</label></small><br>
-                            Điện thoại: <small><label  style="color:#2B8AE2;" class="editable editable-click" tabindex="1" id="app-title">@Model.jobSeeker.PhoneNumber</label></small><br>
+                            Điện thoại: <small><label style="color:#2B8AE2;" class="editable editable-click" tabindex="1" id="app-title">@Model.jobSeeker.PhoneNumber</label></small><br>
                             Hồ sơ của bạn: <br>
                             @if (Model.profileList.ToArray().Length == 0)
                             {
                                 <div style="color:red"> Bạn chưa tạo bất kì hồ sơ nào</div>
-                                <a href="@Url.Action("List", "Profile")"><i class="fa fa-arrow-right"></i>Tạo hồ sơ ngay</a>
+                                <a target="_blank" href="@Url.Action("List", "Profile")"><i class="fa fa-arrow-right"></i>Tạo hồ sơ ngay</a>
                             }
                             else
                             {
-                               foreach (var item in Model.profileList)
+                                foreach (var item in Model.profileList)
                                 {
-                                    <input type="radio" name="profileID" value="@item.ProfileID" checked><a id="app-resume" href="#" tabindex="6" data-type="select" data-pk="1" class="editable editable-click">@item.UpdatedTime @item.Name</a><br>
+                                    <input type="radio" name="profileID" value="@item.ProfileID" checked><a id="app-resume" href="/Profile/Update?profileID=@item.ProfileID" tabindex="6" data-type="select" data-pk="1" class="editable editable-click"><span style="color: #999999">Tên hồ sơ: </span>@item.Name - <span style="color: #999999">Ngày Tạo: </span>@String.Format("{0:d}", item.UpdatedTime)</a><br>
                                 }
                             }
-                               
+
                         </div>
                     </div>                  
                     </div>
@@ -166,8 +166,8 @@ using (Html.BeginForm("AppliedJob", "Job", FormMethod.Post))
                         </div>
                         <div class="pull-right padding-15" id="noRankingJobDiv" style="">
                             <div class="pull-left">
-                                <span><em>Bạn đứng thứ <strong class="score">#<span id="noRankingJob">10</span> trên tổng số 10</strong> người ứng tuyển</em></span>
-                                <span class="matching-score block text-right small"><em>dựa vào MATCHING<strong>SCORE</strong></em></span>
+                                @*<span><em>Bạn đứng thứ <strong class="score">#<span id="noRankingJob">10</span> trên tổng số 10</strong> người ứng tuyển</em></span>
+                                <span class="matching-score block text-right small"><em>dựa vào MATCHING<strong>SCORE</strong></em></span>*@
                             </div>
                         </div>
                         <br />
@@ -200,7 +200,7 @@ using (Html.BeginForm("AppliedJob", "Job", FormMethod.Post))
         <br>
 
         <div class="media">
-            <a href="#" class="pull-left"><img alt="avatar" class="media-object" src="http://images.vietnamworks.com/pictureofcompany/49/10197315.jpg" style="width: 100px; height: 64px;"></a>
+            <a href="#" class="pull-left"><img alt="avatar" class="media-object" src="@Model.Job.LogoURL" style="width: 88px; height: 97px;"></a>
 
             <div class="media-body col-md-8" style="padding-right:0px">
                 <h3 class="media-heading text-blue" style="font-weight:700">@Model.Job.JobTitle</h3>
@@ -232,10 +232,12 @@ using (Html.BeginForm("AppliedJob", "Job", FormMethod.Post))
                     @if (Model.jobSeeker != null)
                     {
                         <button type="button" data-target="#modal-custom-dialog" data-toggle="modal" class="btn btn-success">Nộp đơn</button>
+                        <button type="button" data-target="#modal-report" data-toggle="modal" class="btn btn-danger" style="margin-top: 10px; width: 79%">Báo lỗi</button>
                     }
                     else if (Model.isLogined)
                     {
                         <button type="button" disabled class="btn btn-success">Nộp đơn</button>
+                        <button type="button" data-target="#modal-report" data-toggle="modal" class="btn btn-danger" style="margin-top:10px;width:79%">Báo lỗi  </button>
                     }
                     else
                     {
@@ -247,11 +249,11 @@ using (Html.BeginForm("AppliedJob", "Job", FormMethod.Post))
                     TimeSpan difference = DateTime.Now - Model.Job.PostedDate.GetValueOrDefault();
                     if (difference.Days == 0)
                     {
-                        <div class="pull-left small padding-15" style="margin-top:61%">Đăng hôm nay</div>
+                        <div class="pull-left small padding-15" style="margin-top:21%">Đăng hôm nay</div>
                     }
                     else
                     {
-                        <div class="pull-left small padding-15" style="margin-top:61%">Đăng @difference.Days ngày trước</div>
+                        <div class="pull-left small padding-15" style="margin-top:21%">Đăng @difference.Days ngày trước</div>
                     }
                 }
             </div>
@@ -377,6 +379,7 @@ using (Html.BeginForm("AppliedJob", "Job", FormMethod.Post))
                     <br />
                 </div>
             </div>
+           
         </div>
     </div>
     </div>

@@ -43,11 +43,11 @@
                         }
                         if (item.ReadTime != null)
                         {
-                            <a href="/Message/Detail?id=@item.MessageID&&typeOfMessage=@Model.typeOfMessage"  class="list-group-item"><span style="min-width: 120px; display: inline-block;" class="name">@item.SenderName</span>@*<span>Sed ut perspiciatis unde</span>*@&nbsp;  &nbsp;<span style="font-size: 11px;" class="text-muted">@noHTMLNormalised</span><span class="badge">@item.SendTime</span><span class="pull-right mrl"></span></a>
+                            <a href="/Message/Detail?id=@item.MessageID&&typeOfMessage=@Model.typeOfMessage"  class="list-group-item"><input type="checkbox" id="@item.MessageID" name="mark" value="@item.MessageID" /><span style="min-width: 120px; display: inline-block;" class="name">@item.SenderName</span>@*<span>Sed ut perspiciatis unde</span>*@&nbsp;  &nbsp;<span style="font-size: 11px;" class="text-muted">@noHTMLNormalised</span><span class="badge">@item.SendTime</span><span class="pull-right mrl"></span></a>
                         }
                         else
                         {
-                            <a href="/Message/Detail?id=@item.MessageID&&typeOfMessage=@Model.typeOfMessage" style="color: black;font-weight: 600;" class="list-group-item"><span style="min-width: 120px; display: inline-block;" class="name">@item.SenderName</span>@*<span>Sed ut perspiciatis unde</span>*@&nbsp;  &nbsp;<span style="font-size: 11px; color: black; font-weight: 600;" class="text-muted" >@noHTMLNormalised</span><span class="badge">@item.SendTime</span><span class="pull-right mrl"></span></a>
+                            <a href="/Message/Detail?id=@item.MessageID&&typeOfMessage=@Model.typeOfMessage" style="color: black;font-weight: 600;" class="list-group-item"><input type="checkbox" id="@item.MessageID" name="mark" value="@item.MessageID" /><span style="min-width: 120px; display: inline-block;" class="name">@item.SenderName</span>@*<span>Sed ut perspiciatis unde</span>*@&nbsp;  &nbsp;<span style="font-size: 11px; color: black; font-weight: 600;" class="text-muted" >@noHTMLNormalised</span><span class="badge">@item.SendTime</span><span class="pull-right mrl"></span></a>
                         }
                     }
                 }

@@ -382,19 +382,25 @@
                                     <div class="col-md-3">
                                         <div class="form-group">                                            
                                             <select id="schoolLevel" name="schoolLevel" class="form-control" name="currentJobLevel" data-placeholder="Ví dụ: Nhân viên" tabindex="-1" title="Cấp bậc hiện tại" >
+                                                <option value="0">Bằng cấp</option>
                                                 @if (Model.schoolLevelList != null)
                                                 {
-                                                    foreach (var item in Model.schoolLevelList)
-                                                    {
-                                                        if (item.LevelNum == Model.schoolLevel)
+                                                    <option value="0">Bằng cấp</option>
+                                                   for (int i = 1; i <= Model.schoolLevelList.Count(); i++)
                                                         {
-                                                            <option selected  value="@item.LevelNum">@item.Name</option>
+                                                            
+                                                            foreach (var item in Model.schoolLevelList)
+                                                            {
+
+                                                                if (item.LevelNum == i)
+                                                                {
+                                                                    <option value="@item.LevelNum">@item.Name</option>
+                                                                }
+
+                                                               
+
+                                                            }
                                                         }
-                                                        else 
-                                                        { 
-                                                            <option value="@item.LevelNum">@item.Name</option>
-                                                        }
-                                                    }
                                                 }          
 
                                             </select>
@@ -564,7 +570,7 @@
                                 {
 
                                     <li class="list-group-item">
-                                        <a target="_blank" href="/Job/Detail/?jobID=@item.JobID" title="Job - Tuyển Gấp Lập Trình Viên .NET - CTC Communications">
+                                        <a target="_blank" href="/Job/Detail/?jobID=@item.JobID" >
                                             <div class="row">
                                                 <div class="col-md-9">
                                                     @if (item.isHightLight)

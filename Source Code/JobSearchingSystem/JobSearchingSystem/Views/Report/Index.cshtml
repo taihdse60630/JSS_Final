@@ -5,11 +5,36 @@
 }
 @model JobSearchingSystem.Models.ReportViewModels
 
+<script>
+    $(document).ready(function () {
 
+        $.extend($.fn.dataTable.defaults, {
+            searching: true
+        });
+        var table = $('#myTable').DataTable({
+            lengthChange: false,
+            "language": {
+                "lengthMenu": "Hiển thị _MENU_ yêu cầu mỗi trang",
+                "zeroRecords": "Không tìm thấy dữ liệu phù hợp",
+                "info": "Hiển thị trang _PAGE_ trên tổng số _PAGES_ trang",
+                "infoEmpty": "Không tìm thấy dữ liệu phù hợp",
+                "infoFiltered": "(tìm kiếm từ _MAX_ yêu cầu)",
+                "oPaginate": {
+                    "sNext": "Trang sau",
+                    "sPrevious": "Trang trước"
+                }
+            }
 
-<h2>Index</h2>
+        });
 
-<div class="page-content" style="padding: 20px 0px 20px 250px">
+        $("#CreateBtn").click(function () {
+            $("#CreateForm").modal("show");
+        });
+    });
+
+</script>
+
+<div class="page-content" style="padding: 20px 100px 20px 100px; background-color: #dedede; ">
     <div class="col-lg-9 panel panel-default">
         <h3 style="font-weight:600;text-align:center">Danh sách Report</h3>
         <br />
@@ -21,12 +46,12 @@
         <br />
         <div class="table-container">
 
-            <table class="table table-hover table-striped table-bordered table-advanced tablesorter">
+            <table id="myTable" class="table table-hover table-striped table-bordered table-advanced tablesorter">
                 <thead>
                     <tr>
                         @*<th width="3%">
-                                <input id="square-checkbox-1" tabindex="9" type="checkbox" />
-                            </th>*@
+                        <input id="square-checkbox-1" tabindex="9" type="checkbox" />
+                    </th>*@
                         <th width="3%">No</th>
                         <th width="14%">Người gửi </th>
                         <th width="12%">Nội dung Report</th>
@@ -36,94 +61,67 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @{                    
-                    int i = 1;
-                        
-                    if (Model.reportList != null)
-                    {
-                        
-                        foreach (var item in Model.reportList)
+                    @{
+                        int i = 1;
+
+                        if (Model.reportList != null)
                         {
-                            string subString = "";
-                            string content = item.Report_content;
-                            if (content.Length > 10)
+
+                            foreach (var item in Model.reportList)
                             {
-                                subString = content.Substring(0, 10) + " ....";
-                            }
-                          
-                            
-                            <div id="modal-report-@item.ReportID" tabindex="-1" role="dialog" aria-labelledby="modal-header-primary-label" aria-hidden="true" class="modal fade">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header modal-header-primary">
-                                        <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
-                                        <h4 id="modal-header-primary-label" class="modal-title">Report</h4>
-                                    </div>
-                                    <div class="modal-body"><textarea id="reportContent" name="reportContent" rows="4" cols="75">@item.Report_content</textarea></div>
-                                    <div class="modal-footer">
-                                        <button type="button" data-dismiss="modal" class="btn btn-default">Đóng</button>
-                                        
+                                string subString = "";
+                                string content = item.Report_content;
+                                if (content.Length > 10)
+                                {
+                                    subString = content.Substring(0, 10) + " ....";
+                                }
+
+
+                                <div id="modal-report-@item.ReportID" tabindex="-1" role="dialog" aria-labelledby="modal-header-primary-label" aria-hidden="true" class="modal fade">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header modal-header-primary">
+                                                <button type="button" data-dismiss="modal" aria-hidden="true" class="close">&times;</button>
+                                                <h4 id="modal-header-primary-label" class="modal-title">Report</h4>
+                                            </div>
+                                            <div class="modal-body"><textarea id="reportContent" name="reportContent" rows="4" cols="75">@item.Report_content</textarea></div>
+                                            <div class="modal-footer">
+                                                <button type="button" data-dismiss="modal" class="btn btn-default">Đóng</button>
+
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        
-                           
-                            
-                            <tr>
-                               
-                                <td>@i</td>
-                                <td><a href="#">@item.SenderUser</a></td>
-                                <td><a  data-target="#modal-report-@item.ReportID" data-toggle="modal" style="color: #428bca;">@subString</a></td>
-                                <td>
-                                    @String.Format("{0:d}", item.CreatedDate)
-                                </td>
-                                <td><span class="label label-sm label-success">Đã xử lý</span></td>
-                                <td>
-                                    <a href="/Report/DeleteReport?reportID=@item.ReportID" class="label label-sm label-danger">
-                                        <i class="fa fa-times"></i>&nbsp;
-                                        Xóa
-                                    </a>
-                                </td>
-                            </tr>
-                        
-                            i++;
+
+
+
+                                <tr>
+
+                                    <td>@i</td>
+                                    <td><a href="#">@item.SenderUser</a></td>
+                                    <td><a data-target="#modal-report-@item.ReportID" data-toggle="modal" style="color: #428bca;">@subString</a></td>
+                                    <td>
+                                        @String.Format("{0:d}", item.CreatedDate)
+                                    </td>
+                                    <td><span class="label label-sm label-success">Đã xử lý</span></td>
+                                    <td>
+                                        @using (Html.BeginForm("DeleteReport", "Report", FormMethod.Post, new { id = "DeleteForm" + item.ReportID, style = "display: inline;" }))
+                                        {
+                                            <input type="hidden" name="reportID" value="@item.ReportID" />
+                                            <button type="button" data-id="DeleteForm@(item.ReportID)" data-message="Bạn thật sự muốn xóa?" class="btn btn-red btn-sm confirmButton">
+                                                <i class="fa fa-trash-o" data-toggle="tooltip" title="Xóa"></i>&nbsp;
+                                            </button>
+                                        }
+                                    </td>
+                                </tr>
+
+                                i++;
+                            }
                         }
                     }
-                    }
-                    
+
                 </tbody>
             </table>
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="pagination-panel">
-                        Page
-                        &nbsp;<a href="#" class="btn btn-sm btn-default btn-prev"><i class="fa fa-angle-left"></i></a>&nbsp;<input type="text" maxlenght="5" value="1" class="pagination-panel-input form-control input-mini input-inline input-sm text-center">&nbsp;<a href="#" class="btn btn-sm btn-default btn-prev"><i class="fa fa-angle-right"></i></a>&nbsp;
-                        of 6 | View
-                        &nbsp;<select class="form-control input-xsmall input-sm input-inline">
-                            <option value="20" selected="selected">20</option>
-                            <option value="50">50</option>
-                            <option value="100">100</option>
-                            <option value="150">150</option>
-                            <option value="-1">All</option>
-                        </select>&nbsp;
-                        records | Found total 58 records
-                    </div>
-                </div>
-                <div class="col-lg-6 text-right">
-                    <div class="pagination-panel">
-                        <ul class="pagination pagination-sm man">
-                            <li><a href="#">«</a></li>
-                            <li><a href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">5</a></li>
-                            <li><a href="#">»</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
         </div>
 
     </div>

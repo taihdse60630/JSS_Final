@@ -13,7 +13,13 @@
 <link type="text/css" rel="stylesheet" href="~/Content/vendors/bootstrap-timepicker/css/bootstrap-timepicker.min.css">
 <link type="text/css" rel="stylesheet" href="~/Content/vendors/bootstrap-clockface/css/clockface.css">
 <link type="text/css" rel="stylesheet" href="~/Content/vendors/bootstrap-switch/css/bootstrap-switch.css">
+<link rel="stylesheet" href="~/Content/css/bootstrap-tagsinput.css">
+<link rel="stylesheet" href="~/Content/css/jquery.tag-editor.css">
 
+
+
+<script src="~/Content/js/jquery.caret.min.js"></script>
+<script src="~/Content/js/jquery.tag-editor.js"></script>
 <script src="~/Content/vendors/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
 <script src="~/Content/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
 <script src="~/Content/vendors/moment/moment.js"></script>
@@ -175,7 +181,78 @@
         }
     });
 
+    function SearchText(inputID) {
+        var userList;
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "/Job/AutoCompleteSkill",
+            data: "{'skill':'" + document.getElementById(inputID).value + "'}",
+            dataType: "json",
+            success: function (data) {
+                skillList = data;
+                //$('#' + inputID).autocomplete({
+                //    source: skillList
+                //});
 
+                if ($('#ownSkills').val().length > 0) {
+                    var ownSkills = $("#ownSkills").val().split(',');
+
+
+                    $('#' + inputID).tagEditor({
+                        autocomplete: {
+                            delay: 0, // show suggestions immediately
+                            position: { collision: 'flip' }, // automatic menu position up/down
+                            source: skillList
+                        },
+                        initialTags: ownSkills,
+                        forceLowercase: false,
+                        placeholder: 'Kỹ năng của bạn...',
+                        delimiter: ',', /* space and comma */
+                        onChange: function (field, editor, tags) {
+
+                        }
+                    });
+                }
+                else {
+                    $('#' + inputID).tagEditor({
+                        autocomplete: {
+                            delay: 0, // show suggestions immediately
+                            position: { collision: 'flip' }, // automatic menu position up/down
+                            source: skillList
+                        },
+                        forceLowercase: false,
+                        placeholder: 'Kỹ năng của bạn...',
+                        delimiter: ',', /* space and comma */
+                        onChange: function (field, editor, tags) {
+
+                        }
+                    });
+                }
+                
+            },
+
+
+            error: function (xhr, status, error) {
+                alert(error);
+            }
+        });
+    }
+
+    function getTags() {
+        document.getElementById("skillList").value = $('#skill').tagEditor('getTags')[0].tags;
+
+    }
+
+    function beforeSubmit() {
+        getTags();
+        $('#updateForm').submit();
+    }
+
+    $(document).ready(function () {
+        SearchText("skill");
+     
+    });
     /*function enableDisable(bEnable, textBoxID) {
         document.getElementById(textBoxID).disabled = !bEnable;
     }
@@ -219,7 +296,7 @@
 <div class="page-content" style="padding: 20px 100px 20px 100px; background-color: #dedede; ">
 
     <br />
-@using (Html.BeginForm("Update", "Profile", FormMethod.Post))
+@using (Html.BeginForm("Update", "Profile", FormMethod.Post, new { id = "updateForm" }))
 {
     <input type="hidden" id="ButtonName" name="ButtonName" value="@ViewBag.ButtonName" />
 
@@ -400,6 +477,21 @@
                                                         </label>
                                                     }
                                                 </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+
+                                                <label for="selLastCompany" style=" margin-left: 8%;" class="col-md-2 control-label">Kỹ năng<span class="require">*</span></label>
+
+                                                <input type="hidden" id="ownSkills" value="@Model.ownSkills" />
+                                                <div class="col-md-9">
+                                                    <input id="skill" name="skill" type="text" placeholder="" class="form-control" autocomplete="on" />
+                                                    <input type="hidden" id="skillList" name="skillList" />
+                                                </div>
+
                                             </div>
                                         </div>
                                     </div>
@@ -797,7 +889,7 @@
                                                 }
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>          
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
@@ -1092,7 +1184,7 @@
                         <div class="form-body pal">
                             <!--Button-->
                             <div class="text-right">
-                                <button type="submit" class="btn btn-success">@ViewBag.ButtonName</button>
+                                <button type="button" onclick="beforeSubmit()" class="btn btn-success">@ViewBag.ButtonName</button>
                             </div>
                         </div>
                     </div>

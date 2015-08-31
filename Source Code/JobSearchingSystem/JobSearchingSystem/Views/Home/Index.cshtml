@@ -366,11 +366,12 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <select id="schoolLevel" name="schoolLevel" class="form-control" name="currentJobLevel" data-placeholder="Ví dụ: Nhân viên" tabindex="-1" title="Cấp bậc hiện tại">
-                                                    @if (Model.schoolLevelList != null)
+                                                    <option value="0">Bằng cấp</option>
+                                                     @if (Model.schoolLevelList != null)
                                                     {
                                                         for (int i = 1; i <= Model.schoolLevelList.Count(); i++)
                                                         {
-                                                            <option value="0">Bằng cấp</option>
+                                                           
                                                             foreach (var item in Model.schoolLevelList)
                                                             {
 

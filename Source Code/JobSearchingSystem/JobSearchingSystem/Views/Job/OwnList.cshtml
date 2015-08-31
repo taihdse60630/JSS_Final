@@ -27,6 +27,19 @@
 
         });
 
+        if ($('#jobpackagemessage').val().length > 0) {
+            swal({
+                title: "",
+                text: "Bạn cần mua gói công việc!",
+                type: "warning",
+                showCancelButton: false,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "OK",
+                closeOnConfirm: false
+            }, function () {
+                window.location.href = "../JobPackage/Choose";
+            });
+        }
     });
 
     $(document).on("click", ".open-ModalDisplayConfirm", function (id) {
@@ -73,6 +86,8 @@
     }
 </script>
 
+
+<input type="hidden" id="jobpackagemessage" value="@ViewBag.jobpackagemessage" />
 
 
 <div id="searchJobseeker" tabindex="-1" role="dialog" aria-labelledby="modal-wide-width-label" aria-hidden="true" class="modal fade">
