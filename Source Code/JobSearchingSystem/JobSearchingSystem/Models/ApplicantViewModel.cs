@@ -8,6 +8,7 @@ namespace JobSearchingSystem.Models
     public class JobseekerList
     {
         public IEnumerable<ApplicantItem> jobseekerList { get; set; }
+        public string percentMatching { get; set; }
     }
 
     public class SosanhItem
@@ -16,6 +17,7 @@ namespace JobSearchingSystem.Models
         public bool isSatisfied { get; set; }
         public string columnName { get; set; }
         public string applicantInfo { get; set; }
+        public int tyle { get; set; }
     }
 
     public class ApplicantItem

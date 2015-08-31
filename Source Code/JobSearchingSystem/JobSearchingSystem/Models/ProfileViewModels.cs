@@ -128,6 +128,7 @@ namespace JobSearchingSystem.Models
 
         public Contact contact { get; set; }
         public ProContactForm contactForm { get; set; }
+        public string ownSkills { get; set; }
         public ProCommonInfoItem commonInfoItem { get; set; }
         public ProCommonInfoForm commonInfoForm { get; set; }
         public EmploymentHistory employmentHistory { get; set; }

@@ -41,7 +41,7 @@ namespace JobSearchingSystem.Models
             this.JobView = 0;
             this.StartedDate = null;
             this.EndDate = null;
-            this.IsPublic = false;
+            this.IsPublic = true;
         }
     }
 
