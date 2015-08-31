@@ -80,6 +80,12 @@
     function makeDangerous() {
         document.getElementById('Topic_content').value = window.unescape(document.getElementById('Topic_content').value);
     }
+    function checkAll() {
+        $('input:visible').iCheck('check');
+    }
+    function unCheckAll() {
+        $('input:visible').iCheck('uncheck');
+    }
 </script>
 
 
@@ -113,8 +119,46 @@
     }
     function summitDeleteForm() {
 
-         document.getElementById("typeOfMessage").value = document.getElementById("messageRole").value;
-        $('form#deleteForm').submit();
+
+
+        document.getElementById("typeOfMessage").value = document.getElementById("messageRole").value;
+
+      
+         
+            swal({
+                title: "Bạn có chắc muốn xóa tin nhắn?",
+                text: "",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Có",
+                cancelButtonText: "Không",
+                closeOnConfirm: false
+            },
+                   function () {
+                       var checkboxes = $(".icheckbox_minimal-grey").filter(".checked");
+                       if (checkboxes.length == 0) {
+                           swal({
+                               title: "Bạn chưa chọn bất kì tin nhắn nào",
+                               text: "",
+                               type: "error",
+                               showCancelButton: true,
+                               showConfirmButton: false,
+                               cancelButtonColor: "#DD6B55",
+                               cancelButtonText: "Đóng",
+                               closeOnConfirm: false
+                           });
+                       } else {
+                           $('form#deleteForm').submit();
+                       }
+
+                       //alert(id);
+                   });
+
+   
+
+
+      
     }
 
     $(document).ready(function () {       
@@ -138,7 +182,7 @@
                         source: userList
                     },
                     forceLowercase: false,
-                    placeholder: 'Receiver username ...',
+                    placeholder: 'Tài khoản người nhận...',
                     onChange: function (field, editor, tags) {
 
                     }
@@ -187,9 +231,59 @@
 </script>
 <script>
     function EncapsuleData() {
-        getTags();
-        makeSafe();
-        return true;
+       
+            //var packageForm = $('#packageForm');
+            //var packageId = $("input[name='jobPackageID']").val();
+        //var quantity = $("#quantity option:selected").text();
+        
+            getTags();
+            var userList = document.getElementById("tagList").value;
+            var content = editor.getValue();
+            if (userList == "") {
+                swal("Vui lòng nhập tài khoản người nhận", "", "error")
+            }else if(content == "")
+            {
+                swal("Vui lòng nhập nội dung tin nhắn", "", "error")
+            } else
+            {
+
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    url: "/Message/CheckReceiverList",
+                    data: "{'userList':'" + userList + "'}",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data) {
+                            //swal("Đã gửi yêu cầu thành công", "", "success");
+
+                            makeSafe();
+                            $('form#sendMessageForm').submit();
+
+
+
+                            //$("#modal-report").modal("hide");
+                            //$(".modal-backdrop").remove();
+                        } else {
+                            swal("Không thể gửi tin nhắn!", "Có tài khoản không tồn tại trong danh sách người nhận", "error")
+
+
+
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        alert(error);
+                    }
+
+                });
+            }
+
+
+          
+        
+        //getTags();
+        //makeSafe();
+        //return false;
     }
 </script>
 <div id="modal-wide-width" tabindex="-1" role="dialog" aria-labelledby="modal-wide-width-label" aria-hidden="true" class="modal fade">
@@ -200,7 +294,7 @@
                 <h4 id="modal-header-primary-label" class="modal-title">Tin nhắn mới</h4>
             </div>
 
-            @using (Html.BeginForm("SendMessage", "Message", FormMethod.Post, new { onsubmit = "return EncapsuleData();" }))
+            @using (Html.BeginForm("SendMessage", "Message", FormMethod.Post, new { id= "sendMessageForm" }))
             { 
             <div class="modal-body">
                 <div class="compose-mail">
@@ -240,7 +334,7 @@
            
             <div class="modal-footer">
                 <button type="button" data-dismiss="modal" class="btn btn-default">Đóng</button>              
-                <button type="submit" onsubmit="EncapsuleData()" class="btn btn-green"><i class="fa fa-check"></i> Gửi</button>
+                <button type="button" onclick="EncapsuleData()" class="btn btn-green"><i class="fa fa-check"></i> Gửi</button>
             </div>
             }
         </div>
@@ -255,32 +349,30 @@
              <div class="row">
             <div class="col-sm-3 col-md-2">
             </div>
-            <div class="col-sm-9 col-md-10">
-            
-                <button type="button" data-toggle="tooltip" title="" class="btn btn-default btn-sm mls mrs" data-original-title="Refresh"><span class="glyphicon glyphicon-refresh"></span></button>
-                <div class="btn-group btn-group-sm">
-                    <button type="button" data-toggle="dropdown" class="btn btn-blue dropdown-toggle">
-                        Thao tác
-                        &nbsp;<span class="caret"></span>
-                    </button>
-                    <ul role="menu" class="dropdown-menu">
-                        <li><a href="#"><i class="fa fa-check-circle-o fa-fw mrs"></i> Đánh dấu đã xem tất cả tin nhắn</a></li>
-                        <li><a  onclick="summitDeleteForm()"><i class="fa fa-trash-o fa-fw mrs"></i>Xóa các tin nhắn đã chọn</a></li>
-                        @*<li class="divider"></li>
-                            <li class="text-center pbm">
-                                <small class="text-muted">Select messages to see more actions</small>
-                            </li>*@
-                    </ul>
-                </div>
-                <div class="pull-right">
-                    <span class="text-muted"><b>1</b>&nbsp; – &nbsp;<b>50</b>&nbsp; of &nbsp;<b>277</b></span>
+                 <div class="col-sm-8 col-md-8" style="margin-left: 8%;">
 
-                    <div class="btn-group btn-group-sm mlm">
-                        <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span></button>
-                        <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-chevron-right"></span></button>
-                    </div>
-                </div>
-            </div>
+                     <button type="button" data-toggle="tooltip" title="" onclick="window.location.reload()"  class="btn btn-default btn-sm mls mrs" data-original-title="Refresh"><span class="glyphicon glyphicon-refresh"></span></button>
+                     <div class="btn-group btn-group-sm">
+                         <button type="button" data-toggle="dropdown" class="btn btn-blue dropdown-toggle">
+                             Thao tác
+                             &nbsp;<span class="caret"></span>
+                         </button>
+                         <ul role="menu" class="dropdown-menu">
+                             <li><a onclick="checkAll()"><i class="fa fa-check-circle-o fa-fw mrs"></i> Đánh dấu tất cả tin nhắn</a></li>
+                             <li><a onclick="unCheckAll()"><i class="fa fa-check-circle-o fa-fw mrs"></i> Bỏ đánh dấu tất cả tin nhắn</a></li>
+                             <li><a onclick="summitDeleteForm()"><i class="fa fa-trash-o fa-fw mrs"></i>Xóa các tin nhắn đã chọn</a></li>
+                             @*<li class="divider"></li>
+                    <li class="text-center pbm">
+                        <small class="text-muted">Select messages to see more actions</small>
+                    </li>*@
+                         </ul>
+                     </div>
+                     <div class="pull-right">
+
+
+
+                     </div>
+                 </div>
         </div>
         <div class="mtl mbl"></div>
         <div class="row">
@@ -288,9 +380,9 @@
                 <button type="button" data-target="#modal-wide-width" data-toggle="modal" class="btn btn-danger btn-sm btn-block"><i class="fa fa-pencil" style="margin-right:10px"></i>Viết tin nhắn mới</button>
                 <div class="mtm mbm"></div>
                 <ul id="messageCategory" style="border-style: solid;background: #FFF;border-color: rgb(230, 232, 216);" class="nav nav-pills nav-stacked">
-                    <li id="allMessage"><a href="/Message/List"><span class="badge pull-right">42</span><i class="fa fa-inbox fa-fw mrs"></i>Hộp tin</a></li>
-                    <li id="sentMessage"><a href="/Message/SentMessageList"><i class="fa fa-plane fa-fw mrs"></i>Tin đã gửi</a></li>
-                    <li id="deletedMessage"><a href="/Message/DeletedMessageList"><i class="fa fa-trash-o fa-fw mrs"></i>Tin đã xóa</a></li>
+                    <li id="allMessage"><a href="/Message/List"><span class="badge pull-right">@Model.numberOfInbox</span><i class="fa fa-inbox fa-fw mrs"></i>Hộp tin</a></li>
+                    <li id="sentMessage"><a href="/Message/SentMessageList"><span class="badge pull-right">@Model.numberOfSent</span><i class="fa fa-plane fa-fw mrs"></i>Tin đã gửi</a></li>
+                    <li id="deletedMessage"><a href="/Message/DeletedMessageList"><span class="badge pull-right">@Model.numberOfDeleted</span><i class="fa fa-trash-o fa-fw mrs"></i>Tin đã xóa</a></li>
                 </ul>
                 <hr>
                 @*<ul style="background: #fff" class="nav nav-pills nav-stacked">

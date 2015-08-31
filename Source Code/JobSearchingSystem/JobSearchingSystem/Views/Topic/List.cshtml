@@ -47,7 +47,7 @@
                                                 <div class="col-md-8 blog-article">
                                                     <h3><a href="@Url.Action("Detail", new { id = item.TopicID })">@item.Title</a></h3>
                                                     <div id="text_@item.TopicID">
-                                                        @{string content = HttpUtility.UrlDecode(item.Topic_content);
+                                                        @{string content = HttpUtility.UrlDecode(item.Topic_content, System.Text.Encoding.Default);
                                                         string noHTML = Regex.Replace(content, @"<[^>]+>|&nbsp;", "").Trim();
                                                         string noHTMLNormalised = Regex.Replace(noHTML, @"\s{2,}", " ");
                                                         if (noHTMLNormalised.Length > 50)

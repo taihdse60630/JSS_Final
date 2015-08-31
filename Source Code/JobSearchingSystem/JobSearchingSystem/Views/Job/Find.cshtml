@@ -697,33 +697,32 @@
         <div class="col-md-4">
 
             <div class="panel panel-blue">
-                <div class="panel-heading" style="font-size:small">Nhà tuyển dụng hàng đầu</div>
+                <div class="panel-heading" style="font-size:medium">Nhà tuyển dụng hàng đầu</div>
                 <div class="panel-body">
-
-                    <ul class="list-group" id="myList2" style="margin-left: 2%;">
-                        @for (int i = 0; i < 5; i++)
+                    <div id="container" style="overflow-y:scroll;height:500px">
+                        <ul class="list-group" id="myList2" style="margin-left: 2%;">
+                            @if (Model.purchaseAdvertiseTypeA != null)
+                            {
+                                foreach (var item in Model.purchaseAdvertiseTypeA)
+                                {
+                                    <li class="">
+                                        <a href="/Job/JobsOfRecruiter?recruiterID=@item.RecuiterID"> <img class="salesLogoImage img-responsive" src="@item.LogoUrl" width="70" height="43" border="0"></a>
+                                    </li>
+                                }
+                            }
+                        </ul>
+                    </div>
+                    @*<ul class="list-group" id="myList2" style="margin-left: 2%; height: 500px"">
+                        @if (Model.purchaseAdvertiseTypeA != null)
                         {
-                            <li class="">
-                                <a href="#"> <img class="salesLogoImage img-responsive" src="~/Content/img/logo_21.jpg" width="88" height="43" alt="Việc làm, tuyển dụng, tìm việc làm, viec lam - Viethung" title="Việc làm tại Viethung" border="0"></a>
-                            </li>
-
+                            foreach (var item in Model.purchaseAdvertiseTypeA)
+                            {
+                                <li class="">
+                                    <a href="/Job/JobsOfRecruiter?recruiterID=@item.RecuiterID"> <img class="salesLogoImage img-responsive" src="@item.LogoUrl" width="70" height="43" border="0"></a>
+                                </li>
+                            }
                         }
-                        @for (int i = 0; i < 5; i++)
-                        {
-                            <li class="">
-                                <a href="#"> <img class="salesLogoImage img-responsive" src="~/Content/img/logo_ecopark_88x43.png" width="88" height="43" alt="Việc làm, tuyển dụng, tìm việc làm, viec lam - Viethung" title="Việc làm tại Viethung" border="0"></a>
-                            </li>
-
-                        }
-                        @for (int i = 0; i < 6; i++)
-                        {
-                            <li class="">
-                                <a href="#"> <img class="salesLogoImage img-responsive" src="~/Content/img/logo_unilever_88x43.gif" width="88" height="43" alt="Việc làm, tuyển dụng, tìm việc làm, viec lam - Viethung" title="Việc làm tại Viethung" border="0"></a>
-                            </li>
-
-                        }
-
-                    </ul>
+                    </ul>*@
                 </div>
             </div>
         </div>

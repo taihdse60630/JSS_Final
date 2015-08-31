@@ -49,7 +49,7 @@
                         source: userList
                     },
                     forceLowercase: false,
-                    placeholder: 'Receiver username ...',
+                    placeholder: 'Tài khoản người nhận ...',
                     onChange: function (field, editor, tags) {
 
                     }
@@ -157,9 +157,9 @@
                 <button type="button" data-target="#modal-wide-width" data-toggle="modal" class="btn btn-danger btn-sm btn-block"><i class="fa fa-pencil" style="margin-right:10px"></i>Viết tin nhắn mới</button>
                 <div class="mtm mbm"></div>
                 <ul style="border-style: solid;background: #FFF;border-color: rgb(230, 232, 216);" class="nav nav-pills nav-stacked">
-                    <li id="allMessage"><a href="/Message/List"><span class="badge pull-right">42</span><i class="fa fa-inbox fa-fw mrs"></i>Hộp tin</a></li>
-                    <li id="sentMessage"><a href="/Message/SentMessageList"><i class="fa fa-plane fa-fw mrs"></i>Tin đã gửi</a></li>
-                    <li id="deletedMessage"><a href="/Message/DeletedMessageList"><i class="fa fa-trash-o fa-fw mrs"></i>Tin đã xóa</a></li>
+                    <li id="allMessage"><a href="/Message/List"><span class="badge pull-right">@Model.numberOfInbox</span><i class="fa fa-inbox fa-fw mrs"></i>Hộp tin</a></li>
+                    <li id="sentMessage"><a href="/Message/SentMessageList"><span class="badge pull-right">@Model.numberOfSent</span><i class="fa fa-plane fa-fw mrs"></i>Tin đã gửi</a></li>
+                    <li id="deletedMessage"><a href="/Message/DeletedMessageList"><span class="badge pull-right">@Model.numberOfDeleted</span><i class="fa fa-trash-o fa-fw mrs"></i>Tin đã xóa</a></li>
                 </ul>
                 <hr>
                 @*<ul style="background: #fff" class="nav nav-pills nav-stacked">
@@ -188,8 +188,8 @@
                                     <div class="row">
                                         <div class="col-md-8">
                                             <strong>[@Model.message.SenderName]</strong>&nbsp;
-                                            to
-                                            &nbsp;<strong>me</strong>
+                                            tới
+                                            &nbsp;<strong>[@Model.message.ReceiverName]</strong>
                                         </div>
                                         <div class="col-md-4"><p class="date"> @Model.message.SendTime</p></div>
                                     </div>

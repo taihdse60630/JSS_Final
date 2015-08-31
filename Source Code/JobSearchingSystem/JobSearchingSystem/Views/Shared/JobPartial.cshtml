@@ -1,0 +1,98 @@
+﻿@model JobSearchingSystem.Models.HIndexViewModel
+
+
+<div id="container" style="overflow-y:scroll;height:500px">
+    <ul class="list-group" id="myList" style="margin-left: 2%;">
+        @if (Model.jobList != null)
+        {
+            foreach (var item in Model.jobList)
+            {
+
+                <li class="list-group-item">
+                    <a target="_blank" href="/Job/Detail/?jobID=@item.JobID">
+                        <div class="row">
+                            <div class="col-md-9">
+                                @if (item.isHightLight)
+                                {
+                                    <strong style="color:red">@item.JobTitle</strong><br />
+                                }
+                                else
+                                {
+                                    <strong>@item.JobTitle</strong><br />
+                                }
+
+                                <em>
+                                    <span>
+                                        <span>
+                                            @if (item.JobCities != null)
+                                            {
+                                                foreach (var item2 in item.JobCities)
+                                                { @item2.Name <span>,</span>}
+                                            }
+                                        </span>|<span>@item.JobLevelName</span>
+                                    </span>
+                                </em><br />
+                                <span style="margin-right: 10px;">
+                                    <i class="fa fa-fw fa-calendar"></i>Ngày đăng: @String.Format("{0:d}", item.PostedDate)
+                                </span>
+                                <span><i class="fa fa-fw fa-eye"></i>Lượt xem: @item.JobView</span><br />
+                                @{
+                                            int i = 1;
+                                            foreach (var item3 in item.JobSkills)
+                                            {
+                                                if (i == 1)
+                                                {
+                                                    <div class="progress" style="width: 10%;height: 5px;margin-top: 1.5%;float: left;margin-right: 2%;">
+                                                        <div role="progressbar" aria-valuetransitiongoal="100" class="progress-bar progress-bar-success" aria-valuenow="100" style="width: 100%;"></div>
+                                                    </div><em style="font-size: x-small;">@item3.SkillTag</em> <br />
+                                                }
+                                                if (i == 2)
+                                                {
+                                                    <div class="progress" style="width: 9.4%;height: 5px;margin-top: 1.5%;float: left;margin-right: 2%;position:absolute">
+                                                        <div role="progressbar" aria-valuetransitiongoal="100" class="progress-bar progress-bar-warning" aria-valuenow="100" style="width: 100%;"></div>
+                                                    </div><em style="font-size: x-small;">@item3.SkillTag</em><br />
+                                                }
+                                                if (i == 3)
+                                                {
+                                                    <div class="progress" style="width: 10%; height: 5px; margin-top: 1.5%; float: left; margin-right: 2%;">
+                                                        <div role="progressbar" aria-valuetransitiongoal="100" class="progress-bar progress-bar-danger" aria-valuenow="100" style="width: 100%;"></div>
+                                                    </div><em style="font-size: x-small;">@item3.SkillTag</em>
+                                                }
+                                                i++;
+                                            }
+                                }
+                                @*<div class="progress" style="width: 10%;height: 5px;margin-top: 1.5%;float: left;margin-right: 2%;">
+                                    <div role="progressbar" aria-valuetransitiongoal="100" class="progress-bar progress-bar-success" aria-valuenow="100" style="width: 75%;"></div>
+                                </div><em style="font-size: x-small;">It- Phần Cứng - Mạng</em>
+                                <br />
+
+                                <div class="progress" style="width: 9.4%;height: 5px;margin-top: 1.5%;float: left;margin-right: 2%;position:absolute">
+                                    <div role="progressbar" aria-valuetransitiongoal="100" class="progress-bar progress-bar-warning" aria-valuenow="100" style="width: 75%;"></div>
+                                </div><em style="font-size: x-small;">SQL Server</em><br />
+
+                                <div class="progress" style="width: 10%; height: 5px; margin-top: 1.5%; float: left; margin-right: 2%;">
+                                    <div role="progressbar" aria-valuetransitiongoal="100" class="progress-bar progress-bar-danger" aria-valuenow="100" style="width: 75%;"></div>
+                                </div><em style="font-size: x-small;">English; Japanese</em>*@
+                            </div>
+                            <div class="col-md-3">
+                                @if (item.MinSalary == null && item.MaxSalary == null)
+                                {
+                                    <strong>Thỏa thuận</strong><br />
+                                }
+                                else
+                                {
+                                    <strong>$@item.MinSalary.ToString().TrimEnd('0').TrimEnd(',')- $@item.MaxSalary.ToString().TrimEnd('0').TrimEnd(',')</strong><br />
+                                }
+
+                                <a href="/Job/JobsOfRecruiter?recruiterID=@item.RecruiterID"> <img class="salesLogoImage img-responsive" src="@item.LogoURL" width="88" height="43" border="0"></a>
+                            </div>
+                        </div>
+
+                    </a>
+                </li>
+                <br />
+            }
+        }
+    </ul>
+
+</div>

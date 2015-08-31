@@ -257,9 +257,14 @@
 </script>
 <script>
     function EncapsuleData() {
-        getTags();
-        makeSafe();
-        return true;
+        var content = editor.getValue();
+        if (content == "") {
+            swal("Vui lòng nhập nội dung tin nhắn", "", "error")
+        } else {
+            getTags();
+            makeSafe();
+            $('form#sendMessageForm').submit();
+        }     
     }
     
 </script>
@@ -403,7 +408,7 @@
                 <h4 id="modal-header-primary-label" class="modal-title">Tin nhắn mới</h4>
             </div>
 
-            @using (Html.BeginForm("SendMessage", "Applicant", FormMethod.Post, new { onsubmit = "return EncapsuleData();" }))
+            @using (Html.BeginForm("SendMessage", "Applicant", FormMethod.Post, new { id = "sendMessageForm" }))
             {
                 <div class="modal-body">
                     <div class="compose-mail">
@@ -444,7 +449,7 @@
 
                 <div class="modal-footer">
                     <button type="button" data-dismiss="modal" class="btn btn-default">Đóng</button>
-                    <button type="submit" onsubmit="EncapsuleData()" class="btn btn-green"><i class="fa fa-check"></i> Gửi</button>
+                    <button type="button" onclick="EncapsuleData()" class="btn btn-green"><i class="fa fa-check"></i> Gửi</button>
                 </div>
             }
         </div>

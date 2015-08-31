@@ -12,7 +12,9 @@
         <div class="list-group">
             @if (Model.messageList != null)
             {
-                foreach (var item in Model.messageList)
+                if (Model.typeOfMessage.Equals("deletedMessage"))
+                {
+                        foreach (var item in Model.messageList)
                 {
 
                     string content = HttpUtility.UrlDecode(item.Content, System.Text.Encoding.Default);
@@ -21,9 +23,35 @@
                     if (noHTMLNormalised.Length > 20)
                     {
                         noHTMLNormalised = noHTMLNormalised.Substring(0, 20) + " ....";
-                    }
-                    <a href="/Message/Detail?id=@item.MessageID" class="list-group-item"><input type="checkbox" id="@item.MessageID" name="mark" value="@item.MessageID"/><span style="min-width: 120px; display: inline-block;" class="name">@item.SenderName</span>@*<span>Sed ut perspiciatis unde</span>*@&nbsp;  &nbsp;<span style="font-size: 11px;" class="text-muted">@noHTMLNormalised</span><span class="badge">@item.SendTime</span><span class="pull-right mrl"></span></a>
+                    }                 
+                    
+                        <a href="/Message/Detail?id=@item.MessageID&&typeOfMessage=@Model.typeOfMessage" class="list-group-item"><span style="min-width: 120px; display: inline-block;" class="name">@item.SenderName</span>@*<span>Sed ut perspiciatis unde</span>*@&nbsp;  &nbsp;<span style="font-size: 11px;" class="text-muted">@noHTMLNormalised</span><span class="badge">@item.SendTime</span><span class="pull-right mrl"></span></a>
+
                 }
+                }
+                else
+                {
+                    foreach (var item in Model.messageList)
+                    {
+
+                        string content = HttpUtility.UrlDecode(item.Content, System.Text.Encoding.Default);
+                        string noHTML = Regex.Replace(content, @"<[^>]+>|&nbsp;", "").Trim();
+                        string noHTMLNormalised = Regex.Replace(noHTML, @"\s{2,}", " ");
+                        if (noHTMLNormalised.Length > 20)
+                        {
+                            noHTMLNormalised = noHTMLNormalised.Substring(0, 20) + " ....";
+                        }
+                        if (item.ReadTime != null)
+                        {
+                            <a href="/Message/Detail?id=@item.MessageID&&typeOfMessage=@Model.typeOfMessage"  class="list-group-item"><span style="min-width: 120px; display: inline-block;" class="name">@item.SenderName</span>@*<span>Sed ut perspiciatis unde</span>*@&nbsp;  &nbsp;<span style="font-size: 11px;" class="text-muted">@noHTMLNormalised</span><span class="badge">@item.SendTime</span><span class="pull-right mrl"></span></a>
+                        }
+                        else
+                        {
+                            <a href="/Message/Detail?id=@item.MessageID&&typeOfMessage=@Model.typeOfMessage" style="color: black;font-weight: 600;" class="list-group-item"><span style="min-width: 120px; display: inline-block;" class="name">@item.SenderName</span>@*<span>Sed ut perspiciatis unde</span>*@&nbsp;  &nbsp;<span style="font-size: 11px; color: black; font-weight: 600;" class="text-muted" >@noHTMLNormalised</span><span class="badge">@item.SendTime</span><span class="pull-right mrl"></span></a>
+                        }
+                    }
+                }
+
             }
             @*@using (Html.BeginForm("DeleteMessage", "Message", FormMethod.Post, new { id = "deleteForm" }))
             {

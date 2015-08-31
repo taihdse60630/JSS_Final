@@ -131,6 +131,14 @@
                                         <li class="package"><i class="fa fa-times disable"></i>Việc Làm Trên Trang Chủ</li>
                                     }
 
+                                    @if (item.IsCategoryPriority)
+                                    {
+                                         <li class="package"><i class="fa fa-check enable"></i>Có thể sử chức năng tìm kiếm ứng viên</li>
+                                    }
+                                    else { 
+                                        <li class="package"><i class="fa fa-times disable"></i>Có thể sử chức năng tìm kiếm ứng viên</li>
+                                    }
+
 
 
                                     <li class="text-center"><a href="/JobPackage/Invoice/?jobPackageID=@item.JobPackageID" class="btn btn-default btn-success">Mua</a></li>

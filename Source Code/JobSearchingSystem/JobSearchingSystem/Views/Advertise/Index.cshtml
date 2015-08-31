@@ -27,77 +27,105 @@
         });
     });
 </script>
+<div class="page-content" style="padding: 20px 0px 10px 10px">
+    <header class="cd-header" style="height: 50px; line-height: 100px;">
+        <h1 style="color:black">Gói quảng cáo</h1>
+    </header>
 
-<header class="cd-header">
-    <h1 style="color:black">Gói quảng cáo</h1>
-</header>
+    <div class="cd-pricing-container">
+        <ul class="cd-pricing-list">
+            @foreach (var item in Model.advertiseList)
+            {
 
-<div class="cd-pricing-container">
-    <ul class="cd-pricing-list">
-@foreach (var item in Model.advertiseList)
-    {
+                if ("Gold".Equals(item.Name))
+                {
+                    <li class="cd-popular">
+                        <header class="cd-pricing-header">
+                            <h2>@item.Name</h2>
 
-        if ("Gold".Equals(item.Name))
-        {
-                 <li class="cd-popular">
-            <header class="cd-pricing-header">
-                <h2>@item.Name</h2>
+                            <div class="cd-price">
+                                <span class="cd-currency">VND</span>
+                                <span class="cd-value" style="font-size: -webkit-xxx-large">@item.Cost.ToString().TrimEnd('0').TrimEnd(',')</span>
+                                <span class="cd-duration">tháng</span>
+                            </div>
+                        </header> <!-- .cd-pricing-header -->
 
-                <div class="cd-price">
-                    <span class="cd-currency">VND</span>
-                    <span class="cd-value" style="font-size: -webkit-xxx-large">@item.Cost.ToString().TrimEnd('0').TrimEnd(',')</span>
-                    <span class="cd-duration">tháng</span>
-                </div>
-            </header> <!-- .cd-pricing-header -->
+                        <div class="cd-pricing-body">
+                            <ul class="cd-pricing-features">
+                                @*<li><em>512MB</em> Memory</li>
+                                    <li><em>3</em> Users</li>
+                                    <li><em>5</em> Websites</li>
+                                    <li><em>7</em> Domains</li>*@
+                                <li><em>Hiển thị trên trang chủ</em> </li>
+                                <li><em>Vị trí :</em> @item.Description</li>
+                                <li><em>24/7</em> Hỗ trợ</li>
+                                <li><img src="~/Content/img/TopLogo.jpg" style="height: 150px" /> </li>
+                                <li><em></em> </li>
+                            </ul>
+                        </div> <!-- .cd-pricing-body -->
 
-            <div class="cd-pricing-body">
-                <ul class="cd-pricing-features">
-                    @*<li><em>512MB</em> Memory</li>
-                    <li><em>3</em> Users</li>
-                    <li><em>5</em> Websites</li>
-                    <li><em>7</em> Domains</li>*@
-                    <li><em>Vị trí :</em> @item.Description</li>
-                    <li><em>24/7</em> Hỗ trợ</li>
-                </ul>
-            </div> <!-- .cd-pricing-body -->
+                        <footer class="cd-pricing-footer">
+                            <a class="cd-select" href="/Advertise/Invoice/?advertiseID=@item.AdvertiseID">Mua</a>
+                        </footer> <!-- .cd-pricing-footer -->
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        <header class="cd-pricing-header">
+                            <h2>@item.Name</h2>
 
-            <footer class="cd-pricing-footer">
-                <a class="cd-select" href="/Advertise/Invoice/?advertiseID=@item.AdvertiseID">Mua</a>
-            </footer> <!-- .cd-pricing-footer -->
-        </li>
-        }else{
-              <li>
-                  <header class="cd-pricing-header">
-                      <h2>@item.Name</h2>
+                            <div class="cd-price">
+                                <span class="cd-currency">VND</span>
+                                <span class="cd-value" style="font-size: -webkit-xxx-large">@item.Cost.ToString().TrimEnd('0').TrimEnd(',')</span>
+                                <span class="cd-duration">tháng</span>
+                            </div>
+                        </header> <!-- .cd-pricing-header -->
 
-                      <div class="cd-price">
-                          <span class="cd-currency">VND</span>
-                          <span class="cd-value" style="font-size: -webkit-xxx-large">@item.Cost.ToString().TrimEnd('0').TrimEnd(',')</span>
-                          <span class="cd-duration">tháng</span>
-                      </div>
-                  </header> <!-- .cd-pricing-header -->
+                        <div class="cd-pricing-body">
+                            <ul class="cd-pricing-features">
+                                @*<li><em>512MB</em> Memory</li>
+                                    <li><em>3</em> Users</li>
+                                    <li><em>5</em> Websites</li>
+                                    <li><em>7</em> Domains</li>*@
 
-                  <div class="cd-pricing-body">
-                      <ul class="cd-pricing-features">
-                          @*<li><em>512MB</em> Memory</li>
-                <li><em>3</em> Users</li>
-                <li><em>5</em> Websites</li>
-                <li><em>7</em> Domains</li>*@
-                          <li><em>Vị trí :</em> @item.Description</li>
-                          <li><em>24/7</em> Hỗ trợ</li>
-                      </ul>
-                  </div> <!-- .cd-pricing-body -->
+                                @if (item.Name == "Diamond")
+                                {
+                                    <li><em>Hiển thị trên trang chủ</em> </li>
+                                    <li><em>Hiển thị trong trang tìm kiếm việc làm</em> </li>
+                                }
+                                else
+                                {
+                                    <li><em>Hiển thị trên trang chủ</em> </li>
 
-                  <footer class="cd-pricing-footer">
-                      <a class="cd-select" href="/Advertise/Invoice/?advertiseID=@item.AdvertiseID">Mua</a>
-                  </footer> <!-- .cd-pricing-footer -->
-        </li>
-        }
 
-        }
-   
-    </ul> <!-- .cd-pricing-list -->
-</div> <!-- .cd-pricing-container -->
+                                }
+
+                                <li><em>Vị trí :</em> @item.Description</li>
+                                <li><em>24/7</em> Hỗ trợ</li>
+                                @if (item.Name != "Diamond")
+                                {
+                                    <li><img src="~/Content/img/MidLogo.jpg" style="height: 150px" /> </li>
+                                    <li><em></em> </li>
+                               
+                                }
+                                else if (item.Name == "Diamond")
+                                {
+                                         <li><img src="~/Content/img/BottomLogo.jpg" style="height: 150px" /> </li>
+                                 }
+                            </ul>
+                        </div> <!-- .cd-pricing-body -->
+
+                        <footer class="cd-pricing-footer">
+                            <a class="cd-select" href="/Advertise/Invoice/?advertiseID=@item.AdvertiseID">Mua</a>
+                        </footer> <!-- .cd-pricing-footer -->
+                    </li>
+                }
+
+            }
+
+        </ul> <!-- .cd-pricing-list -->
+    </div> <!-- .cd-pricing-container -->
 
 
 
