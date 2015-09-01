@@ -28,8 +28,7 @@ namespace JobSearchingSystem.DAL
                 {
                     fullname = username;
                 }
-                Profile profile = this.ProfileRepository.Get(s => s.JobSeekerID == userId && s.IsActive == true && s.IsDeleted == false).LastOrDefault();
-                listApplicant.Add(new ApplicantItem(item.JobSeekerID, item.Profile.Name, item.Profile.ExpectedPosition, item.ApplyDate, item.MatchingPercent, item.Status, username, fullname, profile != null ? profile.ProfileID : 0));
+                listApplicant.Add(new ApplicantItem(item.JobSeekerID, item.Profile.Name, item.Profile.ExpectedPosition, item.ApplyDate, item.MatchingPercent, item.Status, username, fullname, item.ProfileID));
             }
             return listApplicant;
         }
@@ -127,6 +126,8 @@ namespace JobSearchingSystem.DAL
 
             if (profile != null && job != null)
             {
+                int tong = 0;
+
                 // MinSalary - MaxSalary Nullable - 20
                 decimal expectedSalary = profile.ExpectedSalary;
                 decimal? minSalary = job.MinSalary;
@@ -156,6 +157,7 @@ namespace JobSearchingSystem.DAL
                     || (minSalary == null && maxSalary != null && expectedSalary <= maxSalary))
                 {
                     sosanh1.isSatisfied = true;
+                    tong += 20;
                 }
                 else
                 {
@@ -176,6 +178,7 @@ namespace JobSearchingSystem.DAL
                     if (jobLevel.LevelNum >= expectedJobLevel.LevelNum)
                     {
                         sosanh2.isSatisfied = true;
+                        tong += 20;
                     }
                     else
                     {
@@ -197,6 +200,7 @@ namespace JobSearchingSystem.DAL
                     if (highestSchoolLevel.LevelNum >= minSchoolLevel.LevelNum)
                     {
                         sosanh3.isSatisfied = true;
+                        tong += 20;
                     }
                     else
                     {
@@ -221,7 +225,7 @@ namespace JobSearchingSystem.DAL
                     sosanh4.jobInfo = this.SkillRepository.GetByID(jobSkillIdList.ElementAt(0)).SkillTag;
                     for (int i = 1; i < jobSkillIdList.Count(); i++)
                     {
-                        sosanh4.jobInfo += "; " + this.SkillRepository.GetByID(jobSkillIdList.ElementAt(i)).SkillTag;
+                        sosanh4.jobInfo += ", " + this.SkillRepository.GetByID(jobSkillIdList.ElementAt(i)).SkillTag;
                     }
                 }
                 if (ownSkillIdList.Count() == 0)
@@ -230,15 +234,35 @@ namespace JobSearchingSystem.DAL
                 }
                 else
                 {
-                    sosanh4.applicantInfo = this.SkillRepository.GetByID(ownSkillIdList.ElementAt(0)).SkillTag;
+                    if (jobSkillIdList.Contains(ownSkillIdList.ElementAt(0)))
+                    {
+                        sosanh4.applicantInfo = this.SkillRepository.GetByID(ownSkillIdList.ElementAt(0)).SkillTag;
+                    }
+                    else 
+                    {
+                        sosanh4.applicantInfo = "<span style='color: red'>" + this.SkillRepository.GetByID(ownSkillIdList.ElementAt(0)).SkillTag + "</span>";
+                    }
                     for (int i = 1; i < ownSkillIdList.Count(); i++)
                     {
-                        sosanh4.applicantInfo += "; " + this.SkillRepository.GetByID(ownSkillIdList.ElementAt(i)).SkillTag;
+                        if (jobSkillIdList.Contains(ownSkillIdList.ElementAt(i)))
+                        {
+                            sosanh4.applicantInfo += ", " + this.SkillRepository.GetByID(ownSkillIdList.ElementAt(i)).SkillTag;
+                        }
+                        else
+                        {
+                            sosanh4.applicantInfo += ", " + "<span style='color: red'>" + this.SkillRepository.GetByID(ownSkillIdList.ElementAt(i)).SkillTag + "</span>";
+                        }
                     }
                 }
-                if (jobSkillIdList.Count() == 0 || skillIdIntersectList.Count() > 0)
+                if (jobSkillIdList.Count() == 0)
                 {
                     sosanh4.isSatisfied = true;
+                    tong += 20;
+                }
+                else if (skillIdIntersectList.Count() > 0)
+                {
+                    sosanh4.isSatisfied = true;
+                    tong += skillIdIntersectList.Count() * 20 / jobSkillIdList.Count();
                 }
                 else
                 {
@@ -261,7 +285,7 @@ namespace JobSearchingSystem.DAL
                 //    sosanh5.jobInfo = this.BenefitRepository.GetByID(jobBenefitIdList.ElementAt(0)).Name;
                 //    for (int i = 1; i < jobBenefitIdList.Count(); i++)
                 //    {
-                //        sosanh5.jobInfo += "; " + this.BenefitRepository.GetByID(jobBenefitIdList.ElementAt(i)).Name;
+                //        sosanh5.jobInfo += ", " + this.BenefitRepository.GetByID(jobBenefitIdList.ElementAt(i)).Name;
                 //    }
                 //}
                 //if (desiredBenefit.Count() == 0)
@@ -273,7 +297,7 @@ namespace JobSearchingSystem.DAL
                 //    sosanh5.applicantInfo = this.BenefitRepository.GetByID(desiredBenefit.ElementAt(0)).Name;
                 //    for (int i = 1; i < desiredBenefit.Count(); i++)
                 //    {
-                //        sosanh5.applicantInfo += "; " + this.BenefitRepository.GetByID(desiredBenefit.ElementAt(i)).Name;
+                //        sosanh5.applicantInfo += ", " + this.BenefitRepository.GetByID(desiredBenefit.ElementAt(i)).Name;
                 //    }
                 //}
                 //if (jobBenefitIdList.Count() == 0 || benefitIdIntersectList.Count() > 0)
@@ -314,12 +338,13 @@ namespace JobSearchingSystem.DAL
                     sosanh6.applicantInfo = this.CategoryRepository.GetByID(expectedCategoryIdList.ElementAt(0)).Name;
                     for (int i = 1; i < expectedCategoryIdList.Count(); i++)
                     {
-                        sosanh6.applicantInfo += "; " + this.CategoryRepository.GetByID(expectedCategoryIdList.ElementAt(i)).Name;
+                        sosanh6.applicantInfo += ", " + this.CategoryRepository.GetByID(expectedCategoryIdList.ElementAt(i)).Name;
                     }
                 }
                 if (categoryIdIntersectList.Count() > 0)
                 {
                     sosanh6.isSatisfied = true;
+                    tong += 10;
                 }
                 else
                 {
@@ -343,7 +368,7 @@ namespace JobSearchingSystem.DAL
                     sosanh7.jobInfo = this.CityRepository.GetByID(jobCityIdList.ElementAt(0)).Name;
                     for (int i = 1; i < jobCityIdList.Count(); i++)
                     {
-                        sosanh7.jobInfo += "; " + this.CityRepository.GetByID(jobCityIdList.ElementAt(i)).Name;
+                        sosanh7.jobInfo += ", " + this.CityRepository.GetByID(jobCityIdList.ElementAt(i)).Name;
                     }
                 }
                 if (expectedCityIdList.Count() == 0)
@@ -355,18 +380,28 @@ namespace JobSearchingSystem.DAL
                     sosanh7.applicantInfo = this.CityRepository.GetByID(expectedCityIdList.ElementAt(0)).Name;
                     for (int i = 1; i < expectedCityIdList.Count(); i++)
                     {
-                        sosanh7.applicantInfo += "; " + this.CityRepository.GetByID(expectedCityIdList.ElementAt(i)).Name;
+                        sosanh7.applicantInfo += ", " + this.CityRepository.GetByID(expectedCityIdList.ElementAt(i)).Name;
                     }
                 }
                 if (cityIdIntersectList.Count() > 0)
                 {
                     sosanh7.isSatisfied = true;
+                    tong += 10;
                 }
                 else
                 {
                     sosanh7.isSatisfied = false;
                 }
                 matchingDetail.Add(sosanh7);
+
+                // Tong
+                SosanhItem sosanhtong = new SosanhItem();
+                sosanhtong.columnName = "";
+                sosanhtong.jobInfo = "Tổng:";
+                sosanhtong.applicantInfo = tong.ToString() + "%";
+                sosanhtong.isSatisfied = true;
+                sosanhtong.tyle = 100;
+                matchingDetail.Add(sosanhtong);
             }
 
             return matchingDetail;
