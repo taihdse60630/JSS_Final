@@ -857,30 +857,30 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
 
-                                                <label for="selLastCompany" class="col-md-5 control-label">Mức lương mong muốn<span class="require">*</span></label>
+                                                <label for="selLastCompany" class="col-md-5 control-label">Mức lương mong muốn ($)<span class="require">*</span></label>
 
                                                 @if (@Model.commonInfoItem.profile.ExpectedSalary == 0)
                                                 {
-                                                    <div class="col-md-3">
+                                                    <div class="col-md-4">
                                                         <input type="hidden" name="ExpectedSalary" />
                                                         <input id="inputExpectedSalary" name="inputExpectedSalary" value="" disabled="disabled" type="text" data-val="true" data-val-number="Mức lương mong muốn phải nhập định dạng số." data-val-required="Mức lương mong muốn không được trống." placeholder="" class="form-control">
                                                         <span class="field-validation-valid ErrorMessage" data-valmsg-for="inputExpectedSalary" data-valmsg-replace="true"></span>
                                                     </div>
-                                                    <div class="checkbox col-md-4">
+                                                    <div class="checkbox col-md-3">
                                                         <label class="">
                                                             <input type="checkbox" checked="checked" id="expectedSalaryCheckBox" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);">&nbsp;
                                                             Thương lượng
                                                         </label>
                                                     </div>
-}
+                                                }
                                                 else
                                                 {
-                                                    <div class="col-md-3">
+                                                    <div class="col-md-4">
                                                         <input type="hidden" name="ExpectedSalary" value="@Model.commonInfoItem.profile.ExpectedSalary" />
-                                                        <input id="inputExpectedSalary" name="inputExpectedSalary" value="@Model.commonInfoItem.profile.ExpectedSalary.ToString("0")" type="text" data-val="true" data-val-number="Mức lương mong muốn phải nhập định dạng số." data-val-required="Mức lương mong muốn không được trống." placeholder="" class="form-control">
+                                                        <input id="inputExpectedSalary" name="inputExpectedSalary" value="@Model.commonInfoItem.profile.ExpectedSalary.ToString(" 0")" type="text" data-val="true" data-val-number="Mức lương mong muốn phải nhập định dạng số." data-val-required="Mức lương mong muốn không được trống." placeholder="" class="form-control">
                                                         <span class="field-validation-valid ErrorMessage" data-valmsg-for="inputExpectedSalary" data-valmsg-replace="true"></span>
                                                     </div>
-                                                    <div class="checkbox col-md-4">
+                                                    <div class="checkbox col-md-3">
                                                         <label class="">
                                                             <input type="checkbox" id="expectedSalaryCheckBox" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);">&nbsp;
                                                             Thương lượng
