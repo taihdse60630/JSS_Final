@@ -50,7 +50,7 @@ namespace JobSearchingSystem.Controllers
                 }
 
                 model.profile = profileUnitOfWork.ProfileRepository.GetByID(profileIDNum);
-                if (model.profile != null && model.profile.IsActive == true && model.profile.IsDeleted == false)
+                if (model.profile != null && model.profile.IsDeleted == false)
                 {
                     AspNetUser recruiter = profileUnitOfWork.AspNetUserRepository.Get(ss => ss.UserName == User.Identity.Name).FirstOrDefault();
                     ViewProfile viewProfile = profileUnitOfWork.ViewProfileRepository.Get(s => s.RecruiterID == recruiter.Id && s.ProfileID == profileIDNum).FirstOrDefault();
