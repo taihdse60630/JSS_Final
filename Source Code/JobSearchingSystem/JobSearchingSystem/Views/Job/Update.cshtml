@@ -1,0 +1,384 @@
+﻿@model JobSearchingSystem.Models.JJobUpdateViewModel
+
+@{
+    ViewBag.Title = "Cập nhật công việc";
+    Layout = "~/Views/Shared/_LayoutFinal.cshtml";
+}
+
+<!--LOADING SCRIPTS FOR PAGE-->
+<link type="text/css" rel="stylesheet" href="~/Content/vendors/bootstrap-colorpicker/css/colorpicker.css">
+<link type="text/css" rel="stylesheet" href="~/Content/vendors/bootstrap-datepicker/css/datepicker.css">
+<link type="text/css" rel="stylesheet" href="~/Content/vendors/bootstrap-daterangepicker/daterangepicker-bs3.css">
+<link type="text/css" rel="stylesheet" href="~/Content/vendors/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css">
+<link type="text/css" rel="stylesheet" href="~/Content/vendors/bootstrap-timepicker/css/bootstrap-timepicker.min.css">
+<link type="text/css" rel="stylesheet" href="~/Content/vendors/bootstrap-clockface/css/clockface.css">
+<link type="text/css" rel="stylesheet" href="~/Content/vendors/bootstrap-switch/css/bootstrap-switch.css">
+
+<script src="~/Content/vendors/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+<script src="~/Content/vendors/bootstrap/js/bootstrap.js"></script>
+<script src="~/Content/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+<script src="~/Content/vendors/moment/moment.js"></script>
+<script src="~/Content/vendors/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+<script src="~/Content/vendors/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
+<script src="~/Content/vendors/bootstrap-clockface/js/clockface.js"></script>
+<script src="~/Content/vendors/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>
+<script src="~/Content/vendors/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+<script src="~/Content/vendors/jquery-maskedinput/jquery-maskedinput.js"></script>
+<script src="~/Content/js/form-components.js"></script>
+
+<link rel="stylesheet" href="~/Content/css/jquery.multiselect.css" />
+
+<script type="text/javascript" src="~/Content/js/jquery-ui.min.js"></script>
+<script src="~/Content/js/jquery.multiselect.js"></script>
+<script>
+    $(document).ready(function () {
+
+
+        $("#citiesList").multiselect({
+            header: "Bạn chỉ có thể chọn tối đa 3 địa điểm",
+
+            selectedList: 3,
+            noneSelectedText: "Địa điểm"
+        });
+        $('#citiesList').change(function () {
+
+            if ($("#citiesList").multiselect("getChecked").length > 2) {
+                $("#citiesList").multiselect("widget").find(":checkbox:not(:checked)").attr('disabled', 'disabled');
+            }
+            else {
+                $("#citiesList").multiselect("widget").find(":checkbox:not(:checked)").attr('disabled', false);
+            }
+        })
+
+        $("#categoriesList").multiselect({
+            header: "Bạn chỉ có thể chọn tối đa 3 ngành nghề",
+
+            selectedList: 3,
+            noneSelectedText: "Ngành nghề"
+        });
+        $('#categoriesList').change(function () {
+
+            if ($("#categoriesList").multiselect("getChecked").length > 2) {
+                $("#categoriesList").multiselect("widget").find(":checkbox:not(:checked)").attr('disabled', 'disabled');
+            }
+            else {
+                $("#categoriesList").multiselect("widget").find(":checkbox:not(:checked)").attr('disabled', false);
+            }
+        });
+    });
+
+</script>
+
+
+
+
+<script>
+
+    $(document).ready(function () {
+        $('input[type="radio"][id="checkThoaThuan"]').on('ifChecked', function (event) {
+            $('#inputMinSalary').prop('disabled', true);
+            $('#inputMaxSalary').prop('disabled', true);
+            $('#inputMinSalary').removeAttr("value");
+            $('#inputMaxSalary').removeAttr("value");
+        });
+        $('input[type="radio"][id="checkLuong"]').on('ifChecked', function (event) {
+            $('#inputMinSalary').prop('disabled', false);
+            $('#inputMaxSalary').prop('disabled', false);
+        });
+    });
+</script>
+<link rel="stylesheet" href="~/Content/css/bootstrap-tagsinput.css">
+<link rel="stylesheet" href="~/Content/css/jquery.tag-editor.css">
+
+
+
+<script src="~/Content/js/jquery.caret.min.js"></script>
+<script src="~/Content/js/jquery.tag-editor.js"></script>
+<script>
+    function SearchText(inputID) {
+        var userList;
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "/Job/AutoCompleteSkill",
+            data: "{'skill':'" + document.getElementById(inputID).value + "'}",
+            dataType: "json",
+            success: function (data) {
+                skillList = data;
+                $('#' + inputID).autocomplete({
+                    source: skillList
+                });
+            },
+
+
+            error: function (xhr, status, error) {
+                alert(error);
+            }
+        });
+    }
+
+    function getTags() {
+        document.getElementById("tagList").value = $('#skill').tagEditor('getTags')[0].tags;
+
+    }
+    function CreateJob() {
+        getTags();
+        $('form#createJobForm').submit();
+    }
+    $(document).ready(function () {
+        SearchText("skill");
+        SearchText("skill2");
+        SearchText("skill3");
+    });
+</script>
+
+
+
+<!--LOADING SCRIPTS FOR PAGE-->
+@using (Html.BeginForm("Update", "Job", FormMethod.Post, new { id = "createJobForm" }))
+{
+    <br />
+    <div class="col-lg-12 panel panel-default">
+        <br />
+
+        <div id="tab-two-columns-horizontal" class="tab-pane fade active in">
+            <div class="row">
+                <div class="col-lg-12" style="margin-bottom: 100px">
+                    <div class="panel panel-grey">
+                        <div class="panel-heading">Thông tin đăng tuyển</div>
+                        <div class="panel-body pan">
+                            <div id="language" class="form-horizontal">
+                                <div class="form-body pal">
+                                    <input type="hidden" name="JobID" value="@Model.job.JobID" />
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="inputName" class="col-md-3 control-label">Tiêu đề<span class="require">*</span></label>
+                                                <div class="col-md-9">
+                                                    <input value="@Model.job.JobTitle" id="inputName" name="JobTitle" type="text" placeholder="" class="form-control" data-val="true" data-val-length="Tiêu đề không được vượt quá 50 kí tự." data-val-length-max="50" data-val-required="Tiêu đề không được trống.">
+                                                    <span class="ErrorMessage field-validation-valid" data-valmsg-for="JobTitle" data-valmsg-replace="true"></span>
+                                                </div>
+                                                <input type="hidden" name="RecruiterID" value="@Model.job.RecruiterID" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="selLastCompany" class="col-md-3 control-label">Trình độ<span class="require">*</span></label>
+                                                <div class="col-md-9">
+                                                    <select class="form-control" name="MinSchoolLevel_ID" data-placeholder="Ví dụ: Nhân viên" tabindex="-1" title="Cấp bậc hiện tại" data-val="true" data-val-range="Hãy chọn Trình độ" data-val-range-max="2147483647" data-val-range-min="0">
+                                                        <option value="-1">Vui lòng chọn...</option>
+                                                        @foreach (var item in @Model.SchoolLevelList)
+                                                        {
+                                                            if (item.SchoolLevel_ID == Model.job.MinSchoolLevel_ID)
+                                                            {
+                                                                <option selected value="@item.SchoolLevel_ID">@item.Name</option>
+                                                            }
+                                                            else
+                                                            {
+                                                                <option value="@item.SchoolLevel_ID">@item.Name</option>    
+                                                            }
+                                                        }
+                                                    </select>
+                                                    <span class="ErrorMessage field-validation-error" data-valmsg-for="MinSchoolLevel_ID" data-valmsg-replace="true"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="selLastCompany" class="col-md-3 control-label">Vị trí<span class="require">*</span></label>
+                                                <div class="col-md-9">
+                                                    <select class="form-control" name="JobLevel_ID" data-placeholder="Ví dụ: Nhân viên" tabindex="-1" title="Cấp bậc hiện tại" data-val="true" data-val-range="Hãy chọn Vị trí" data-val-range-max="2147483647" data-val-range-min="0">
+                                                        <option value="-1">Vui lòng chọn...</option>
+                                                        @foreach (var item in @Model.JobLevelList)
+                                                        {
+                                                            if (item.JobLevel_ID == @Model.job.JobLevel_ID)
+                                                            {
+                                                                <option selected value="@item.JobLevel_ID">@item.Name</option>        
+                                                            }
+                                                            else
+                                                            {
+                                                                <option value="@item.JobLevel_ID">@item.Name</option>
+                                                            }
+                                                        }
+                                                    </select>
+                                                    <span class="ErrorMessage field-validation-error" data-valmsg-for="JobLevel_ID" data-valmsg-replace="true"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12" style="width: 70%;">
+                                            <div class="form-group">
+                                                <label for="inputFirstName" class="col-md-3 control-label" style=" width: 18%; ">Mức lương</label>
+                                                <div class="col-md-9">
+                                                    <div class="radio">
+                                                        @if (Model.job.MinSalary > 0 && Model.job.MaxSalary > 0)
+                                                        {
+                                                            <label class="" style="float:left">
+                                                                <div class="iradio_minimal-grey" style="position: relative;"><input type="radio" id="checkThoaThuan" name="selGender" value="Male" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"><ins class="iCheck-helper" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins></div>&nbsp;
+                                                                Thỏa thuận
+                                                            </label><label class="" style="float: left;">
+                                                                <div class="iradio_minimal-grey" style="position: relative;"><input type="radio" id="checkLuong" name="selGender" checked="checked" value="Female" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"><ins class="iCheck-helper" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins></div>&nbsp;
+                                                                Từ
+                                                            </label>
+
+                                                            <div class="col-md-3" style="width: 19%"><input value="@Model.job.MinSalary" id="inputMinSalary" type="text" name="MinSalary" placeholder="" class="form-control"></div>
+                                                            <label style="float:left">Đến</label><div class="col-md-2" style="width: 19%"><input value="@Model.job.MaxSalary" id="inputMaxSalary" type="text" name="MaxSalary" placeholder="" class="form-control"></div>
+                                                            <label style="float:left">(USD/tháng)</label>
+                                                        }
+                                                        else
+                                                        {
+                                                            <label class="" style="float:left">
+                                                                <div class="iradio_minimal-grey" style="position: relative;"><input type="radio" id="checkThoaThuan" name="selGender" checked="checked" value="Male" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"><ins class="iCheck-helper" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins></div>&nbsp;
+                                                                Thỏa thuận
+                                                            </label><label class="" style="float: left;">
+                                                                <div class="iradio_minimal-grey" style="position: relative;"><input type="radio" id="checkLuong" name="selGender" value="Female" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"><ins class="iCheck-helper" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins></div>&nbsp;
+                                                                Từ
+                                                            </label>
+
+                                                            <div class="col-md-3" style="width: 19%"><input disabled id="inputMinSalary" type="text" name="MinSalary" placeholder="" class="form-control"></div>
+                                                            <label style="float:left">Đến</label><div class="col-md-2" style="width: 19%"><input disabled id="inputMaxSalary" type="text" name="MaxSalary" placeholder="" class="form-control"></div>
+                                                            <label style="float:left">(USD/tháng)</label>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="inputEmail" class="col-md-3 control-label">Tỉnh/thành phố<span class="require">*</span></label>
+                                                <div class="col-md-9">
+                                                    <select id="citiesList" multiple="multiple" name="citiesidlist">
+                                                        @foreach (var item in @Model.CityList)
+                                                        {
+                                                            if (Model.cityIdList.Contains(item.CityID))
+                                                            {
+                                                                <option selected value="@item.CityID">@item.Name</option>
+                                                            }
+                                                            else
+                                                            {
+                                                                <option value="@item.CityID">@item.Name</option>
+                                                            }
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="inputEmail" class="col-md-3 control-label">Ngành nghề<span class="require">*</span></label>
+                                                <div class="col-md-9">
+                                                    <select id="categoriesList" multiple="multiple" name="categoriesidlist">
+                                                        @foreach (var item in @Model.CategoryList)
+                                                        {
+                                                            if (Model.categoryIdList.Contains(item.CategoryID))
+                                                            {
+                                                                <option selected value="@item.CategoryID">@item.Name</option>
+                                                            }
+                                                            else
+                                                            {
+                                                                <option value="@item.CategoryID">@item.Name</option>
+                                                            }
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="inputBirthday" class="col-md-3 control-label" style="width: 10%">Mô tả công việc<span class="require">*</span></label>
+                                                <div class="col-md-9" style="width: 90%">
+                                                    <textarea name="JobDescription" rows="6" cols="50" class="form-control" style="margin-left: 30px; width: 97%; resize:none" data-val="true" data-val-required="Nội dung này không được trống.">@Model.job.JobDescription</textarea>
+                                                    <span class="field-validation-valid ErrorMessage" style="margin-left: 30px" data-valmsg-for="JobDescription" data-valmsg-replace="true"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="inputBirthday" class="col-md-3 control-label" style="width: 10%">Yêu cầu công việc<span class="require">*</span></label>
+                                                <div class="col-md-9" style="width: 90%">
+                                                    <textarea name="JobRequirement" rows="6" cols="50" class="form-control" style="margin-left: 30px; width: 97%; resize:none" data-val="true" data-val-required="Nội dung này không được trống.">@Model.job.JobRequirement</textarea>
+                                                    <span class="field-validation-valid ErrorMessage" style="margin-left: 30px" data-valmsg-for="JobRequirement" data-valmsg-replace="true"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="inputFirstName" class="col-md-3 control-label">Kỹ năng cần thiết<span class="require">*</span></label>
+                                                <div class="col-md-9">
+                                                    @if (Model.skillTagList.Count() >= 1)
+                                                    {
+                                                        <input value="@Model.skillTagList.ElementAt(0)" id="skill" name="skill1" type="text" placeholder="" class="form-control" autocomplete="on" />
+                                                    }
+                                                    else
+                                                    {
+                                                        <input id="skill" name="skill1" type="text" placeholder="" class="form-control" autocomplete="on" />
+                                                    }
+                                                    
+                                                    @if (Model.skillTagList.Count() >= 2)
+                                                    {
+                                                        <input value="@Model.skillTagList.ElementAt(1)" id="skill2" name="skill2" type="text" placeholder="" class="form-control" autocomplete="on" />   
+                                                    }
+                                                    else
+                                                    {
+                                                        <input id="skill2" name="skill2" type="text" placeholder="" class="form-control" autocomplete="on" />
+                                                    }
+
+                                                    @if (Model.skillTagList.Count() >= 3)
+                                                    {
+                                                        <input value="@Model.skillTagList.ElementAt(2)" id="skill3" name="skill3" type="text" placeholder="" class="form-control" autocomplete="on" />
+                                                    }
+                                                    else
+                                                    {
+                                                        <input id="skill3" name="skill3" type="text" placeholder="" class="form-control" autocomplete="on" />
+                                                    }
+                                                    
+                                                    <input id="tagList" type="hidden" name="SkillSelectList">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="inputFirstName" class="col-md-3 control-label">Gói công việc<span class="require">*</span></label>
+                                                <div class="col-md-9">
+                                                    <label class="control-label">@Model.jobpackagename</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <br />
+                        <div class="form-actions text-right pal">
+                            <button type="button" onclick="CreateJob()" class="btn btn-primary">Cập nhật tuyển dụng</button>
+                            &nbsp;
+                            <a href="@Url.Action("OwnList", "Job")" class="btn btn-green" style="width:10%">Hủy</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
