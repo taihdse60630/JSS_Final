@@ -117,4 +117,19 @@ namespace JobSearchingSystem.Models
     {
         public IEnumerable<JAppliedJob> AppliedJobList { get; set; }
     }
+
+    public class JJobUpdateViewModel
+    {
+        public Job job { get; set; }
+        public IEnumerable<int> cityIdList { get; set; }
+        public IEnumerable<int> categoryIdList { get; set; }
+        public List<string> skillTagList { get; set; }
+        public string jobpackagename { get; set; }
+
+        public IEnumerable<JobLevel> JobLevelList { get; set; }
+        public IEnumerable<SchoolLevel> SchoolLevelList { get; set; }
+        public IEnumerable<City> CityList { get; set; }
+        public IEnumerable<Category> CategoryList { get; set; }
+        public IEnumerable<Skill> SkillList { get; set; }
+    }
 }
