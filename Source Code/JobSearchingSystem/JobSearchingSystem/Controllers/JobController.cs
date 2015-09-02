@@ -62,10 +62,10 @@ namespace JobSearchingSystem.Controllers
                 return RedirectToAction("OwnList");
             }
 
-            jobCreateModel.JobLevelList = jobUnitOfWork.JobLevelRepository.Get(filter: d => d.IsDeleted == false);
-            jobCreateModel.SchoolLevelList = jobUnitOfWork.SchoolLevelRepository.Get(filter: d => d.IsDeleted == false);
-            jobCreateModel.CityList = jobUnitOfWork.CityRepository.Get(filter: city => city.IsDeleted == false);
-            jobCreateModel.CategoryList = jobUnitOfWork.CategoryRepository.Get(category => category.IsDeleted == false);
+            jobCreateModel.JobLevelList = jobUnitOfWork.JobLevelRepository.Get(filter: d => d.IsDeleted == false).OrderByDescending(s => s.LevelNum);
+            jobCreateModel.SchoolLevelList = jobUnitOfWork.SchoolLevelRepository.Get(filter: d => d.IsDeleted == false).OrderByDescending(s => s.LevelNum);
+            jobCreateModel.CityList = jobUnitOfWork.CityRepository.Get(filter: city => city.IsDeleted == false).OrderBy(s => s.Name);
+            jobCreateModel.CategoryList = jobUnitOfWork.CategoryRepository.Get(category => category.IsDeleted == false).OrderBy(s => s.Name);
             jobCreateModel.SkillList = jobUnitOfWork.SkillRepository.Get(skill => skill.IsDeleted == false);
             jobCreateModel.JobInfo.RecruiterID = UserID;
 
@@ -101,6 +101,72 @@ namespace JobSearchingSystem.Controllers
             else
             {
                 TempData["errormessage"] = "Tạo đăng tuyển thất bại!";
+            }
+
+            return RedirectToAction("OwnList");
+        }
+
+        [Authorize(Roles = "Recruiter")]
+        public ActionResult Update(int? id)
+        {
+            JJobUpdateViewModel model = new JJobUpdateViewModel();
+            string recruiterID = jobUnitOfWork.AspNetUserRepository.Get(s => s.UserName == User.Identity.Name).FirstOrDefault().Id;
+
+            int jobid = id.GetValueOrDefault();
+            if (jobid == 0)
+            {
+                TempData["warningmessage"] = "Lỗi dữ liệu!";
+                return RedirectToAction("Index", "Home");
+            }
+            else if (jobUnitOfWork.JobRepository.GetByID(jobid) == null)
+            {
+                TempData["warningmessage"] = "Không tìm thấy thông tin công việc!";
+                return RedirectToAction("Index", "Home");
+            }
+            else if (jobUnitOfWork.JobRepository.GetByID(jobid).RecruiterID != recruiterID)
+            {
+                TempData["warningmessage"] = "Bạn không có quyền sửa thông tin công việc này!";
+                return RedirectToAction("Index", "Home");
+            }
+            else 
+            {
+                model.job = jobUnitOfWork.JobRepository.GetByID(jobid);
+                model.cityIdList = jobUnitOfWork.JobCityRepository.Get(s => s.JobID == jobid && s.IsDeleted == false).Select(s => s.CityID).AsEnumerable();
+                model.categoryIdList = jobUnitOfWork.JobCategoryRepository.Get(s => s.JobID == jobid && s.IsDeleted == false).Select(s => s.CategoryID).AsEnumerable();
+                IEnumerable<int> skillIdList = jobUnitOfWork.JobSkillRepository.Get(s => s.JobID == jobid && s.IsDeleted == false).Select(s => s.Skill_ID).AsEnumerable();
+                model.skillTagList = new List<string>();
+                foreach (int skillId in skillIdList)
+                {
+                    model.skillTagList.Add(jobUnitOfWork.SkillRepository.GetByID(skillId).SkillTag);
+                }
+                model.jobpackagename = jobUnitOfWork.JobPackageRepository.GetByID(jobUnitOfWork.PurchaseJobPackageRepository.GetByID(model.job.PurchaseJobPackageId).JobPackageID).Name;
+
+                model.JobLevelList = jobUnitOfWork.JobLevelRepository.Get(filter: d => d.IsDeleted == false).OrderByDescending(s => s.LevelNum);
+                model.SchoolLevelList = jobUnitOfWork.SchoolLevelRepository.Get(filter: d => d.IsDeleted == false).OrderByDescending(s => s.LevelNum);
+                model.CityList = jobUnitOfWork.CityRepository.Get(filter: city => city.IsDeleted == false).OrderBy(s => s.Name);
+                model.CategoryList = jobUnitOfWork.CategoryRepository.Get(category => category.IsDeleted == false).OrderBy(s => s.Name);
+                model.SkillList = jobUnitOfWork.SkillRepository.Get(skill => skill.IsDeleted == false);
+
+
+            }
+
+            return View(model);
+        }
+
+        [Authorize(Roles = "Recruiter")]
+        [HttpPost]
+        public ActionResult Update([Bind(Include = "JobID, RecruiterID, JobTitle, MinSalary, MaxSalary, JobDescription, JobRequirement, JobLevel_ID, MinSchoolLevel_ID")] Job job,
+                                int[] citiesidlist, int[] categoriesidlist, string skill1, string skill2, string skill3)
+        {
+            string recruiterID = jobUnitOfWork.AspNetUserRepository.Get(s => s.UserName == User.Identity.Name).FirstOrDefault().Id;
+
+            if (jobUnitOfWork.UpdateJob(job, citiesidlist, categoriesidlist, skill1, skill2, skill3, recruiterID))
+            {
+                TempData["successmessage"] = "Cập nhật đăng tuyển thành công.";
+            }
+            else
+            {
+                TempData["errormessage"] = "Cập nhật đăng tuyển thất bại!";
             }
 
             return RedirectToAction("OwnList");
