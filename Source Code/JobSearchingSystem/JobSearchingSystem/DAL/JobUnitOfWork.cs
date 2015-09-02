@@ -503,6 +503,162 @@ namespace JobSearchingSystem.DAL
             //}
         }
 
+        //Create new job
+        public bool UpdateJob(Job job, int[] citiesidlist, int[] categoriesidlist, string skill1, string skill2, string skill3, string recruiterID)
+        {
+            if (job != null && job.JobID > 0 && citiesidlist != null && categoriesidlist != null
+                && recruiterID != null && job.RecruiterID == recruiterID)
+            {
+                Job oldJob = this.JobRepository.GetByID(job.JobID);
+
+                if (oldJob != null)
+                {
+                    oldJob.JobTitle = job.JobTitle;
+                    oldJob.MinSalary = job.MinSalary;
+                    oldJob.MaxSalary = job.MaxSalary;
+                    oldJob.JobDescription = job.JobDescription;
+                    oldJob.JobRequirement = job.JobRequirement;
+                    oldJob.JobLevel_ID = job.JobLevel_ID;
+                    oldJob.MinSchoolLevel_ID = job.MinSchoolLevel_ID;
+
+                    this.JobRepository.Update(oldJob);
+                    this.Save();
+
+                    //Add city
+                    IEnumerable<JobCity> oldJobcities = this.JobCityRepository.Get(s => s.JobID == oldJob.JobID).AsEnumerable();
+                    foreach (JobCity item in oldJobcities)
+                    {
+                        this.JobCityRepository.Delete(item);
+                    }
+                    this.Save();
+                    foreach (int index in citiesidlist)
+                    {
+                        JobCity item = new JobCity();
+                        item.JobID = oldJob.JobID;
+                        item.CityID = index;
+                        this.JobCityRepository.Insert(item);
+                        this.Save();
+                    }
+
+                    //Add category
+                    IEnumerable<JobCategory> oldJobcategories = this.JobCategoryRepository.Get(s => s.JobID == oldJob.JobID).AsEnumerable();
+                    foreach (JobCategory item in oldJobcategories)
+                    {
+                        this.JobCategoryRepository.Delete(item);
+                    }
+                    this.Save();
+                    foreach (int index in categoriesidlist)
+                    {
+                        JobCategory item = new JobCategory();
+                        item.JobID = oldJob.JobID;
+                        item.CategoryID = index;
+                        this.JobCategoryRepository.Insert(item);
+                        this.Save();
+                    }
+
+                    //Skill part
+                    IEnumerable<JobSkill> oldJobSkill = this.JobSkillRepository.Get(s => s.JobID == oldJob.JobID).AsEnumerable();
+                    foreach (JobSkill item in oldJobSkill)
+                    {
+                        this.JobSkillRepository.Delete(item);
+                    }
+                    this.Save();
+
+                    if (!String.IsNullOrEmpty(skill1))
+                    {
+                        Skill s1 = this.SkillRepository.Get(skill => skill.SkillTag == skill1).SingleOrDefault();
+                        if (s1 != null)
+                        {
+                            JobSkill tempjs1 = new JobSkill();
+                            tempjs1.JobID = oldJob.JobID;
+                            tempjs1.Skill_ID = s1.Skill_ID;
+                            tempjs1.IsDeleted = false;
+                            this.JobSkillRepository.Insert(tempjs1);
+                            this.Save();
+                        }
+                        else
+                        {
+                            Skill temps1 = new Skill();
+                            temps1.SkillTag = skill1;
+                            temps1.IsDeleted = false;
+                            this.SkillRepository.Insert(temps1);
+                            this.Save();
+                            JobSkill tempjs1 = new JobSkill();
+                            tempjs1.JobID = oldJob.JobID;
+                            tempjs1.Skill_ID = this.SkillRepository.Get(skill => skill.SkillTag == temps1.SkillTag).LastOrDefault().Skill_ID;
+                            tempjs1.IsDeleted = false;
+                            this.JobSkillRepository.Insert(tempjs1);
+                            this.Save();
+                        }
+                    }
+
+                    if (!String.IsNullOrEmpty(skill2))
+                    {
+                        Skill s2 = this.SkillRepository.Get(skill => skill.SkillTag == skill2).SingleOrDefault();
+                        if (s2 != null)
+                        {
+                            JobSkill tempjs2 = new JobSkill();
+                            tempjs2.JobID = oldJob.JobID;
+                            tempjs2.Skill_ID = s2.Skill_ID;
+                            tempjs2.IsDeleted = false;
+                            this.JobSkillRepository.Insert(tempjs2);
+                            this.Save();
+                        }
+                        else
+                        {
+                            Skill temps2 = new Skill();
+                            temps2.SkillTag = skill2;
+                            temps2.IsDeleted = false;
+                            this.SkillRepository.Insert(temps2);
+                            this.Save();
+                            JobSkill tempjs2 = new JobSkill();
+                            tempjs2.JobID = oldJob.JobID;
+                            tempjs2.Skill_ID = this.SkillRepository.Get(skill => skill.SkillTag == temps2.SkillTag).LastOrDefault().Skill_ID;
+                            tempjs2.IsDeleted = false;
+                            this.JobSkillRepository.Insert(tempjs2);
+                            this.Save();
+                        }
+                    }
+                    if (!String.IsNullOrEmpty(skill3))
+                    {
+                        Skill s3 = this.SkillRepository.Get(skill => skill.SkillTag == skill3).SingleOrDefault();
+                        if (s3 != null)
+                        {
+                            JobSkill tempjs3 = new JobSkill();
+                            tempjs3.JobID = oldJob.JobID;
+                            tempjs3.Skill_ID = s3.Skill_ID;
+                            tempjs3.IsDeleted = false;
+                            this.JobSkillRepository.Insert(tempjs3);
+                            this.Save();
+                        }
+                        else
+                        {
+                            Skill temps3 = new Skill();
+                            temps3.SkillTag = skill3;
+                            temps3.IsDeleted = false;
+                            this.SkillRepository.Insert(temps3);
+                            this.Save();
+                            JobSkill tempjs3 = new JobSkill();
+                            tempjs3.JobID = oldJob.JobID;
+                            tempjs3.Skill_ID = this.SkillRepository.Get(skill => skill.SkillTag == temps3.SkillTag).LastOrDefault().Skill_ID;
+                            tempjs3.IsDeleted = false;
+                            this.JobSkillRepository.Insert(tempjs3);
+                            this.Save();
+                        }
+                    }
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         //Get list of job by recruiterID
         public IEnumerable<JobItem> GetJobByRecruiterID(string recruiterID)
         {
