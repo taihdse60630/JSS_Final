@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<JobSearchingSystem.Models.JobItem>
 
 @{
-    ViewBag.Title = "ManageJob";
+    ViewBag.Title = "Công việc của tôi";
     Layout = "~/Views/Shared/_LayoutFinal.cshtml";
 }
 
@@ -272,7 +272,7 @@
                                 <a href="@Url.Action("Detail","Job",new { jobID = item.JobID })" class="btn btn-info btn-sm" data-toggle="tooltip" title="Xem thông tin"><i class="fa fa-info-circle"></i></a>
                                 @if (DateTime.Now.CompareTo(item.EndedDate) < 0)
                                 {
-                                    <button type="button" class="btn btn-violet btn-sm" data-toggle="tooltip" title="Chỉnh sửa"><i class="fa fa-edit"></i></button>
+                                    <a href="@Url.Action("Update", new { id = item.JobID })" class="btn btn-violet btn-sm" data-toggle="tooltip" title="Chỉnh sửa"><i class="fa fa-edit"></i></a>
 
                                     if (item.IsPublic == true)
                                     {
