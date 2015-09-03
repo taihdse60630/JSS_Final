@@ -370,22 +370,22 @@
                                         <div class="form-group">
                                             @if (Model.minSalary == 0)
                                             {
-                                                  <input id="minSalary" name="minSalary" type="text" placeholder="Mức lương tối thiểu" class="form-control" >
+                                                <input id="minSalary" name="minSalary" type="text" placeholder="Mức lương mong muốn" class="form-control" data-val="true" data-val-regex="Chỉ được nhập số." data-val-regex-pattern="^\d+$" data-val-range="Chỉ được nhập số dương." data-val-range-max="2147483647" data-val-range-min="0">
                                             }
-                                            else 
+                                            else
                                             {
-                                                 <input id="minSalary" name="minSalary" type="text" placeholder="Mức lương tối thiểu" class="form-control" value="@Model.minSalary"> 
+                                                <input id="minSalary" name="minSalary" type="text" placeholder="Mức lương mong muốn" class="form-control" value="@Model.minSalary" data-val="true" data-val-regex="Chỉ được nhập số." data-val-regex-pattern="^\d+$" data-val-range="Chỉ được nhập số dương." data-val-range-max="2147483647" data-val-range-min="0">
                                             }
-                                           
+                                            <span class="ErrorMessage field-validation-valid" data-valmsg-for="minSalary" data-valmsg-replace="true"></span>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">                                            
                                             <select id="schoolLevel" name="schoolLevel" class="form-control" name="currentJobLevel" data-placeholder="Ví dụ: Nhân viên" tabindex="-1" title="Cấp bậc hiện tại" >
-                                                <option value="0">Bằng cấp</option>
+                                                <option value="0">Bằng cấp yêu cầu</option>
                                                 @if (Model.schoolLevelList != null)
                                                 {
-                                                    <option value="0">Bằng cấp</option>
+                                                  
                                                    for (int i = 1; i <= Model.schoolLevelList.Count(); i++)
                                                         {
                                                             

@@ -242,6 +242,7 @@ using (Html.BeginForm("AppliedJob", "Job", FormMethod.Post))
                     else
                     {
                         <button type="button" onclick="ShowLoginModal()" class="btn btn-success">Nộp đơn</button>
+                         <button type="button" disabled data-target="#modal-report" data-toggle="modal" class="btn btn-danger" style="margin-top:10px;width:79%">Báo lỗi  </button>
                     }
 
                 </div>
@@ -266,7 +267,7 @@ using (Html.BeginForm("AppliedJob", "Job", FormMethod.Post))
     <div class="row">
         <div class="col-md-6" style="width:60%">
 
-            <div class="panel panel-default">
+            @*<div class="panel panel-default">
                 <br />
                 <h4 style="margin-left: 10px;font-weight: 600;"><i class="fa fa-pagelines" style="font-size: 25px;color: green;"></i> Các Phúc Lợi Dành Cho Bạn</h4>
                 <div class="note note-warning" style="margin-left: 10px;">
@@ -275,7 +276,7 @@ using (Html.BeginForm("AppliedJob", "Job", FormMethod.Post))
                     <p><i class="fa fa-twitter" style="margin-right: 5px"></i>FPT Care</p>
                     <p><i class="fa fa-twitter" style="margin-right: 5px"></i>Competitive Salary</p>
                 </div>
-            </div>
+            </div>*@
             <div class="panel panel-default">
                 <br />
                 <h4 style="margin-left: 10px;font-weight: 600;"><i class="fa fa-book" style="font-size: 25px;color: rgb(29, 119, 109);"></i> Những kĩ năng cần có</h4>
