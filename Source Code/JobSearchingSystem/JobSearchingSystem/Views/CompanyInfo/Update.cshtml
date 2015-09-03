@@ -30,8 +30,22 @@
         document.getElementById('Topic_content').value = window.unescape(document.getElementById('Topic_content').value);
     }
     function UpdateCompanyInfo() {
-        document.getElementById('messsage_content2').value = window.escape(editor.getValue());
-        $('form#updateForm').submit();
+        var imageLink = $("input[name='logoURL']").val();
+        var content = editor.getValue();
+        if ("" == imageLink) {
+
+            swal("Vui lòng chọn logo","" , "warning");
+
+        } else if(content == "")
+        {
+            swal("Vui lòng nhập thông tin giới thiệu công ty","", "warning");
+
+        }else {
+            document.getElementById('messsage_content2').value = window.escape(editor.getValue());
+            $('form#updateForm').submit();
+        }
+
+       
     }
      $(document).ready(function () {
         document.getElementById("message_content").innerHTML = window.unescape("@Model.description")
@@ -65,14 +79,20 @@
                     $("#output").html("Uploading, please wait....");
                 },
                 success: function (data) {
-                    $("#defaultAvatar").hide();
-                    $("#avatar").empty().append(data);
+                    if (data != "") {
+                        $("#defaultAvatar").hide();
+                        $("#avatar").empty().append(data);
 
-                    //$("#logoAdvertise").val($('#companyLogoUploaded').val());
-                    $("input[name='logoURL']").val($(".companyLogoUploaded").last().val());
-                    //$(".userImage").prop('src', "/img/ImgUpload/" + document.getElementById("fileInput").files[0].name);
+                        //$("#logoAdvertise").val($('#companyLogoUploaded').val());
+                        $("input[name='logoURL']").val($(".companyLogoUploaded").last().val());
+                        //$(".userImage").prop('src', "/img/ImgUpload/" + document.getElementById("fileInput").files[0].name);
 
-                    //$("#output").html("Upload success.");
+                        //$("#output").html("Upload success.");
+                    } else {
+                        swal("Định dạng này không được hỗ trợ","","error");
+                        
+                    }
+                 
                 },
                 complete: function () {
 
@@ -173,7 +193,7 @@
                                    <div class="row">
                                        <div class="col-md-12">
                                            <div class="form-group">
-                                               <label for="description" class="control-label title">Giới thiệu công ty</label>
+                                               <label for="description" class="control-label title">Giới thiệu công ty<span class="require">*</span></label>
                                                <div class="compose-editor mbl"><textarea id="message_content" rows="20" class="wysihtml5 form-control"></textarea></div>
                                                @*<input type="hidden" id="messsage_content2" name="messageContent" />*@
                                                @Html.HiddenFor(m => m.description, new { @class = "form-control", row = 5, Id = "messsage_content2" })
