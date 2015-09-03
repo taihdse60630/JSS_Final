@@ -139,17 +139,21 @@ namespace JobSearchingSystem.DAL
 
             if (!String.IsNullOrEmpty(searchString))
             {
+                List<string> searchList = searchString.Split(' ').ToList();
+                foreach (string item in searchList)
+                {
+                    jobList = jobList.Where(s => LocDau(s.JobTitle.ToUpper()).Contains(LocDau(item.ToUpper()))).ToArray();
+                }
+
                 if (schoolLevel > 0)
                 {
-                    jobList = jobList.Where(s => LocDau(s.JobTitle.ToUpper()).Contains(LocDau(searchString.ToUpper()))
-                                      && ((double)s.MinSalary >= minSalary) && (s.SchoolLevel <= schoolLevel) && checkCity(jobCities, s.JobCities)
+                    jobList = jobList.Where(s => ((double)s.MinSalary <= minSalary && minSalary <= (double)s.MaxSalary) && (s.SchoolLevel <= schoolLevel) && checkCity(jobCities, s.JobCities)
                                       && checkCategories(jobCategories, s.JobCategory)
                  ).ToArray();
                 }
                 else
                 {
-                    jobList = jobList.Where(s => LocDau(s.JobTitle.ToUpper()).Contains(LocDau(searchString.ToUpper()))
-                                       && ((double)s.MinSalary >= minSalary) && checkCity(jobCities, s.JobCities)
+                    jobList = jobList.Where(s => ((double)s.MinSalary <= minSalary && minSalary <= (double)s.MaxSalary) && checkCity(jobCities, s.JobCities)
                                        && checkCategories(jobCategories, s.JobCategory)
                         ).ToArray();
 
@@ -158,11 +162,11 @@ namespace JobSearchingSystem.DAL
             }
             else if (schoolLevel == 0)
             {
-                jobList = jobList.Where(s => ((double)s.MinSalary >= minSalary) && checkCity(jobCities, s.JobCities)
+                jobList = jobList.Where(s => ((double)s.MinSalary <= minSalary && minSalary <= (double)s.MaxSalary) && checkCity(jobCities, s.JobCities)
                                         && checkCategories(jobCategories, s.JobCategory)).ToArray();
             }else
             {
-                jobList = jobList.Where(s => ((double)s.MinSalary >= minSalary) && (s.SchoolLevel <= schoolLevel) && checkCity(jobCities, s.JobCities)
+                jobList = jobList.Where(s => ((double)s.MinSalary <= minSalary && minSalary <= (double)s.MaxSalary) && (s.SchoolLevel <= schoolLevel) && checkCity(jobCities, s.JobCities)
                                         && checkCategories(jobCategories, s.JobCategory)).ToArray();
             }
 
