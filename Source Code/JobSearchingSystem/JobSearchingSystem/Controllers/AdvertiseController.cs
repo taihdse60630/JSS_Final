@@ -72,8 +72,15 @@ namespace JobSearchingSystem.Controllers
                     }
                 }
             }
+            if (new List<string> { ".JPEG", ".GIF", ".JPG", ".PNG", ".TIFF" }.Contains(format.ToUpper()))
+            {
+                return PartialView("LogoPartialView", imageModel);
+            }else
+            {
+                 return null;
+            }
             //return Json(new { isUploaded = isUploaded, message = message }, "text/html");
-            return PartialView("LogoPartialView", imageModel);
+            
         }
 
 
